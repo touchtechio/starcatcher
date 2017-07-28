@@ -46,7 +46,7 @@ public class StarMove : MonoBehaviour {
             
         }
         Destroy(gameObject, fallTime + 2.0f);
-        Debug.Log(gameObject.GetComponent<SphereCollider>().isTrigger);
+        //Debug.Log(gameObject.GetComponent<SphereCollider>().isTrigger);
 
 
     }

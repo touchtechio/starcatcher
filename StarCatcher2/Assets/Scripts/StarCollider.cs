@@ -18,6 +18,7 @@ public class StarCollider : MonoBehaviour {
     {
        // other.gameObject.CompareTag(NET);
         Score.catchStar();
+        Destroy(gameObject);
     }
 
 }
