@@ -13,4 +13,11 @@ public class StarCollider : MonoBehaviour {
 	void Update () {
 		
 	}
+
+    void OnTriggerEnter(Collider other)
+    {
+       // other.gameObject.CompareTag(NET);
+        Score.catchStar();
+    }
+
 }
