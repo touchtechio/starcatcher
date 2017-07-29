@@ -189,7 +189,10 @@ public class SerialController : MonoBehaviour
                 portNames = System.IO.Ports.SerialPort.GetPortNames();
 
                 if (portNames.Length > 0)
+                {
+                    Debug.Log("found Serial Port : " + portNames[0]);
                     return portNames[0];
+                }
                 else
                     return "COM7";
 

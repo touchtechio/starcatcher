@@ -7,7 +7,7 @@ public class StarMove : MonoBehaviour {
     Vector3 startMarker;
     Vector3 endMarker;
     Vector3 nearlyEndMarker;
-    public float speed = 0.5F;
+    public float speed = 0F;
     private float startTime;
     private float journeyLength;
     bool timeRecorded = false;
@@ -32,7 +32,7 @@ public class StarMove : MonoBehaviour {
         // adding accelaration
         if (transform.position != endMarker)
         {
-            speed += .1f/6;
+            speed += .1f/2;
         }
         else if (transform.position == endMarker && !timeRecorded)
         {
