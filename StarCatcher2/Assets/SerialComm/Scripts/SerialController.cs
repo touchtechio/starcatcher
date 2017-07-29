@@ -26,7 +26,7 @@ using System.Threading;
 public class SerialController : MonoBehaviour
 {
     [Tooltip("Port name with which the SerialPort object will be created.")]
-    public string portName = "COM3";
+    public string portName = GetPortName();
 
     [Tooltip("Baud rate that the serial device is using to transmit data.")]
     public int baudRate = 9600;
@@ -63,8 +63,8 @@ public class SerialController : MonoBehaviour
     // ------------------------------------------------------------------------
     void OnEnable()
     {
-        serialThread = new SerialThreadLines(portName, 
-                                             baudRate, 
+        serialThread = new SerialThreadLines(portName,
+                                             baudRate,
                                              reconnectionDelay,
                                              maxUnreadMessages);
         thread = new Thread(new ThreadStart(serialThread.RunForever));
@@ -156,4 +156,44 @@ public class SerialController : MonoBehaviour
         this.userDefinedTearDownFunction = userFunction;
     }
 
+
+    static string GetPortName()
+    {
+
+        string[] portNames;
+
+        switch (Application.platform)
+        {
+
+            case RuntimePlatform.OSXPlayer:
+            case RuntimePlatform.OSXEditor:
+            case RuntimePlatform.OSXDashboardPlayer:
+            case RuntimePlatform.LinuxPlayer:
+
+                portNames = System.IO.Ports.SerialPort.GetPortNames();
+
+                if (portNames.Length == 0)
+                {
+                    portNames = System.IO.Directory.GetFiles("/dev/");
+                }
+
+                foreach (string portName in portNames)
+                {
+                    if (portName.StartsWith("/dev/tty.usb") || portName.StartsWith("/dev/ttyUSB"))
+                        return portName;
+                }
+                return "";
+
+            default: // Windows
+
+                portNames = System.IO.Ports.SerialPort.GetPortNames();
+
+                if (portNames.Length > 0)
+                    return portNames[0];
+                else
+                    return "COM7";
+
+        }
+
+    }
 }
