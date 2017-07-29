@@ -7,7 +7,7 @@ public class StarMove : MonoBehaviour {
     Vector3 startMarker;
     Vector3 endMarker;
     Vector3 nearlyEndMarker;
-    public float speed = 1.0F;
+    public float speed = 0.5F;
     private float startTime;
     private float journeyLength;
     bool timeRecorded = false;
@@ -32,7 +32,7 @@ public class StarMove : MonoBehaviour {
         // adding accelaration
         if (transform.position != endMarker)
         {
-            speed += .1f;
+            speed += .1f/6;
         }
         else if (transform.position == endMarker && !timeRecorded)
         {
@@ -45,7 +45,7 @@ public class StarMove : MonoBehaviour {
             gameObject.GetComponent<SphereCollider>().isTrigger = true;
             
         }
-        Destroy(gameObject, fallTime + 2.0f);
+        Destroy(gameObject, fallTime + 5.0f);
         //Debug.Log(gameObject.GetComponent<SphereCollider>().isTrigger);
 
 

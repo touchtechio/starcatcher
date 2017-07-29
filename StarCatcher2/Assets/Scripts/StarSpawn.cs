@@ -10,9 +10,11 @@ public class StarSpawn : MonoBehaviour {
 
     private static ArrayList starStarts;
     private static Random random = new Random();
+    private SerialController starSpawnSerialController;
 
     // empty game object as parent for spwned stars
     private GameObject parent;
+    int starCount = 0;
 
     // Use this for initialization
     void Start () {
@@ -24,10 +26,11 @@ public class StarSpawn : MonoBehaviour {
         starStarts = new ArrayList();
         for (int i=0; i<5; i++)
         {
-            starStarts.Add(new Vector3(i, i * 0.2f, 10));
+            starStarts.Add(new Vector3(-0.5f + i * 0.1f, 4f, i*0.1f));
         }
 
-        
+        starSpawnSerialController = SerialController.FindObjectOfType<SerialController>();
+
     }
 	
     public void Spawn()
@@ -40,7 +43,11 @@ public class StarSpawn : MonoBehaviour {
         GameObject star = Instantiate(prefab, start, Quaternion.identity) as GameObject;
         star.transform.parent = parent.transform;
         star.name = "star-" + startPosition;
-
+        starCount++;
+        string starNumber = starCount.ToString();
+        starNumber = "a";
+        starSpawnSerialController.SendSerialMessage(starNumber);
+        Debug.Log("star fell");
 
     }
 

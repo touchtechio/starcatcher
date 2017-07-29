@@ -4,10 +4,11 @@ using UnityEngine;
 
 public class StarCollider : MonoBehaviour {
 
-	// Use this for initialization
-	void Start () {
-		
-	}
+    private SerialController starCaughtSerialController;
+    // Use this for initialization
+    void Start () {
+        starCaughtSerialController = SerialController.FindObjectOfType<SerialController>();
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -19,6 +20,8 @@ public class StarCollider : MonoBehaviour {
        // other.gameObject.CompareTag(NET);
         Score.catchStar();
         Destroy(gameObject);
+        starCaughtSerialController.SendSerialMessage("x");
+     
     }
 
 }
