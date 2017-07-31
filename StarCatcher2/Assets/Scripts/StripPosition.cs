@@ -20,10 +20,10 @@ public class StripPosition : MonoBehaviour {
 
 
     public GameObject prefab;
-
+    private static ArrayList starStrips;
     private static ArrayList starStarts;
     private static ArrayList stripLengths;
-    private static UnityEngine.Random random = new UnityEngine.Random();
+    private UnityEngine.Random random = new UnityEngine.Random();
 
     // empty game object as parent for strips
     private GameObject parent;
@@ -33,25 +33,38 @@ public class StripPosition : MonoBehaviour {
 
         parent = GameObject.FindGameObjectWithTag("STRIPS");
 
-        starStarts = new ArrayList();
+        // create and arraylist of Strip objects
+        starStrips = new ArrayList();
         //  starStarts.Add(new Strip(new Vector3(-1.022f, 2.048f, -0.069f), 0.5f));
-        starStarts.Add(new Strip(new Vector3(-1.022f, 2.5908f, -0.069f), 0.5f));
-        starStarts.Add(new Strip(new Vector3(-0.94f, 2.5908f, 0.42f), 0.5f));
-        starStarts.Add(new Strip(new Vector3(-0.49f, 2.5908f, -0.29f), 0.5f));
-        starStarts.Add(new Strip(new Vector3(-0.46f, 2.5908f, 0.8f), 0.5f));
-        starStarts.Add(new Strip(new Vector3(-0.05f, 2.4384f, -0.88f), 1f));
-        starStarts.Add(new Strip(new Vector3(0.13f, 2.5908f, 0.01f), 0.5f));
-        starStarts.Add(new Strip(new Vector3(-0.09f, 2.5908f, 0.89f), 0.5f));
-        starStarts.Add(new Strip(new Vector3(1.06f, 2.5908f, -0.92f), 0.5f));
-        starStarts.Add(new Strip(new Vector3(0.97f, 2.5908f, 0.02f), 0.5f));
-        starStarts.Add(new Strip(new Vector3(0.94f, 2.4384f, 0.84f), 1f));
-        starStarts.Add(new Strip(new Vector3(1.75f, 2.4384f, -1.19f), 1f));
-        starStarts.Add(new Strip(new Vector3(1.78f, 2.5908f, -0.47f), 0.5f));
-        starStarts.Add(new Strip(new Vector3(1.67f, 2.5908f, 0.17f), 0.5f));
-        starStarts.Add(new Strip(new Vector3(1.7f, 2.5908f, 0.5f), 0.5f));
-        starStarts.Add(new Strip(new Vector3(1.62f, 2.5908f, 1.1f), 0.5f));
-
+        starStrips.Add(new Strip(new Vector3(-1.022f, 2.5908f, -0.069f), 0.5f));
+        starStrips.Add(new Strip(new Vector3(-0.94f, 2.5908f, 0.42f), 0.5f));
+        starStrips.Add(new Strip(new Vector3(-0.49f, 2.5908f, -0.29f), 0.5f));
+        starStrips.Add(new Strip(new Vector3(-0.46f, 2.5908f, 0.8f), 0.5f));
+        starStrips.Add(new Strip(new Vector3(-0.05f, 2.4384f, -0.88f), 1f));
+        starStrips.Add(new Strip(new Vector3(0.13f, 2.5908f, 0.01f), 0.5f));
+        starStrips.Add(new Strip(new Vector3(-0.09f, 2.5908f, 0.89f), 0.5f));
+        starStrips.Add(new Strip(new Vector3(1.06f, 2.5908f, -0.92f), 0.5f));
+        starStrips.Add(new Strip(new Vector3(0.97f, 2.5908f, 0.02f), 0.5f));
+        starStrips.Add(new Strip(new Vector3(0.94f, 2.4384f, 0.84f), 1f));
+        starStrips.Add(new Strip(new Vector3(1.75f, 2.4384f, -1.19f), 1f));
+        starStrips.Add(new Strip(new Vector3(1.78f, 2.5908f, -0.47f), 0.5f));
+        starStrips.Add(new Strip(new Vector3(1.67f, 2.5908f, 0.17f), 0.5f));
+        starStrips.Add(new Strip(new Vector3(1.7f, 2.5908f, 0.5f), 0.5f));
+        starStrips.Add(new Strip(new Vector3(1.62f, 2.5908f, 1.1f), 0.5f));
+        
         //oldStarStarts();
+
+    }
+
+    public Strip getRandomStrip()
+    {
+        int starStripCount = starStrips.Count;
+        int startPosition = UnityEngine.Random.Range(0, starStripCount);
+        Strip randomStrip = (Strip)starStrips.ToArray()[startPosition];
+
+
+        Debug.Log("new star point: " + randomStrip.ToString());
+        return randomStrip;
     }
 
     private void oldStarStarts()

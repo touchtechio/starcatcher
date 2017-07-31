@@ -152,10 +152,11 @@ public class StarSpawn : MonoBehaviour {
 
     private Vector3 GetSpawnPoint()
     {
-        int startPosition = Random.Range(0, starStarts.Count);
-        Vector3 start = (Vector3)starStarts.ToArray().GetValue(startPosition);
-        Debug.Log("new star point: " + start.ToString());
-        return start;
+        StripPosition strip = StripPosition.FindObjectOfType<StripPosition>();
+        return strip.getRandomStrip().starStarts;
+
+        //float stripLength = (float)randomStrip.stripLength;
+
     }
 
 
