@@ -58,6 +58,8 @@ public class StarMove : MonoBehaviour {
         if (transform.position[1] <= nearlyEndMarker[1])
         {
             gameObject.GetComponent<SphereCollider>().isTrigger = true;
+            HU_Star starEffects = gameObject.GetComponent<HU_Star>();
+            starEffects._coronaTrails = false;
             
         }
         Destroy(gameObject, fallDuration + timeToDestroyStar);
