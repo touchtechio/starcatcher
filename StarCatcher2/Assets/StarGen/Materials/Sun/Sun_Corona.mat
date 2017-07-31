@@ -57,6 +57,6 @@ Material:
     m_Colors:
     - _Color: {r: 2.607647, g: 1.397445, b: 0.61356395, a: 2.86}
     - _Corona: {r: 0.03448296, g: 0, b: 1, a: 1}
-    - _ParentRotation: {r: -0.099446684, g: 0.97451764, b: -0.2010615, a: 0}
+    - _ParentRotation: {r: 0, g: 1, b: 0, a: 0}
     - _TintColor: {r: 1, g: 0, b: 0, a: 1}
     - _node_9594: {r: 1, g: 0.39310342, b: 0, a: 1}

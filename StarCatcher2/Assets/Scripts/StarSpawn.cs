@@ -7,8 +7,6 @@ public class StarSpawn : MonoBehaviour {
     [Range(0.5f, 5.0f)]
     public float spawnRate = 1.0f;  // seconds between spawnings
     public GameObject prefab;
-    
-
 
     private static ArrayList starStarts;
     private static Random random = new Random();
@@ -20,8 +18,17 @@ public class StarSpawn : MonoBehaviour {
 
 
     // set to durations between spawn events
+    [Range(0.1f, 10.0f)]
     public float easyTimeToSpawn = 0;
+    [Range(0.1f, 10.0f)]
     public float hardTimeToSpawn = 0;
+
+
+    // set to durations between spawn events
+    [Range(0.1f, 10.0f)]
+    public float easyMover = 2.0f;
+    [Range(0.1f, 10.0f)]
+    public float hardMover = 1.0f;
 
 
     private float easyTimeToNextSpawn = 0;
@@ -33,7 +40,6 @@ public class StarSpawn : MonoBehaviour {
         parent = GameObject.FindGameObjectWithTag("STARS");
 
         //InvokeRepeating("Spawn", 0.5f, spawnRate);
-        InvokeRepeating("Spawn", 0.5f, 5.0f);
 
         starStarts = new ArrayList();
         starStarts.Add(new Vector3(-1.022f, 3.048f, -0.069f));
@@ -84,28 +90,65 @@ public class StarSpawn : MonoBehaviour {
 
 
 
+    private void SpawnHard()
+    {
+        Spawn(hardMover, Random.ColorHSV(0.0f, 0.5f));
+
+    }
+
 
     private void SpawnEasy()
-{
+    {
+        Spawn(easyMover, Random.ColorHSV(0.5f, 1.0f));
+    }
+
+
+    public void Spawn()
+    {
+
+        SpawnEasy();
+
+    }
+
+
+    private void Spawn(float speed, Color color)
+    {
+
+
+        // get position
         Vector3 spawnPoint = GetSpawnPoint();
+
+        // make star
         GameObject star = Instantiate(prefab, spawnPoint, Quaternion.identity) as GameObject;
+
+        // parent to STARS 
         star.transform.parent = parent.transform;
         starCount++;
         string starNumber = starCount.ToString();
         star.name = "star-" + starNumber;
 
-        starNumber = "a";
-        starSpawnSerialController.SendSerialMessage(starNumber);
-        Debug.Log("star fell");
+        // configure Star Mover
+        StarMove mover = star.GetComponent<StarMove>();
+        mover.speed = speed;
 
+
+        // create unique Star Gen config
+        HU_Star starComponent = star.GetComponent<HU_Star>();
+        starComponent.MakeUniqueRunTime();
+
+        // change a color
+        starComponent._color = color;
+
+        // send serial
+       // starNumber = "a";
+       // byte[] starFall = { (byte)starCount, (byte)starHue, (byte)starDuration, (byte)starHang };
+        starSpawnSerialController.SendMessage("a");
+
+        Debug.Log(star.name + " fell");
+
+        return;
     }
 
-
-    private void SpawnHard()
-{
-        SpawnEasy();
-
-    }
 
     private Vector3 GetSpawnPoint()
     {
@@ -115,15 +158,6 @@ public class StarSpawn : MonoBehaviour {
         return start;
     }
 
-
-    public void Spawn()
-    {
-
-        SpawnEasy();
-        
-       
-
-    }
 
 }
 
