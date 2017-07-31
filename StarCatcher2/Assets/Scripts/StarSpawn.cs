@@ -133,8 +133,8 @@ public class StarSpawn : MonoBehaviour {
 
 
         // get position
-        var strip = GetStrip();
-        Vector3 spawnPoint = strip.starStarts;
+        Strip strip = GetStrip();
+        Vector3 spawnPoint = strip.starStartPoints;
 
         // make star
         GameObject star = Instantiate(prefab, spawnPoint, Quaternion.identity) as GameObject;
