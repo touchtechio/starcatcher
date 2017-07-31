@@ -11,16 +11,24 @@ public class StarMove : MonoBehaviour {
     private float startTime;
     private float journeyLength;
     bool timeRecorded = false;
-    float fallTime = 0f;
+    float fallDuration = 0f;
+    
     void Start()
     {
+        // turn off trigger component so players can't catch stars at the start
+        gameObject.GetComponent<SphereCollider>().isTrigger = false;
         startTime = Time.time;
+ 
         startMarker = transform.localPosition;
         endMarker = startMarker + new Vector3(0, -3.0f, 0);
+
+        // set time when the trigger component is turned on
         //nearlyEndMarker = startMarker + new Vector3(0, 0.9f * endMarker[1], 0);
         nearlyEndMarker = startMarker + new Vector3(0, -2.5f, 0);
         journeyLength = Vector3.Distance(startMarker, endMarker);
-        gameObject.GetComponent<SphereCollider>().isTrigger = false;
+        // set speed of fall according to fall time and distance travelled
+        speed = journeyLength / fallDuration;
+
     }
 
     void Update()
@@ -28,16 +36,17 @@ public class StarMove : MonoBehaviour {
         float distCovered = (Time.time - startTime) * speed;
         float fracJourney = distCovered / journeyLength;
         transform.position = Vector3.Lerp(startMarker, endMarker, fracJourney);
-
+        /*
         // adding accelaration
         if (transform.position != endMarker)
         {
             speed += .1f/2;
         }
+        */
         else if (transform.position == endMarker && !timeRecorded)
         {
-            fallTime = Time.time - startTime;
-            Debug.Log("time the star took to fall " + fallTime);
+            fallDuration = Time.time - startTime;
+            Debug.Log("time the star took to fall " + fallDuration);
             timeRecorded = true;
         }
          if (transform.position[1] <= nearlyEndMarker[1])
@@ -45,7 +54,7 @@ public class StarMove : MonoBehaviour {
             gameObject.GetComponent<SphereCollider>().isTrigger = true;
             
         }
-        Destroy(gameObject, fallTime + 5.0f);
+        Destroy(gameObject, fallDuration + 5.0f);
         //Debug.Log(gameObject.GetComponent<SphereCollider>().isTrigger);
 
 
