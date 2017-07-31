@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class StarCollider : MonoBehaviour {
-
+    public float timeToDestory = 1f;
     private SerialController starCaughtSerialController;
     // Use this for initialization
     void Start () {
@@ -19,7 +19,7 @@ public class StarCollider : MonoBehaviour {
     {
        // other.gameObject.CompareTag(NET);
         Score.catchStar();
-        Destroy(gameObject);
+        Destroy(gameObject, timeToDestory);
         starCaughtSerialController.SendSerialMessage("x");
         HU_Star starEffects = gameObject.GetComponent<HU_Star>();
         starEffects._color = Color.cyan;
