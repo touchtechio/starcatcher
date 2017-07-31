@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class StarSpawn : MonoBehaviour {
+
     [Range(0.5f, 5.0f)]
     public float spawnRate = 1.0f;  // seconds between spawnings
     public GameObject prefab;
@@ -16,6 +17,15 @@ public class StarSpawn : MonoBehaviour {
     // empty game object as parent for spwned stars
     private GameObject parent;
     int starCount = 0;
+
+
+    // set to durations between spawn events
+    public float easyTimeToSpawn = 0;
+    public float hardTimeToSpawn = 0;
+
+
+    private float easyTimeToNextSpawn = 0;
+    private float hardTimeToNextSpawn = 0;
 
     // Use this for initialization
     void Start () {
@@ -46,22 +56,75 @@ public class StarSpawn : MonoBehaviour {
         starSpawnSerialController = SerialController.FindObjectOfType<SerialController>();
 
     }
-	
-    public void Spawn()
+
+    public void Update()
     {
 
-        int startPosition = Random.Range(0, starStarts.Count);
-        Vector3 start = (Vector3)starStarts.ToArray().GetValue(startPosition);
+        // burn down time since last update
+        easyTimeToNextSpawn -= Time.deltaTime;
+        hardTimeToNextSpawn -= Time.deltaTime;
 
-        GameObject star = Instantiate(prefab, start, Quaternion.identity) as GameObject;
+
+        if (easyTimeToNextSpawn <= 0)
+        {
+            SpawnEasy();
+            easyTimeToNextSpawn = easyTimeToSpawn;
+        }
+        if (hardTimeToNextSpawn <= 0)
+        {
+            SpawnHard();
+            hardTimeToNextSpawn = hardTimeToSpawn; ;
+        }
+
+        print("10 seconds ellapsed");
+
+
+    }
+
+
+
+
+
+    private void SpawnEasy()
+{
+        Vector3 spawnPoint = GetSpawnPoint();
+        GameObject star = Instantiate(prefab, spawnPoint, Quaternion.identity) as GameObject;
         star.transform.parent = parent.transform;
-        star.name = "star-" + startPosition;
         starCount++;
         string starNumber = starCount.ToString();
+        star.name = "star-" + starNumber;
+
         starNumber = "a";
         starSpawnSerialController.SendSerialMessage(starNumber);
         Debug.Log("star fell");
 
     }
 
+
+    private void SpawnHard()
+{
+        SpawnEasy();
+
+    }
+
+    private Vector3 GetSpawnPoint()
+    {
+        int startPosition = Random.Range(0, starStarts.Count);
+        Vector3 start = (Vector3)starStarts.ToArray().GetValue(startPosition);
+        Debug.Log("new star point: " + start.ToString());
+        return start;
+    }
+
+
+    public void Spawn()
+    {
+
+        SpawnEasy();
+        
+       
+
+    }
+
 }
+
+
