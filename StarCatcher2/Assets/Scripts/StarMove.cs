@@ -12,7 +12,7 @@ public class StarMove : MonoBehaviour {
     private float journeyLength;
     bool timeRecorded = false;
     public float fallDuration = 0f;
-    public float stripLength = 0.5f;
+    public Vector3 stripLength = new Vector3(0, 0.5f, 0);
     public Vector3 starDropScale =  new Vector3(1, 3.0f, 1);
     public float timeToDestroyStar = 2f;
     
@@ -23,7 +23,7 @@ public class StarMove : MonoBehaviour {
         startTime = Time.time;
 
         endMarker = transform.localPosition;
-        startMarker = endMarker + stripLength * starDropScale;
+        startMarker = endMarker + Vector3.Scale(stripLength, starDropScale);
         journeyLength = Vector3.Distance(startMarker, endMarker);
         speed = journeyLength / fallDuration;
 

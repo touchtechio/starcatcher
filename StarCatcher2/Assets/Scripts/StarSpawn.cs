@@ -36,6 +36,9 @@ public class StarSpawn : MonoBehaviour {
     [Range(0.1f, 10.0f)]
     public float hardDelay = 1.0f;
 
+    [Range(0.1f, 10.0f)]
+    public float starDropYScale = 3.0f;
+
 
     private float easyTimeToNextSpawn = 0;
     private float hardTimeToNextSpawn = 0;
@@ -97,7 +100,7 @@ public class StarSpawn : MonoBehaviour {
             hardTimeToNextSpawn = hardTimeToSpawn; ;
         }
 
-        print("10 seconds ellapsed");
+        //print("10 seconds ellapsed");
 
 
     }
@@ -146,9 +149,10 @@ public class StarSpawn : MonoBehaviour {
         // configure Star Mover
         StarMove mover = star.GetComponent<StarMove>();
         //mover.speed = speed;
-        mover.stripLength = strip.stripLength;
+        mover.stripLength = new Vector3(0, strip.stripLength, 0);
         mover.fallDuration = duration;
         mover.timeToDestroyStar = delay;
+        mover.starDropScale = new Vector3(1, starDropYScale, 1);
 
 
         // create unique Star Gen config
