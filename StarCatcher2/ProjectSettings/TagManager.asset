@@ -8,6 +8,7 @@ TagManager:
   - FxTemporaire
   - TeleportIgnore
   - STARS
+  - STRIPS
   layers:
   - Default
   - TransparentFX

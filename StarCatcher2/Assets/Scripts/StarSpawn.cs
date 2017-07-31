@@ -153,7 +153,7 @@ public class StarSpawn : MonoBehaviour {
     private Vector3 GetSpawnPoint()
     {
         StripPosition strip = StripPosition.FindObjectOfType<StripPosition>();
-        return strip.getRandomStrip().starStarts;
+        return strip.getRandomStrip().starStartPoints;
 
         //float stripLength = (float)randomStrip.stripLength;
 
