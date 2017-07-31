@@ -21,6 +21,9 @@ public class StarCollider : MonoBehaviour {
         Score.catchStar();
         Destroy(gameObject);
         starCaughtSerialController.SendSerialMessage("x");
+        HU_Star starEffects = gameObject.GetComponent<HU_Star>();
+        starEffects._color = Color.cyan;
+        starEffects._jets = true; 
      
     }
 
