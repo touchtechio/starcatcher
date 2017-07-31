@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class StarSpawn : MonoBehaviour {
 
-    [Range(0.5f, 5.0f)]
-    public float spawnRate = 1.0f;  // seconds between spawnings
     public GameObject prefab;
 
     private static ArrayList starStarts;
@@ -163,10 +161,11 @@ public class StarSpawn : MonoBehaviour {
 
         // change a color
         starComponent._color = color;
+        starComponent._color2 = Random.ColorHSV(0.0f, 1.0f);
 
         // send serial
-       // starNumber = "a";
-       // byte[] starFall = { (byte)starCount, (byte)starHue, (byte)starDuration, (byte)starHang };
+        // starNumber = "a";
+        // byte[] starFall = { (byte)starCount, (byte)starHue, (byte)starDuration, (byte)starHang };
         starSpawnSerialController.SendMessage("a");
 
         Debug.Log(star.name + " fell");
