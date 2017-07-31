@@ -3,30 +3,30 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-
 public class Strip
 {
-    public Vector3 starStarts;
+    public Vector3 starStartPoints;
     public float stripLength;
 
     public Strip(Vector3 stripBasePoint, float length)
     {
-        starStarts = stripBasePoint;
+        starStartPoints = stripBasePoint;
         stripLength = length;
     }
 }
 
 public class StripPosition : MonoBehaviour {
 
-
     public GameObject prefab;
-    private static ArrayList starStrips;
+    private ArrayList starStrips;
     private static ArrayList starStarts;
     private static ArrayList stripLengths;
+    
     private UnityEngine.Random random = new UnityEngine.Random();
 
     // empty game object as parent for strips
     private GameObject parent;
+    int starStripCount;
 
     // Use this for initialization
     void Start() {
@@ -35,7 +35,8 @@ public class StripPosition : MonoBehaviour {
 
         // create and arraylist of Strip objects
         starStrips = new ArrayList();
-        //  starStarts.Add(new Strip(new Vector3(-1.022f, 2.048f, -0.069f), 0.5f));
+        //Debug.Log("star strip array instantiated" + starStrips);
+
         starStrips.Add(new Strip(new Vector3(-1.022f, 2.5908f, -0.069f), 0.5f));
         starStrips.Add(new Strip(new Vector3(-0.94f, 2.5908f, 0.42f), 0.5f));
         starStrips.Add(new Strip(new Vector3(-0.49f, 2.5908f, -0.29f), 0.5f));
@@ -51,19 +52,17 @@ public class StripPosition : MonoBehaviour {
         starStrips.Add(new Strip(new Vector3(1.67f, 2.5908f, 0.17f), 0.5f));
         starStrips.Add(new Strip(new Vector3(1.7f, 2.5908f, 0.5f), 0.5f));
         starStrips.Add(new Strip(new Vector3(1.62f, 2.5908f, 1.1f), 0.5f));
-        
-        //oldStarStarts();
 
+        //oldStarStarts();
+        starStripCount = starStrips.Count;
     }
 
     public Strip getRandomStrip()
     {
-        int starStripCount = starStrips.Count;
+
         int startPosition = UnityEngine.Random.Range(0, starStripCount);
         Strip randomStrip = (Strip)starStrips.ToArray()[startPosition];
 
-
-        Debug.Log("new star point: " + randomStrip.ToString());
         return randomStrip;
     }
 

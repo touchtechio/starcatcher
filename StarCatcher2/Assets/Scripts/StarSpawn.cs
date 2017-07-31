@@ -171,8 +171,10 @@ public class StarSpawn : MonoBehaviour {
     }
 
 
+
     private Strip GetStrip()
     {
+
         return stripPositions.getRandomStrip();
     }
 
