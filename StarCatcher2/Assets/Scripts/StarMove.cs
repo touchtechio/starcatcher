@@ -11,8 +11,8 @@ public class StarMove : MonoBehaviour {
     private float startTime;
     private float journeyLength;
     bool timeRecorded = false;
-    float fallDuration = 0f;
-    float stripLength = 0.5f;
+    public float fallDuration = 0f;
+    public float stripLength = 0.5f;
     public Vector3 starDropScale =  new Vector3(1, 3.0f, 1);
     public float timeToDestroyStar = 2f;
     

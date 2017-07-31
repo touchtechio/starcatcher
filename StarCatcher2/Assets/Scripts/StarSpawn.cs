@@ -11,6 +11,7 @@ public class StarSpawn : MonoBehaviour {
     private static ArrayList starStarts;
     private static Random random = new Random();
     private SerialController starSpawnSerialController;
+    private StripPosition stripPositions;
 
     // empty game object as parent for spwned stars
     private GameObject parent;
@@ -26,9 +27,16 @@ public class StarSpawn : MonoBehaviour {
 
     // set to durations between spawn events
     [Range(0.1f, 10.0f)]
-    public float easyMover = 2.0f;
+    public float easyDuration = 2.0f;
     [Range(0.1f, 10.0f)]
-    public float hardMover = 1.0f;
+    public float hardDuration = 1.0f;
+
+
+    // set to durations between spawn events
+    [Range(0.1f, 10.0f)]
+    public float easyDelay = 2.0f;
+    [Range(0.1f, 10.0f)]
+    public float hardDelay = 1.0f;
 
 
     private float easyTimeToNextSpawn = 0;
@@ -60,7 +68,16 @@ public class StarSpawn : MonoBehaviour {
 
 
         starSpawnSerialController = SerialController.FindObjectOfType<SerialController>();
+        if (null == starSpawnSerialController)
+        {
+            Debug.Log("ERROR: no serial controller found");
+        }
 
+        stripPositions = StripPosition.FindObjectOfType<StripPosition>();
+        if (stripPositions == starSpawnSerialController)
+        {
+            Debug.Log("ERROR: no StripPosition found");
+        }
     }
 
     public void Update()
@@ -92,14 +109,14 @@ public class StarSpawn : MonoBehaviour {
 
     private void SpawnHard()
     {
-        Spawn(hardMover, Random.ColorHSV(0.0f, 0.5f));
+        Spawn(hardDuration, hardDelay, Random.ColorHSV(0.0f, 0.5f));
 
     }
 
 
     private void SpawnEasy()
     {
-        Spawn(easyMover, Random.ColorHSV(0.5f, 1.0f));
+        Spawn(easyDuration, hardDelay, Random.ColorHSV(0.5f, 1.0f));
     }
 
 
@@ -111,12 +128,13 @@ public class StarSpawn : MonoBehaviour {
     }
 
 
-    private void Spawn(float speed, Color color)
+    private void Spawn(float duration, float delay, Color color)
     {
 
 
         // get position
-        Vector3 spawnPoint = GetSpawnPoint();
+        var strip = GetStrip();
+        Vector3 spawnPoint = strip.starStarts;
 
         // make star
         GameObject star = Instantiate(prefab, spawnPoint, Quaternion.identity) as GameObject;
@@ -129,7 +147,10 @@ public class StarSpawn : MonoBehaviour {
 
         // configure Star Mover
         StarMove mover = star.GetComponent<StarMove>();
-        mover.speed = speed;
+        //mover.speed = speed;
+        mover.stripLength = strip.stripLength;
+        mover.fallDuration = duration;
+        mover.timeToDestroyStar = delay;
 
 
         // create unique Star Gen config
@@ -150,13 +171,9 @@ public class StarSpawn : MonoBehaviour {
     }
 
 
-    private Vector3 GetSpawnPoint()
+    private Strip GetStrip()
     {
-        StripPosition strip = StripPosition.FindObjectOfType<StripPosition>();
-        return strip.getRandomStrip().starStarts;
-
-        //float stripLength = (float)randomStrip.stripLength;
-
+        return stripPositions.getRandomStrip();
     }
 
 
