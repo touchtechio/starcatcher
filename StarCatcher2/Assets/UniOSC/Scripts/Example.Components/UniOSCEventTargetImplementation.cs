@@ -89,14 +89,14 @@ namespace UniOSC{
 		/// </summary>
 		/// <param name="args">OSCEventArgs</param>
 		public override void OnOSCMessageReceived(UniOSCEventArgs args){
-			//this is the method where you handle the OSC data and do your stuff with the GameObject!
-			//args.Address
+            //this is the method where you handle the OSC data and do your stuff with the GameObject!
+            //args.Address
             //To get the OSCMessage we need to typecast the Packet 
             // OscMessage msg = (OscMessage)args.Packet;
             //msg.Data  (get the data from the OSCMessage as an object[] array)
 
-			//It is a good practice to always check the data count before accessing the data.
-			// if(args.Message.Data.Count <1)return;
+            //It is a good practice to always check the data count before accessing the data.
+            // if(args.Message.Data.Count <1)return;
 
             /*to  check the data type we have several option:
             * a) 
@@ -110,22 +110,22 @@ namespace UniOSC{
             * if( ((OscMessage)args.Packet).TypeTag.Substring(1,1) == "f")
             */
 
-            //Debug.Log("typeTag: "+args.Message.TypeTag);
+            //Debug.Log("typeTag: "+((OscMessage)args.Packet).TypeTag);
 
-			//For addresses like  '/1/push8'  we could filter via these properties:
-			//args.Group (1)
-			//args.AddressRoot ("push") 
-			//args.AddressIndex (8)
-			//Debug.Log("Group: "+args.Group);
-			//Debug.Log("AddressRoot: "+args.AddressRoot);
-			//Debug.Log("AddressIndex: "+args.AddressIndex);
-			//if the OSC address doesn't match this pattern the Group and AddressIndex will be default -1 and AddressRoot is empty
-
-
-		}
+            //For addresses like  '/1/push8'  we could filter via these properties:
+            //args.Group (1)
+            //args.AddressRoot ("push") 
+            //args.AddressIndex (8)
+            //Debug.Log("Group: "+args.Group);
+            //Debug.Log("AddressRoot: "+args.AddressRoot);
+            //Debug.Log("AddressIndex: "+args.AddressIndex);
+            //if the OSC address doesn't match this pattern the Group and AddressIndex will be default -1 and AddressRoot is empty
 
 
+        }
 
-	}
+
+
+    }
 
 }

@@ -52,7 +52,7 @@ namespace UniOSC{
 		[MenuItem("Window/UniOSC/Test/ScriptTestEditor")]
 		static void _Init(){
 			_windowSelf = EditorWindow.GetWindow(typeof(UniOSCScriptTestEditor));
-#if UNITY_4_3 || UNITY_4_5 || UNITY_4_6 || UNITY_5_0
+#if UNITY_4_3 || UNITY_4_5 || UNITY_4_6 || UNITY_4_7 || UNITY_5_0
             _windowSelf.title = "UniOSC Test Editor";
 #else
             _windowSelf.titleContent = new GUIContent("UniOSC Test Editor", "UniOSC Test Editor");

@@ -163,12 +163,10 @@ public class StarSpawn : MonoBehaviour {
         starComponent._color = color;
         starComponent._color2 = Random.ColorHSV(0.0f, 1.0f);
 
-        // send serial
-        // starNumber = "a";
-        // byte[] starFall = { (byte)starCount, (byte)starHue, (byte)starDuration, (byte)starHang };
-        starSpawnSerialController.SendMessage("a");
+        starNumber = "a";
+        starSpawnSerialController.SendSerialMessage(starNumber);
 
-        Debug.Log(star.name + " fell");
+       // Debug.Log(star.name + " fell");
 
         return;
     }

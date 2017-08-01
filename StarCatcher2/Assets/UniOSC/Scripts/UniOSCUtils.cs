@@ -62,7 +62,13 @@ namespace UniOSC{
 		public const string  MENUITEM_CREATE_TOGGLE = "GameObject/Create Other/UniOSC/Toggle";
 		public const string  MENUITEM_CREATE_EVENTDISPATCHERBUTTON = "GameObject/Create Other/UniOSC/Send OSC Message Button";
 
-		public const string TOOLTIP_EXPLICITCONNECTION ="If you select an explicit connection you don't have to specify your Port and IP Address as the component get the values from the connection.This is useful if you change the settings of a connection frequently and don't want to readjust the settings on every gameobject that uses the old values.";
+        public const string MENUITEM_CREATE_TOGGLE_UGUI = "GameObject/Create Other/UniOSC/uGUI Toggle";
+        public const string MENUITEM_CREATE_BUTTON_UGUI = "GameObject/Create Other/UniOSC/uGUI Button";
+        public const string MENUITEM_CREATE_SLIDER_UGUI = "GameObject/Create Other/UniOSC/uGUI Slider";
+
+        public const string MENUITEM_CREATE_UNITYEVENT_RELAY = "GameObject/Create Other/UniOSC/UnityEvent Relay";
+
+        public const string TOOLTIP_EXPLICITCONNECTION ="If you select an explicit connection you don't have to specify your Port and IP Address as the component get the values from the connection.This is useful if you change the settings of a connection frequently and don't want to readjust the settings on every gameobject that uses the old values.";
 
 
 		public  const string CONFIGPATH_EDITOR="Resources/UniOSCEditorConfig.asset";
@@ -140,7 +146,7 @@ namespace UniOSC{
 			try{
 					return Dns.GetHostEntry(Dns.GetHostName()).AddressList.FirstOrDefault(ip => ip.AddressFamily == AddressFamily.InterNetwork).ToString();
 				}catch(SocketException e){
-					//Debug.LogError("Error retrieving a valid local ipAddress:"+e.Message+"/nPlease check your network settings or restart Unity.");
+					Debug.LogWarning("Error retrieving a valid local ipAddress:"+e.Message+"/nUsing 127.0.0.1 as fallback!");
                     //return null;
                     //Fallback: 127.0.0.1
                     return "127.0.0.1";
@@ -239,69 +245,104 @@ namespace UniOSC{
 
 
 
-			#if UNITY_EDITOR
+		#if UNITY_EDITOR
 
-			public static void SelectObjectInHierachyFromGUID(string GUID){
-				UnityEngine.Object[] gos = new UnityEngine.Object[1];
-				string path = AssetDatabase.GUIDToAssetPath(GUID);
-				UnityEngine.Object go = AssetDatabase.LoadAssetAtPath(path,typeof(UnityEngine.Object)) as UnityEngine.Object ;
-				gos[0] = go;
-				Selection.objects = gos;
-			}
+		public static void SelectObjectInHierachyFromGUID(string GUID){
+			UnityEngine.Object[] gos = new UnityEngine.Object[1];
+			string path = AssetDatabase.GUIDToAssetPath(GUID);
+			UnityEngine.Object go = AssetDatabase.LoadAssetAtPath(path,typeof(UnityEngine.Object)) as UnityEngine.Object ;
+			gos[0] = go;
+			Selection.objects = gos;
+		}
 
-			#region menuItems
-			[MenuItem(UniOSCUtils.MENUITEM_CREATE_MOVE,false,4)]
-			static void CreateUniOSCMoveGameObject(){
-				GameObject go = new GameObject("UniOSC MoveGameObject");
-				 go.AddComponent<UniOSCMoveGameObject>();
+		#region menuItems
+		[MenuItem(UniOSCUtils.MENUITEM_CREATE_MOVE,false,4)]
+		static void CreateUniOSCMoveGameObject(){
+			GameObject go = new GameObject("UniOSC MoveGameObject");
+				go.AddComponent<UniOSCMoveGameObject>();
 				
-			}
+		}
 			
-			[MenuItem(UniOSCUtils.MENUITEM_CREATE_ROTATE,false,4)]
-			static void CreateUniOSCRotateGameObject(){
-				GameObject go = new GameObject("UniOSC RotateGameObject");
-				go.AddComponent<UniOSCRotateGameObject>();
+		[MenuItem(UniOSCUtils.MENUITEM_CREATE_ROTATE,false,4)]
+		static void CreateUniOSCRotateGameObject(){
+			GameObject go = new GameObject("UniOSC RotateGameObject");
+			go.AddComponent<UniOSCRotateGameObject>();
 				
-			}
+		}
 			
-			[MenuItem(UniOSCUtils.MENUITEM_CREATE_SCALE,false,4)]
-			static void CreateUniOSCScaleGameObject(){
-				GameObject go = new GameObject("UniOSC ScaleGameObject");
-				go.AddComponent<UniOSCScaleGameObject>();
+		[MenuItem(UniOSCUtils.MENUITEM_CREATE_SCALE,false,4)]
+		static void CreateUniOSCScaleGameObject(){
+			GameObject go = new GameObject("UniOSC ScaleGameObject");
+			go.AddComponent<UniOSCScaleGameObject>();
 				
-			}
+		}
 			
-			[MenuItem(UniOSCUtils.MENUITEM_CREATE_CHANGECOLOR,false,4)]
-			static void CreateUniOSCChangeColor(){
-				GameObject go = new GameObject("UniOSC ChangeColor");
-				go.AddComponent<UniOSCChangeColor>();
+		[MenuItem(UniOSCUtils.MENUITEM_CREATE_CHANGECOLOR,false,4)]
+		static void CreateUniOSCChangeColor(){
+			GameObject go = new GameObject("UniOSC ChangeColor");
+			go.AddComponent<UniOSCChangeColor>();
 				
-			}
+		}
 			
-			[MenuItem(UniOSCUtils.MENUITEM_CREATE_TOGGLE,false,4)]
-			static void CreateUniOSCToggle(){
-				GameObject go = new GameObject("UniOSC Toggle");
-				go.AddComponent<UniOSCToggle>();
-			}
+		[MenuItem(UniOSCUtils.MENUITEM_CREATE_TOGGLE,false,4)]
+		static void CreateUniOSCToggle(){
+			GameObject go = new GameObject("UniOSC Toggle");
+			go.AddComponent<UniOSCToggle>();
+		}
 			
-			[MenuItem(UniOSCUtils.MENUITEM_CREATE_EVENTDISPATCHERBUTTON,false,4)]
-			static void CreateUniOSCEventDispatcherButton(){
-				GameObject go = new GameObject("UniOSC Send OSC Message Button");
-				go.AddComponent<UniOSCEventDispatcherButton>();
+		[MenuItem(UniOSCUtils.MENUITEM_CREATE_EVENTDISPATCHERBUTTON,false,4)]
+		static void CreateUniOSCEventDispatcherButton(){
+			GameObject go = new GameObject("UniOSC Send OSC Message Button");
+			go.AddComponent<UniOSCEventDispatcherButton>();
 				
-			}
+		}
 
-			#endregion menuItems
+        /*
+        [MenuItem(UniOSCUtils.MENUITEM_CREATE_TOGGLE_UGUI, false, 4)]
+        static void CreateUniOSCToggleUGUI()
+        {
+            GameObject go = new GameObject("UniOSC uGUI Toggle");
+            go.AddComponent<UniOSC_uGUI_Toggle>();
+
+        }
+
+        [MenuItem(UniOSCUtils.MENUITEM_CREATE_SLIDER_UGUI, false, 4)]
+        static void CreateUniOSCSliderUGUI()
+        {
+            GameObject go = new GameObject("UniOSC uGUI Slider");
+            go.AddComponent<UniOSC_uGUI_Slider>();
+
+        }
+       
+        [MenuItem(UniOSCUtils.MENUITEM_CREATE_BUTTON_UGUI, false, 4)]
+        static void CreateUniOSCButtonUGUI()
+        {
+            GameObject go = new GameObject("UniOSC uGUI Button");
+            go.AddComponent<UniOSC_uGUI_Button>();
+
+        }
+         */
+
+        [MenuItem(UniOSCUtils.MENUITEM_CREATE_UNITYEVENT_RELAY, false, 4)]
+        static void CreateUniOSCUnityEventRelay()
+        {
+            GameObject go = new GameObject("UniOSC UnityEvent Relay");
+            go.AddComponent<UniOSCUnityEventRelay>();
+
+        }  
+
+
+        #endregion menuItems
 
 
 
-			/// <summary>
-			/// Used to get assets of a certain type and file extension from entire project
-			/// </summary>
-			/// <returns>An Object array of assets.</returns>
-			/// <param name="fileExtension">The file extention the type uses eg ".prefab" or ".asset".</param>
-			/// <typeparam name="T">The 1st type parameter.</typeparam>
-			public static T[] GetAssetsOfType<T>( string fileExtension) where T:class
+            /// <summary>
+            /// Used to get assets of a certain type and file extension from entire project
+            /// </summary>
+            /// <returns>An Object array of assets.</returns>
+            /// <param name="fileExtension">The file extention the type uses eg ".prefab" or ".asset".</param>
+            /// <typeparam name="T">The 1st type parameter.</typeparam>
+            public static T[] GetAssetsOfType<T>( string fileExtension) where T:class
 			{
 				List<T> tempObjects = new List<T>();
 				DirectoryInfo directory = new DirectoryInfo(Application.dataPath);

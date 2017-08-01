@@ -65,7 +65,8 @@ namespace UniOSC{
 				}
 				
 				pos = new Vector3(x,y,Camera.main.nearClipPlane+nearClipPlaneOffset);
-				transformToMove.transform.position = Camera.main.ScreenToWorldPoint(pos);
+                //pos = transformToMove.transform.position; pos[0] = x;pos[1] = y;pos[2] = Camera.main.nearClipPlane + nearClipPlaneOffset;                   
+                transformToMove.transform.position = Camera.main.ScreenToWorldPoint(pos);
 
 				break;
 

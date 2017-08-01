@@ -39,8 +39,11 @@ namespace UniOSC{
 
 		#region Start
 		void Awake(){
-			DontDestroyOnLoad(gameObject);
-		}
+            if (Application.isPlaying)
+            {
+                DontDestroyOnLoad(gameObject);
+            }
+        }
 
 		void Start () {
 

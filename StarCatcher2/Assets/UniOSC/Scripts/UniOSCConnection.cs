@@ -458,7 +458,7 @@ namespace UniOSC{
 		private bool _connected;
 		private bool _connectedOut;
 	
-		private Queue<UniOSCEventArgs> _eventQueue = new Queue<UniOSCEventArgs>();
+		private Queue<UniOSCEventArgs> _eventQueue = new Queue<UniOSCEventArgs>(1024);
 		private UnityEngine.Object _eventLock = new UnityEngine.Object();
 
 		private Queue<UniOSCEventArgs> _sessionEventQueue = new Queue<UniOSCEventArgs>();
@@ -609,22 +609,30 @@ namespace UniOSC{
 
 
 
-		#endregion Start
+        #endregion Start
 
-		#region Update
-	
-		void Update () {
-			//_Update();
+        #region Update
+
+        void FixedUpdate()
+        {
+            //_Update();
+        }
+
+        void Update () {
+			_Update();
 		}
 
 		void _Update(){
-			//should I only dequeue one item per frame?
-			lock(_eventLock){
+          
+            //should I only dequeue one item per frame?
+            lock (_eventLock)
+            {
+               
 				while(_eventQueue.Count > 0){
-	
-					UniOSCEventArgs args = _eventQueue.Dequeue();
-					//Event for the Editor. 
-					if( OSCMessageReceivedRaw != null) OSCMessageReceivedRaw(this, args) ;
+                  
+                    UniOSCEventArgs args = _eventQueue.Dequeue();                  
+                    //Event for the Editor. 
+                    if ( OSCMessageReceivedRaw != null) OSCMessageReceivedRaw(this, args) ;
 
 					//in learning mode we don't propagate the event to our targets.
 					if(isOSCLearning || !dispatchOSC )continue;
@@ -632,7 +640,8 @@ namespace UniOSC{
 					if(!Application.isPlaying && !isEditorEnabled)continue;
 					#endif
 					//If no MapingFileObj is attached all messages are passed through without any mapping
-					if(!hasOSCMappingFileAttached){
+					if(!hasOSCMappingFileAttached)
+                    {
 						if( OSCMessageReceived != null) OSCMessageReceived(this, args) ;
 						continue;
 					}
@@ -652,10 +661,14 @@ namespace UniOSC{
 
 					}//for mfo
 
-				}
-			}//lock
+                   
 
-			if(!hasOSCSessionFileAttached)return;
+
+                }//while
+			}//lock             
+           
+
+                if (!hasOSCSessionFileAttached)return;
 			lock(_sessionEventLock){
 				sessionCounter = 16;
 				while(_sessionEventQueue.Count > 0 && sessionCounter>0){
@@ -666,9 +679,7 @@ namespace UniOSC{
 
 		}
 
-		void FixedUpdate(){
-			_Update();
-		}
+		
 
 		#endregion Update
 
@@ -1144,7 +1155,8 @@ namespace UniOSC{
 		#region Message
 		// this method is called from a different thread so we fill the queue that is later read on FixedUpdate
 		private void OnOSCMessageReceived(object sender, UniOSCEventArgs args){
-			lock(_eventLock){
+			lock(_eventLock)
+            {
 				_eventQueue.Enqueue(args);
 			}
 		}

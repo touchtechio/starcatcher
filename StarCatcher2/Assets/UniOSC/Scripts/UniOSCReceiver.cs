@@ -26,9 +26,12 @@ namespace UniOSC{
 	/// </summary>
 	public class UniOSCReceiver  {
 
-		#region Public 
+        #region Public 
 
-		public int Port { get; private set; }
+        private bool usePool= true;
+
+
+        public int Port { get; private set; }
 		public int FrameNumber { get; private set; }
 
 		#endregion Public
@@ -37,13 +40,16 @@ namespace UniOSC{
 		#region Private 
 		
 		private UDPReceiver udpReceiver;
-		
-		#endregion Private
+
+        const int POOLSIZE = 1024;
+        private Queue<UniOSCEventArgs> _eventQueuePool = new Queue<UniOSCEventArgs>(POOLSIZE);
+
+        #endregion Private
 
 
-		#region Events
+        #region Events
 
-		public event EventHandler<UniOSCEventArgs> OSCMessageReceived;
+        public event EventHandler<UniOSCEventArgs> OSCMessageReceived;
 		public event EventHandler<ExceptionEventArgs> OSCErrorOccured;
 
 		#endregion Events
@@ -96,6 +102,16 @@ namespace UniOSC{
             udpReceiver.MessageReceived += handlerOscMessageReceived;
             udpReceiver.ErrorOccured += handlerOscErrorOccured;
             udpReceiver.BundleReceived += handlerOSCBundleReceived;
+
+
+            if (usePool)
+            {
+                //setup Pool 
+                for (int i = 0; i < POOLSIZE; i++)
+                {
+                    _eventQueuePool.Enqueue(new UniOSCEventArgs(0, null));
+                }
+            }
         }
 		
 		#endregion
@@ -137,10 +153,23 @@ namespace UniOSC{
 		
 		private void parseOscMessage(OscMessage message)
 		{
+            if (usePool) {
+                //new pool Version
+                UniOSCEventArgs args = _eventQueuePool.Dequeue();
+                args.Port = Port;
+                args.Packet = message;
+                args.Address = message.Address;
+                if (OSCMessageReceived != null) OSCMessageReceived(this, args);
+                _eventQueuePool.Enqueue(args);//enqueue the message again
+            } else {
+                //legacy version
+                if (OSCMessageReceived != null) OSCMessageReceived(this, new UniOSCEventArgs(Port, message));
+            }
+			
 
-			if( OSCMessageReceived != null) OSCMessageReceived(this, new UniOSCEventArgs(Port,message )) ;
+          
 
-		}
+        }
 
 
 		private void parseOscBundle(OscBundle bundle){

@@ -20,79 +20,48 @@ namespace UniOSC{
 	[AddComponentMenu("UniOSC/RotateGameObject")]
 	public class UniOSCRotateGameObject :  UniOSCEventTarget {
 
-		#region public
-		[HideInInspector]
-		public Transform transformToRotate;
 
-		public string X_Address;
-		public string Y_Address;
-		public string Z_Address;
+        // Use this for initialization
 
-		public float x_RotationFactor;
-		public float y_RotationFactor;
-		public float z_RotationFactor;
-		#endregion
+        private const string easyDuration = "/1/rotary1";
+        private const string easyDelay = "/1/rotary2";
+        private const string easyPeriod = "/1/rotary3";
 
-		#region private
-		private Vector3 eulerAngles;
-		private Quaternion rootRot;
-		private float cx,cy,cz;
-		private Quaternion rx,ry,rz;
-		#endregion
+        private const string hardDuration = "/1/rotary4";
+        private const string haradDelay = "/1/rotary5";
+        private const string hardPeriod = "/1/rotary6";
+        
 
 
-		void Awake(){
-
-		}
-
-		public override void OnEnable(){
-			_Init();
-			base.OnEnable();
-		}
-
-		private void _Init(){
-			
-			//receiveAllAddresses = false;
-			_oscAddresses.Clear();
-			if(!_receiveAllAddresses){
-				_oscAddresses.Add(X_Address);
-				_oscAddresses.Add(Y_Address);
-				_oscAddresses.Add(Z_Address);
-			}
-			cx=0f;cy=0f;cz=0f;
-			if(transformToRotate == null){
-				Transform hostTransform = GetComponent<Transform>();
-				if(hostTransform != null) transformToRotate = hostTransform;
-			}
-			
-			rootRot = transformToRotate.localRotation;
-		}
-	
-
-		public override void OnOSCMessageReceived(UniOSCEventArgs args){
-		
-			if(transformToRotate == null) return;
-
-			OscMessage msg = (OscMessage)args.Packet;
-
-			if(msg.Data.Count <1)return;
-			if(!( msg.Data[0] is System.Single))return;
-
-			float value = (float)msg.Data[0] ;
-
-			if(String.Equals(args.Address,X_Address))cx = value * x_RotationFactor;
-			if(String.Equals(args.Address,Y_Address))cy = value * y_RotationFactor;
-			if(String.Equals(args.Address,Z_Address))cz = value * z_RotationFactor;
-
-			rx = Quaternion.AngleAxis (cx,  Vector3.right); 
-			ry = Quaternion.AngleAxis (cy , Vector3.up);
-			rz = Quaternion.AngleAxis (cz,  Vector3.forward);
-
-			transformToRotate.localRotation = rootRot * rx*ry*rz;
-
-		}
+        OscMessage msg;
 
 
+        // handles messages
+        public void LastMessageUpdate()
+        {
+            // if no message, escape
+            if (msg == null) return;
+
+
+
+
+
+
+        }
+
+
+        // upon message received from OSC, call LastMessageUpdate()
+        public override void OnOSCMessageReceived(UniOSCEventArgs args)
+        {
+
+            msg = (OscMessage)args.Packet;
+
+
+            Debug.Log(msg.Address);
+            LastMessageUpdate();
+
+        }
+        
 	}
 
 }

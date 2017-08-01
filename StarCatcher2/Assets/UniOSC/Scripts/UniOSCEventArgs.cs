@@ -25,10 +25,19 @@ namespace UniOSC{
 	public class UniOSCEventArgs : EventArgs
 	{
        // public OscMessage Message { get { return _Message; } }
-        public OscPacket Packet { get { return _Packet; } }
+        public OscPacket Packet {
+            get { return _Packet; }
+            set { _Packet = value; }
+        }
        
-		public string Address{get{return _Address;}}
-		public int Port{get{return _Port;}}
+		public string Address{
+            get {return _Address;}
+            set { _Address = value; }
+        }
+		public int Port{
+            get {return _Port;}
+            set { _Port = value; }
+        }
 		public string IPAddress;//for outgoing messages
 
 		public int Group{get{return _Group;}}
@@ -58,29 +67,52 @@ namespace UniOSC{
              * */
 
             _Packet = packet;
-			_Address = packet.Address;
+			
 			_Port = port;
 
+            if (packet == null) return;
 
-			string[] s = _Address.Split('/');
-			if(s.Length < 2)return;
-			try{
-				_Group = Int32.Parse(s[1]);
-			}catch(System.Exception){
+            _Address = packet.Address;
 
-			}
+            SetupAddressMetaData();
 
-			if(s.Length < 3)return;
-			try{
-				_AddressRoot = new String(s[2].Where(Char.IsLetter).ToArray());
-				var data = Regex.Match(s[2], @"\d+").Value;
-				_AddressIndex = Int32.Parse(data);
-			}catch(System.Exception){
-
-			}
 
 
 		}
+
+        /// <summary>
+        /// If you use the UniOSCReiver pool you have to manually call this method when you need access to the AddressRoot or AddressIndex
+        /// </summary>
+        public void SetupAddressMetaData()
+        {
+            if (_Address == null) return;
+
+            string[] s = _Address.Split('/');
+            if (s.Length < 2) return;
+            try
+            {
+                _Group = Int32.Parse(s[1]);
+            }
+            catch (System.Exception)
+            {
+
+            }
+
+            if (s.Length < 3) return;
+            try
+            {
+                _AddressRoot = new String(s[2].Where(Char.IsLetter).ToArray());
+                var data = Regex.Match(s[2], @"\d+").Value;
+                _AddressIndex = Int32.Parse(data);
+            }
+            catch (System.Exception)
+            {
+
+            }
+
+        }
+
+
 	}
 
 }
