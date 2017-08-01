@@ -14,7 +14,7 @@ public class StarMove : MonoBehaviour {
     public float fallDuration = 0f;
     public Vector3 stripLength = new Vector3(0, 0.5f, 0);
     public Vector3 starDropScale =  new Vector3(1, 3.0f, 1);
-    public float timeToDestroyStar = 2f;
+    public float timeToDestroyStar = 0f;
     
     void Start()
     {
@@ -32,14 +32,12 @@ public class StarMove : MonoBehaviour {
         nearlyEndMarker = endMarker + new Vector3(0, +0.1f, 0);
         // set speed of fall according to fall time and distance travelled
 
-
+        timeToDestroyStar = fallDuration + 2f;
     }
 
     void Update()
     {
-        float distCovered = (Time.time - startTime) * speed;
-        float fracJourney = distCovered / journeyLength;
-        transform.position = Vector3.Lerp(startMarker, endMarker, fracJourney);
+
         /*
         // adding accelaration
         if (transform.position != endMarker)
@@ -62,7 +60,21 @@ public class StarMove : MonoBehaviour {
             starEffects._coronaTrails = false;
             
         }
-        Destroy(gameObject, fallDuration + timeToDestroyStar);
+ 
+        StarCollider starCollider = gameObject.GetComponent<StarCollider>();
+        if (starCollider.isStarCaught == false)
+        {
+
+            float distCovered = (Time.time - startTime) * speed;
+            float fracJourney = distCovered / journeyLength;
+            transform.position = Vector3.Lerp(startMarker, endMarker, fracJourney);
+
+            timeToDestroyStar -= Time.deltaTime;
+            if (timeToDestroyStar <= 0)
+            {
+                Destroy(gameObject);
+            }
+        }
         //Debug.Log(gameObject.GetComponent<SphereCollider>().isTrigger);
 
 
