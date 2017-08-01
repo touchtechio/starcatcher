@@ -9,6 +9,8 @@ TagManager:
   - TeleportIgnore
   - STARS
   - STRIPS
+  - CONSTELLATION
+  - CONSTELLATION_POSITION
   layers:
   - Default
   - TransparentFX
