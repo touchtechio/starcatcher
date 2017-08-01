@@ -5,14 +5,22 @@ using UnityEngine;
 public class Score : MonoBehaviour {
 
     public static int score;
+    private static Constellations constellations;
 
 	// Use this for initialization
 	void Start () {
         score = 0;
+        constellations = FindObjectOfType<Constellations>();
+
+        if (null == constellations)
+        {
+            Debug.Log("ERROR: no constellation manager found");
+        }
+
     }
-	
-	// Update is called once per frame
-	void Update () {
+
+    // Update is called once per frame
+    void Update () {
 		
 	}
 
@@ -21,4 +29,6 @@ public class Score : MonoBehaviour {
         score++;
         Debug.Log("caught star " + score);
     }
+
+    
 }

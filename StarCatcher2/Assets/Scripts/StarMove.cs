@@ -15,6 +15,7 @@ public class StarMove : MonoBehaviour {
     public Vector3 stripLength = new Vector3(0, 0.5f, 0);
     public Vector3 starDropScale =  new Vector3(1, 3.0f, 1);
     public float timeToDestroyStar = 0f;
+    public float lingerTime = 2f;
     
     void Start()
     {
@@ -25,14 +26,15 @@ public class StarMove : MonoBehaviour {
         endMarker = transform.localPosition;
         startMarker = endMarker + Vector3.Scale(stripLength, starDropScale);
         journeyLength = Vector3.Distance(startMarker, endMarker);
+        // set speed of fall according to fall time and distance travelled
         speed = journeyLength / fallDuration;
 
         // set time when the trigger component is turned on
-        //nearlyEndMarker = startMarker + new Vector3(0, 0.9f * endMarker[1], 0);
         nearlyEndMarker = endMarker + new Vector3(0, +0.1f, 0);
-        // set speed of fall according to fall time and distance travelled
+        //nearlyEndMarker = startMarker + new Vector3(0, 0.9f * endMarker[1], 0);
 
-        timeToDestroyStar = fallDuration + 2f;
+
+        timeToDestroyStar = fallDuration + lingerTime;
     }
 
     void Update()
@@ -69,6 +71,7 @@ public class StarMove : MonoBehaviour {
             float fracJourney = distCovered / journeyLength;
             transform.position = Vector3.Lerp(startMarker, endMarker, fracJourney);
 
+            // set countdown to destroy star, if star is caught, this is halted
             timeToDestroyStar -= Time.deltaTime;
             if (timeToDestroyStar <= 0)
             {
