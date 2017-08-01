@@ -129,7 +129,7 @@ public class StarSpawn : MonoBehaviour {
     }
 
 
-    private void Spawn(float duration, float delay, Color color)
+    private void Spawn(float duration, float lingerTime, Color color)
     {
 
 
@@ -151,7 +151,7 @@ public class StarSpawn : MonoBehaviour {
         //mover.speed = speed;
         mover.stripLength = new Vector3(0, strip.stripLength, 0);
         mover.fallDuration = duration;
-        mover.timeToDestroyStar = delay;
+        mover.lingerTime = lingerTime;
         mover.starDropScale = new Vector3(1, starDropYScale, 1);
 
 

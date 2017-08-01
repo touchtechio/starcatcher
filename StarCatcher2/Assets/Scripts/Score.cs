@@ -24,11 +24,11 @@ public class Score : MonoBehaviour {
 		
 	}
 
-    public static void catchStar()
+    public static Vector3 catchStar()
     {
         score++;
         Debug.Log("caught star " + score);
+        return constellations.GetNextEmptyPosition().transform.position;
     }
-
     
 }

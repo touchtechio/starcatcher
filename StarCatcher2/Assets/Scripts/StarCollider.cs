@@ -44,17 +44,18 @@ public class StarCollider : MonoBehaviour {
     void OnTriggerEnter(Collider other)
     {
        // other.gameObject.CompareTag(NET);
-        Score.catchStar();
+        
         isStarCaught = true;
         timeCaught = Time.time;
-        Debug.Log("star caught at " +timeCaught);
+        //Debug.Log("star caught at " +timeCaught);
         //Destroy(gameObject, timeToDestory);
         starCaughtSerialController.SendSerialMessage("x");
         HU_Star starEffects = gameObject.GetComponent<HU_Star>();
         starEffects._color = Color.cyan;
         starEffects._jets = true;
         starCaughtPosition = transform.position;
-        onConstellationPosition = starCaughtPosition + new Vector3(-1, 3, -1);
+        gameObject.transform.GetChild(4).GetComponentInChildren<MeshCollider>().enabled = false;
+        onConstellationPosition = Score.catchStar(); // position got from the constellations script
         journeyLength = Vector3.Distance(starCaughtPosition, onConstellationPosition);
      
     }

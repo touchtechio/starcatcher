@@ -28,27 +28,28 @@ public class Constellations : MonoBehaviour {
                 }
             }
 
-            constellations.Add( new Constellation(objs[i], Children));
+            constellations.Add(new Constellation(objs[i], Children, objs[i].name));
 
         }
 
 
-        GameObject next = null;
+      
 
-        do
+      /*
+       *  do
         {
             next = GetNextEmptyPosition();
             Debug.Log(next.tag + ":: position: " + next.transform.localPosition);
 
         } while (null != next);
-
+        */
 
 
     }
 
     public GameObject GetNextEmptyPosition()
     {
-        if (full) return null;
+        if (full)  return null;
 
         GameObject position = null; 
         foreach (Constellation constellation in constellations)
@@ -60,8 +61,7 @@ public class Constellations : MonoBehaviour {
                 {
                     return position;
                 }
-            }
-
+            } 
         }
 
         if (position == null)
@@ -80,18 +80,21 @@ public class Constellation
 {
     private GameObject constellation;
     private List<GameObject> positions;
+    private string constellationName;
     bool full = false;
 
-    public Constellation(GameObject gameObject, List<GameObject> children)
+    public Constellation(GameObject gameObject, List<GameObject> children, string name)
     {
         this.constellation = gameObject;
         this.positions = children;
+        this.constellationName = name;
     }
 
     public GameObject GetNextEmptyPosition()
     {
         if (full) return null;
 
+        
         foreach (GameObject position in positions)
         {
             if(position.activeSelf)
@@ -102,11 +105,13 @@ public class Constellation
         }
 
         full = true;
+        Debug.Log(constellationName + "is full");
         return constellation;
     }
 
     public bool IsFull()
     {
+
         return full;
     }
 
