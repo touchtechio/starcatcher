@@ -44,7 +44,7 @@ public class StarCollider : MonoBehaviour {
             // adding accelaration
             if (transform.position != onConstellationPosition)
             {
-                travelSpeed += .08f;
+                travelSpeed += .03f;
 
                // float tiltAroundZ = Input.GetAxis("Horizontal") * tiltAngle;
                // float tiltAroundX = Input.GetAxis("Vertical") * tiltAngle;
@@ -60,8 +60,11 @@ public class StarCollider : MonoBehaviour {
 
     void OnTriggerEnter(Collider other)
     {
-       // other.gameObject.CompareTag(NET);
-        
+        // other.gameObject.CompareTag(NET);
+        if (isStarCaught == true)
+        {
+            return;
+        }
         isStarCaught = true;
         timeCaught = Time.time;
         //Debug.Log("star caught at " +timeCaught);
