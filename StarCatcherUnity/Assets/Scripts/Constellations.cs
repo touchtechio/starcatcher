@@ -23,8 +23,10 @@ public class Constellations : MonoBehaviour {
             {
                 if (child.tag == "CONSTELLATION_POSITION")
                 {
-                    child.gameObject.SetActive(true);
+                    child.gameObject.SetActive(false);
                     Children.Add(child.gameObject);
+                    Debug.Log("Found : " + child.tag + ":: position: " + child.transform.localPosition);
+
                 }
             }
 
@@ -32,19 +34,7 @@ public class Constellations : MonoBehaviour {
 
         }
 
-
-      
-
-      /*
-       *  do
-        {
-            next = GetNextEmptyPosition();
-            Debug.Log(next.tag + ":: position: " + next.transform.localPosition);
-
-        } while (null != next);
-        */
-
-
+        
     }
 
     public GameObject GetNextEmptyPosition()
@@ -97,9 +87,9 @@ public class Constellation
         
         foreach (GameObject position in positions)
         {
-            if(position.activeSelf)
+            if(!position.activeSelf)
             {
-                position.SetActive(false);
+                position.SetActive(true);
                 return position;
             }
         }
