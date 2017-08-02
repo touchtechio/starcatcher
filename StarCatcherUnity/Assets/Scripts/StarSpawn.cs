@@ -25,16 +25,16 @@ public class StarSpawn : MonoBehaviour {
 
     // set to durations between spawn events
     [Range(0.1f, 10.0f)]
-    public float easyDuration = 2.0f;
+    public float easyFallDuration = 2.0f;
     [Range(0.1f, 10.0f)]
-    public float hardDuration = 1.0f;
+    public float hardFallDuration = 1.0f;
 
 
     // set to durations between spawn events
     [Range(0.1f, 10.0f)]
-    public float easyDelay = 2.0f;
+    public float easyLingerTime = 2.0f;
     [Range(0.1f, 10.0f)]
-    public float hardDelay = 1.0f;
+    public float hardLingerTime = 1.0f;
 
     [Range(0.1f, 10.0f)]
     public float starDropYScale = 3.0f;
@@ -74,7 +74,7 @@ public class StarSpawn : MonoBehaviour {
         
         // burn down time since last update
         easyTimeToNextSpawn -= Time.deltaTime;
-        hardTimeToNextSpawn -= Time.deltaTime;
+        //hardTimeToNextSpawn -= Time.deltaTime;
 
         if (easyTimeToNextSpawn <= 0)
         {
@@ -89,13 +89,13 @@ public class StarSpawn : MonoBehaviour {
             StartCoroutine("BetweenWaves");
         }
 
-        /*
+        
         if (hardTimeToNextSpawn <= 0)
         {
-            SpawnHard();
+           // SpawnHard();
             hardTimeToNextSpawn = hardTimeToSpawn; ;
         }
-        */
+        
 
 
     }
@@ -110,14 +110,14 @@ public class StarSpawn : MonoBehaviour {
     
     private void SpawnHard()
     {
-        Spawn(hardDuration, hardDelay, Random.ColorHSV(0.0f, 0.5f));
+        Spawn(hardFallDuration, hardLingerTime, Random.ColorHSV(0.0f, 0.5f));
 
     }
 
-
+    
     private void SpawnEasy()
     {
-        Spawn(easyDuration, hardDelay, Random.ColorHSV(0.5f, 1.0f));
+        Spawn(easyFallDuration, easyLingerTime, Random.ColorHSV(0.5f, 1.0f));
     }
 
 

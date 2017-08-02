@@ -691,7 +691,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea6470eb790e13a409d9f05a0cf32ecb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timeToDestory: 1
+  isStarCaught: 0
 --- !u!114 &114159171810071816
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -719,6 +719,7 @@ MonoBehaviour:
   stripLength: {x: 0, y: 0.5, z: 0}
   starDropScale: {x: 1, y: 3, z: 1}
   timeToDestroyStar: 2
+  lingerTime: 2
 --- !u!114 &114717091895150718
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -798,7 +799,7 @@ SphereCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 2
+  m_Radius: 0.9
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!198 &198264652858409694
 ParticleSystem:

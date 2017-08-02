@@ -50,11 +50,11 @@ namespace UniOSC{
 
             if (msg.Address.Contains(easyDuration))
             {
-                starSpawner.easyDuration = (float)msg.Data[0] * 10.0f;
+                starSpawner.easyFallDuration = (float)msg.Data[0] * 10.0f;
             }
             if (msg.Address.Contains(easyDelay))
             {
-                starSpawner.easyDelay = (float)msg.Data[0] * 10.0f;
+                starSpawner.easyLingerTime = (float)msg.Data[0] * 10.0f;
 
             }
             if (msg.Address.Contains(easyPeriod))
@@ -64,12 +64,12 @@ namespace UniOSC{
             }
             if (msg.Address.Contains(hardDuration))
             {
-                starSpawner.hardDuration = (float)msg.Data[0] * 10.0f;
+                starSpawner.hardFallDuration = (float)msg.Data[0] * 10.0f;
 
             }
             if (msg.Address.Contains(hardDelay))
             {
-                starSpawner.hardDelay = (float)msg.Data[0] * 10.0f;
+                starSpawner.hardLingerTime = (float)msg.Data[0] * 10.0f;
 
             }
             if (msg.Address.Contains(hardPeriod))

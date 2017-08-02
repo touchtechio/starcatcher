@@ -65,7 +65,7 @@ public class StripPosition : MonoBehaviour {
     {
         int startPosition = UnityEngine.Random.Range(0, starStripCount);
         randomStrip = (Strip)starStrips.ToArray()[startPosition];
-        while (Vector3.Distance(randomStrip.starStartPoints, lastRandomStrip.starStartPoints) < 0.5f)
+        while (Vector3.Distance(randomStrip.starStartPoints, lastRandomStrip.starStartPoints) < 1f)
         {
             GenerateNewStrip();
         }
