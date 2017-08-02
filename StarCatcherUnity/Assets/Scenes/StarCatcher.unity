@@ -19671,14 +19671,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 679037a7d1ca86a43af12efe2cab0435, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  prefab: {fileID: 1322214874662876, guid: 35cadfcfebe6c3849a1a95e2067fc9e1, type: 2}
+  prefab: {fileID: 1590786058513120, guid: df000c50bb6edc445a1666c4e618d89e, type: 2}
   easyTimeToSpawn: 1.85
   hardTimeToSpawn: 10
-  easyDuration: 2
-  hardDuration: 10
-  easyDelay: 2
-  hardDelay: 10
+  easyFallDuration: 2
+  hardFallDuration: 1
+  easyLingerTime: 2
+  hardLingerTime: 1
   starDropYScale: 5
+  waitWaves: 20
+  ShowerCount: 10
 --- !u!1 &748100007
 GameObject:
   m_ObjectHideFlags: 0
@@ -23331,8 +23333,6 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 810940696}
   m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
-  waitWaves: 20
-  ShowerCount: 10
 --- !u!1 &821380189
 GameObject:
   m_ObjectHideFlags: 0
@@ -25082,7 +25082,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 0}
+  - {fileID: 2009252569}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -48604,7 +48604,7 @@ MonoBehaviour:
   simpleCoronaShader: {fileID: 4800000, guid: cb305d364fd131c4696cbfa7078aea5b, type: 3}
   jetShader: {fileID: 4800000, guid: 5cc049623f9293c47b13b3a5e880ff03, type: 3}
   accretionShader: {fileID: 4800000, guid: 521db6891ff76834e8c700f4b5a5a970, type: 3}
-  flareMaterial: {fileID: 0}
+  flareMaterial: {fileID: 2009252569}
   accretionDisk: 0
   accretionSegments: 9
   accretionColor2: {r: 1, g: 0.46323532, b: 0.96298206, a: 0}
@@ -56156,6 +56156,28 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2006906763}
   m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!21 &2009252569
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: Star/Flare
+  m_Shader: {fileID: 4800000, guid: acb93ef9a598aff45b1c46c9f82b145e, type: 3}
+  m_ShaderKeywords: 
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs: []
+    m_Floats:
+    - _Contrast: 0
+    m_Colors:
+    - _Color: {r: 0.99999905, g: 0, b: 5, a: 5}
 --- !u!1 &2013841604
 GameObject:
   m_ObjectHideFlags: 0
