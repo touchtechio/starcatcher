@@ -96,7 +96,7 @@ Material:
     - _RandomSeed: 3443.6
     - _Rim: 0.749
     - _SingleColor: 0
-    - _Size: 1.68
+    - _Size: 0.5
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _Spots: 0.251
@@ -105,6 +105,6 @@ Material:
     - _UVSec: 0
     - _ZWrite: 1
     m_Colors:
-    - _Color: {r: 0.17514704, g: 0.794, b: 0.7171769, a: 1}
-    - _Color2: {r: 0.47307527, g: 0.9191176, b: 0.5130653, a: 0}
+    - _Color: {r: 0.794, g: 0.64888966, b: 0.17514704, a: 1}
+    - _Color2: {r: 0.9191176, g: 0.61150223, b: 0.47307527, a: 0}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}

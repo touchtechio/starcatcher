@@ -25,8 +25,11 @@ using System.Threading;
  */
 public class SerialController : MonoBehaviour
 {
+   // [Tooltip("Port name with which the SerialPort object will be created.")]
+   // public string portName = GetPortName();
+
     [Tooltip("Port name with which the SerialPort object will be created.")]
-    public string portName = GetPortName();
+    private string portName = GetPortName();
 
     [Tooltip("Baud rate that the serial device is using to transmit data.")]
     public int baudRate = 9600;
