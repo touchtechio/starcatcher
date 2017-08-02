@@ -3668,7 +3668,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &633297588
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3866,6 +3866,7 @@ MonoBehaviour:
   stripLength: {x: 0, y: 0.5, z: 0}
   starDropScale: {x: 1, y: 3, z: 1}
   timeToDestroyStar: 2
+  lingerTime: 2
 --- !u!1 &643886116
 GameObject:
   m_ObjectHideFlags: 0
@@ -4187,6 +4188,8 @@ MonoBehaviour:
   easyDelay: 2
   hardDelay: 1
   starDropYScale: 3
+  waitWaves: 20
+  ShowerCount: 10
 --- !u!1 &821380189
 GameObject:
   m_ObjectHideFlags: 0

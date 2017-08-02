@@ -28,6 +28,9 @@ public class StripPosition : MonoBehaviour {
     private GameObject parent;
     int starStripCount;
 
+    Strip randomStrip; // instantiate random strip
+    Strip lastRandomStrip;
+
     // Use this for initialization
     void Start() {
 
@@ -55,15 +58,28 @@ public class StripPosition : MonoBehaviour {
 
         //oldStarStarts();
         starStripCount = starStrips.Count;
+        lastRandomStrip = new Strip(new Vector3(10f, 10f, 10f), 0.5f);
     }
 
     public Strip getRandomStrip()
     {
-
         int startPosition = UnityEngine.Random.Range(0, starStripCount);
-        Strip randomStrip = (Strip)starStrips.ToArray()[startPosition];
+        randomStrip = (Strip)starStrips.ToArray()[startPosition];
+        while (Vector3.Distance(randomStrip.starStartPoints, lastRandomStrip.starStartPoints) < 0.5f)
+        {
+            GenerateNewStrip();
+        }
+        lastRandomStrip = randomStrip;
+        return randomStrip; 
+    }
 
-        return randomStrip;
+    private void GenerateNewStrip()
+    {
+        Debug.Log("too close");
+        int nextPosition = UnityEngine.Random.Range(0, starStripCount);
+        randomStrip = (Strip)starStrips.ToArray()[nextPosition];
+       // lastRandomStrip = randomStrip;
+        return;
     }
 
     private void oldStarStarts()

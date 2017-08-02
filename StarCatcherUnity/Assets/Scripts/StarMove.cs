@@ -14,7 +14,7 @@ public class StarMove : MonoBehaviour {
     public float fallDuration = 0f;
     public Vector3 stripLength = new Vector3(0, 0.5f, 0);
     public Vector3 starDropScale =  new Vector3(1, 3.0f, 1);
-    public float timeToDestroyStar = 0f;
+    public float timeToDestroyStar;
     public float lingerTime = 2f;
     
     void Start()
@@ -28,11 +28,6 @@ public class StarMove : MonoBehaviour {
         journeyLength = Vector3.Distance(startMarker, endMarker);
         // set speed of fall according to fall time and distance travelled
         speed = journeyLength / fallDuration;
-
-        // set time when the trigger component is turned on
-        nearlyEndMarker = endMarker + new Vector3(0, +0.1f, 0);
-        //nearlyEndMarker = startMarker + new Vector3(0, 0.9f * endMarker[1], 0);
-
 
         timeToDestroyStar = fallDuration + lingerTime;
     }
@@ -55,7 +50,9 @@ public class StarMove : MonoBehaviour {
             timeRecorded = true;
         }
            */
-        if (transform.position[1] <= nearlyEndMarker[1])
+        
+        // check if start nearly reaches bottom point of fall
+        if (Time.time >= startTime + fallDuration * 0.95)
         {
             gameObject.GetComponent<SphereCollider>().isTrigger = true;
             HU_Star starEffects = gameObject.GetComponent<HU_Star>();

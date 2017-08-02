@@ -43,30 +43,15 @@ public class StarSpawn : MonoBehaviour {
     private float easyTimeToNextSpawn = 0;
     private float hardTimeToNextSpawn = 0;
 
+    bool betweenWaves = false;
+    public float waitWaves = 20;
+    public int ShowerCount = 10;
     // Use this for initialization
     void Start () {
 
         parent = GameObject.FindGameObjectWithTag("STARS");
 
         //InvokeRepeating("Spawn", 0.5f, spawnRate);
-
-        starStarts = new ArrayList();
-        starStarts.Add(new Vector3(-1.022f, 3.048f, -0.069f));
-        starStarts.Add(new Vector3(-0.94f, 3.048f, 0.42f));
-        starStarts.Add(new Vector3(-0.49f, 3.048f, -0.29f));
-        starStarts.Add(new Vector3(-0.46f, 3.048f, 0.8f));
-        starStarts.Add(new Vector3(-0.05f, 3.048f, -0.88f));
-        starStarts.Add(new Vector3(0.13f, 3.048f, 0.01f));
-        starStarts.Add(new Vector3(-0.09f, 3.048f, 0.89f));
-        starStarts.Add(new Vector3(1.06f, 3.048f, -0.92f));
-        starStarts.Add(new Vector3(0.97f, 3.048f, 0.02f));
-        starStarts.Add(new Vector3(0.94f, 3.048f, 0.84f));
-        starStarts.Add(new Vector3(1.75f, 3.048f, -1.19f));
-        starStarts.Add(new Vector3(1.78f, 3.048f, -0.47f));
-        starStarts.Add(new Vector3(1.67f, 3.048f, 0.17f));
-        starStarts.Add(new Vector3(1.7f, 3.048f, 0.5f));
-        starStarts.Add(new Vector3(1.62f, 3.048f, 1.1f));
-
 
         starSpawnSerialController = SerialController.FindObjectOfType<SerialController>();
         if (null == starSpawnSerialController)
@@ -79,35 +64,50 @@ public class StarSpawn : MonoBehaviour {
         {
             Debug.Log("ERROR: no StripPosition found");
         }
+
+       // StartCoroutine(SpawnShowers());
+      
     }
 
     public void Update()
     {
-
+        
         // burn down time since last update
         easyTimeToNextSpawn -= Time.deltaTime;
         hardTimeToNextSpawn -= Time.deltaTime;
-
 
         if (easyTimeToNextSpawn <= 0)
         {
             SpawnEasy();
             easyTimeToNextSpawn = easyTimeToSpawn;
         }
+
+        // Debug.Log("spawned" + ShowerCount);
+        //  betweenWaves = true;
+        if (Input.GetKeyDown("f"))
+        {
+            StartCoroutine("BetweenWaves");
+        }
+
+        /*
         if (hardTimeToNextSpawn <= 0)
         {
             SpawnHard();
             hardTimeToNextSpawn = hardTimeToSpawn; ;
         }
-
-        //print("10 seconds ellapsed");
+        */
 
 
     }
 
-
-
-
+    IEnumerator BetweenWaves()
+    {
+        
+        yield return new WaitForSeconds(waitWaves);
+        Debug.Log("between showers"+ Time.time);
+        betweenWaves = false;
+    }
+    
     private void SpawnHard()
     {
         Spawn(hardDuration, hardDelay, Random.ColorHSV(0.0f, 0.5f));
