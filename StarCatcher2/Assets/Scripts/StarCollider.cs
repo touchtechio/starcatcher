@@ -54,7 +54,13 @@ public class StarCollider : MonoBehaviour {
         starEffects._color = Color.cyan;
         starEffects._jets = true;
         starCaughtPosition = transform.position;
-        gameObject.transform.GetChild(4).GetComponentInChildren<MeshCollider>().enabled = false;
+
+        // remove mesh collider in Jet when caught
+        foreach (Transform child in gameObject.transform.GetChild(4))
+        {
+            child.GetComponentInChildren<MeshCollider>().enabled = false;
+        }
+
         onConstellationPosition = Score.catchStar(); // position got from the constellations script
         journeyLength = Vector3.Distance(starCaughtPosition, onConstellationPosition);
      
