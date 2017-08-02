@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -54,15 +55,32 @@ public class Constellations : MonoBehaviour {
             } 
         }
 
+
+        Debug.Log("good news, no empty constellations.  YOU WIN!");
+
+
         if (position == null)
         {
-            full = true;
+            StarSpawn.DestroyStars();
+        
+            return ResetConstellations();
+
         }
 
         return null;
 
     }
 
+    
+
+    private GameObject ResetConstellations()
+    {
+        foreach (Constellation constellation in constellations)
+        {
+            constellation.EmptyAllPositions();
+        }
+        return ((Constellation)constellations.ToArray()[0]).GetNextEmptyPosition();
+    }
 
 }
 
@@ -82,7 +100,7 @@ public class Constellation
 
     public GameObject GetNextEmptyPosition()
     {
-        if (full) return null;
+     //   if (full) return null;
 
         
         foreach (GameObject position in positions)
@@ -94,10 +112,11 @@ public class Constellation
             }
         }
 
-        full = true;
-        Debug.Log(constellationName + "is full");
-        return constellation;
+   //     full = true;
+     //   Debug.Log(constellationName + "is full");
+        return null;
     }
+
 
     public bool IsFull()
     {
@@ -105,4 +124,11 @@ public class Constellation
         return full;
     }
 
+    internal void EmptyAllPositions()
+    {
+        foreach (GameObject position in positions)
+        {
+            position.SetActive(false);
+        }
+    }
 }

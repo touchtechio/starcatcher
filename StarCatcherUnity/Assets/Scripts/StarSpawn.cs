@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -7,12 +8,12 @@ public class StarSpawn : MonoBehaviour {
     public GameObject prefab;
 
     private static ArrayList starStarts;
-    private static Random random = new Random();
+    private static UnityEngine.Random random = new UnityEngine.Random();
     private SerialController starSpawnSerialController;
     private StripPosition stripPositions;
 
     // empty game object as parent for spwned stars
-    private GameObject parent;
+    static private GameObject parent;
     int starCount = 0;
 
 
@@ -70,6 +71,17 @@ public class StarSpawn : MonoBehaviour {
       
     }
 
+    public static void DestroyStars()
+    {
+
+        foreach (Transform child in parent.transform)
+        {
+            Destroy(child.gameObject);
+        }
+        return;
+    }
+
+
     public void Update()
     {
         
@@ -111,14 +123,14 @@ public class StarSpawn : MonoBehaviour {
     
     private void SpawnHard()
     {
-        Spawn(hardFallDuration, hardLingerTime, Random.ColorHSV(0.0f, 0.5f));
+        Spawn(hardFallDuration, hardLingerTime, UnityEngine.Random.ColorHSV(0.0f, 0.5f));
 
     }
 
     
     private void SpawnEasy()
     {
-        Spawn(easyFallDuration, easyLingerTime, Random.ColorHSV(0.5f, 1.0f));
+        Spawn(easyFallDuration, easyLingerTime, UnityEngine.Random.ColorHSV(0.5f, 1.0f));
     }
 
 
@@ -162,7 +174,7 @@ public class StarSpawn : MonoBehaviour {
 
         // change a color
         starComponent._color = color;
-        starComponent._color2 = Random.ColorHSV(0.0f, 1.0f);
+        starComponent._color2 = UnityEngine.Random.ColorHSV(0.0f, 1.0f);
 
         starNumber = "a";
         starSpawnSerialController.SendSerialMessage(starNumber);
