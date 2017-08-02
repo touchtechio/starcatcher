@@ -61,12 +61,17 @@ public class Constellations : MonoBehaviour {
 
         if (position == null)
         {
+            StarSpawn.DestroyStars();
+        
             return ResetConstellations();
+
         }
 
         return null;
 
     }
+
+    
 
     private GameObject ResetConstellations()
     {

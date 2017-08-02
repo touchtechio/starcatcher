@@ -19631,54 +19631,6 @@ Transform:
   m_Father: {fileID: 2130004286}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &727900621
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 5
-  m_Component:
-  - component: {fileID: 727900622}
-  - component: {fileID: 727900623}
-  m_Layer: 0
-  m_Name: StarSpawner
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &727900622
-Transform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 727900621}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 1709206218}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &727900623
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 727900621}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 679037a7d1ca86a43af12efe2cab0435, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  prefab: {fileID: 1322214874662876, guid: 35cadfcfebe6c3849a1a95e2067fc9e1, type: 2}
-  easyTimeToSpawn: 1.85
-  hardTimeToSpawn: 10
-  easyDuration: 2
-  hardDuration: 10
-  easyDelay: 2
-  hardDelay: 10
-  starDropYScale: 5
 --- !u!1 &748100007
 GameObject:
   m_ObjectHideFlags: 0
@@ -23331,8 +23283,6 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 810940696}
   m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
-  waitWaves: 20
-  ShowerCount: 10
 --- !u!1 &821380189
 GameObject:
   m_ObjectHideFlags: 0
@@ -24646,7 +24596,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 405068, guid: a65acf0cbf56b80419f74ebf0bc845f4, type: 2}
       propertyPath: m_RootOrder
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 405068, guid: a65acf0cbf56b80419f74ebf0bc845f4, type: 2}
       propertyPath: m_LocalScale.x
@@ -25082,7 +25032,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 0}
+  - {fileID: 1512022728}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -38735,6 +38685,28 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1494349592}
   m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!21 &1512022728
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: Star/Flare
+  m_Shader: {fileID: 4800000, guid: acb93ef9a598aff45b1c46c9f82b145e, type: 3}
+  m_ShaderKeywords: 
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs: []
+    m_Floats:
+    - _Contrast: 0
+    m_Colors:
+    - _Color: {r: 0.99999905, g: 0, b: 5, a: 5}
 --- !u!1 &1513528941
 GameObject:
   m_ObjectHideFlags: 0
@@ -43621,8 +43593,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0.661}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_Children:
-  - {fileID: 727900622}
   - {fileID: 1393683316}
+  - {fileID: 1725597627}
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -43825,6 +43797,59 @@ Transform:
   m_Father: {fileID: 1582977281}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &1725597626
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 1709206218}
+    m_Modifications:
+    - target: {fileID: 4900018592205384, guid: 0e744382e6d164542abdc409fe384d98, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4900018592205384, guid: 0e744382e6d164542abdc409fe384d98, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4900018592205384, guid: 0e744382e6d164542abdc409fe384d98, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4900018592205384, guid: 0e744382e6d164542abdc409fe384d98, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4900018592205384, guid: 0e744382e6d164542abdc409fe384d98, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4900018592205384, guid: 0e744382e6d164542abdc409fe384d98, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4900018592205384, guid: 0e744382e6d164542abdc409fe384d98, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4900018592205384, guid: 0e744382e6d164542abdc409fe384d98, type: 2}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114036148770395844, guid: 0e744382e6d164542abdc409fe384d98,
+        type: 2}
+      propertyPath: prefab
+      value: 
+      objectReference: {fileID: 1590786058513120, guid: df000c50bb6edc445a1666c4e618d89e,
+        type: 2}
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 100100000, guid: 0e744382e6d164542abdc409fe384d98, type: 2}
+  m_IsPrefabParent: 0
+--- !u!4 &1725597627 stripped
+Transform:
+  m_PrefabParentObject: {fileID: 4112503990976656, guid: 0e744382e6d164542abdc409fe384d98,
+    type: 2}
+  m_PrefabInternal: {fileID: 1725597626}
 --- !u!1 &1733021729
 GameObject:
   m_ObjectHideFlags: 0
@@ -48604,7 +48629,7 @@ MonoBehaviour:
   simpleCoronaShader: {fileID: 4800000, guid: cb305d364fd131c4696cbfa7078aea5b, type: 3}
   jetShader: {fileID: 4800000, guid: 5cc049623f9293c47b13b3a5e880ff03, type: 3}
   accretionShader: {fileID: 4800000, guid: 521db6891ff76834e8c700f4b5a5a970, type: 3}
-  flareMaterial: {fileID: 0}
+  flareMaterial: {fileID: 1512022728}
   accretionDisk: 0
   accretionSegments: 9
   accretionColor2: {r: 1, g: 0.46323532, b: 0.96298206, a: 0}
