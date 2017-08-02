@@ -8,21 +8,25 @@ public class StarCollider : MonoBehaviour {
     float timeToMove;
     private SerialController starCaughtSerialController;
     float timeCaught;
-    float speedTravel = 0.5f;
+    float travelSpeed = .5f;
     Vector3 starCaughtPosition;
     Vector3 onConstellationPosition;
     float journeyLength;
     public bool isStarCaught = false;
+    public float tiltAngle;
+    HU_Star starEffects;
 
     // Use this for initialization
     void Start () {
+        tiltAngle = Random.Range(-80f, 80f);
         starCaughtSerialController = SerialController.FindObjectOfType<SerialController>();
         if (null == starCaughtSerialController)
         {
             Debug.Log("ERROR: no serial controller found");
         }
-
+        starEffects = gameObject.GetComponent<HU_Star>();
     }
+
 
     // Update is called once per frame
     void Update () {
@@ -31,14 +35,27 @@ public class StarCollider : MonoBehaviour {
         {
             timeToMove = timeCaught + blazeTime;
             //Debug.Log("time to move" + timeToMove);
-            float distCovered = (Time.time - timeToMove) * speedTravel;
+            float distCovered = (Time.time - timeToMove) * travelSpeed;
             float fracJourney = distCovered / journeyLength;
-          
+
             transform.position = Vector3.Lerp(starCaughtPosition, onConstellationPosition, fracJourney);
-           // transform.position+= new Vector3(0.1f,0.1f,0.1f);
+            // transform.position+= new Vector3(0.1f,0.1f,0.1f);
+
+            // adding accelaration
+            if (transform.position != onConstellationPosition)
+            {
+                travelSpeed += .08f;
+
+               // float tiltAroundZ = Input.GetAxis("Horizontal") * tiltAngle;
+               // float tiltAroundX = Input.GetAxis("Vertical") * tiltAngle;
+                Quaternion targetRotation = Quaternion.Euler(tiltAngle, 0, tiltAngle);
+                if (starEffects._jets == true)
+                {
+                    Debug.Log("rotate with angle " + tiltAngle);
+                    transform.GetChild(4).rotation = Quaternion.Slerp(transform.rotation, targetRotation, travelSpeed);
+                }
+            }
         }
-
-
 	}
 
     void OnTriggerEnter(Collider other)
@@ -50,7 +67,7 @@ public class StarCollider : MonoBehaviour {
         //Debug.Log("star caught at " +timeCaught);
         //Destroy(gameObject, timeToDestory);
         starCaughtSerialController.SendSerialMessage("x");
-        HU_Star starEffects = gameObject.GetComponent<HU_Star>();
+        
         starEffects._color = Color.cyan;
         starEffects._jets = true;
         starCaughtPosition = transform.position;
@@ -63,6 +80,7 @@ public class StarCollider : MonoBehaviour {
 
         onConstellationPosition = Score.catchStar(); // position got from the constellations script
         journeyLength = Vector3.Distance(starCaughtPosition, onConstellationPosition);
+
      
     }
 

@@ -47,6 +47,7 @@ public class StarSpawn : MonoBehaviour {
     bool betweenWaves = false;
     public float waitWaves = 20;
     public int ShowerCount = 10;
+
     // Use this for initialization
     void Start () {
 

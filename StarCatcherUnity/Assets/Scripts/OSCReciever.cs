@@ -20,7 +20,7 @@ namespace UniOSC{
 	[AddComponentMenu("UniOSC/RotateGameObject")]
 	public class OSCReciever :  UniOSCEventTarget {
 
-        private StarSpawn starSpawner;  
+        private StarSpawn starSpawner;
 
 
 
@@ -51,6 +51,7 @@ namespace UniOSC{
             if (msg.Address.Contains(easyDuration))
             {
                 starSpawner.easyFallDuration = (float)msg.Data[0] * 10.0f;
+                
             }
             if (msg.Address.Contains(easyDelay))
             {
@@ -103,7 +104,9 @@ namespace UniOSC{
             LastMessageUpdate();
 
         }
-        
-	}
+
+
+
+    }
 
 }

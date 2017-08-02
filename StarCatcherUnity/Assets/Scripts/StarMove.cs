@@ -36,12 +36,6 @@ public class StarMove : MonoBehaviour {
     {
 
         /*
-        // adding accelaration
-        if (transform.position != endMarker)
-        {
-            speed += .1f/2;
-        }
-     
         //when speed is variable, use this to calculate fall duration
         else if (transform.position == endMarker && !timeRecorded)
         {
