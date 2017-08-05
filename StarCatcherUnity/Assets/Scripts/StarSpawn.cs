@@ -12,7 +12,7 @@ public class StarSpawn : MonoBehaviour {
     private static UnityEngine.Random random = new UnityEngine.Random();
     private SerialController starSpawnSerialController;
     private StripPosition stripPositions;
-	public OSCSender oscSenderObject;
+	public OSCSenderSpawn oscSenderObject;
 	private int stripNumber;
 
     // empty game object as parent for spwned stars
@@ -191,19 +191,27 @@ public class StarSpawn : MonoBehaviour {
 
         if (testSend)
         {
-            oscSenderObject.SendOSCStarMessage("/starfall", testStripNumber, (int)duration * 1000);
-            if (testStripNumber < maxStripNumer-1)
+            oscSenderObject.SendOSCStarMessage("/starfall", testStripNumber, (int)(duration * 1000));
+            // oscSenderObject.SendOSCLingerMessage("/starlinger", testStripNumber, (int)(lingerTime * 1000));
+            if (testStripNumber < maxStripNumer - 1)
             {
                 testStripNumber++;
             }
             else
+            {
                 testStripNumber = 0;
+            }
+            mover.testSend = testSend;
+            mover.maxStripNumer = maxStripNumer;
+            mover.testStripNumber = testStripNumber;
         }
         else
         {
             oscSenderObject.SendOSCStarMessage("/starfall", stripPositions.stripNumber, (int)(duration * 1000));
         }
-    
+
+
+
         Debug.Log(star.name + " fell");
 
         return;

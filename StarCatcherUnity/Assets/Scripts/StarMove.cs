@@ -12,6 +12,9 @@ public class StarMove : MonoBehaviour {
     public float timeToDestroyStar;
     [HideInInspector]
     public float lingerTime = 2f;
+    public bool testSend = false;
+    public int maxStripNumer = 10;
+    public int testStripNumber = 0;
 
     Vector3 startMarker;
     Vector3 endMarker;
@@ -20,7 +23,7 @@ public class StarMove : MonoBehaviour {
     private float journeyLength;
     bool timeRecorded = false;
     private bool lingerSent = false;
-    OSCSender oscSenderObject;
+    OSCSenderLinger oscSenderObject;
     private StripPosition stripPosition;
     
     void Awake()
@@ -29,7 +32,7 @@ public class StarMove : MonoBehaviour {
     }
     void Start()
     {
-        oscSenderObject = (OSCSender)FindObjectOfType<OSCSender>();
+        oscSenderObject = (OSCSenderLinger)FindObjectOfType<OSCSenderLinger>();
         stripPosition = GameObject.FindGameObjectWithTag("GameManager").GetComponent<StripPosition>();
 
         // turn off trigger component so players can't catch stars at the start
@@ -71,7 +74,15 @@ public class StarMove : MonoBehaviour {
         if (Time.time >= (startTime + fallDuration) && !lingerSent)
         {
             Debug.Log("linger for "+lingerTime);
-           // oscSenderObject.SendOSCLingerMessage("/starlinger", stripPosition.stripNumber, (int)(lingerTime * 1000));
+            if (testSend)
+            {
+                oscSenderObject.SendOSCLingerMessage("/starlinger", testStripNumber, (int)(lingerTime * 1000));
+            }
+            else
+            {
+                oscSenderObject.SendOSCLingerMessage("/starlinger", stripPosition.stripNumber, (int)(lingerTime * 1000));
+            }
+         //   oscSenderObject.SendOSCStarMessage("/starlinger", stripPosition.stripNumber, (int)(lingerTime * 1000));
             lingerSent = true;
         }
 

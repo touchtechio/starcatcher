@@ -20,7 +20,7 @@ namespace UniOSC{
 	/// </summary>
 	[AddComponentMenu("UniOSC/EventDispatcherButton")]
 	[ExecuteInEditMode]
-	public class OSCSender: UniOSCEventDispatcher {
+	public class OSCSenderSpawn: UniOSCEventDispatcher {
 
         #region public
         [HideInInspector]
@@ -50,8 +50,8 @@ namespace UniOSC{
 		public override void OnEnable ()
 		{
 			base.OnEnable ();
-            //ClearData();
-            //AppendData(0f);
+            ClearData();
+            AppendData(0f);
            
 
 		}
@@ -116,11 +116,10 @@ namespace UniOSC{
 			{
 				ClearData ();
 				AppendData (strip);
-				AppendData (duration);
+			    AppendData (duration);
+                //((OscMessage)_OSCeArg.Packet).Append(duration);
 
-				//((OscMessage)_OSCeArg.Packet).Append(duration);
-			
-			}
+            }
 			else if(_OSCeArg.Packet is OscBundle)
 			{
                 foreach (OscMessage m in ((OscBundle)_OSCeArg.Packet).Messages)
@@ -133,29 +132,6 @@ namespace UniOSC{
 			_SendOSCMessage(_OSCeArg);
 		}
 
-        public void SendOSCLingerMessage(string address, int strip, int linger)
-        {
-
-           // _SetupOSCMessage(false); // set to not bundle
-            if (_OSCeArg.Packet is OscMessage)
-            {
-                ClearData();
-                AppendData(strip);
-                AppendData(linger);
-            }
-            else if (_OSCeArg.Packet is OscBundle)
-            {
-                foreach (OscMessage m in ((OscBundle)_OSCeArg.Packet).Messages)
-                {
-                    //m.UpdateDataAt(0, strip);
-                    //m.UpdateDataAt(1, duration);
-                }
-            }
-
-            this.oscOutAddress = address;
-
-            _SendOSCMessage(_OSCeArg);
-        }
         /// <summary>
         /// Sends the OSC message with the downOSCDataValue.
         /// </summary>
