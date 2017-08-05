@@ -51,11 +51,15 @@ public class StarSpawn : MonoBehaviour {
     public float waitWaves = 20;
     public int ShowerCount = 10;
 
+    // to test all LED strips spawning in sequence;
+    public bool testSend = false;
+    public int maxStripNumer = 10;
+    int testStripNumber = 0;
+
     // Use this for initialization
     void Start () {
 
         parent = GameObject.FindGameObjectWithTag("STARS");
-
         //InvokeRepeating("Spawn", 0.5f, spawnRate);
 
         starSpawnSerialController = SerialController.FindObjectOfType<SerialController>();
@@ -183,9 +187,23 @@ public class StarSpawn : MonoBehaviour {
         starNumber = "a";
         starSpawnSerialController.SendSerialMessage(starNumber);
 
-		// send an OSC message with argurments for strip number, durationg and linger time
-		oscSenderObject.SendOSCStarMessage ("/string", stripPositions.stripNumber, (int) duration * 1000, (int) lingerTime * 1000);
+        // send an OSC message with argurments for strip number, durationg and linger time
 
+        if (testSend)
+        {
+            oscSenderObject.SendOSCStarMessage("/starfall", testStripNumber, (int)duration * 1000);
+            if (testStripNumber < maxStripNumer-1)
+            {
+                testStripNumber++;
+            }
+            else
+                testStripNumber = 0;
+        }
+        else
+        {
+            oscSenderObject.SendOSCStarMessage("/starfall", stripPositions.stripNumber, (int)(duration * 1000));
+        }
+    
         Debug.Log(star.name + " fell");
 
         return;

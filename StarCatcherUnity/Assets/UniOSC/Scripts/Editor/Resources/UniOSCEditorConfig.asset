@@ -13,7 +13,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   selectedMappingFileObjIndex: 0
   selectedSessionFileObjIndex: 0
-  configTraceScrollpos: {x: 0, y: 501}
+  configTraceScrollpos: {x: 0, y: 0}
   isOSCTracing: 1
   isOSCLearning: 0
   isEditorEnabled: 0

@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 1042621846}
-  m_IndirectSpecularColor: {r: 0.10433026, g: 0.07345274, b: 0.0872427, a: 1}
+  m_IndirectSpecularColor: {r: 0.0876871, g: 0.045295946, b: 0.06842002, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -4232,6 +4232,8 @@ MonoBehaviour:
   starDropYScale: 5
   waitWaves: 20
   ShowerCount: 10
+  testSend: 1
+  maxStripNumer: 10
 --- !u!1 &809207126 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 1608068060860708, guid: c7daea9250ba91a4bbd785a0d7e1ad7c,
@@ -4792,7 +4794,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sendInterval: 100
   _oscOutAddress: /gem
-  _oscOutIPAddress: 10.10.11.152
+  _oscOutIPAddress: 127.0.0.1
   _oscOutPort: 9000
   _useExplicitConnection: 1
   _explicitConnection: {fileID: 1284096882}
@@ -5018,7 +5020,7 @@ MonoBehaviour:
   foldoutOSCOut: 1
   foldoutOSCIn: 1
   _isValidOscOutIPAddress: 1
-  _oscOutIPAddress: 10.10.11.152
+  _oscOutIPAddress: 127.0.0.1
   _isValidOscOutMulticastIPAddress: 1
   _oscOutMulticastIPAddress: 224.0.1.0
   _oscOutPort: 9000
@@ -5457,7 +5459,7 @@ GameObject:
   - component: {fileID: 1709206220}
   m_Layer: 0
   m_Name: GameManager
-  m_TagString: Untagged
+  m_TagString: GameManager
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

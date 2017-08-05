@@ -22,8 +22,8 @@ namespace UniOSC{
 	[ExecuteInEditMode]
 	public class OSCSender: UniOSCEventDispatcher {
 
-		#region public
-		[HideInInspector]
+        #region public
+        [HideInInspector]
 		public float downOSCDataValue=1;
 		[HideInInspector]
 		public float upOSCDataValue=0;
@@ -38,6 +38,7 @@ namespace UniOSC{
 		#region private
 		private bool _btnDown;
 		private GUIStyle _gs; 
+
 		#endregion
 
 		public override void Awake()
@@ -45,28 +46,21 @@ namespace UniOSC{
 			base.Awake ();
 			
 		}
-
+        
 		public override void OnEnable ()
 		{
 			base.OnEnable ();
-            ClearData();
-            AppendData(0f);
+            //ClearData();
+            //AppendData(0f);
            
 
 		}
+        
 		public override void OnDisable ()
 		{
 			base.OnDisable ();
 		}
 
-		public void OnMouseDown ()
-		{
-			//GetComponent<Rigidbody> ().AddForce (new Vector3 (0, 1, 0));
-			SendOSCMessageDown();
-			Debug.Log ("pressed cube");
-
-
-		}
 		void OnGUI(){
 			if(!showGUI)return;
 			RenderGUI();
@@ -115,26 +109,23 @@ namespace UniOSC{
 		}
 
 
-		public void SendOSCStarMessage(string address, int strip, int duration, int linger){
+		public void SendOSCStarMessage(string address, int strip, int duration){
 
-			_SetupOSCMessage (false);
+			//_SetupOSCMessage (false);
 			if(_OSCeArg.Packet is OscMessage)
 			{
 				ClearData ();
 				AppendData (strip);
 				AppendData (duration);
-				AppendData (linger);
 
 				//((OscMessage)_OSCeArg.Packet).Append(duration);
 			
 			}
 			else if(_OSCeArg.Packet is OscBundle)
 			{
-				foreach (OscMessage m in ((OscBundle)_OSCeArg.Packet).Messages)
-				{
-					//m.UpdateDataAt(0, strip);
-					//m.UpdateDataAt(1, duration);
-				}				
+                foreach (OscMessage m in ((OscBundle)_OSCeArg.Packet).Messages)
+                {
+                }
 			}
 
 			this.oscOutAddress = address;
@@ -142,10 +133,33 @@ namespace UniOSC{
 			_SendOSCMessage(_OSCeArg);
 		}
 
-		/// <summary>
-		/// Sends the OSC message with the downOSCDataValue.
-		/// </summary>
-		public void SendOSCMessageDown(){
+        public void SendOSCLingerMessage(string address, int strip, int linger)
+        {
+
+           // _SetupOSCMessage(false); // set to not bundle
+            if (_OSCeArg.Packet is OscMessage)
+            {
+                ClearData();
+                AppendData(strip);
+                AppendData(linger);
+            }
+            else if (_OSCeArg.Packet is OscBundle)
+            {
+                foreach (OscMessage m in ((OscBundle)_OSCeArg.Packet).Messages)
+                {
+                    //m.UpdateDataAt(0, strip);
+                    //m.UpdateDataAt(1, duration);
+                }
+            }
+
+            this.oscOutAddress = address;
+
+            _SendOSCMessage(_OSCeArg);
+        }
+        /// <summary>
+        /// Sends the OSC message with the downOSCDataValue.
+        /// </summary>
+        public void SendOSCMessageDown(){
 			if(_OSCeArg.Packet is OscMessage)
 			{
 				((OscMessage)_OSCeArg.Packet).UpdateDataAt(0, downOSCDataValue);

@@ -1,24 +1,37 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UniOSC;
 
 public class StarMove : MonoBehaviour {
+
+    public float speed = 0F;
+    public float fallDuration = 0f;
+    public Vector3 stripLength = new Vector3(0, 0.5f, 0);
+    public Vector3 starDropScale = new Vector3(1, 3.0f, 1);
+    public float timeToDestroyStar;
+    [HideInInspector]
+    public float lingerTime = 2f;
 
     Vector3 startMarker;
     Vector3 endMarker;
     Vector3 nearlyEndMarker;
-    public float speed = 0F;
     private float startTime;
     private float journeyLength;
     bool timeRecorded = false;
-    public float fallDuration = 0f;
-    public Vector3 stripLength = new Vector3(0, 0.5f, 0);
-    public Vector3 starDropScale =  new Vector3(1, 3.0f, 1);
-    public float timeToDestroyStar;
-    public float lingerTime = 2f;
+    private bool lingerSent = false;
+    OSCSender oscSenderObject;
+    private StripPosition stripPosition;
     
+    void Awake()
+    {
+
+    }
     void Start()
     {
+        oscSenderObject = (OSCSender)FindObjectOfType<OSCSender>();
+        stripPosition = GameObject.FindGameObjectWithTag("GameManager").GetComponent<StripPosition>();
+
         // turn off trigger component so players can't catch stars at the start
         gameObject.GetComponent<SphereCollider>().isTrigger = false;
         startTime = Time.time;
@@ -45,7 +58,7 @@ public class StarMove : MonoBehaviour {
         }
            */
         
-        // check if start nearly reaches bottom point of fall
+        // check if star nearly reaches bottom point of fall to turn off trails and allow star to be able to be caught
         if (Time.time >= startTime + fallDuration * 0.95)
         {
             gameObject.GetComponent<SphereCollider>().isTrigger = true;
@@ -53,8 +66,19 @@ public class StarMove : MonoBehaviour {
             starEffects._coronaTrails = false;
             
         }
- 
+
+        // when star reaches bottom point of fall, send linger time OSC message once
+        if (Time.time >= (startTime + fallDuration) && !lingerSent)
+        {
+            Debug.Log("linger for "+lingerTime);
+           // oscSenderObject.SendOSCLingerMessage("/starlinger", stripPosition.stripNumber, (int)(lingerTime * 1000));
+            lingerSent = true;
+        }
+
+
+
         StarCollider starCollider = gameObject.GetComponent<StarCollider>();
+
         if (starCollider.isStarCaught == false)
         {
 
@@ -62,7 +86,7 @@ public class StarMove : MonoBehaviour {
             float fracJourney = distCovered / journeyLength;
             transform.position = Vector3.Lerp(startMarker, endMarker, fracJourney);
 
-            // set countdown to destroy star, if star is caught, this is halted
+            // set countdown to destroy star starting from spawn time, if star is caught, this is halted
             timeToDestroyStar -= Time.deltaTime;
             if (timeToDestroyStar <= 0)
             {

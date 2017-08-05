@@ -11,6 +11,7 @@ TagManager:
   - STRIPS
   - CONSTELLATION
   - CONSTELLATION_POSITION
+  - GameManager
   layers:
   - Default
   - TransparentFX
