@@ -24,7 +24,7 @@ GameObject:
   - component: {fileID: 92119352712977926}
   - component: {fileID: 81494700305730786}
   m_Layer: 0
-  m_Name: PROJECTOR
+  m_Name: Projector
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
