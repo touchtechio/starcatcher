@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UniOSC;
 
 public class StarSpawn : MonoBehaviour {
 
@@ -11,6 +12,7 @@ public class StarSpawn : MonoBehaviour {
     private static UnityEngine.Random random = new UnityEngine.Random();
     private SerialController starSpawnSerialController;
     private StripPosition stripPositions;
+	public OSCSender oscSenderObject; 
 
     // empty game object as parent for spwned stars
     static private GameObject parent;
@@ -178,6 +180,7 @@ public class StarSpawn : MonoBehaviour {
 
         starNumber = "a";
         starSpawnSerialController.SendSerialMessage(starNumber);
+		OSCSender.
 
        // Debug.Log(star.name + " fell");
 
