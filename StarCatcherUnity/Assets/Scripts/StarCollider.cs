@@ -51,7 +51,7 @@ public class StarCollider : MonoBehaviour {
                 Quaternion targetRotation = Quaternion.Euler(tiltAngle, 0, tiltAngle);
                 if (starEffects._jets == true)
                 {
-                    Debug.Log("rotate with angle " + tiltAngle);
+                 //   Debug.Log("rotate with angle " + tiltAngle);
                     transform.GetChild(4).rotation = Quaternion.Slerp(transform.rotation, targetRotation, travelSpeed);
                 }
             }

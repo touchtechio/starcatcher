@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UniOSC;
 
 public class StarSpawn : MonoBehaviour {
 
@@ -11,6 +12,8 @@ public class StarSpawn : MonoBehaviour {
     private static UnityEngine.Random random = new UnityEngine.Random();
     private SerialController starSpawnSerialController;
     private StripPosition stripPositions;
+	public OSCSender oscSenderObject;
+	private int stripNumber;
 
     // empty game object as parent for spwned stars
     static private GameObject parent;
@@ -176,10 +179,14 @@ public class StarSpawn : MonoBehaviour {
         starComponent._color = color;
         starComponent._color2 = UnityEngine.Random.ColorHSV(0.0f, 1.0f);
 
+		// send a string through serial everytime a star is spawned
         starNumber = "a";
         starSpawnSerialController.SendSerialMessage(starNumber);
 
-       // Debug.Log(star.name + " fell");
+		// send an OSC message with argurments for strip number, durationg and linger time
+		oscSenderObject.SendOSCStarMessage ("/string", stripPositions.stripNumber, (int) duration * 1000, (int) lingerTime * 1000);
+
+        Debug.Log(star.name + " fell");
 
         return;
     }
@@ -188,8 +195,7 @@ public class StarSpawn : MonoBehaviour {
 
     private Strip GetStrip()
     {
-
-        return stripPositions.getRandomStrip();
+		return stripPositions.getRandomStrip ();
     }
 
 
