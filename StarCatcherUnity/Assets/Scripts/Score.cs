@@ -27,7 +27,7 @@ public class Score : MonoBehaviour {
     public static Vector3 catchStar()
     {
         score++;
-        Debug.Log("caught star " + score);
+//        Debug.Log("caught star " + score);
         return constellations.GetNextEmptyPosition().transform.position;
     }
     

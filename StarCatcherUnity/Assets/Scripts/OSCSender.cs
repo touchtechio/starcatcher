@@ -113,6 +113,35 @@ namespace UniOSC{
 
 			GUIScaler.End();
 		}
+
+
+		public void SendOSCStarMessage(string address, int strip, int duration, int linger){
+
+			_SetupOSCMessage (false);
+			if(_OSCeArg.Packet is OscMessage)
+			{
+				ClearData ();
+				AppendData (strip);
+				AppendData (duration);
+				AppendData (linger);
+
+				//((OscMessage)_OSCeArg.Packet).Append(duration);
+			
+			}
+			else if(_OSCeArg.Packet is OscBundle)
+			{
+				foreach (OscMessage m in ((OscBundle)_OSCeArg.Packet).Messages)
+				{
+					//m.UpdateDataAt(0, strip);
+					//m.UpdateDataAt(1, duration);
+				}				
+			}
+
+			this.oscOutAddress = address;
+
+			_SendOSCMessage(_OSCeArg);
+		}
+
 		/// <summary>
 		/// Sends the OSC message with the downOSCDataValue.
 		/// </summary>
