@@ -24,6 +24,7 @@ public class StripPosition : MonoBehaviour {
     private ArrayList starStrips;
     private static ArrayList starStarts;
     private static ArrayList stripLengths;
+    private int setStripNumber = 0;
     
     private UnityEngine.Random random = new UnityEngine.Random();
 
@@ -38,14 +39,14 @@ public class StripPosition : MonoBehaviour {
     public int maxStripNumer = 10;
     public int testStripNumber = 0;
 
-    public VRTK_ControllerEvents controllerEvents;
-
-
     Strip randomStrip; // instantiate random strip
     Strip lastRandomStrip;
+    private Vector3 lastTriggerPosition = new Vector3(0, 0, 0);
+    private Vector3 triggerPosition = new Vector3(1,0,0);
 
     // Use this for initialization
     void Start() {
+
 
         parent = GameObject.FindGameObjectWithTag("STRIPS");
 
@@ -73,17 +74,42 @@ public class StripPosition : MonoBehaviour {
         starStripCount = starStrips.Count;
 		// set a random starting strip position
         lastRandomStrip = new Strip(new Vector3(0, 0, 0), 0.5f, 0);
+
+
+
     }
 
     void Update()
     {
-        if (controllerEvents.IsButtonPressed(VRTK_ControllerEvents.ButtonAlias.TriggerPress))
-        {
-            Debug.Log("trigger pressed");
-        }
+       // SetStripPosition();
+
+           
+       
+    
     }
 
-	// return a randrom stip object , not position
+
+
+   
+
+
+
+    public void SetStripPosition(Vector3 triggerPosition)
+    {
+  
+       // lastTriggerPosition = triggerPosition;
+        starStrips.Add(new Strip(triggerPosition, 0.5f, setStripNumber));
+
+        Debug.Log("setting strip number " + setStripNumber + " at position of: "+ triggerPosition);
+        setStripNumber++;
+
+        // GetComponent<VRTK_ControllerEvents>().TriggerReleased += new ControllerInteractionEventHandler(DoTriggerReleased);
+
+
+    }
+
+
+    // return a randrom stip object , not position
     public Strip getRandomStrip()
     {
         stripNumber = UnityEngine.Random.Range(0, starStripCount);
@@ -103,7 +129,7 @@ public class StripPosition : MonoBehaviour {
 
     private void GenerateNewStrip()
     {
-        Debug.Log("too close");
+       // Debug.Log("too close");
         int nextPosition = UnityEngine.Random.Range(0, starStripCount);
         randomStrip = (Strip)starStrips.ToArray()[nextPosition];
         return;
