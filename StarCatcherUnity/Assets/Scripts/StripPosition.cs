@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using VRTK;
+using UnityEngine.UI;
 
 public class Strip
 {
@@ -33,6 +34,7 @@ public class StripPosition : MonoBehaviour {
 	int starStripCount;
     [HideInInspector]
     public int stripNumber;
+    public bool clearStripArray = false;
 
     // to test all LED strips spawning in sequence;
     [Header ("test strip conditions")]
@@ -44,9 +46,19 @@ public class StripPosition : MonoBehaviour {
     private Vector3 lastTriggerPosition = new Vector3(0, 0, 0);
     private Vector3 triggerPosition = new Vector3(1,0,0);
 
+    public Text stripCountText;
+
+    void Awake ()
+    {
+        DontDestroyOnLoad(this);
+    }
     // Use this for initialization
     void Start() {
 
+        if (stripCountText == null)
+        {
+            Debug.Log("no strip counter");
+        }
 
         parent = GameObject.FindGameObjectWithTag("STRIPS");
 
@@ -70,8 +82,9 @@ public class StripPosition : MonoBehaviour {
         starStrips.Add(new Strip(new Vector3(1.7f, 2.5908f, 0.5f), 0.5f, 13));
         starStrips.Add(new Strip(new Vector3(1.62f, 2.5908f, 1.1f), 0.5f, 14));
 
+
         //oldStarStarts();
-        starStripCount = starStrips.Count;
+
 		// set a random starting strip position
         lastRandomStrip = new Strip(new Vector3(0, 0, 0), 0.5f, 0);
 
@@ -81,30 +94,28 @@ public class StripPosition : MonoBehaviour {
 
     void Update()
     {
-       // SetStripPosition();
+       // clear the array of strip positions to repopulate;
+       if (clearStripArray == true)
+        {
+            starStrips.Clear();
+            stripCountText.text = "Clear";
+            clearStripArray = false;
+        }
 
-           
-       
-    
+        starStripCount = starStrips.Count;
     }
-
-
-
-   
-
-
 
     public void SetStripPosition(Vector3 triggerPosition)
     {
   
        // lastTriggerPosition = triggerPosition;
-        starStrips.Add(new Strip(triggerPosition, 0.5f, setStripNumber));
+        starStrips.Add(new Strip(triggerPosition, 0.5f, starStripCount));
 
         Debug.Log("setting strip number " + setStripNumber + " at position of: "+ triggerPosition);
-        setStripNumber++;
+        stripCountText.text = (starStripCount).ToString();
+        starStripCount++;
 
         // GetComponent<VRTK_ControllerEvents>().TriggerReleased += new ControllerInteractionEventHandler(DoTriggerReleased);
-
 
     }
 

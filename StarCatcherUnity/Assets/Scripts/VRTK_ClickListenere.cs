@@ -1,10 +1,12 @@
 ﻿namespace VRTK.Examples
 {
     using UnityEngine;
+    using UnityEngine.SceneManagement;
 
     public class VRTK_ClickListenere : MonoBehaviour
     {
         StripPosition stripPositionObject;
+        
 
         private void Start()
         {
@@ -16,7 +18,12 @@
             }
 
             GetComponent<VRTK_ControllerEvents>().TriggerClicked += new ControllerInteractionEventHandler(DoTriggerClicked);
-       
+
+      //      GetComponent<VRTK_ControllerEvents>().ButtonTwoPressed += new ControllerInteractionEventHandler(DoButtonTwoPressed);
+            GetComponent<VRTK_ControllerEvents>().ButtonTwoReleased += new ControllerInteractionEventHandler(DoButtonTwoReleased);
+            GetComponent<VRTK_ControllerEvents>().GripPressed += new ControllerInteractionEventHandler(DoGripPressed);
+            GetComponent<VRTK_ControllerEvents>().GripReleased += new ControllerInteractionEventHandler(DoGripReleased);
+
         }
 
         private void DebugLogger(uint index, string button, string action, ControllerInteractionEventArgs e)
@@ -33,5 +40,27 @@
             stripPositionObject.SetStripPosition(gameObject.transform.position);
         }
 
+        private void DoButtonTwoPressed(object sender, ControllerInteractionEventArgs e)
+        {
+            DebugLogger(VRTK_ControllerReference.GetRealIndex(e.controllerReference), "BUTTON TWO", "pressed down", e);
+        }
+
+        private void DoButtonTwoReleased(object sender, ControllerInteractionEventArgs e)
+        {
+            SceneManager.LoadScene("StarCatcher");
+            DebugLogger(VRTK_ControllerReference.GetRealIndex(e.controllerReference), "BUTTON TWO", "released", e);
+        }
+
+        private void DoGripReleased(object sender, ControllerInteractionEventArgs e)
+        {
+            DebugLogger(VRTK_ControllerReference.GetRealIndex(e.controllerReference), "GRIP", "released", e);
+        }
+
+        private void DoGripPressed(object sender, ControllerInteractionEventArgs e)
+        {
+            DebugLogger(VRTK_ControllerReference.GetRealIndex(e.controllerReference), "GRIP", "pressed", e);
+            stripPositionObject.clearStripArray = true;
+
+        }
     }
 }
