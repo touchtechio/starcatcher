@@ -315,7 +315,7 @@ void slipEncode(byte incoming) {
 //UDP communication
 UDP udp;
 
-int inPort = 8000;
+int inPort = 9000;
 int outPort = 9001;
 String ipAddress = "127.0.0.1";
 
