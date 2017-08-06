@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using VRTK;
 
 public class Strip
 {
@@ -31,10 +32,13 @@ public class StripPosition : MonoBehaviour {
 	int starStripCount;
     [HideInInspector]
     public int stripNumber;
-    // to test all LED strips spawning in sequence;
 
+    // to test all LED strips spawning in sequence;
+    [Header ("test strip conditions")]
     public int maxStripNumer = 10;
     public int testStripNumber = 0;
+
+    public VRTK_ControllerEvents controllerEvents;
 
 
     Strip randomStrip; // instantiate random strip
@@ -69,6 +73,14 @@ public class StripPosition : MonoBehaviour {
         starStripCount = starStrips.Count;
 		// set a random starting strip position
         lastRandomStrip = new Strip(new Vector3(0, 0, 0), 0.5f, 0);
+    }
+
+    void Update()
+    {
+        if (controllerEvents.IsButtonPressed(VRTK_ControllerEvents.ButtonAlias.TriggerPress))
+        {
+            Debug.Log("trigger pressed");
+        }
     }
 
 	// return a randrom stip object , not position

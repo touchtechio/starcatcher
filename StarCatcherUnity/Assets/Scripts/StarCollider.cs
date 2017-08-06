@@ -28,6 +28,7 @@ public class StarCollider : MonoBehaviour {
             Debug.Log("ERROR: no serial controller found");
         }
         starEffects = gameObject.GetComponent<HU_Star>();
+        oscSenderObject = (OSCSenderCaught)FindObjectOfType<OSCSenderCaught>();
     }
 
 

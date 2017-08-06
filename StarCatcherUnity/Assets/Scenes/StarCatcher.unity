@@ -3627,7 +3627,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isStarCaught: 0
   tiltAngle: 0
-  stripNumber: 0
+  CaughtStripNumber: 0
 --- !u!54 &633297589
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -5684,6 +5684,7 @@ MonoBehaviour:
   stripNumber: 0
   maxStripNumer: 4
   testStripNumber: 0
+  controllerEvents: {fileID: 643886117}
 --- !u!114 &1709206220
 MonoBehaviour:
   m_ObjectHideFlags: 0
