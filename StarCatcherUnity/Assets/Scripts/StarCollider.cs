@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UniOSC;
 
 public class StarCollider : MonoBehaviour {
     //public float timeToDestory = 1f;
@@ -15,6 +16,8 @@ public class StarCollider : MonoBehaviour {
     public bool isStarCaught = false;
     public float tiltAngle;
     HU_Star starEffects;
+    public int CaughtStripNumber;
+    OSCSenderCaught oscSenderObject;
 
     // Use this for initialization
     void Start () {
@@ -67,6 +70,7 @@ public class StarCollider : MonoBehaviour {
         }
         isStarCaught = true;
         timeCaught = Time.time;
+        oscSenderObject.SendOSCCaughtMessage("/starcaught", CaughtStripNumber);
         //Debug.Log("star caught at " +timeCaught);
         //Destroy(gameObject, timeToDestory);
         starCaughtSerialController.SendSerialMessage("x");

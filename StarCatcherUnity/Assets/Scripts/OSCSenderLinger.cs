@@ -52,8 +52,6 @@ namespace UniOSC{
 			base.OnEnable ();
             ClearData();
             AppendData(0f);
-           
-
 		}
         
 		public override void OnDisable ()

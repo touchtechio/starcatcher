@@ -12,9 +12,8 @@ public class StarMove : MonoBehaviour {
     public float timeToDestroyStar;
     [HideInInspector]
     public float lingerTime = 2f;
-    public bool testSend = false;
-    public int maxStripNumer = 10;
-    public int testStripNumber = 0;
+
+    public int StripNumber = 0;
 
     Vector3 startMarker;
     Vector3 endMarker;
@@ -24,7 +23,8 @@ public class StarMove : MonoBehaviour {
     bool timeRecorded = false;
     private bool lingerSent = false;
     OSCSenderLinger oscSenderObject;
-    private StripPosition stripPosition;
+    //private StripPosition stripPosition;
+    
     
     void Awake()
     {
@@ -33,12 +33,12 @@ public class StarMove : MonoBehaviour {
     void Start()
     {
         oscSenderObject = (OSCSenderLinger)FindObjectOfType<OSCSenderLinger>();
-        stripPosition = GameObject.FindGameObjectWithTag("GameManager").GetComponent<StripPosition>();
+        //stripPosition = GameObject.FindGameObjectWithTag("GameManager").GetComponent<StripPosition>();
 
         // turn off trigger component so players can't catch stars at the start
         gameObject.GetComponent<SphereCollider>().isTrigger = false;
         startTime = Time.time;
-
+       // Debug.Log("strip number " + StripNumber + " ,star spawned at " + startTime + " ,fall for " + fallDuration);
         endMarker = transform.localPosition;
         startMarker = endMarker + Vector3.Scale(stripLength, starDropScale);
         journeyLength = Vector3.Distance(startMarker, endMarker);
@@ -48,7 +48,8 @@ public class StarMove : MonoBehaviour {
         timeToDestroyStar = fallDuration + lingerTime;
     }
 
-    void Update()
+    
+    void LateUpdate()
     {
 
         /*
@@ -71,24 +72,17 @@ public class StarMove : MonoBehaviour {
         }
 
         // when star reaches bottom point of fall, send linger time OSC message once
-        if (Time.time >= (startTime + fallDuration) && !lingerSent)
+        if ((Time.time >= (startTime + fallDuration)) && !lingerSent)
         {
-            Debug.Log("linger for "+lingerTime);
-            if (testSend)
-            {
-                oscSenderObject.SendOSCLingerMessage("/starlinger", testStripNumber, (int)(lingerTime * 1000));
-            }
-            else
-            {
-                oscSenderObject.SendOSCLingerMessage("/starlinger", stripPosition.stripNumber, (int)(lingerTime * 1000));
-            }
-         //   oscSenderObject.SendOSCStarMessage("/starlinger", stripPosition.stripNumber, (int)(lingerTime * 1000));
-            lingerSent = true;
+            Debug.Log("strip number " + StripNumber + " ,start stamp " + startTime + " ,fall duration "+ fallDuration + " ,linger for " +lingerTime);
+
+           oscSenderObject.SendOSCLingerMessage("/starlinger", StripNumber, (int)(lingerTime * 1000));
+           lingerSent = true;
         }
 
 
-
         StarCollider starCollider = gameObject.GetComponent<StarCollider>();
+        starCollider.CaughtStripNumber = StripNumber;
 
         if (starCollider.isStarCaught == false)
         {

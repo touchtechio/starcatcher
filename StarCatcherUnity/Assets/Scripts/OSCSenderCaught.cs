@@ -20,7 +20,7 @@ namespace UniOSC{
 	/// </summary>
 	[AddComponentMenu("UniOSC/EventDispatcherButton")]
 	[ExecuteInEditMode]
-	public class OSCSenderSpawn: UniOSCEventDispatcher {
+	public class OSCSenderCaught: UniOSCEventDispatcher {
 
         #region public
         [HideInInspector]
@@ -52,7 +52,6 @@ namespace UniOSC{
 			base.OnEnable ();
             ClearData();
             AppendData(0f);
-
 		}
         
 		public override void OnDisable ()
@@ -108,29 +107,29 @@ namespace UniOSC{
 		}
 
 
-		public void SendOSCStarMessage(string address, int strip, int duration){
+        public void SendOSCCaughtMessage(string address, int strip)
+        {
 
-			//_SetupOSCMessage (false);
-			if(_OSCeArg.Packet is OscMessage)
-			{
-				ClearData ();
-				AppendData (strip);
-			    AppendData (duration);
-                //((OscMessage)_OSCeArg.Packet).Append(duration);
-
+            // _SetupOSCMessage(false); // set to not bundle
+            if (_OSCeArg.Packet is OscMessage)
+            {
+                ClearData();
+                AppendData(strip);
+                // ((OscMessage)_OSCeArg.Packet).UpdateDataAt(0, strip);
             }
-			else if(_OSCeArg.Packet is OscBundle)
-			{
+            else if (_OSCeArg.Packet is OscBundle)
+            {
                 foreach (OscMessage m in ((OscBundle)_OSCeArg.Packet).Messages)
                 {
+                    //m.UpdateDataAt(0, strip);
+                    //m.UpdateDataAt(1, duration);
                 }
-			}
+            }
 
-			this.oscOutAddress = address;
+            this.oscOutAddress = address;
 
-			_SendOSCMessage(_OSCeArg);
-		}
-
+            _SendOSCMessage(_OSCeArg);
+        }
         /// <summary>
         /// Sends the OSC message with the downOSCDataValue.
         /// </summary>

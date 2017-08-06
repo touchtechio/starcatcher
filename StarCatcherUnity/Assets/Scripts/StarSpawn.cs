@@ -50,11 +50,9 @@ public class StarSpawn : MonoBehaviour {
     bool betweenWaves = false;
     public float waitWaves = 20;
     public int ShowerCount = 10;
-
-    // to test all LED strips spawning in sequence;
     public bool testSend = false;
-    public int maxStripNumer = 10;
-    int testStripNumber = 0;
+
+
 
     // Use this for initialization
     void Start () {
@@ -153,7 +151,7 @@ public class StarSpawn : MonoBehaviour {
     {
 
 
-        // get position
+        // get position of strip
         Strip strip = GetStrip();
         Vector3 spawnPoint = strip.starStartPoints;
 
@@ -164,7 +162,10 @@ public class StarSpawn : MonoBehaviour {
         star.transform.parent = parent.transform;
         starCount++;
         string starNumber = starCount.ToString();
-        star.name = "star-" + starNumber;
+        star.name = "star-" + strip.stripNumber;
+
+        // send an OSC message with argurments for strip number, durationg and linger time
+        oscSenderObject.SendOSCStarMessage("/starfall", strip.stripNumber, (int)(duration * 1000));
 
         // configure Star Mover
         StarMove mover = star.GetComponent<StarMove>();
@@ -173,7 +174,7 @@ public class StarSpawn : MonoBehaviour {
         mover.fallDuration = duration;
         mover.lingerTime = lingerTime;
         mover.starDropScale = new Vector3(1, starDropYScale, 1);
-
+        mover.StripNumber = strip.stripNumber;
 
         // create unique Star Gen config
         HU_Star starComponent = star.GetComponent<HU_Star>();
@@ -186,33 +187,7 @@ public class StarSpawn : MonoBehaviour {
 		// send a string through serial everytime a star is spawned
         starNumber = "a";
         starSpawnSerialController.SendSerialMessage(starNumber);
-
-        // send an OSC message with argurments for strip number, durationg and linger time
-
-        if (testSend)
-        {
-            oscSenderObject.SendOSCStarMessage("/starfall", testStripNumber, (int)(duration * 1000));
-            // oscSenderObject.SendOSCLingerMessage("/starlinger", testStripNumber, (int)(lingerTime * 1000));
-            if (testStripNumber < maxStripNumer - 1)
-            {
-                testStripNumber++;
-            }
-            else
-            {
-                testStripNumber = 0;
-            }
-            mover.testSend = testSend;
-            mover.maxStripNumer = maxStripNumer;
-            mover.testStripNumber = testStripNumber;
-        }
-        else
-        {
-            oscSenderObject.SendOSCStarMessage("/starfall", stripPositions.stripNumber, (int)(duration * 1000));
-        }
-
-
-
-        Debug.Log(star.name + " fell");
+       // Debug.Log(star.name + " fell");
 
         return;
     }
@@ -221,7 +196,11 @@ public class StarSpawn : MonoBehaviour {
 
     private Strip GetStrip()
     {
-		return stripPositions.getRandomStrip ();
+        if (testSend)
+        {
+            return stripPositions.getTestStrip();
+        } else
+		    return stripPositions.getRandomStrip ();
     }
 
 
