@@ -409,6 +409,48 @@ MonoBehaviour:
     fallbackTypeName: VRTK.SDK_FallbackController
     typeName: VRTK.SDK_SteamVRController
     descriptionIndex: 0
+--- !u!1001 &546129414
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 2134609714}
+    m_Modifications:
+    - target: {fileID: 4642937102199658, guid: 82f63cd53abaecd4f9fe29d8531de45d, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: -24.24
+      objectReference: {fileID: 0}
+    - target: {fileID: 4642937102199658, guid: 82f63cd53abaecd4f9fe29d8531de45d, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4642937102199658, guid: 82f63cd53abaecd4f9fe29d8531de45d, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: -0.9
+      objectReference: {fileID: 0}
+    - target: {fileID: 4642937102199658, guid: 82f63cd53abaecd4f9fe29d8531de45d, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4642937102199658, guid: 82f63cd53abaecd4f9fe29d8531de45d, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4642937102199658, guid: 82f63cd53abaecd4f9fe29d8531de45d, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4642937102199658, guid: 82f63cd53abaecd4f9fe29d8531de45d, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4642937102199658, guid: 82f63cd53abaecd4f9fe29d8531de45d, type: 2}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 100100000, guid: 82f63cd53abaecd4f9fe29d8531de45d, type: 2}
+  m_IsPrefabParent: 0
 --- !u!1 &627693735
 GameObject:
   m_ObjectHideFlags: 0
@@ -3608,7 +3650,6 @@ GameObject:
   - component: {fileID: 633297593}
   - component: {fileID: 633297592}
   - component: {fileID: 633297591}
-  - component: {fileID: 633297590}
   - component: {fileID: 633297589}
   - component: {fileID: 633297588}
   - component: {fileID: 633297596}
@@ -3648,18 +3689,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &633297590
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 114392079222706218, guid: f0002c17f936f9b48a838d5746858d98,
-    type: 2}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 633297587}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &633297591
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4095,9 +4124,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
 --- !u!4 &645065125 stripped
 Transform:
-  m_PrefabParentObject: {fileID: 4889385949103542, guid: 82f63cd53abaecd4f9fe29d8531de45d,
+  m_PrefabParentObject: {fileID: 4642937102199658, guid: 82f63cd53abaecd4f9fe29d8531de45d,
     type: 2}
-  m_PrefabInternal: {fileID: 1996996565}
+  m_PrefabInternal: {fileID: 546129414}
 --- !u!1 &677806094
 GameObject:
   m_ObjectHideFlags: 0
@@ -4260,7 +4289,6 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 765786302}
-  - component: {fileID: 765786301}
   - component: {fileID: 765786303}
   m_Layer: 0
   m_Name: OSCSenderCaught
@@ -4269,17 +4297,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &765786301
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 765786300}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 176865d0adce48d4abbd10d7757a94f2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &765786302
 Transform:
   m_ObjectHideFlags: 0
@@ -4545,7 +4562,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 1962283252851508, guid: 128ab904e6cf4b54aa7217c04209a7ca, type: 2}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 128ab904e6cf4b54aa7217c04209a7ca, type: 2}
@@ -6052,48 +6069,6 @@ Mesh:
   m_BakedConvexCollisionMesh: 
   m_BakedTriangleCollisionMesh: 
   m_MeshOptimized: 0
---- !u!1001 &1996996565
-Prefab:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 2134609714}
-    m_Modifications:
-    - target: {fileID: 4889385949103542, guid: 82f63cd53abaecd4f9fe29d8531de45d, type: 2}
-      propertyPath: m_LocalPosition.x
-      value: -24.24
-      objectReference: {fileID: 0}
-    - target: {fileID: 4889385949103542, guid: 82f63cd53abaecd4f9fe29d8531de45d, type: 2}
-      propertyPath: m_LocalPosition.y
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 4889385949103542, guid: 82f63cd53abaecd4f9fe29d8531de45d, type: 2}
-      propertyPath: m_LocalPosition.z
-      value: -0.9
-      objectReference: {fileID: 0}
-    - target: {fileID: 4889385949103542, guid: 82f63cd53abaecd4f9fe29d8531de45d, type: 2}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4889385949103542, guid: 82f63cd53abaecd4f9fe29d8531de45d, type: 2}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4889385949103542, guid: 82f63cd53abaecd4f9fe29d8531de45d, type: 2}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4889385949103542, guid: 82f63cd53abaecd4f9fe29d8531de45d, type: 2}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4889385949103542, guid: 82f63cd53abaecd4f9fe29d8531de45d, type: 2}
-      propertyPath: m_RootOrder
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_ParentPrefab: {fileID: 100100000, guid: 82f63cd53abaecd4f9fe29d8531de45d, type: 2}
-  m_IsPrefabParent: 0
 --- !u!1 &2068442434
 GameObject:
   m_ObjectHideFlags: 0
