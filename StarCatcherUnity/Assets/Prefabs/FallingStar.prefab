@@ -109,7 +109,6 @@ GameObject:
   - component: {fileID: 114914548321794506}
   - component: {fileID: 114292594220664428}
   - component: {fileID: 114258992995555924}
-  - component: {fileID: 114123756433057348}
   m_Layer: 0
   m_Name: FallingStar
   m_TagString: Untagged
@@ -680,17 +679,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &114123756433057348
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1590786058513120}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114258992995555924
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -777,6 +765,7 @@ MonoBehaviour:
   starDropScale: {x: 1, y: 3, z: 1}
   timeToDestroyStar: 2
   lingerTime: 2
+  StripNumber: 0
 --- !u!114 &114914548321794506
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -789,6 +778,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isStarCaught: 0
+  tiltAngle: 0
+  CaughtStripNumber: 0
 --- !u!135 &135098721573396272
 SphereCollider:
   m_ObjectHideFlags: 1
