@@ -216,7 +216,7 @@ String[] serialRateStrings = {
   "19200", "28800", "38400", "57600", "115200"
 };
 int baud = 38400;
-int serialListNumber = 3;
+int serialListNumber = 0;
 
 ArrayList<Byte> serialBuffer = new ArrayList<Byte>();
 
@@ -315,7 +315,7 @@ void slipEncode(byte incoming) {
 //UDP communication
 UDP udp;
 
-int inPort = 8000;
+int inPort = 9000;
 int outPort = 9001;
 String ipAddress = "127.0.0.1";
 

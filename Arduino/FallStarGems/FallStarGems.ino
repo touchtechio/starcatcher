@@ -9,7 +9,8 @@
 
 // shaders define pattern behaviors
 #include "TopShader.h"
-#include "FlatFadeDown.h"
+#include "StarFallDown.h"
+#include "StarLinger.h"
 #include "TwinkleShader.h"
 #include "GlowShader.h"
 #include "PulsingShader.h"
@@ -42,7 +43,7 @@ SLIPEncodedUSBSerial SLIPSerial( thisBoardsSerialUSB );
 SLIPEncodedSerial SLIPSerial(Serial1);
 #endif
 
-#define DEBUG true
+#define DEBUG false
 
 
 ////
@@ -59,8 +60,9 @@ OctoWS2811 leds(ledsPerStrip, displayMemory, drawingMemory, config);
 
 // create an instance of each shader to use from here on
 Shader* behavior[] = {
-  new FlatFadeDown(), // body
-  new TwinkleShader(), // twinkler
+  new StarFallDown(), // falling
+  new StarLinger(), // lingering
+  new TwinkleShader(), // 
   new GlowShader(), //glow
   new PulsingShader(), //pulse
   new RisingShader(), // rise
@@ -75,6 +77,10 @@ Shader* behavior[] = {
 
 // nice to keep an array size value around for validation and looping
 int behaviorCount = 11; 
+
+#define LINGER 1
+#define FALL 0
+#define CAUGHT 9
 
 
 // these are used for run-time configuration from message events
@@ -97,8 +103,8 @@ long loopElapsed;
 int fps;
 
 // keep track of the gems
-Gem gems[8];
-int gemCount = 40;
+const int gemCount = 40;
+Gem gems[gemCount];
 
 // todo : pixels per-gem
 // led count of strip within each gem
@@ -118,21 +124,21 @@ void setup() {
 
 
   // setup OSC listener
-  SLIPSerial.begin(9600);   // set this as high as you can reliably run on your platform
+  SLIPSerial.begin(38400);   // set this as high as you can reliably run on your platform
 
   // fps calculation
   loopElapsed = millis();
 
   // create neighbors for multi gem effects
-  behavior[5]->neighbors = 7;
+  behavior[CAUGHT]->neighbors = 7;
 
 
   // initialize our gems
   for (int i = 0; i < gemCount; i++ ) {
 
     // todo Gem Number and Gem Count need to respect more Gems per Octo Channel
-    gems[i] = Gem(i, gemPixelCount, &leds, behavior[0]);
-    gems[i].setColor(color[7]);
+    gems[i] = Gem(i, gemPixelCount, &leds, behavior[CAUGHT]);
+    gems[i].setColor(color[i%7]);
     gems[i].setSecondaryColor(color[0]);
     gems[i].setDuration(2000);
 
@@ -192,9 +198,13 @@ void pollForNewOscMessages() {
 
     if(!msg.hasError()) {
 
-      msg.dispatch("/gem", routeFallingStar);
+      msg.dispatch("/allfall", routeAllFall);
+      msg.dispatch("/starfall", routeFallingStar);
+      msg.dispatch("/starlinger", routeLingeringStar);
+      msg.dispatch("/starcaught", routeCaughtStar);
 
-      //msg.route("/gem", routeGem);
+
+     // msg.route("/gem", routeGem);
 
       msg.route("/color", routeColor);
       msg.route("/behavior", routeBehavior);
@@ -212,40 +222,57 @@ void pollForNewOscMessages() {
   return;
 }
 
+
+void routeAllFall(OSCMessage &msg){
+  for (int i = 0; i<gemCount; i++){
+     hit(i);
+  }
+}
+
+void routeCaughtStar(OSCMessage &msg){
+
+  triggerStar( msg, CAUGHT);
+}
+
 void routeFallingStar(OSCMessage &msg){
 
+  triggerStar( msg, FALL);
+}
+
+
+void routeLingeringStar(OSCMessage &msg){
+
+  triggerStar( msg, LINGER);
+}
+
+
+
+void triggerStar(OSCMessage &msg, int behaviorId) {
   int starId = 0;
   int duration = 5000;
-  int linger = 2000;
   
-  if (msg.isInt(0)){
-    int starId = msg.getInt(0);
-  }
-  if (msg.isInt(1)){
-    int duration = msg.getInt(1);
-  }
-  if (msg.isInt(2)){
-    int linger = msg.getInt(2);
-  }
+  switch (msg.size()) {
+    case 2:
+      if (msg.isInt(1))
+        duration = msg.getInt(1);
 
-
-  fall(starId, duration, linger);
+    case 1:
+      if (msg.isInt(0))
+        starId = msg.getInt(0);
+  }
+  
+  triggerStar( starId,  duration, behaviorId);
 }
 
 
-void fall(int starId, int duration,int linger) {
-if (DEBUG) {
 
-    Serial.print("FALL:");
-    Serial.println(starId);
-    Serial.print("fps: ");
-    Serial.println(fps);
-  }
-
-    gems[starId].hit();
-
+void triggerStar(int starId, int duration, int behaviorId) {
+    gems[starId].setShader(behavior[behaviorId]);
+    gems[starId].setDuration(duration);
+    hit(starId);
     return;
 }
+
 
 
 void hit(int gemIndex) {
