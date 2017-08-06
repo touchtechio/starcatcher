@@ -3,13 +3,15 @@
     using UnityEngine;
     using UnityEngine.SceneManagement;
 
-    public class VRTK_ClickListenere : MonoBehaviour
+    public class VRTK_ClickListener : MonoBehaviour
     {
         StripPosition stripPositionObject;
-        
+        Scene currentScene;
 
         private void Start()
         {
+
+            currentScene = SceneManager.GetActiveScene();
             stripPositionObject = FindObjectOfType<StripPosition>();
             if (GetComponent<VRTK_ControllerEvents>() == null)
             {
@@ -47,7 +49,14 @@
 
         private void DoButtonTwoReleased(object sender, ControllerInteractionEventArgs e)
         {
-            SceneManager.LoadScene("StarCatcher");
+            if (currentScene.name == "StarCatcher")
+            {
+                SceneManager.LoadScene("StarCatcher-load");
+            }
+            else if (currentScene.name == "StarCatcher-load")
+            {
+                SceneManager.LoadScene("StarCatcher");
+            }
             DebugLogger(VRTK_ControllerReference.GetRealIndex(e.controllerReference), "BUTTON TWO", "released", e);
         }
 
