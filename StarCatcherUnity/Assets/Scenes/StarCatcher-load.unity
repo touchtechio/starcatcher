@@ -1419,7 +1419,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sendInterval: 100
   _oscOutAddress: /gem
-  _oscOutIPAddress: 10.10.11.110
+  _oscOutIPAddress: 127.0.0.1
   _oscOutPort: 9000
   _useExplicitConnection: 1
   _explicitConnection: {fileID: 1818292028}
@@ -1525,7 +1525,7 @@ MonoBehaviour:
   foldoutOSCOut: 1
   foldoutOSCIn: 1
   _isValidOscOutIPAddress: 1
-  _oscOutIPAddress: 10.10.11.110
+  _oscOutIPAddress: 127.0.0.1
   _isValidOscOutMulticastIPAddress: 1
   _oscOutMulticastIPAddress: 224.0.1.0
   _oscOutPort: 9000

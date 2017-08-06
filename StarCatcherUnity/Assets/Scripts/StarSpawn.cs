@@ -10,7 +10,6 @@ public class StarSpawn : MonoBehaviour {
 
     private static ArrayList starStarts;
     private static UnityEngine.Random random = new UnityEngine.Random();
-    private SerialController starSpawnSerialController;
     private StripPosition stripPositions;
 	public OSCSenderSpawn oscSenderObject;
 	private int stripNumber;
@@ -60,14 +59,8 @@ public class StarSpawn : MonoBehaviour {
         parent = GameObject.FindGameObjectWithTag("STARS");
         //InvokeRepeating("Spawn", 0.5f, spawnRate);
 
-        starSpawnSerialController = SerialController.FindObjectOfType<SerialController>();
-        if (null == starSpawnSerialController)
-        {
-            Debug.Log("ERROR: no serial controller found");
-        }
-
         stripPositions = StripPosition.FindObjectOfType<StripPosition>();
-        if (stripPositions == starSpawnSerialController)
+        if (null == stripPositions)
         {
             Debug.Log("ERROR: no StripPosition found");
         }
@@ -164,8 +157,6 @@ public class StarSpawn : MonoBehaviour {
         string starNumber = starCount.ToString();
         star.name = "star-" + strip.stripNumber;
 
-        // send an OSC message with argurments for strip number, durationg and linger time
-        oscSenderObject.SendOSCStarMessage("/starfall", strip.stripNumber, (int)(duration * 1000));
 
         // configure Star Mover
         StarMove mover = star.GetComponent<StarMove>();
@@ -184,10 +175,9 @@ public class StarSpawn : MonoBehaviour {
         starComponent._color = color;
         starComponent._color2 = UnityEngine.Random.ColorHSV(0.0f, 1.0f);
 
-		// send a string through serial everytime a star is spawned
-        starNumber = "a";
-        starSpawnSerialController.SendSerialMessage(starNumber);
-       // Debug.Log(star.name + " fell");
+        // send an OSC message with argurments for strip number, durationg and linger time
+        oscSenderObject.SendOSCStarMessage("/starfall", strip.stripNumber, (int)(duration * 1000));
+
 
         return;
     }

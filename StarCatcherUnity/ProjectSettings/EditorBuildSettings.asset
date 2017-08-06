@@ -6,5 +6,8 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/Scenes/StarCatcher-load.unity
+    guid: dbe8aefe0a94cc24599c77fc71f665a3
+  - enabled: 1
     path: Assets/Scenes/StarCatcher.unity
     guid: 26eec68ff273e944d94768538fa180fc

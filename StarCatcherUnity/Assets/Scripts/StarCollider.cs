@@ -7,7 +7,6 @@ public class StarCollider : MonoBehaviour {
     //public float timeToDestory = 1f;
     float blazeTime = 1f;
     float timeToMove;
-    private SerialController starCaughtSerialController;
     float timeCaught;
     float travelSpeed = .5f;
     Vector3 starCaughtPosition;
@@ -22,11 +21,7 @@ public class StarCollider : MonoBehaviour {
     // Use this for initialization
     void Start () {
         tiltAngle = Random.Range(-80f, 80f);
-        starCaughtSerialController = SerialController.FindObjectOfType<SerialController>();
-        if (null == starCaughtSerialController)
-        {
-            Debug.Log("ERROR: no serial controller found");
-        }
+        
         starEffects = gameObject.GetComponent<HU_Star>();
         oscSenderObject = (OSCSenderCaught)FindObjectOfType<OSCSenderCaught>();
     }
@@ -74,7 +69,6 @@ public class StarCollider : MonoBehaviour {
         oscSenderObject.SendOSCCaughtMessage("/starcaught", CaughtStripNumber);
         //Debug.Log("star caught at " +timeCaught);
         //Destroy(gameObject, timeToDestory);
-        starCaughtSerialController.SendSerialMessage("x");
         
         starEffects._color = Color.cyan;
         starEffects._jets = true;
