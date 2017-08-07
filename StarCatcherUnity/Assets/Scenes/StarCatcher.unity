@@ -4324,12 +4324,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sendInterval: 100
   _oscOutAddress: /
-  _oscOutIPAddress: 10.10.11.110
+  _oscOutIPAddress: 127.0.0.1
   _oscOutPort: 9000
-  _useExplicitConnection: 0
-  _explicitConnection: {fileID: 0}
+  _useExplicitConnection: 1
+  _explicitConnection: {fileID: 1284096882}
   _drawDefaultInspector: 1
-  _myOSCConnections: []
+  _myOSCConnections:
+  - {fileID: 1284096882}
   downOSCDataValue: 1
   upOSCDataValue: 0
   showGUI: 0
@@ -4960,7 +4961,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sendInterval: 100
-  _oscOutAddress: /gem
+  _oscOutAddress: /
   _oscOutIPAddress: 127.0.0.1
   _oscOutPort: 9000
   _useExplicitConnection: 1
