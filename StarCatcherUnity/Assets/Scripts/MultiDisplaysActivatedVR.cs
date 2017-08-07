@@ -7,9 +7,10 @@ using UnityEngine.UI;
 public class MultiDisplaysActivatedVR : MonoBehaviour
 {
     public Camera projectorLoadCamera;
+    static bool display1 = false;
+    static bool display2 = false;
 
 
-    
     void Start()
     {
         // GUI is rendered with last camera.
@@ -20,10 +21,16 @@ public class MultiDisplaysActivatedVR : MonoBehaviour
 
         projectorLoadCamera.enabled = true;
 
-        if (Display.displays.Length > 1)
+        if (Display.displays.Length > 1 && display1 == false)
+        {
             Display.displays[1].Activate();
-        if (Display.displays.Length > 2)
+            display1 = true;
+        }
+        if (Display.displays.Length > 2 && display2 == false)
+        {
             Display.displays[2].Activate();
+            display2 = true;
+        }
         if (Display.displays.Length > 3)
             Display.displays[3].Activate();
         

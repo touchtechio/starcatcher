@@ -8,12 +8,14 @@
         StripPosition stripPositionObject;
         Scene currentScene;
         public Camera projectorLoadCamera;
+        stripPositionLog stripPositionLogObject;
 
         private void Start()
         {
 
             currentScene = SceneManager.GetActiveScene();
             stripPositionObject = FindObjectOfType<StripPosition>();
+            stripPositionLogObject = FindObjectOfType<stripPositionLog>();
             if (GetComponent<VRTK_ControllerEvents>() == null)
             {
                 VRTK_Logger.Error(VRTK_Logger.GetCommonMessage(VRTK_Logger.CommonMessageKeys.REQUIRED_COMPONENT_MISSING_FROM_GAMEOBJECT, "VRTK_ControllerEvents_ListenerExample", "VRTK_ControllerEvents", "the same"));
@@ -40,7 +42,8 @@
         private void DoTriggerClicked(object sender, ControllerInteractionEventArgs e)
         {
             DebugLogger(VRTK_ControllerReference.GetRealIndex(e.controllerReference), "TRIGGER", "clicked", e);
-            stripPositionObject.SetStripPosition(gameObject.transform.position);
+            stripPositionObject.SetStripPosition(gameObject.transform.position); // pass through the position of controller
+            stripPositionLogObject.LogStrips();
         }
 
         private void DoButtonTwoPressed(object sender, ControllerInteractionEventArgs e)
@@ -72,6 +75,7 @@
         {
             DebugLogger(VRTK_ControllerReference.GetRealIndex(e.controllerReference), "GRIP", "pressed", e);
             stripPositionObject.clearStripArray = true;
+            stripPositionLogObject.clearStripArray = true;
 
         }
     }

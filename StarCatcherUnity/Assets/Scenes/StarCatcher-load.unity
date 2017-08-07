@@ -242,7 +242,7 @@ GameObject:
   - component: {fileID: 51914471}
   - component: {fileID: 51914470}
   m_Layer: 5
-  m_Name: Text
+  m_Name: StripLog
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1817,6 +1817,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1999226052}
   - component: {fileID: 1999226051}
+  - component: {fileID: 1999226053}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -1849,6 +1850,21 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1999226053
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1999226050}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a9d11797a39c1cf44b85cd85b8cef1f5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stripCountObject: {fileID: 0}
+  stripCountText: {fileID: 0}
+  clearStripArray: 0
+  stripPosition: {fileID: 0}
 --- !u!1 &2016203052 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 192944, guid: 4d293c8e162f3874b982baadd71153d2, type: 2}

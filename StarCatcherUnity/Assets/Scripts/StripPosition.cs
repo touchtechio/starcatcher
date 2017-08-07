@@ -31,10 +31,11 @@ public class StripPosition : MonoBehaviour {
 
     // empty game object as parent for strips
     private GameObject parent;
-	int starStripCount;
+    public int starStripCount = 0;
     [HideInInspector]
     public int stripNumber;
     public bool clearStripArray = false;
+    public static StripPosition thisStripPosition;
 
     // to test all LED strips spawning in sequence;
     [Header ("test strip conditions")]
@@ -46,19 +47,23 @@ public class StripPosition : MonoBehaviour {
     private Vector3 lastTriggerPosition = new Vector3(0, 0, 0);
     private Vector3 triggerPosition = new Vector3(1,0,0);
 
-    public Text stripCountText;
+    //public Text stripCountText;
+
 
     void Awake ()
     {
-        DontDestroyOnLoad(this);
+        if (thisStripPosition)
+        {
+            DestroyImmediate(gameObject);
+        }
+        else
+        {
+            DontDestroyOnLoad(gameObject);
+            thisStripPosition = this;
+        }
     }
     // Use this for initialization
     void Start() {
-
-        if (stripCountText == null)
-        {
-            Debug.Log("no strip counter");
-        }
 
         parent = GameObject.FindGameObjectWithTag("STRIPS");
 
@@ -98,7 +103,7 @@ public class StripPosition : MonoBehaviour {
        if (clearStripArray == true)
         {
             starStrips.Clear();
-            stripCountText.text = "Clear";
+        //    stripCountText.text = "Clear";
             clearStripArray = false;
         }
 
@@ -112,7 +117,7 @@ public class StripPosition : MonoBehaviour {
         starStrips.Add(new Strip(triggerPosition, 0.5f, starStripCount));
 
         Debug.Log("setting strip number " + setStripNumber + " at position of: "+ triggerPosition);
-        stripCountText.text = (starStripCount).ToString();
+      //  stripCountText.text = (starStripCount).ToString();
         starStripCount++;
 
         // GetComponent<VRTK_ControllerEvents>().TriggerReleased += new ControllerInteractionEventHandler(DoTriggerReleased);
@@ -123,34 +128,38 @@ public class StripPosition : MonoBehaviour {
     // return a randrom stip object , not position
     public Strip getRandomStrip()
     {
-        stripNumber = UnityEngine.Random.Range(0, starStripCount);
-        randomStrip = (Strip)starStrips.ToArray()[stripNumber]; 
+        
+       // stripNumber = UnityEngine.Random.Range(0, (starStrips.Count-1));
+        randomStrip = FindRandomStrip();
+
 		// make sure stars are not spawning too close
-        while (Vector3.Distance(randomStrip.starStartPoints, lastRandomStrip.starStartPoints) < 1f)
+        if (Vector3.Distance(randomStrip.starStartPoints, lastRandomStrip.starStartPoints) < 1f)
         {
-            GenerateNewStrip();
+            FindRandomStrip();
         }
         lastRandomStrip = randomStrip;
 
         // test first strip
-       // randomStrip = (Strip)starStrips.ToArray()[0];
+        
+       //randomStrip = (Strip)starStrips.ToArray()[0];
       
         return randomStrip; 
+        
     }
 
-    private void GenerateNewStrip()
+    private Strip FindRandomStrip()
     {
        // Debug.Log("too close");
-        int nextPosition = UnityEngine.Random.Range(0, starStripCount);
+        int nextPosition = UnityEngine.Random.Range(0, (starStrips.Count - 1));
         randomStrip = (Strip)starStrips.ToArray()[nextPosition];
-        return;
+        return randomStrip;
     }
     
     // having a running strip number that counts up for testing 
     public Strip getTestStrip()
     {
         Strip testStrip = (Strip)starStrips.ToArray()[testStripNumber];
-        if (testStripNumber < maxStripNumer - 1)
+        if (testStripNumber < (starStripCount-1))
         {
             testStripNumber++;
         }
