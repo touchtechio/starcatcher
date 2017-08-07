@@ -9,14 +9,15 @@ using UniOSC;
 public class Constellations : MonoBehaviour {
 
     public List<Constellation> constellations = new List<Constellation>();
-    OSCSenderCaught oscSenderObject;
+    OSCSenderComplete oscSenderObject;
 
-    bool previousJustComplete = false;
+    bool allFull = false;
 
     // Use this for initialization
     void Start () {
 
-        
+        oscSenderObject = (OSCSenderComplete)FindObjectOfType<OSCSenderComplete>();
+
         GameObject[] objs = GameObject.FindGameObjectsWithTag("CONSTELLATION");
         if (objs.Length == 0) {
             Debug.Log("ERROR: no constellations defined");
@@ -25,10 +26,10 @@ public class Constellations : MonoBehaviour {
         for (int i = 0; i < objs.Length; i++)
         {
             // deactivate all but the first constellation
-           // if (i != 0)
-        //    {
-         //       objs[i].SetActive(false);
-         //   }
+            if (i != 0)
+            {
+                objs[i].SetActive(false);
+            }
 
             // find all the consteallation positions
             List<GameObject> Children = new List<GameObject>();
@@ -50,7 +51,6 @@ public class Constellations : MonoBehaviour {
 
         }
 
-        
     }
 
     public GameObject GetNextEmptyPosition()
@@ -60,10 +60,10 @@ public class Constellations : MonoBehaviour {
         foreach (Constellation constellation in constellations)
         {
             // reset this next constellation bc the previous just complete
-            if(previousJustComplete)
+            if(allFull)
             {
                 constellation.EmptyAllPositions();
-                previousJustComplete = false;
+                allFull = false;
             }
 
             // only check for positions if the constellation has positions
@@ -79,7 +79,10 @@ public class Constellations : MonoBehaviour {
 
                 // mark full and do all kinds of ui craziness
                 constellation.Complete();
-                oscSenderObject.SendOSCCaughtMessage("/constellationfull", 0);
+          
+                oscSenderObject.SendOSCCompleteMessage("/constellationfull", 0);
+                allFull = true;
+
 
             }
         }
@@ -92,7 +95,7 @@ public class Constellations : MonoBehaviour {
         StarSpawn.DestroyStars();
 
         // allow first to be re-enabled
-        previousJustComplete = true;
+        allFull = true;
 
         // this will return something useful
         return ResetConstellations();
@@ -117,7 +120,6 @@ public class Constellation
     private GameObject constellation;
     private List<GameObject> positions;
     private string constellationName;
-    bool full = false;
     private GameObject complete;
 
     public Constellation(GameObject gameObject, List<GameObject> children, string name)
