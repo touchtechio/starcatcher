@@ -190,7 +190,6 @@ GameObject:
   - component: {fileID: 135538424746023096}
   - component: {fileID: 23781013465253204}
   - component: {fileID: 114133171416984644}
-  - component: {fileID: 114392079222706218}
   m_Layer: 0
   m_Name: PixieStar
   m_TagString: Untagged
@@ -746,17 +745,6 @@ MonoBehaviour:
     type: 2}
   coronaParticlesComp: {fileID: 198026182539150820}
   prominence: {fileID: 1197894325908942, guid: d9168b5f480a0da4e8452a9c7616daa0, type: 2}
---- !u!114 &114392079222706218
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1889479306427850}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3499907cd375ae648bc7b0cf7675f494, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!135 &135538424746023096
 SphereCollider:
   m_ObjectHideFlags: 1
