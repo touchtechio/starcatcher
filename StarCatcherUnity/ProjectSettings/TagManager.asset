@@ -13,6 +13,8 @@ TagManager:
   - CONSTELLATION_POSITION
   - GameManager
   - rightController
+  - CONSTELLATION_WIN
+  - CONSTELLATION_COMPLETE
   layers:
   - Default
   - TransparentFX
