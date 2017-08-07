@@ -35,6 +35,7 @@ public class StripPosition : MonoBehaviour {
     [HideInInspector]
     public int stripNumber;
     public bool clearStripArray = false;
+    public static StripPosition thisStripPosition;
 
     // to test all LED strips spawning in sequence;
     [Header ("test strip conditions")]
@@ -48,9 +49,18 @@ public class StripPosition : MonoBehaviour {
 
     public Text stripCountText;
 
+
     void Awake ()
     {
-        DontDestroyOnLoad(this);
+        if (thisStripPosition)
+        {
+            DestroyImmediate(gameObject);
+        }
+        else
+        {
+            DontDestroyOnLoad(gameObject);
+            thisStripPosition = this;
+        }
     }
     // Use this for initialization
     void Start() {
