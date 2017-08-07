@@ -115,7 +115,7 @@ namespace UniOSC{
             {
                 ClearData();
                 AppendData(strip);
-                // ((OscMessage)_OSCeArg.Packet).UpdateDataAt(0, strip);
+                AppendData(2000);
             }
             else if (_OSCeArg.Packet is OscBundle)
             {
