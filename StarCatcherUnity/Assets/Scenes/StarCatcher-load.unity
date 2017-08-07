@@ -537,7 +537,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 697cfa47b50b49b428f5c41eef3f20d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stripPositionObject: {fileID: 0}
+  projectorLoadCamera: {fileID: 1837356913}
 --- !u!114 &401514189
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -967,7 +967,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 697cfa47b50b49b428f5c41eef3f20d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stripPositionObject: {fileID: 0}
+  projectorLoadCamera: {fileID: 1837356913}
 --- !u!114 &814841711
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1214,6 +1214,10 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 1962283252851508, guid: 128ab904e6cf4b54aa7217c04209a7ca, type: 2}
       propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1962283252851508, guid: 128ab904e6cf4b54aa7217c04209a7ca, type: 2}
+      propertyPath: m_StaticEditorFlags
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -1831,6 +1835,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9fcd9a67d15167e429bac99e19f656a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  projectorLoadCamera: {fileID: 1837356913}
 --- !u!4 &1999226052
 Transform:
   m_ObjectHideFlags: 0

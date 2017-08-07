@@ -7,6 +7,7 @@
     {
         StripPosition stripPositionObject;
         Scene currentScene;
+        public Camera projectorLoadCamera;
 
         private void Start()
         {
@@ -49,6 +50,7 @@
 
         private void DoButtonTwoReleased(object sender, ControllerInteractionEventArgs e)
         {
+            projectorLoadCamera.enabled = false;
             if (currentScene.name == "StarCatcher")
             {
                 SceneManager.LoadScene("StarCatcher-load");
@@ -56,6 +58,7 @@
             else if (currentScene.name == "StarCatcher-load")
             {
                 SceneManager.LoadScene("StarCatcher");
+
             }
             DebugLogger(VRTK_ControllerReference.GetRealIndex(e.controllerReference), "BUTTON TWO", "released", e);
         }
