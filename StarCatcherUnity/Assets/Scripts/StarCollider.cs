@@ -16,6 +16,8 @@ public class StarCollider : MonoBehaviour {
     public float tiltAngle;
     HU_Star starEffects;
     public int CaughtStripNumber;
+    private SoundManager soundManager;
+ 
     OSCSenderCaught oscSenderObject;
 
     // Use this for initialization
@@ -24,6 +26,8 @@ public class StarCollider : MonoBehaviour {
         
         starEffects = gameObject.GetComponent<HU_Star>();
         oscSenderObject = (OSCSenderCaught)FindObjectOfType<OSCSenderCaught>();
+        soundManager = (SoundManager)FindObjectOfType<SoundManager>();
+       
     }
 
 
@@ -67,9 +71,11 @@ public class StarCollider : MonoBehaviour {
         isStarCaught = true;
         timeCaught = Time.time;
         oscSenderObject.SendOSCCaughtMessage("/starcaught", CaughtStripNumber);
+    
+        AudioSource.PlayClipAtPoint(soundManager.starFall, gameObject.transform.position);
         //Debug.Log("star caught at " +timeCaught);
         //Destroy(gameObject, timeToDestory);
-        
+
         starEffects._color = Color.cyan;
         starEffects._jets = true;
         starCaughtPosition = transform.position;

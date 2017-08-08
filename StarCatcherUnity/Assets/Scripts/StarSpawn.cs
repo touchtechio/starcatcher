@@ -13,6 +13,7 @@ public class StarSpawn : MonoBehaviour {
     private StripPosition stripPositions;
 	public OSCSenderSpawn oscSenderObject;
 	private int stripNumber;
+    private SoundManager soundManager;
 
     // empty game object as parent for spwned stars
     static private GameObject parent;
@@ -65,7 +66,8 @@ public class StarSpawn : MonoBehaviour {
             Debug.Log("ERROR: no StripPosition found");
         }
 
-       // StartCoroutine(SpawnShowers());
+        // StartCoroutine(SpawnShowers());
+        soundManager = (SoundManager)FindObjectOfType<SoundManager>();
       
     }
 
@@ -177,7 +179,9 @@ public class StarSpawn : MonoBehaviour {
 
         // send an OSC message with argurments for strip number, durationg and linger time
         oscSenderObject.SendOSCStarMessage("/starfall", strip.stripNumber, (int)(duration * 1000));
-
+    
+      //  soundManager.GetComponent<AudioSource>().pitch = duration / 1 * soundManager.starFall.length;
+      //  AudioSource.PlayClipAtPoint(soundManager.starFall, spawnPoint);
 
         return;
     }
@@ -190,7 +194,7 @@ public class StarSpawn : MonoBehaviour {
         {
             return stripPositions.getTestStrip();
         } else
-		    return stripPositions.getRandomStrip ();
+		    return stripPositions.getRandomStrip();
     }
 
 
