@@ -216,7 +216,7 @@ String[] serialRateStrings = {
   "19200", "28800", "38400", "57600", "115200"
 };
 int baud = 38400;
-int serialListNumber = 0;
+int serialListNumber = 1;
 
 ArrayList<Byte> serialBuffer = new ArrayList<Byte>();
 
