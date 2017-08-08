@@ -23,6 +23,8 @@ public class StarMove : MonoBehaviour {
     bool timeRecorded = false;
     public bool lingerSent = false;
     OSCSenderLinger oscSenderObject;
+    private AudioSource source;
+    public AudioClip starFall;
     //private StripPosition stripPosition;
     
     
@@ -33,6 +35,7 @@ public class StarMove : MonoBehaviour {
     void Start()
     {
         oscSenderObject = (OSCSenderLinger)FindObjectOfType<OSCSenderLinger>();
+        source = GetComponent<AudioSource>();
         //stripPosition = GameObject.FindGameObjectWithTag("GameManager").GetComponent<StripPosition>();
 
         // turn off trigger component so players can't catch stars at the start
@@ -46,6 +49,10 @@ public class StarMove : MonoBehaviour {
         speed = journeyLength / fallDuration;
 
         timeToDestroyStar = fallDuration + lingerTime;
+
+        source.clip = starFall;
+        source.pitch = source.clip.length * fallDuration / 1;
+        source.Play();
     }
 
     
@@ -97,6 +104,10 @@ public class StarMove : MonoBehaviour {
             {
                 Destroy(gameObject);
             }
+        } else
+        {
+            // if caught stop playing audio
+            source.Stop();
         }
         //Debug.Log(gameObject.GetComponent<SphereCollider>().isTrigger);
 

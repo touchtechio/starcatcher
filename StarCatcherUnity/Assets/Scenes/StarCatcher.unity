@@ -338,6 +338,11 @@ Prefab:
       propertyPath: m_TargetDisplay
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 81494700305730786, guid: fcbbf1ed597d70046a68dfa01caf294a,
+        type: 2}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: fcbbf1ed597d70046a68dfa01caf294a, type: 2}
   m_IsPrefabParent: 0
@@ -3952,6 +3957,7 @@ MonoBehaviour:
   lingerTime: 2
   StripNumber: 0
   lingerSent: 0
+  starFall: {fileID: 0}
 --- !u!1001 &633914622
 Prefab:
   m_ObjectHideFlags: 0
@@ -6218,6 +6224,7 @@ Transform:
   m_Children:
   - {fileID: 727900622}
   - {fileID: 1393683316}
+  - {fileID: 1771107383}
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -6233,6 +6240,49 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   projectorLoadCamera: {fileID: 1425444441}
+--- !u!1 &1771107382
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 1771107383}
+  - component: {fileID: 1771107384}
+  m_Layer: 0
+  m_Name: SoundManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1771107383
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1771107382}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: -1.322}
+  m_LocalScale: {x: 2, y: 2, z: 2}
+  m_Children: []
+  m_Father: {fileID: 1709206218}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1771107384
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1771107382}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: adc688543e4d5ab4ba7f5757f38ea7d1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  starFall: {fileID: 0}
+  starCaught: {fileID: 8300000, guid: 2fe2c0f8e538ec74ca68fb62fec59f1c, type: 3}
+  constellationFull: {fileID: 8300000, guid: afded7b34fc8181458d6101da1ebcd0a, type: 3}
 --- !u!1 &1772870811
 GameObject:
   m_ObjectHideFlags: 0

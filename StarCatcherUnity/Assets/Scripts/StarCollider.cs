@@ -76,6 +76,7 @@ public class StarCollider : MonoBehaviour {
         timeCaught = Time.time;
         oscSenderObject.SendOSCCaughtMessage("/starcaught", CaughtStripNumber);
     
+        // play caught sound at place of caught
         AudioSource.PlayClipAtPoint(soundManager.starFall, gameObject.transform.position);
         //Debug.Log("star caught at " +timeCaught);
         //Destroy(gameObject, timeToDestory);

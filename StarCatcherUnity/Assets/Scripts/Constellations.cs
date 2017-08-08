@@ -10,6 +10,7 @@ public class Constellations : MonoBehaviour {
 
     public List<Constellation> constellations = new List<Constellation>();
     OSCSenderComplete oscSenderObject;
+    private SoundManager soundManager;
 
     bool allFull = false;
 
@@ -17,6 +18,7 @@ public class Constellations : MonoBehaviour {
     void Start () {
 
         oscSenderObject = (OSCSenderComplete)FindObjectOfType<OSCSenderComplete>();
+        soundManager = (SoundManager)FindObjectOfType<SoundManager>();
 
         GameObject[] objs = GameObject.FindGameObjectsWithTag("CONSTELLATION");
         if (objs.Length == 0) {
@@ -81,6 +83,7 @@ public class Constellations : MonoBehaviour {
                 constellation.Complete();
           
                 oscSenderObject.SendOSCCompleteMessage("/constellationfull", 0);
+                AudioSource.PlayClipAtPoint(soundManager.constellationFull, gameObject.transform.position);
                 allFull = true;
 
 
