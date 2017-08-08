@@ -21,7 +21,7 @@ public class StarMove : MonoBehaviour {
     private float startTime;
     private float journeyLength;
     bool timeRecorded = false;
-    private bool lingerSent = false;
+    public bool lingerSent = false;
     OSCSenderLinger oscSenderObject;
     //private StripPosition stripPosition;
     
