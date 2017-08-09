@@ -455,7 +455,6 @@ GameObject:
   - component: {fileID: 401514191}
   - component: {fileID: 401514190}
   - component: {fileID: 401514189}
-  - component: {fileID: 401514192}
   - component: {fileID: 401514188}
   - component: {fileID: 401514187}
   - component: {fileID: 401514186}
@@ -612,17 +611,6 @@ Transform:
   m_Father: {fileID: 689327192}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &401514192
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 401514185}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: acd6c3da4f14c5944a18d5064c1e1005, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &454220149
 Prefab:
   m_ObjectHideFlags: 0
@@ -1348,6 +1336,49 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!1 &1562163382
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 1562163384}
+  - component: {fileID: 1562163383}
+  m_Layer: 0
+  m_Name: StripPositionMessageSender
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1562163383
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1562163382}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b4d554086b6d12458060d34d00dc228, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  StripPosition: {fileID: 0}
+  OSCSenderCaught: {fileID: 1606730965}
+  OSCSenderLinger: {fileID: 1606730964}
+--- !u!4 &1562163384
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1562163382}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.20893788, y: 0.7987516, z: -0.5198686}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 11
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1565632717
 Prefab:
   m_ObjectHideFlags: 0
@@ -1403,8 +1434,10 @@ GameObject:
   m_Component:
   - component: {fileID: 1606730963}
   - component: {fileID: 1606730962}
+  - component: {fileID: 1606730965}
+  - component: {fileID: 1606730964}
   m_Layer: 0
-  m_Name: OSCSenderSpawn (1)
+  m_Name: OSCSender
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1422,10 +1455,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sendInterval: 100
-  _oscOutAddress: /gem
+  _oscOutAddress: /
   _oscOutIPAddress: 127.0.0.1
   _oscOutPort: 9000
-  _useExplicitConnection: 1
+  _useExplicitConnection: 0
   _explicitConnection: {fileID: 1818292028}
   _drawDefaultInspector: 1
   _myOSCConnections:
@@ -1448,6 +1481,56 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1606730964
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1606730961}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f13ff260dcbc37941a7e6807f02c2ae7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sendInterval: 100
+  _oscOutAddress: /
+  _oscOutIPAddress: 127.0.0.1
+  _oscOutPort: 9000
+  _useExplicitConnection: 0
+  _explicitConnection: {fileID: 0}
+  _drawDefaultInspector: 1
+  _myOSCConnections:
+  - {fileID: 1818292028}
+  downOSCDataValue: 1
+  upOSCDataValue: 0
+  showGUI: 0
+  xPos: 0
+  yPos: 0
+--- !u!114 &1606730965
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1606730961}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e853b8f7b4c54814797653f1c05c6f7f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sendInterval: 100
+  _oscOutAddress: /
+  _oscOutIPAddress: 127.0.0.1
+  _oscOutPort: 9000
+  _useExplicitConnection: 0
+  _explicitConnection: {fileID: 0}
+  _drawDefaultInspector: 1
+  _myOSCConnections:
+  - {fileID: 1818292028}
+  downOSCDataValue: 1
+  upOSCDataValue: 0
+  showGUI: 0
+  xPos: 0
+  yPos: 0
 --- !u!1001 &1676283829
 Prefab:
   m_ObjectHideFlags: 0
@@ -1500,7 +1583,7 @@ GameObject:
   - component: {fileID: 1818292029}
   - component: {fileID: 1818292028}
   m_Layer: 0
-  m_Name: OSCConnection.8000 (1)
+  m_Name: OSCConnection.8000
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
