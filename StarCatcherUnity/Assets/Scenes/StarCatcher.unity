@@ -341,7 +341,7 @@ Prefab:
     - target: {fileID: 81494700305730786, guid: fcbbf1ed597d70046a68dfa01caf294a,
         type: 2}
       propertyPath: m_Enabled
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: fcbbf1ed597d70046a68dfa01caf294a, type: 2}
@@ -3956,7 +3956,6 @@ MonoBehaviour:
   timeToDestroyStar: 2
   lingerTime: 2
   StripNumber: 0
-  lingerSent: 0
   starFall: {fileID: 0}
 --- !u!1001 &633914622
 Prefab:

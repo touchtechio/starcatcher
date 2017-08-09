@@ -10,7 +10,7 @@ public class WinningForATime : MonoBehaviour {
     void OnEnable()
     {
         TimeToDie = WinningTime;
-        Debug.Log("WinningForATime: script was enabled");
+        //Debug.Log("WinningForATime: script was enabled");
     }
 
     void Update () {

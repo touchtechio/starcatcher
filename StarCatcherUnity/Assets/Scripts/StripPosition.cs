@@ -62,6 +62,7 @@ public class StripPosition : MonoBehaviour {
             thisStripPosition = this;
         }
     }
+
     // Use this for initialization
     void Start() {
 
@@ -108,6 +109,11 @@ public class StripPosition : MonoBehaviour {
         }
 
         starStripCount = starStrips.Count;
+    }
+
+    public int Count()
+    {
+        return starStrips.Count;
     }
 
     public void SetStripPosition(Vector3 triggerPosition)
