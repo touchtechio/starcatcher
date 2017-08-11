@@ -70,9 +70,6 @@ public class StarCollider : MonoBehaviour {
         }
         isStarCaught = true;
 
-        StarMove starMove = gameObject.GetComponent<StarMove>();
-        starMove.lingerSent = true;
-
         timeCaught = Time.time;
         oscSenderObject.SendOSCCaughtMessage("/starcaught", CaughtStripNumber);
     

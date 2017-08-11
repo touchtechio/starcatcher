@@ -21,7 +21,7 @@ public class StarMove : MonoBehaviour {
     private float startTime;
     private float journeyLength;
     bool timeRecorded = false;
-    public bool lingerSent = false;
+    private bool lingerSent = false;
     OSCSenderLinger oscSenderObject;
     private AudioSource source;
     public AudioClip starFall;
@@ -78,25 +78,27 @@ public class StarMove : MonoBehaviour {
             
         }
 
-        // when star reaches bottom point of fall, send linger time OSC message once
-        if ((Time.time >= (startTime + fallDuration)) && !lingerSent)
-        {
-           // Debug.Log("strip number " + StripNumber + " ,start stamp " + startTime + " ,fall duration "+ fallDuration + " ,linger for " +lingerTime);
-
-           oscSenderObject.SendOSCLingerMessage("/starlinger", StripNumber, (int)(lingerTime * 1000));
-           lingerSent = true;
-        }
-
+       
 
         StarCollider starCollider = gameObject.GetComponent<StarCollider>();
         starCollider.CaughtStripNumber = StripNumber;
 
         if (starCollider.isStarCaught == false)
         {
-
+    
             float distCovered = (Time.time - startTime) * speed;
             float fracJourney = distCovered / journeyLength;
             transform.position = Vector3.Lerp(startMarker, endMarker, fracJourney);
+
+
+            // when star reaches bottom point of fall, send linger time OSC message once
+            if ((Time.time >= (startTime + fallDuration)) && !lingerSent)
+            {
+                // Debug.Log("strip number " + StripNumber + " ,start stamp " + startTime + " ,fall duration "+ fallDuration + " ,linger for " +lingerTime);
+
+                oscSenderObject.SendOSCLingerMessage("/starlinger", StripNumber, (int)(lingerTime * 1000));
+                lingerSent = true;
+            }
 
             // set countdown to destroy star starting from spawn time, if star is caught, this is halted
             timeToDestroyStar -= Time.deltaTime;
