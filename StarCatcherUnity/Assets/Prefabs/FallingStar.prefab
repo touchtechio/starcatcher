@@ -691,7 +691,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.201
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -848,7 +848,7 @@ MonoBehaviour:
   lingerTime: 2
   StripNumber: 0
   lingerSent: 0
-  starFall: {fileID: 8300000, guid: a6b99300dbec2834ea2fa77d24ba0a92, type: 3}
+  starFall: {fileID: 8300000, guid: b898e8d95d4bba644901eeb41d6e0cf0, type: 3}
 --- !u!114 &114914548321794506
 MonoBehaviour:
   m_ObjectHideFlags: 1

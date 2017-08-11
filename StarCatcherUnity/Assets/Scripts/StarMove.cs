@@ -51,7 +51,7 @@ public class StarMove : MonoBehaviour {
         timeToDestroyStar = fallDuration + lingerTime;
 
         source.clip = starFall;
-        source.pitch = source.clip.length * fallDuration / 1;
+        source.pitch = source.clip.length * 1/ fallDuration;
         source.Play();
     }
 

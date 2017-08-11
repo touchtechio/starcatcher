@@ -9,11 +9,13 @@ public class SoundManager : MonoBehaviour {
     public AudioClip starCaught;
     public AudioClip constellationFull;
 
-	// Use this for initialization
-	void Start () {
+
+
+
+    // Use this for initialization
+    void Start () {
         source = GetComponent<AudioSource>();
-        AudioSource.PlayClipAtPoint(starFall, new Vector3(0, 0, 0));
-	}
+    }
 	
 	// Update is called once per frame
 	void Update () {
