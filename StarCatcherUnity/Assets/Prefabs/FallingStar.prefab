@@ -110,6 +110,7 @@ GameObject:
   - component: {fileID: 114292594220664428}
   - component: {fileID: 114258992995555924}
   - component: {fileID: 82744965003026362}
+  - component: {fileID: 114509439129524938}
   m_Layer: 0
   m_Name: FallingStar
   m_TagString: Untagged
@@ -691,7 +692,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
-  m_Volume: 0.201
+  m_Volume: 0.097
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -847,8 +848,45 @@ MonoBehaviour:
   timeToDestroyStar: 2
   lingerTime: 2
   StripNumber: 0
-  lingerSent: 0
   starFall: {fileID: 8300000, guid: b898e8d95d4bba644901eeb41d6e0cf0, type: 3}
+--- !u!114 &114509439129524938
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1590786058513120}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a5c02dd42880460b914f6e0206b8c28, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IsPlaying: 0
+  m_FxAttributesList:
+  - m_Descriptor:
+      Type: 28
+      MinMaxFlag: 3
+      Name: PartSizeCoeff
+      Description: 
+      DefaultValue0: 0
+      DefaultValue1: 0
+      DefaultValue2: 0
+      DefaultValue3: 0
+      MinValue0: 0
+      MinValue1: 0
+      MinValue2: 0
+      MinValue3: 0
+      MaxValue0: 1
+      MaxValue1: 0
+      MaxValue2: 0
+      MaxValue3: 0
+    m_Value0: 0.2
+    m_Value1: 0
+    m_Value2: 0
+    m_Value3: 0
+  m_FxSamplersList: []
+  m_PlayOnStart: 1
+  m_BoundFx: {fileID: 102900000, guid: 8a97ab25110c7e54ba61d78ece3ffb20, type: 3}
+  m_FxName: Particles/Star Emitter 1.pkfx
 --- !u!114 &114914548321794506
 MonoBehaviour:
   m_ObjectHideFlags: 1

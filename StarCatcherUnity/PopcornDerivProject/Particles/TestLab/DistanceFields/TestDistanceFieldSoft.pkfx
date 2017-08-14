@@ -1,0 +1,210 @@
+Version = 1.9.0.26281;
+CParticleEffect	$LOCAL$/Resource
+{
+	OnSpawn = "$LOCAL$/Spawner";
+	CustomAttributes = "$LOCAL$/_GlobalAttributes";
+	Autostart = true;
+}
+CNEdEditorParticle_Data	$LOCAL$/EDITOR
+{
+	Position = float3(1.2138275e+000, 1.0577068e+001, 5.7326064e+000);
+	EulerOrientation = float3(-6.6065964e+001, 8.3159885e+000, 0.0000000e+000);
+	Backdrops = "$LOCAL$/_BackdropList";
+	IsLooping = true;
+	PauseOnProblematicParticles = true;
+}
+CActionFactoryParticleSpawnerBase	$LOCAL$/Layer_1
+{
+	Descriptor = "$LOCAL$/CParticleDescriptor_AE135B2A";
+	DurationInSeconds = 2.0000000e+000;
+	SpawnCount = 4.0000000e+004;
+}
+CParticleDescriptor	$LOCAL$/CParticleDescriptor_AE135B2A
+{
+	Renderer = "$LOCAL$/CParticleRenderer_Billboard_9136D2F4";
+	CustomFields = 
+	{
+		"$LOCAL$/CParticleFieldDeclaration_BA230A37",
+	};
+	CustomEvents = 
+	{
+		"$LOCAL$/CParticleEventDeclaration_FDCAA31D",
+	};
+	Samplers = 
+	{
+		"$LOCAL$/CParticleSamplerShape_3F191C1E",
+		"$LOCAL$/CParticleSamplerShape_8E0AF0A4",
+		"$LOCAL$/CParticleSamplerCurve_A4155451",
+	};
+	SpawnEvaluator = "$LOCAL$/CCompilerSyntaxNodeExpression_5566F5E7";
+	States = 
+	{
+		"$LOCAL$/CParticleState_3AF8190E",
+	};
+}
+CActionFactoryWithChilds	$LOCAL$/Spawner
+{
+	ChildList = 
+	{
+		"$LOCAL$/Layer_1",
+	};
+}
+CParticleRenderer_Billboard	$LOCAL$/CParticleRenderer_Billboard_9136D2F4
+{
+	BillboardMode = VelocityCapsuleAlign;
+	AxisScale = 2.9999999e-002;
+	Diffuse = "Textures/Sprites/big_glow2.dds";
+}
+CCompilerSyntaxNodeExpression	$LOCAL$/CCompilerSyntaxNodeExpression_5566F5E7
+{
+	Expression = "function void     Eval()
+{
+	Life = 2.0;
+	Size = 0.04;
+	
+	Position = rand(float3(-5,0,-5), float3(5,0,5));
+}
+";
+}
+CParticleState	$LOCAL$/CParticleState_3AF8190E
+{
+	StateName = "State_0";
+	Evolvers = 
+	{
+		"$LOCAL$/CParticleEvolver_Script_185E1B15",
+		"$LOCAL$/CParticleEvolver_Physics_884D1E65",
+	};
+}
+CParticleAttributeList	$LOCAL$/_GlobalAttributes
+{
+}
+CNEdEditorBackdrop_Brush	$LOCAL$/_Backdrop_Brush
+{
+	EditorInfosPosition = int2(-253, -417);
+	LayerName = "Layer_Brush";
+}
+CParticleEvolver_Script	$LOCAL$/CParticleEvolver_Script_185E1B15
+{
+	Expression = "$LOCAL$/CCompilerSyntaxNodeExpression_077CE184";
+}
+CCompilerSyntaxNodeExpression	$LOCAL$/CCompilerSyntaxNodeExpression_077CE184
+{
+	Expression = "function void	Eval()
+{
+	float	k = 0.8;
+	float	t = 0.45;
+	float	s = 1.0;
+	float	d = 0.01;
+	
+	float	ds1 = t * max(0, Sphere.sampleDistanceField(Position));
+	float	db1 = t * max(0, Box.sampleDistanceField(Position));
+	float	d1 = 2*(k - (SmoothingFunction.sample(ds1) + s * SmoothingFunction.sample(db1)));
+
+	float	ds2 = t * max(0, Sphere.sampleDistanceField(Position + d.x00));
+	float	db2 = t * max(0, Box.sampleDistanceField(Position + d.x00));
+	float	d2 = 2*(k - (SmoothingFunction.sample(ds2) + s * SmoothingFunction.sample(db2)));
+
+	float	ds3 = t * max(0, Sphere.sampleDistanceField(Position + d.00x));
+	float	db3 = t * max(0, Box.sampleDistanceField(Position + d.00x));
+	float	d3 = 2*(k - (SmoothingFunction.sample(ds3) + s * SmoothingFunction.sample(db3)));
+	
+	float3	gradient = float3(d2 - d1, 0, d3 - d1) / d;
+//	Velocity += dt * (0.8 * cross(float3(0,1,0), gradient) - 0.5 * gradient);
+	Velocity = 1.5 * cross(float3(0,1,0), gradient);
+
+//	float	d = max(-ds, db);	// substraction
+//	float	d = max(ds, db);	// intersection
+	
+/*	float3	b = float3(6,4,4) * 0.5;
+	
+	float3	v = abs(Position) - b;
+	float	d = length(max(v, 0)) + min(max(v.x, max(v.y, v.z)), 0);*/
+	
+//	d = pow(d, 2);
+
+	Color = 0.8 * float4(abs(d1), max(d1, 0), max(d1, 0), 1);
+//	kill(d < 0);
+}
+";
+}
+CParticleFieldDeclaration	$LOCAL$/CParticleFieldDeclaration_BA230A37
+{
+	FieldName = "Color";
+	FieldType = float4;
+}
+CParticleSamplerShape	$LOCAL$/CParticleSamplerShape_3F191C1E
+{
+	SamplerName = "Sphere";
+	Shape = "$LOCAL$/CShapeDescriptor_C1226642";
+}
+CParticleEvolver_Physics	$LOCAL$/CParticleEvolver_Physics_884D1E65
+{
+}
+CShapeDescriptor	$LOCAL$/CShapeDescriptor_E37C62CA
+{
+	Position = float3(2.5693800e+000, 0.0000000e+000, -4.3043599e+000);
+	EulerOrientation = float3(-1.7999998e+002, -5.1913097e+001, -1.7999998e+002);
+	BoxDimensions = float3(5.6464200e+000, 5.0000000e-001, 2.0000000e+000);
+}
+CShapeDescriptorCollection	$LOCAL$/CShapeDescriptorCollection_05E46D53
+{
+	SubShapes = 
+	{
+		"$LOCAL$/CShapeDescriptor_AD8A84A8",
+		"$LOCAL$/CShapeDescriptor_E37C62CA",
+	};
+}
+CShapeDescriptor	$LOCAL$/CShapeDescriptor_C1226642
+{
+	Position = float3(1.7765299e+000, -2.8348792e-001, 1.6608639e+000);
+	ShapeType = SPHERE;
+	Radius = 1.5000000e+000;
+}
+CParticleSamplerShape	$LOCAL$/CParticleSamplerShape_8E0AF0A4
+{
+	SamplerName = "Box";
+	Shape = "$LOCAL$/CShapeDescriptorCollection_05E46D53";
+}
+CShapeDescriptor	$LOCAL$/CShapeDescriptor_AD8A84A8
+{
+	Position = float3(-2.4370129e+000, -9.0599060e-006, 2.5370061e+000);
+	EulerOrientation = float3(0.0000000e+000, 4.9207726e+001, 0.0000000e+000);
+	ShapeType = SPHERE;
+	BoxDimensions = float3(6.9888382e+000, 4.0000000e+000, 2.6636958e+000);
+}
+CParticleSamplerCurve	$LOCAL$/CParticleSamplerCurve_A4155451
+{
+	SamplerName = "SmoothingFunction";
+	Times = 
+	{
+		0.0000000e+000,
+		1.0000000e+000,
+	};
+	FloatValues = 
+	{
+		1.4140308e+000,
+		0.0000000e+000,
+	};
+	FloatTangents = 
+	{
+		0.0000000e+000,
+		0.0000000e+000,
+		0.0000000e+000,
+		0.0000000e+000,
+	};
+	MinLimits = float4(0.0000000e+000, 0.0000000e+000, 0.0000000e+000, 0.0000000e+000);
+}
+CParticleEventDeclaration	$LOCAL$/CParticleEventDeclaration_FDCAA31D
+{
+	EventName = "Event_0";
+	EventMode = TriggerOnce;
+}
+CNEdEditorBackdrop_List	$LOCAL$/_BackdropList
+{
+	EditorInfosPosition = int2(-100, -365);
+	EditorInfosIsBlockMinimized = 0;
+	BackgroundLayers2D = 
+	{
+		"$LOCAL$/_Backdrop_Brush",
+	};
+}

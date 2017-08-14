@@ -1,0 +1,260 @@
+Version = 1.9.0.26281;
+CParticleEffect	$LOCAL$/Resource
+{
+	OnSpawn = "$LOCAL$/Spawner";
+	CustomAttributes = "$LOCAL$/_GlobalAttributes";
+	Autostart = true;
+}
+CNEdEditorParticle_Data	$LOCAL$/EDITOR
+{
+	Position = float3(1.8535810e+000, 1.0459940e+000, 4.0036571e-001);
+	EulerOrientation = float3(-2.3562006e+001, -2.8105002e+002, 0.0000000e+000);
+	Backdrops = "$LOCAL$/_BackdropList";
+	IsLooping = true;
+	SpawnKeyboardRepeatRate = 5.0000001e-002;
+}
+CActionFactoryParticleSpawnerBase	$LOCAL$/Layer_1
+{
+	Descriptor = "$LOCAL$/CParticleDescriptor_AE135B2A";
+	SpawnCount = 2.0000000e+001;
+}
+CParticleDescriptor	$LOCAL$/CParticleDescriptor_AE135B2A
+{
+	Renderer = "$LOCAL$/CParticleRenderer_Mesh_F89B7486";
+	CustomFields = 
+	{
+		"$LOCAL$/CParticleFieldDeclaration_BED9D931",
+		"$LOCAL$/CParticleFieldDeclaration_EE39C48A",
+		"$LOCAL$/CParticleFieldDeclaration_280F1B69",
+	};
+	Samplers = 
+	{
+		"$LOCAL$/CParticleSamplerShape_F36A1185",
+		"$LOCAL$/CParticleSamplerCurve_DB4BF925",
+		"$LOCAL$/CParticleSamplerCurve_5E7658C7",
+		"$LOCAL$/CParticleSamplerCurve_5EAD706E",
+	};
+	SpawnEvaluator = "$LOCAL$/CCompilerSyntaxNodeExpression_5566F5E7";
+	States = 
+	{
+		"$LOCAL$/CParticleState_508A5A70",
+	};
+}
+CActionFactoryWithChilds	$LOCAL$/Spawner
+{
+	ChildList = 
+	{
+		"$LOCAL$/Layer_1",
+	};
+}
+CParticleAttributeList	$LOCAL$/_GlobalAttributes
+{
+}
+CCompilerSyntaxNodeExpression	$LOCAL$/CCompilerSyntaxNodeExpression_5566F5E7
+{
+	Expression = "function void     Eval()
+{
+	Life = 2.0;
+	Size = 1;
+	
+//	EulerAngle = rand(float3(0, -pi, 0), float3(0, pi, 0));
+	Axis = normalize(OrientationSampler.samplePosition());
+//	Axis2 = float3(0,1,0);
+
+
+	float2	bigness = Bigness.sample(Axis.y);
+
+	Color = ColorLookup.sample(rand(0,1)) * Intensity.sample(rand(bigness.x,bigness.y));
+	Size = bigness.y * 2;
+}
+";
+}
+CParticleRenderer_Mesh	$LOCAL$/CParticleRenderer_Mesh_F89B7486
+{
+	Meshes = 
+	{
+		"$LOCAL$/CParticleRenderer_Mesh_Descriptor_5125C1AB",
+	};
+	StaticOrientationOffset = float3(9.0000000e+001, 0.0000000e+000, 0.0000000e+000);
+	ScaleField = "Size";
+	RotationAxisAngleField = "";
+	ForwardAxisField = "Axis";
+}
+CParticleFieldDeclaration	$LOCAL$/CParticleFieldDeclaration_BED9D931
+{
+	FieldName = "Size";
+}
+CNEdEditorBackdrop_Light	$LOCAL$/_Backdrop_Light
+{
+	LayerName = "GlobalLight";
+	Position = float3(1.1233553e+002, 2.8270447e+002, 2.2297581e+002);
+	EulerOrientation = float3(-4.8550171e+001, 2.6739031e+001, -9.5600376e-007);
+	LightDistance = 3.7717276e+002;
+	LightFactory = "$LOCAL$/_Backdrop_Light_Factory";
+}
+CParticleState	$LOCAL$/CParticleState_508A5A70
+{
+	StateName = "State_0";
+}
+CShapeDescriptor	$LOCAL$/CShapeDescriptor_871EBE34
+{
+	ShapeType = COMPLEX_ELLIPSOID;
+	CutPlane = 5.0000000e-001;
+	NonUniformScale = float3(1.0000000e+000, 5.0000000e-001, 1.0000000e+000);
+}
+CParticleSamplerShape	$LOCAL$/CParticleSamplerShape_F36A1185
+{
+	EditorInfosIsBlockMinimized = 0;
+	SamplerName = "OrientationSampler";
+	Shape = "$LOCAL$/CShapeDescriptor_871EBE34";
+}
+CParticleFieldDeclaration	$LOCAL$/CParticleFieldDeclaration_EE39C48A
+{
+	FieldName = "Color";
+	FieldType = float4;
+}
+CParticleSamplerCurve	$LOCAL$/CParticleSamplerCurve_DB4BF925
+{
+	SamplerName = "Intensity";
+	Times = 
+	{
+		0.0000000e+000,
+		5.7719600e-001,
+		1.0000000e+000,
+	};
+	FloatValues = 
+	{
+		1.1444231e+000,
+		8.8978119e+000,
+		4.0000000e+001,
+	};
+	FloatTangents = 
+	{
+		0.0000000e+000,
+		0.0000000e+000,
+		1.8334057e+001,
+		1.3429949e+001,
+		0.0000000e+000,
+		0.0000000e+000,
+	};
+	MinLimits = float4(0.0000000e+000, 0.0000000e+000, 0.0000000e+000, 0.0000000e+000);
+}
+CParticleSamplerCurve	$LOCAL$/CParticleSamplerCurve_5EAD706E
+{
+	SamplerName = "ColorLookup";
+	ValueType = Float4;
+	Times = 
+	{
+		0.0000000e+000,
+		1.0000000e+000,
+	};
+	FloatValues = 
+	{
+		9.1567576e-001,
+		1.7695627e-001,
+		4.7734201e-001,
+		0.0000000e+000,
+		3.9723921e-001,
+		1.8696928e-001,
+		9.9801064e-001,
+		0.0000000e+000,
+	};
+	FloatTangents = 
+	{
+		0.0000000e+000,
+		0.0000000e+000,
+		0.0000000e+000,
+		0.0000000e+000,
+		0.0000000e+000,
+		1.6691062e+000,
+		1.4792336e+000,
+		0.0000000e+000,
+		-1.4599757e+000,
+		-1.4144756e+000,
+		0.0000000e+000,
+		0.0000000e+000,
+		0.0000000e+000,
+		0.0000000e+000,
+		0.0000000e+000,
+		0.0000000e+000,
+	};
+	MinLimits = float4(0.0000000e+000, 0.0000000e+000, 0.0000000e+000, 0.0000000e+000);
+}
+CParticleSamplerCurve	$LOCAL$/CParticleSamplerCurve_5E7658C7
+{
+	SamplerName = "Bigness";
+	ValueType = Float2;
+	Times = 
+	{
+		0.0000000e+000,
+		1.0000000e+000,
+	};
+	FloatValues = 
+	{
+		0.0000000e+000,
+		3.6500001e-001,
+		6.3453609e-001,
+		1.0000000e+000,
+	};
+	FloatTangents = 
+	{
+		0.0000000e+000,
+		0.0000000e+000,
+		0.0000000e+000,
+		0.0000000e+000,
+		0.0000000e+000,
+		0.0000000e+000,
+		0.0000000e+000,
+		0.0000000e+000,
+	};
+	MinLimits = float4(0.0000000e+000, 0.0000000e+000, 0.0000000e+000, 0.0000000e+000);
+}
+CParticleFieldDeclaration	$LOCAL$/CParticleFieldDeclaration_280F1B69
+{
+	FieldName = "Axis";
+	FieldType = float3;
+	TransformFilter = rotate;
+}
+CParticleRenderer_Mesh_Descriptor	$LOCAL$/CParticleRenderer_Mesh_Descriptor_5125C1AB
+{
+	Mesh = "Meshes/Crystal.pkmm";
+	MaterialParametersFields = 
+	{
+		"DiffuseColor = Color",
+	};
+	Diffuse = "Textures//Crystal.dds";
+	AmbientColor = float3(9.9999998e-003, 9.9999998e-003, 9.9999998e-003);
+}
+CNEdEditorBackdrop_List	$LOCAL$/_BackdropList
+{
+	EditorInfosPosition = int2(-100, -365);
+	BackgroundLayers2D = 
+	{
+		"$LOCAL$/_Backdrop_Brush",
+	};
+	SceneLayers3D = 
+	{
+		"$LOCAL$/_Backdrop_Model3D",
+		"$LOCAL$/_Backdrop_Light",
+	};
+}
+CNEdEditorBackdrop_Brush	$LOCAL$/_Backdrop_Brush
+{
+	EditorInfosPosition = int2(-253, -417);
+	LayerName = "Layer_Brush";
+}
+CNEdEditorBackdrop_Model3D	$LOCAL$/_Backdrop_Model3D
+{
+	EditorInfosPosition = int2(-252, -371);
+	EditorInfosIsBlockMinimized = 2;
+	LayerName = "Layer_Model";
+	ResourceModel = "meshes/cuberoom_default.fbx";
+}
+CNEdEditorLightFactory	$LOCAL$/_Backdrop_Light_Factory
+{
+	NearClipPlane = 1.0000000e+002;
+	Fov = 5.0000000e+000;
+	SpotFalloff = 5.6632650e-001;
+	Magnitude = 1.0000000e+005;
+	CastsShadows = true;
+}

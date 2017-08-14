@@ -1,0 +1,494 @@
+Version = 1.9.0.26281;
+CParticleEffect	$LOCAL$/Resource
+{
+	EditorInfosPosition = int2(504, 93);
+	OnSpawn = "$LOCAL$/Spawner";
+	CustomAttributes = "$LOCAL$/_GlobalAttributes";
+	Autostart = true;
+}
+CActionFactoryParticleSpawnerBase	$LOCAL$/Flock_RED
+{
+	EditorInfosPosition = int2(235, 96);
+	Descriptor = "$LOCAL$/CParticleDescriptor_9D8F3370";
+	SpawnCount = 8.0000000e+003;
+	FluxFunctionTiledRelativeDuration = 2.9000001e+000;
+}
+CParticleDescriptor	$LOCAL$/CParticleDescriptor_9D8F3370
+{
+	EditorInfosPosition = int2(93, 96);
+	EditorInfosIsBlockMinimized = 0;
+	Renderer = "$LOCAL$/CParticleRenderer_Billboard_6755DD6A";
+	CustomFields = 
+	{
+		"$LOCAL$/CParticleFieldDeclaration_53E90703",
+	};
+	Samplers = 
+	{
+		"$LOCAL$/CParticleSamplerShape_B9688D35",
+	};
+	SpawnEvaluator = "$LOCAL$/CCompilerSyntaxNodeExpression_90776734";
+	States = 
+	{
+		"$LOCAL$/State1",
+	};
+}
+CNEdEditorParticle_Data	$LOCAL$/EDITOR
+{
+	EditorInfosPosition = int2(-228, -79);
+	Position = float3(0.0000000e+000, 1.0000000e+001, 9.0000000e+001);
+	Backdrops = "$LOCAL$/_BackdropList";
+}
+CParticleRenderer_Billboard	$LOCAL$/CParticleRenderer_Billboard_6755DD6A
+{
+	EditorInfosPosition = int2(-31, 80);
+	BillboardingMaterial = AlphaBlend_Additive_Soft;
+	Diffuse = "Textures/falloff.dds";
+	BillboardMode = VelocityCapsuleAlign;
+	AxisScale = 4.0000001e-001;
+}
+CCompilerSyntaxNodeExpression	$LOCAL$/CCompilerSyntaxNodeExpression_90776734
+{
+	EditorInfosPosition = int2(-31, 150);
+	EditorInfosIsBlockMinimized = 0;
+	Expression = "function void     Eval()
+{
+	Life = 3000.0;
+	Size = (pow(rand(0,1), 7) * 0.4 + 0.2);
+//	Color = float4(1,1,1,1);
+	Position = PositionSampler.samplePosition();
+	Velocity = normalize(rand(float3(-1), float3(1)));
+}
+";
+}
+CParticleEvolver_Script	$LOCAL$/CParticleEvolver_Script_E70C019D
+{
+	EditorInfosPosition = int2(-185, 340);
+	EditorInfosIsBlockMinimized = 0;
+	Expression = "$LOCAL$/CCompilerSyntaxNodeExpression_E70C019D";
+}
+CCompilerSyntaxNodeExpression	$LOCAL$/CCompilerSyntaxNodeExpression_E70C019D
+{
+	EditorInfosPosition = int2(-286, 340);
+	EditorInfosIsBlockMinimized = 0;
+	Expression = "function void     Eval()
+{
+	float3	toLight = -normalize(float3(0.5,0.5,0.5));
+	float	neighborCount = 1.0f / MeanNeighborDirection.w;
+	
+	// the particle normal is a weighted average between its blob normal
+	// and the vector to the light.
+	// incorporating the light vector allows to fake transluency when the number of neighbors is low
+
+	float3	normal = normalize(0.5*MeanNeighborDirection.xyz*neighborCount + 0.1*toLight);
+
+	// compute diffuse lighting (simple NdotL diffuse lighting)
+	float	diffuse = dot(normal, toLight)*0.5 + 0.5; // no need to call saturate() to keep in the [0,1] range, the curve sampler will clamp this itself
+	float	occlusion = LightingCurve.sample(diffuse);
+
+	// generate RGB based on worldspace position and velocity
+	float	h = min(1, (Position.y + 20) / 30);
+//	float3	rgb = (max(min(Velocity, 2.0), -2.0) + 2.0) * (float3(1.0, 0.8, 0.1) / 4.0) * (h + 1.0) * 0.5 + 0.5 + float3(0.4, 0.3, 0.2) + 0.2 + h * (float3(0.4, -0.3, -0.2) - 0.2);
+	float3	rgb = float3(1,0.02,0.02);
+
+	// smooth color transitions to avoid flickering. (the exp expression makes it stable no matter the fps)
+	Color = lerp(Color, (rgb * occlusion).xyz1, 1-exp(-dt*05));
+}";
+}
+CParticleState	$LOCAL$/State1
+{
+	EditorInfosPosition = int2(-64, 279);
+	StateName = "State_0";
+	Evolvers = 
+	{
+		"$LOCAL$/CParticleEvolver_Flocking_EA9A69D1",
+		"$LOCAL$/CParticleEvolver_Physics_EA9A69D1",
+		"$LOCAL$/CParticleEvolver_Containment_EA9A69D1",
+		"$LOCAL$/CParticleEvolver_Script_E70C019D",
+		"$LOCAL$/CParticleEvolver_SpatialInsertion_01234567",
+	};
+}
+CParticleSamplerShape	$LOCAL$/CParticleSamplerShape_B9688D35
+{
+	EditorInfosPosition = int2(-30, 186);
+	SamplerName = "PositionSampler";
+	Shape = "$LOCAL$/CShapeDescriptor_C0BB68D9";
+	SampleDimensionality = Volume;
+}
+CShapeDescriptor	$LOCAL$/CShapeDescriptor_C0BB68D9
+{
+	EditorInfosPosition = int2(-126, 185);
+	EditorInfosIsBlockMinimized = 0;
+	Position = float3(-1.3000000e+001, 0.0000000e+000, 0.0000000e+000);
+	ShapeType = SPHERE;
+	Radius = 2.0000000e+001;
+}
+CParticleEvolver_Physics	$LOCAL$/CParticleEvolver_Physics_EA9A69D1
+{
+	EditorInfosPosition = int2(-185, 270);
+	EditorInfosIsBlockMinimized = 0;
+}
+CParticleEvolver_Flocking	$LOCAL$/CParticleEvolver_Flocking_EA9A69D1
+{
+	EditorInfosPosition = int2(-185, 235);
+	EditorInfosIsBlockMinimized = 0;
+	SpatialLayer = "$LOCAL$/CParticleSpatialDescriptor_01234567";
+	AlignmentFactor = 3.2999998e-001;
+	CohesionFactor = 3.2999998e-001;
+}
+CParticleEvolver_Containment	$LOCAL$/CParticleEvolver_Containment_EA9A69D1
+{
+	EditorInfosPosition = int2(-185, 305);
+	EditorInfosIsBlockMinimized = 0;
+	WorldCenter = float3(-1.3000000e+001, 0.0000000e+000, 0.0000000e+000);
+}
+CParticleFieldDeclaration	$LOCAL$/CParticleFieldDeclaration_53E90703
+{
+	EditorInfosPosition = int2(-31, 115);
+	EditorInfosIsBlockMinimized = 0;
+	FieldName = "Color";
+	FieldType = float4;
+}
+CActionFactoryWithChilds	$LOCAL$/Spawner
+{
+	EditorInfosPosition = int2(346, 95);
+	ChildList = 
+	{
+		"$LOCAL$/Flock_RED",
+		"$LOCAL$/Flock_GREEN",
+		"$LOCAL$/Flock_BLUE",
+	};
+}
+CParticleEvolver_SpatialInsertion	$LOCAL$/CParticleEvolver_SpatialInsertion_01234567
+{
+	SpatialLayer = "$LOCAL$/CParticleSpatialDescriptor_01234567";
+}
+CParticleAttributeList	$LOCAL$/_GlobalAttributes
+{
+	SamplerList = 
+	{
+		"$LOCAL$/CParticleSamplerCurve_2311D046",
+	};
+}
+CNEdEditorBackdrop_List	$LOCAL$/_BackdropList
+{
+	EditorInfosPosition = int2(-100, -365);
+	EditorInfosIsBlockMinimized = 0;
+	BackgroundLayers2D = 
+	{
+		"$LOCAL$/_Backdrop_Brush",
+	};
+}
+CNEdEditorBackdrop_Brush	$LOCAL$/_Backdrop_Brush
+{
+	EditorInfosPosition = int2(-253, -417);
+	LayerName = "Layer_Brush";
+}
+CParticleSamplerCurve	$LOCAL$/CParticleSamplerCurve_2311D046
+{
+	SamplerName = "LightingCurve";
+	Times = 
+	{
+		0.0000000e+000,
+		5.6159699e-001,
+		1.0000000e+000,
+	};
+	FloatValues = 
+	{
+		5.3941905e-002,
+		2.7074686e-001,
+		1.0000000e+000,
+	};
+	FloatTangents = 
+	{
+		0.0000000e+000,
+		0.0000000e+000,
+		5.8582503e-001,
+		4.5731631e-001,
+		0.0000000e+000,
+		0.0000000e+000,
+	};
+	MinLimits = float4(0.0000000e+000, 0.0000000e+000, 0.0000000e+000, 0.0000000e+000);
+}
+CParticleSpatialDescriptor	$LOCAL$/CParticleSpatialDescriptor_01234567
+{
+	CellSize = 4.0000000e+000;
+}
+CParticleDescriptor	$LOCAL$/CParticleDescriptor_BB7B6DB7
+{
+	EditorInfosPosition = int2(93, 96);
+	EditorInfosIsBlockMinimized = 0;
+	Renderer = "$LOCAL$/CParticleRenderer_Billboard_ECB63346";
+	CustomFields = 
+	{
+		"$LOCAL$/CParticleFieldDeclaration_0DC19081",
+	};
+	Samplers = 
+	{
+		"$LOCAL$/CParticleSamplerShape_AFD448D8",
+	};
+	SpawnEvaluator = "$LOCAL$/CCompilerSyntaxNodeExpression_AA891C25";
+	States = 
+	{
+		"$LOCAL$/CParticleState_B87B2B4C",
+	};
+}
+CParticleRenderer_Billboard	$LOCAL$/CParticleRenderer_Billboard_ECB63346
+{
+	EditorInfosPosition = int2(-31, 80);
+	BillboardingMaterial = AlphaBlend_Additive_Soft;
+	Diffuse = "Textures/falloff.dds";
+	BillboardMode = VelocityCapsuleAlign;
+	AxisScale = 4.0000001e-001;
+}
+CParticleFieldDeclaration	$LOCAL$/CParticleFieldDeclaration_0DC19081
+{
+	EditorInfosPosition = int2(-31, 115);
+	EditorInfosIsBlockMinimized = 0;
+	FieldName = "Color";
+	FieldType = float4;
+}
+CParticleSamplerShape	$LOCAL$/CParticleSamplerShape_AFD448D8
+{
+	EditorInfosPosition = int2(-30, 186);
+	SamplerName = "PositionSampler";
+	Shape = "$LOCAL$/CShapeDescriptor_79F1AC7B";
+	SampleDimensionality = Volume;
+}
+CShapeDescriptor	$LOCAL$/CShapeDescriptor_79F1AC7B
+{
+	EditorInfosPosition = int2(-126, 185);
+	EditorInfosIsBlockMinimized = 0;
+	Position = float3(1.3000000e+001, 0.0000000e+000, 0.0000000e+000);
+	ShapeType = SPHERE;
+	Radius = 2.0000000e+001;
+}
+CActionFactoryParticleSpawnerBase	$LOCAL$/Flock_GREEN
+{
+	EditorInfosPosition = int2(235, 96);
+	Descriptor = "$LOCAL$/CParticleDescriptor_BB7B6DB7";
+	SpawnCount = 8.0000000e+003;
+	FluxFunctionTiledRelativeDuration = 2.9000001e+000;
+}
+CCompilerSyntaxNodeExpression	$LOCAL$/CCompilerSyntaxNodeExpression_AA891C25
+{
+	EditorInfosPosition = int2(-31, 150);
+	EditorInfosIsBlockMinimized = 0;
+	Expression = "function void     Eval()
+{
+	Life = 3000.0;
+	Size = (pow(rand(0,1), 7) * 0.4 + 0.2);
+//	Color = float4(1,1,1,1);
+	Position = PositionSampler.samplePosition();
+	Velocity = normalize(rand(float3(-1), float3(1)));
+}
+";
+}
+CParticleState	$LOCAL$/CParticleState_B87B2B4C
+{
+	EditorInfosPosition = int2(-64, 279);
+	StateName = "State_0";
+	Evolvers = 
+	{
+		"$LOCAL$/CParticleEvolver_Flocking_CA3C45FF",
+		"$LOCAL$/CParticleEvolver_Physics_79173C89",
+		"$LOCAL$/CParticleEvolver_Containment_EA2DE180",
+		"$LOCAL$/CParticleEvolver_Script_70915E43",
+		"$LOCAL$/CParticleEvolver_SpatialInsertion_393BF5AD",
+	};
+}
+CParticleEvolver_Flocking	$LOCAL$/CParticleEvolver_Flocking_CA3C45FF
+{
+	EditorInfosPosition = int2(-185, 235);
+	EditorInfosIsBlockMinimized = 0;
+	SpatialLayer = "$LOCAL$/CParticleSpatialDescriptor_01234567";
+	AlignmentFactor = 3.2999998e-001;
+	CohesionFactor = 3.2999998e-001;
+}
+CParticleEvolver_Physics	$LOCAL$/CParticleEvolver_Physics_79173C89
+{
+	EditorInfosPosition = int2(-185, 270);
+	EditorInfosIsBlockMinimized = 0;
+}
+CParticleEvolver_Containment	$LOCAL$/CParticleEvolver_Containment_EA2DE180
+{
+	EditorInfosPosition = int2(-185, 305);
+	EditorInfosIsBlockMinimized = 0;
+	WorldCenter = float3(1.3000000e+001, 0.0000000e+000, 0.0000000e+000);
+}
+CParticleEvolver_Script	$LOCAL$/CParticleEvolver_Script_70915E43
+{
+	EditorInfosPosition = int2(-185, 340);
+	EditorInfosIsBlockMinimized = 0;
+	Expression = "$LOCAL$/CCompilerSyntaxNodeExpression_D2AF68C2";
+}
+CCompilerSyntaxNodeExpression	$LOCAL$/CCompilerSyntaxNodeExpression_D2AF68C2
+{
+	EditorInfosPosition = int2(-286, 340);
+	EditorInfosIsBlockMinimized = 0;
+	Expression = "function void     Eval()
+{
+	float3	toLight = -normalize(float3(0.5,0.5,0.5));
+	float	neighborCount = 1.0f / MeanNeighborDirection.w;
+	
+	// the particle normal is a weighted average between its blob normal
+	// and the vector to the light.
+	// incorporating the light vector allows to fake transluency when the number of neighbors is low
+
+	float3	normal = normalize(0.5*MeanNeighborDirection.xyz*neighborCount + 0.1*toLight);
+
+	// compute diffuse lighting (simple NdotL diffuse lighting)
+	float	diffuse = dot(normal, toLight)*0.5 + 0.5; // no need to call saturate() to keep in the [0,1] range, the curve sampler will clamp this itself
+	float	occlusion = LightingCurve.sample(diffuse);
+
+	// generate RGB based on worldspace position and velocity
+	float	h = min(1, (Position.y + 20) / 30);
+//	float3	rgb = (max(min(Velocity, 2.0), -2.0) + 2.0) * (float3(1.0, 0.8, 0.1) / 4.0) * (h + 1.0) * 0.5 + 0.5 + float3(0.4, 0.3, 0.2) + 0.2 + h * (float3(0.4, -0.3, -0.2) - 0.2);
+	float3	rgb = float3(0.05,1,0.05);
+	
+	// smooth color transitions to avoid flickering. (the exp expression makes it stable no matter the fps)
+	Color = lerp(Color, (rgb * occlusion).xyz1, 1-exp(-dt*05));
+}";
+}
+CParticleEvolver_SpatialInsertion	$LOCAL$/CParticleEvolver_SpatialInsertion_393BF5AD
+{
+	SpatialLayer = "$LOCAL$/CParticleSpatialDescriptor_01234567";
+}
+CParticleDescriptor	$LOCAL$/CParticleDescriptor_1CA161BD
+{
+	EditorInfosPosition = int2(93, 96);
+	Renderer = "$LOCAL$/CParticleRenderer_Billboard_156794C4";
+	CustomFields = 
+	{
+		"$LOCAL$/CParticleFieldDeclaration_151BB0D7",
+	};
+	Samplers = 
+	{
+		"$LOCAL$/CParticleSamplerShape_E38C24E6",
+	};
+	SpawnEvaluator = "$LOCAL$/CCompilerSyntaxNodeExpression_2D7B6578";
+	States = 
+	{
+		"$LOCAL$/CParticleState_DB02B59B",
+	};
+}
+CParticleRenderer_Billboard	$LOCAL$/CParticleRenderer_Billboard_156794C4
+{
+	EditorInfosPosition = int2(-31, 80);
+	BillboardingMaterial = AlphaBlend_Additive_Soft;
+	Diffuse = "Textures/falloff.dds";
+	BillboardMode = VelocityCapsuleAlign;
+	AxisScale = 4.0000001e-001;
+}
+CParticleFieldDeclaration	$LOCAL$/CParticleFieldDeclaration_151BB0D7
+{
+	EditorInfosPosition = int2(-31, 115);
+	EditorInfosIsBlockMinimized = 0;
+	FieldName = "Color";
+	FieldType = float4;
+}
+CParticleSamplerShape	$LOCAL$/CParticleSamplerShape_E38C24E6
+{
+	EditorInfosPosition = int2(-30, 186);
+	SamplerName = "PositionSampler";
+	Shape = "$LOCAL$/CShapeDescriptor_868F92A1";
+	SampleDimensionality = Volume;
+}
+CShapeDescriptor	$LOCAL$/CShapeDescriptor_868F92A1
+{
+	EditorInfosPosition = int2(-126, 185);
+	EditorInfosIsBlockMinimized = 0;
+	Position = float3(0.0000000e+000, 2.4000000e+001, 0.0000000e+000);
+	ShapeType = SPHERE;
+	Radius = 2.0000000e+001;
+}
+CCompilerSyntaxNodeExpression	$LOCAL$/CCompilerSyntaxNodeExpression_2D7B6578
+{
+	EditorInfosPosition = int2(-31, 150);
+	EditorInfosIsBlockMinimized = 0;
+	Expression = "function void     Eval()
+{
+	Life = 3000.0;
+	Size = (pow(rand(0,1), 7) * 0.4 + 0.2);
+//	Color = float4(1,1,1,1);
+	Position = PositionSampler.samplePosition();
+	Velocity = normalize(rand(float3(-1), float3(1)));
+}
+";
+}
+CParticleState	$LOCAL$/CParticleState_DB02B59B
+{
+	EditorInfosPosition = int2(-64, 279);
+	StateName = "State_0";
+	Evolvers = 
+	{
+		"$LOCAL$/CParticleEvolver_Flocking_DA3D66FA",
+		"$LOCAL$/CParticleEvolver_Physics_D99E3445",
+		"$LOCAL$/CParticleEvolver_Containment_95CC15EC",
+		"$LOCAL$/CParticleEvolver_Script_4234351F",
+		"$LOCAL$/CParticleEvolver_SpatialInsertion_2C508AA9",
+	};
+}
+CParticleEvolver_Flocking	$LOCAL$/CParticleEvolver_Flocking_DA3D66FA
+{
+	EditorInfosPosition = int2(-185, 235);
+	EditorInfosIsBlockMinimized = 0;
+	SpatialLayer = "$LOCAL$/CParticleSpatialDescriptor_01234567";
+	AlignmentFactor = 3.2999998e-001;
+	CohesionFactor = 3.2999998e-001;
+}
+CParticleEvolver_Physics	$LOCAL$/CParticleEvolver_Physics_D99E3445
+{
+	EditorInfosPosition = int2(-185, 270);
+	EditorInfosIsBlockMinimized = 0;
+}
+CParticleEvolver_Containment	$LOCAL$/CParticleEvolver_Containment_95CC15EC
+{
+	EditorInfosPosition = int2(-185, 305);
+	EditorInfosIsBlockMinimized = 0;
+	WorldCenter = float3(0.0000000e+000, 2.4000000e+001, 0.0000000e+000);
+}
+CParticleEvolver_Script	$LOCAL$/CParticleEvolver_Script_4234351F
+{
+	EditorInfosPosition = int2(-185, 340);
+	EditorInfosIsBlockMinimized = 0;
+	Expression = "$LOCAL$/CCompilerSyntaxNodeExpression_4A395ACE";
+}
+CCompilerSyntaxNodeExpression	$LOCAL$/CCompilerSyntaxNodeExpression_4A395ACE
+{
+	EditorInfosPosition = int2(-286, 340);
+	EditorInfosIsBlockMinimized = 0;
+	Expression = "function void     Eval()
+{
+	float3	toLight = -normalize(float3(0.5,0.5,0.5));
+	float	neighborCount = 1.0f / MeanNeighborDirection.w;
+	
+	// the particle normal is a weighted average between its blob normal
+	// and the vector to the light.
+	// incorporating the light vector allows to fake transluency when the number of neighbors is low
+
+	float3	normal = normalize(0.5*MeanNeighborDirection.xyz*neighborCount + 0.1*toLight);
+
+	// compute diffuse lighting (simple NdotL diffuse lighting)
+	float	diffuse = dot(normal, toLight)*0.5 + 0.5; // no need to call saturate() to keep in the [0,1] range, the curve sampler will clamp this itself
+	float	occlusion = LightingCurve.sample(diffuse);
+
+	// generate RGB based on worldspace position and velocity
+	float	h = min(1, (Position.y + 20) / 30);
+//	float3	rgb = (max(min(Velocity, 2.0), -2.0) + 2.0) * (float3(1.0, 0.8, 0.1) / 4.0) * (h + 1.0) * 0.5 + 0.5 + float3(0.4, 0.3, 0.2) + 0.2 + h * (float3(0.4, -0.3, -0.2) - 0.2);
+	float3	rgb = float3(0.02,0.1,1);
+	
+	// smooth color transitions to avoid flickering. (the exp expression makes it stable no matter the fps)
+	Color = lerp(Color, (rgb * occlusion).xyz1, 1-exp(-dt*05));
+}";
+}
+CParticleEvolver_SpatialInsertion	$LOCAL$/CParticleEvolver_SpatialInsertion_2C508AA9
+{
+	SpatialLayer = "$LOCAL$/CParticleSpatialDescriptor_01234567";
+}
+CActionFactoryParticleSpawnerBase	$LOCAL$/Flock_BLUE
+{
+	EditorInfosPosition = int2(235, 96);
+	Descriptor = "$LOCAL$/CParticleDescriptor_1CA161BD";
+	SpawnCount = 8.0000000e+003;
+	FluxFunctionTiledRelativeDuration = 2.9000001e+000;
+}

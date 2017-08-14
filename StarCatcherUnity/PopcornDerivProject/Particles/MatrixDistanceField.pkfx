@@ -1,0 +1,207 @@
+Version = 1.9.0.26281;
+CParticleEffect	$LOCAL$/Resource
+{
+	OnSpawn = "$LOCAL$/Spawner";
+	CustomAttributes = "$LOCAL$/_GlobalAttributes";
+	Autostart = true;
+}
+CNEdEditorParticle_Data	$LOCAL$/EDITOR
+{
+	Position = float3(0.0000000e+000, 1.0000000e+000, 2.2500000e+000);
+	Backdrops = "$LOCAL$/_BackdropList";
+	SubEntityTreeFactory = "$LOCAL$/CEntityWithTransformsFactory_96A00101";
+}
+CActionFactoryParticleSpawnerBase	$LOCAL$/TheMatrix
+{
+	Descriptor = "$LOCAL$/CParticleDescriptor_AE135B2A";
+	Infinite = true;
+	DurationInSeconds = 2.0000000e+000;
+	SpawnCount = 1.0000000e+004;
+}
+CParticleDescriptor	$LOCAL$/CParticleDescriptor_AE135B2A
+{
+	Renderer = "$LOCAL$/CParticleRenderer_Billboard_6E7F42D4";
+	CustomFields = 
+	{
+		"$LOCAL$/CParticleFieldDeclaration_8B33AA80",
+		"$LOCAL$/CParticleFieldDeclaration_3F1EB6E0",
+		"$LOCAL$/CParticleFieldDeclaration_8FFDFA23",
+		"$LOCAL$/CParticleFieldDeclaration_B506FC5A",
+		"$LOCAL$/CParticleFieldDeclaration_B12791B5",
+	};
+	Samplers = 
+	{
+		"$LOCAL$/CParticleSamplerShape_563C8CFA",
+		"$LOCAL$/CParticleSamplerShape_47D27948",
+	};
+	SpawnEvaluator = "$LOCAL$/CCompilerSyntaxNodeExpression_5566F5E7";
+	States = 
+	{
+		"$LOCAL$/CParticleState_3AF8190E",
+	};
+}
+CActionFactoryWithChilds	$LOCAL$/Spawner
+{
+	ChildList = 
+	{
+		"$LOCAL$/TheMatrix",
+	};
+}
+CParticleRenderer_Billboard	$LOCAL$/CParticleRenderer_Billboard_6E7F42D4
+{
+	BillboardingMaterial = Additive_NoAlpha;
+	Diffuse = "Textures/Fx/Matrix_01.dds";
+	AtlasDefinition = "Textures/Fx/Matrix_01.pkat";
+	BillboardMode = VelocityAxisAligned;
+	AxisField = "Vaxis";
+	AxisScale = 5.0000000e-001;
+}
+CCompilerSyntaxNodeExpression	$LOCAL$/CCompilerSyntaxNodeExpression_5566F5E7
+{
+	Expression = "function void	Eval()
+{
+	Life = 2;
+	Size = 0.025;
+	
+	Position = ceil(EmissionShape.samplePosition()*20)*0.05;
+	
+	TextureID = rand(0,32);
+	Velocity = float3(0,-1,0);
+	Rcolor = rand(0,1);
+}
+";
+}
+CParticleState	$LOCAL$/CParticleState_3AF8190E
+{
+	StateName = "State_0";
+	Evolvers = 
+	{
+		"$LOCAL$/CParticleEvolver_Physics_36D6D4BD",
+		"$LOCAL$/CParticleEvolver_Script_4AE52647",
+	};
+}
+CParticleEvolver_Physics	$LOCAL$/CParticleEvolver_Physics_36D6D4BD
+{
+}
+CEntityWithTransformsFactory	$LOCAL$/CEntityWithTransformsFactory_96A00101
+{
+}
+CParticleFieldDeclaration	$LOCAL$/CParticleFieldDeclaration_8B33AA80
+{
+	FieldName = "Color";
+	FieldType = float4;
+}
+CParticleAttributeList	$LOCAL$/_GlobalAttributes
+{
+}
+CParticleSamplerShape	$LOCAL$/CParticleSamplerShape_563C8CFA
+{
+	SamplerName = "EmissionShape";
+	Shape = "$LOCAL$/CShapeDescriptor_B9D15FD5";
+}
+CShapeDescriptor	$LOCAL$/CShapeDescriptor_B9D15FD5
+{
+	Position = float3(0.0000000e+000, 1.9000000e+000, 0.0000000e+000);
+	BoxDimensions = float3(1.8000000e+000, 0.0000000e+000, 3.8000000e-001);
+}
+CParticleSamplerShape	$LOCAL$/CParticleSamplerShape_47D27948
+{
+	SamplerName = "MatrixHighlighter";
+	Shape = "$LOCAL$/CShapeDescriptor_7CBE52EB";
+}
+CShapeDescriptor	$LOCAL$/CShapeDescriptor_7CBE52EB
+{
+	ShapeType = MESH;
+	MeshResource = "Meshes/mandefault.pkmm";
+}
+CParticleEvolver_Script	$LOCAL$/CParticleEvolver_Script_4AE52647
+{
+	Expression = "$LOCAL$/CCompilerSyntaxNodeExpression_707707EE";
+}
+CCompilerSyntaxNodeExpression	$LOCAL$/CCompilerSyntaxNodeExpression_707707EE
+{
+	Expression = "function void	Eval()
+{
+	DistanceDebug = abs(MatrixHighlighter.sampleDistanceField(Position));
+
+	float	n = 0.00001 / pow(max(DistanceDebug,0.008),2);
+
+	float4	c0 = float4(n*0.01, n, n*0.1, 0) * 4;
+	float4	c1 = float4(n*0.1,  n, n*0.5, 0) * 10;
+	Color = select(c0, c1, Rcolor < 0.1);
+
+	// Here, to improve overdraw, shrink the particles to zero when they\'re far enough that we don\'t see them
+	// (because their additive color is near zero)
+	Size = 0.025 * pow(max(0,1-abs(DistanceDebug)*3), 0.25);
+	Vaxis = float3(0,0.1,0);
+}
+";
+}
+CParticleFieldDeclaration	$LOCAL$/CParticleFieldDeclaration_3F1EB6E0
+{
+	FieldName = "DistanceDebug";
+}
+CParticleFieldDeclaration	$LOCAL$/CParticleFieldDeclaration_8FFDFA23
+{
+	FieldName = "Rcolor";
+}
+CParticleFieldDeclaration	$LOCAL$/CParticleFieldDeclaration_B506FC5A
+{
+	FieldName = "Velocity";
+	FieldType = float3;
+	TransformFilter = rotate;
+}
+CParticleFieldDeclaration	$LOCAL$/CParticleFieldDeclaration_B12791B5
+{
+	FieldName = "Vaxis";
+	FieldType = float3;
+	TransformFilter = rotate;
+}
+CNEdEditorBackdrop_List	$LOCAL$/_BackdropList
+{
+	EditorInfosPosition = int2(-100, -365);
+	BackgroundLayers2D = 
+	{
+		"$LOCAL$/_Backdrop_Brush",
+		"$LOCAL$/_Backdrop_Audio2D",
+	};
+	SceneLayers3D = 
+	{
+		"$LOCAL$/_Backdrop_Model3D",
+		"$LOCAL$/_Backdrop_Light",
+	};
+}
+CNEdEditorBackdrop_Brush	$LOCAL$/_Backdrop_Brush
+{
+	EditorInfosPosition = int2(-253, -417);
+	LayerName = "Layer_Brush";
+	BackgroundColorTop = float4(0.0000000e+000, 0.0000000e+000, 0.0000000e+000, 0.0000000e+000);
+	BackgroundColorBottom = float4(0.0000000e+000, 1.0000000e-001, 5.9604646e-009, 1.0000000e+000);
+}
+CNEdEditorBackdrop_Model3D	$LOCAL$/_Backdrop_Model3D
+{
+	EditorInfosPosition = int2(-252, -371);
+	EditorInfosIsBlockMinimized = 2;
+	LayerName = "Layer_Model";
+}
+CNEdEditorBackdrop_Audio2D	$LOCAL$/_Backdrop_Audio2D
+{
+	EditorInfosPosition = int2(-252, -460);
+	LayerName = "Layer_Audio2D";
+}
+CNEdEditorLightFactory	$LOCAL$/_Backdrop_Light_Factory
+{
+	NearClipPlane = 1.0000000e+002;
+	LightSize = 9.9999998e-003;
+	SpotFalloff = 8.8541701e-002;
+	Magnitude = 1.0000000e+005;
+}
+CNEdEditorBackdrop_Light	$LOCAL$/_Backdrop_Light
+{
+	LayerName = "GlobalLight";
+	UniformScale = 9.9999994e-001;
+	Position = float3(1.1233553e+002, 2.8270447e+002, 2.2297581e+002);
+	EulerOrientation = float3(-4.8550171e+001, 2.6739031e+001, -9.5600376e-007);
+	LightDistance = 3.7717276e+002;
+	LightFactory = "$LOCAL$/_Backdrop_Light_Factory";
+}

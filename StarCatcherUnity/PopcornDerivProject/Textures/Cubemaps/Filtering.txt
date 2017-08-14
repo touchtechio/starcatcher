@@ -1,0 +1,5 @@
+1024*1024
+Filter : Cosine
+Mip initial angle : 1
+Mip filter angle scale : 2.38
+Irradiance Mip level : 7
