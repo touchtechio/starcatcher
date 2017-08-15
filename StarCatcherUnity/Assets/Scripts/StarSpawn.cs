@@ -27,7 +27,7 @@ public class StarSpawn : MonoBehaviour {
     [Range(0.1f, 10.0f)]
     public float hardTimeToSpawn = 0;
 
-
+    private float[] SpawnRate;
     // set to durations between spawn events
     [Range(0.1f, 10.0f)]
     public float easyFallDuration = 5.0f;
@@ -107,14 +107,7 @@ public class StarSpawn : MonoBehaviour {
             StartCoroutine("BetweenWaves");
         }
 
-        
-        if (hardTimeToNextSpawn <= 0)
-        {
-           // SpawnHard();
-            hardTimeToNextSpawn = hardTimeToSpawn; ;
-        }
-        
-
+       
 
     }
 
@@ -123,12 +116,13 @@ public class StarSpawn : MonoBehaviour {
 
         if (Score.LEVEL_ONE == Score.GetCurrentLevel())
         {
-
+            // do probability calc
         }
 
 
             throw new NotImplementedException();
-        // sets the type 
+        // sets the corresponding spawn rate float from array
+        return SpawnRate[i];
     }
 
     IEnumerator BetweenWaves()
