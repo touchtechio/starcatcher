@@ -27,18 +27,14 @@ public class StarSpawn : MonoBehaviour {
     public int ShowerCount = 10;
     public bool testSend = false;
     [HideInInspector]
-    public float StarTypeToSpawn;
-
-
-
-
+    public string StarTypeToSpawn;
 
     // set to durations between spawn events
     [Range(0.1f, 10.0f)]
-    public float easyTimeToSpawn = 0;
-    public float mediumTimeToSpawn = 0;
+    public float easyTimeToSpawn = 4.0f;
+    public float mediumTimeToSpawn = 2.0f;
     [Range(0.1f, 10.0f)]
-    public float hardTimeToSpawn = 0;
+    public float hardTimeToSpawn = 1.0f;
 
     private float[] SpawnRate;
     private float[] LevelOnePercentages;
@@ -111,11 +107,8 @@ public class StarSpawn : MonoBehaviour {
         if (timeToNextSpawn <= 0)
         {
             Spawn();
-            if (Score.LEVEL_ONE == Score.GetCurrentLevel())
-            {
-                // do probability calc
-            }
-            timeToNextSpawn = calcNextSpawnRate(LevelPercentages[(int)Score.GetCurrentLevel()]);
+            int currentLevel = Score.GetCurrentLevel();
+            timeToNextSpawn = calcNextSpawnRate(LevelPercentages[currentLevel]);
             // what is next?
         }
 
@@ -123,22 +116,35 @@ public class StarSpawn : MonoBehaviour {
 
     private float calcNextSpawnRate(float[] levelPercentages)
     {
+        float total = 0;
 
+        foreach (float percentage in levelPercentages)
+        {
+            total += percentage;
+        }
 
+        float randomPoint = UnityEngine.Random.value * total;
+        float randomOriginal = randomPoint;
+        for (int i = 0; i < levelPercentages.Length; i++)
+        {
 
-        // sets the corresponding spawn rate float from array
-        StarTypeToSpawn = StarType[i];
-        return SpawnRate[i];
+            if (randomPoint < levelPercentages[i])
+            {
+                // sets the corresponding spawn rate float from array
+
+                StarTypeToSpawn = StarType[i];
+         
+                Debug.Log("based on rand no " + randomOriginal + "Spawning " + StarTypeToSpawn + " stars, at a rate of " + SpawnRate[i]);
+                return SpawnRate[i];
+            } else
+            {
+                randomPoint -= levelPercentages[i];
+            }
+        }
+        return levelPercentages.Length - 1; // ???
+     
     }
 
-    IEnumerator BetweenWaves()
-    {
-        
-        yield return new WaitForSeconds(waitWaves);
-        Debug.Log("between showers"+ Time.time);
-        betweenWaves = false;
-    }
-    
     private void SpawnHard()
     {
         Spawn(hardFallDuration, hardLingerTime, UnityEngine.Random.ColorHSV(0.0f, 0.5f));
@@ -159,9 +165,16 @@ public class StarSpawn : MonoBehaviour {
 
     public void Spawn()
     {
-        if (easy)
+        if (StarTypeToSpawn == "easy")
         {
             SpawnEasy();
+        }
+        else if (StarTypeToSpawn == "medium")
+        {
+            SpawnMedium();
+        } else
+        {
+            SpawnHard();
         }
 
     }
