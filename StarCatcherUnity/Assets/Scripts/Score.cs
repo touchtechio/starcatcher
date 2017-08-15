@@ -36,7 +36,7 @@ public class Score : MonoBehaviour {
     public static Vector3 catchStar()
     {
         score++;
-        Debug.Log("caught star " + score);
+        //Debug.Log("caught star " + score);
 
         if (0 == (score%10))
         {

@@ -81,6 +81,8 @@ public class Constellations : MonoBehaviour {
 
                 // mark full and do all kinds of ui craziness
                 constellation.Complete();
+                StarSpawn.DestroyStars();
+
 
                 oscSenderObject.SendOSCCompleteMessage("/constellationfull", 0);
                 SoundConstellationFull();
@@ -116,10 +118,8 @@ public class Constellations : MonoBehaviour {
 
     private GameObject ResetConstellations()
     {
-        foreach (Constellation constellation in constellations)
-        {
-            constellation.EmptyAllPositions();
-        }
+        ((Constellation)constellations.ToArray()[0]).EmptyAllPositions();
+
         return ((Constellation)constellations.ToArray()[0]).GetNextEmptyPosition();
     }
 
