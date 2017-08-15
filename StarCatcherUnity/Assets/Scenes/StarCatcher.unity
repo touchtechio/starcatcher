@@ -26,7 +26,7 @@ RenderSettings:
   m_AmbientIntensity: 1
   m_AmbientMode: 1
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
-  m_SkyboxMaterial: {fileID: 2100000, guid: 813dba23bbee5e94d8f2cb168d8466ac, type: 2}
+  m_SkyboxMaterial: {fileID: 2100000, guid: d5b8e776ea44c0f4f959aea8b660886d, type: 2}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 1042621846}
-  m_IndirectSpecularColor: {r: 0.0876871, g: 0.045295946, b: 0.06842002, a: 1}
+  m_IndirectSpecularColor: {r: 0.019970147, g: 0.0077751866, b: 0.009424878, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -1946,16 +1946,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefab: {fileID: 1590786058513120, guid: df000c50bb6edc445a1666c4e618d89e, type: 2}
   oscSenderObject: {fileID: 1221206857}
-  easyTimeToSpawn: 1.38
-  hardTimeToSpawn: 10
-  easyFallDuration: 1.5
-  hardFallDuration: 1
-  easyLingerTime: 10
-  hardLingerTime: 1.67
-  starDropYScale: 5
   waitWaves: 20
   ShowerCount: 10
   testSend: 0
+  StarTypeToSpawn: 
+  easyTimeToSpawn: 1.38
+  mediumTimeToSpawn: 2
+  hardTimeToSpawn: 10
+  easyFallDuration: 1.5
+  mediumFallDuration: 3
+  hardFallDuration: 1
+  easyLingerTime: 10
+  mediumLingerTime: 2
+  hardLingerTime: 1.67
+  starDropYScale: 5
 --- !u!4 &750972697 stripped
 Transform:
   m_PrefabParentObject: {fileID: 400000, guid: 9d350f5bbf26d8a45a4f8a04d508fbe9, type: 3}
@@ -5841,7 +5845,7 @@ Prefab:
     - target: {fileID: 20062548332166594, guid: fcbbf1ed597d70046a68dfa01caf294a,
         type: 2}
       propertyPath: m_ClearFlags
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 20062548332166594, guid: fcbbf1ed597d70046a68dfa01caf294a,
         type: 2}
