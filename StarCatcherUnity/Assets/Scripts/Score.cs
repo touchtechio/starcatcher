@@ -6,10 +6,13 @@ using UnityEngine;
 public class Score : MonoBehaviour {
 
     public static int score;
+    public static int level;
     private static Constellations constellations;
-    internal static readonly object LEVEL_ONE;
-    internal static readonly object LEVEL_TWO;
-    internal static readonly object LEVEL_THREE;
+    internal static readonly int LEVEL_ONE = 0;
+    internal static readonly int LEVEL_TWO = 1;
+    internal static readonly int LEVEL_THREE = 2;
+
+
 
     private static BackingTracks BackingTracks;
 
@@ -35,15 +38,17 @@ public class Score : MonoBehaviour {
         score++;
         Debug.Log("caught star " + score);
 
-        if (0 == (score%20))
+        if (0 == (score%10))
         {
+            level++;
+            level %= 3;
             BackingTracks.UpdateLevel();
         }
         return constellations.GetNextEmptyPosition().transform.position;
     }
 
-    internal static object GetCurrentLevel()
+    internal static int GetCurrentLevel()
     {
-        return LEVEL_ONE;
+        return level;
     }
 }
