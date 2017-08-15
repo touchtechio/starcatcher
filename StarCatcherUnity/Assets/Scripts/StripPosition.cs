@@ -135,7 +135,6 @@ public class StripPosition : MonoBehaviour {
     public Strip getRandomStrip()
     {
         
-       // stripNumber = UnityEngine.Random.Range(0, (starStrips.Count-1));
         randomStrip = FindRandomStrip();
 
 		// make sure stars are not spawning too close
@@ -146,7 +145,6 @@ public class StripPosition : MonoBehaviour {
         lastRandomStrip = randomStrip;
 
         // test first strip
-        
        //randomStrip = (Strip)starStrips.ToArray()[0];
       
         return randomStrip; 
@@ -155,7 +153,6 @@ public class StripPosition : MonoBehaviour {
 
     private Strip FindRandomStrip()
     {
-       // Debug.Log("too close");
         int nextPosition = UnityEngine.Random.Range(0, (starStrips.Count - 1));
         randomStrip = (Strip)starStrips.ToArray()[nextPosition];
         return randomStrip;

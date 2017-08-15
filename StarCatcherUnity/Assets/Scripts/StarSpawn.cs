@@ -32,20 +32,15 @@ public class StarSpawn : MonoBehaviour {
     // set to durations between spawn events
     [Range(0.1f, 10.0f)]
     public float easyTimeToSpawn = 4.0f;
+    [Range(0.1f, 10.0f)]
     public float mediumTimeToSpawn = 2.0f;
     [Range(0.1f, 10.0f)]
     public float hardTimeToSpawn = 1.0f;
 
-    private float[] SpawnRate;
-    private float[] LevelOnePercentages;
-    private float[] LevelTwoPercentages;
-    private float[] LevelThreePercentages;
-    private float[][] LevelPercentages;
-
-
     // set to durations between spawn events
     [Range(0.1f, 10.0f)]
     public float easyFallDuration = 5.0f;
+    [Range(0.1f, 10.0f)]
     public float mediumFallDuration = 3.0f;
     [Range(0.1f, 10.0f)]
     public float hardFallDuration = 1.0f;
@@ -54,12 +49,20 @@ public class StarSpawn : MonoBehaviour {
     // set to durations between spawn events
     [Range(0.1f, 10.0f)]
     public float easyLingerTime = 3.0f;
+    [Range(0.1f, 10.0f)]
     public float mediumLingerTime = 2.0f;
     [Range(0.1f, 10.0f)]
     public float hardLingerTime = 1.0f;
 
     [Range(0.1f, 10.0f)]
     public float starDropYScale = 3.0f;
+
+
+    private float[] SpawnRate;
+    private float[] LevelOnePercentages;
+    private float[] LevelTwoPercentages;
+    private float[] LevelThreePercentages;
+    private float[][] LevelPercentages;
 
 
 
