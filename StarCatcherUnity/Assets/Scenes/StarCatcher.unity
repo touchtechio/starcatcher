@@ -26,7 +26,7 @@ RenderSettings:
   m_AmbientIntensity: 1
   m_AmbientMode: 1
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
-  m_SkyboxMaterial: {fileID: 2100000, guid: d5b8e776ea44c0f4f959aea8b660886d, type: 2}
+  m_SkyboxMaterial: {fileID: 2100000, guid: 1d3bfd83fe7c0ff42b4908ad137e9e8a, type: 2}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 1042621846}
-  m_IndirectSpecularColor: {r: 0.0201317, g: 0.007830339, b: 0.00949668, a: 1}
+  m_IndirectSpecularColor: {r: 0.030062033, g: 0.012190505, b: 0.018007018, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -1108,7 +1108,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &553705999
 Transform:
   m_ObjectHideFlags: 0
@@ -1709,15 +1709,15 @@ MonoBehaviour:
   ShowerCount: 10
   testSend: 0
   StarTypeToSpawn: 
-  easyTimeToSpawn: 1.38
+  easyTimeToSpawn: 1.5
   mediumTimeToSpawn: 2
-  hardTimeToSpawn: 10
-  easyFallDuration: 1.5
-  mediumFallDuration: 3
-  hardFallDuration: 1
-  easyLingerTime: 10
+  hardTimeToSpawn: 3
+  easyFallDuration: 3
+  mediumFallDuration: 2
+  hardFallDuration: 1.5
+  easyLingerTime: 3
   mediumLingerTime: 2
-  hardLingerTime: 1.67
+  hardLingerTime: 1
   starDropYScale: 5
 --- !u!4 &750972697 stripped
 Transform:
@@ -1813,7 +1813,8 @@ MonoBehaviour:
   _useExplicitConnection: 1
   _explicitConnection: {fileID: 1284096882}
   _drawDefaultInspector: 1
-  _myOSCConnections: []
+  _myOSCConnections:
+  - {fileID: 1284096882}
   downOSCDataValue: 1
   upOSCDataValue: 0
   showGUI: 0
@@ -3211,7 +3212,8 @@ MonoBehaviour:
   _useExplicitConnection: 1
   _explicitConnection: {fileID: 1284096882}
   _drawDefaultInspector: 1
-  _myOSCConnections: []
+  _myOSCConnections:
+  - {fileID: 1284096882}
   downOSCDataValue: 1
   upOSCDataValue: 0
   showGUI: 0
@@ -3359,7 +3361,8 @@ MonoBehaviour:
   _useExplicitConnection: 1
   _explicitConnection: {fileID: 1284096882}
   _drawDefaultInspector: 1
-  _myOSCConnections: []
+  _myOSCConnections:
+  - {fileID: 1284096882}
   downOSCDataValue: 1
   upOSCDataValue: 0
   showGUI: 0
@@ -5200,6 +5203,10 @@ Prefab:
       propertyPath: m_Name
       value: Terrain
       objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 9d350f5bbf26d8a45a4f8a04d508fbe9, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 9d350f5bbf26d8a45a4f8a04d508fbe9, type: 3}
   m_IsPrefabParent: 0
@@ -5327,7 +5334,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 138810, guid: f30e88d50dd22cf4fb9ec08937c6215a, type: 2}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 19934200, guid: f30e88d50dd22cf4fb9ec08937c6215a, type: 2}
       propertyPath: m_SelectedEditorRenderState
