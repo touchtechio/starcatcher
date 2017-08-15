@@ -23,23 +23,20 @@ public class StarSpawn : MonoBehaviour {
     // set to durations between spawn events
     [Range(0.1f, 10.0f)]
     public float easyTimeToSpawn = 0;
-    public float mediumTimeToSpawn = 0;
     [Range(0.1f, 10.0f)]
     public float hardTimeToSpawn = 0;
 
 
     // set to durations between spawn events
     [Range(0.1f, 10.0f)]
-    public float easyFallDuration = 5.0f;
-    public float mediumFallDuration = 3.0f;
+    public float easyFallDuration = 2.0f;
     [Range(0.1f, 10.0f)]
     public float hardFallDuration = 1.0f;
 
 
     // set to durations between spawn events
     [Range(0.1f, 10.0f)]
-    public float easyLingerTime = 3.0f;
-    public float mediumLingerTime = 2.0f;
+    public float easyLingerTime = 2.0f;
     [Range(0.1f, 10.0f)]
     public float hardLingerTime = 1.0f;
 
@@ -47,7 +44,7 @@ public class StarSpawn : MonoBehaviour {
     public float starDropYScale = 3.0f;
 
 
-    private float timeToNextSpawn = 0;
+    private float easyTimeToNextSpawn = 0;
     private float hardTimeToNextSpawn = 0;
 
     bool betweenWaves = false;
@@ -89,15 +86,13 @@ public class StarSpawn : MonoBehaviour {
     {
         
         // burn down time since last update
-        timeToNextSpawn -= Time.deltaTime;
+        easyTimeToNextSpawn -= Time.deltaTime;
         //hardTimeToNextSpawn -= Time.deltaTime;
 
-        if (timeToNextSpawn <= 0)
+        if (easyTimeToNextSpawn <= 0)
         {
-            Spawn();
-            timeToNextSpawn = calcNextSpawnRate();
-
-            // what is next?
+            SpawnEasy();
+            easyTimeToNextSpawn = easyTimeToSpawn;
         }
 
         // Debug.Log("spawned" + ShowerCount);
@@ -118,19 +113,6 @@ public class StarSpawn : MonoBehaviour {
 
     }
 
-    private float calcNextSpawnRate()
-    {
-
-        if (Score.LEVEL_ONE == Score.GetCurrentLevel())
-        {
-
-        }
-
-
-            throw new NotImplementedException();
-        // sets the type 
-    }
-
     IEnumerator BetweenWaves()
     {
         
@@ -145,12 +127,7 @@ public class StarSpawn : MonoBehaviour {
 
     }
 
-    private void SpawnMedium()
-    {
-        Spawn(mediumFallDuration, mediumLingerTime, UnityEngine.Random.ColorHSV(0.5f, 1.0f));
-    }
-
-
+    
     private void SpawnEasy()
     {
         Spawn(easyFallDuration, easyLingerTime, UnityEngine.Random.ColorHSV(0.5f, 1.0f));
@@ -159,16 +136,15 @@ public class StarSpawn : MonoBehaviour {
 
     public void Spawn()
     {
-        if (easy)
-        {
-            SpawnEasy();
-        }
+
+        SpawnEasy();
 
     }
 
 
     private void Spawn(float duration, float lingerTime, Color color)
     {
+
 
         // get position of strip
         Strip strip = GetStrip();
