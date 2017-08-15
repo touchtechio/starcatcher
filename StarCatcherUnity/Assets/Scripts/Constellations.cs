@@ -172,7 +172,7 @@ public class Constellation
     internal void Complete()
     {
         // find and set text and activate
-        GameObject canvas = GameObject.Find("InstructionalCanvas");
+        GameObject canvas = GameObject.Find("Canvas-LogoInstructions");
         foreach (Transform child in canvas.transform)
         {
             if (child.tag == "CONSTELLATION_COMPLETE")
