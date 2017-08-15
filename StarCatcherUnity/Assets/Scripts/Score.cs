@@ -6,10 +6,13 @@ using UnityEngine;
 public class Score : MonoBehaviour {
 
     public static int score;
+    public static int level;
     private static Constellations constellations;
     internal static readonly int LEVEL_ONE = 0;
     internal static readonly int LEVEL_TWO = 1;
     internal static readonly int LEVEL_THREE = 2;
+
+
 
     private static BackingTracks BackingTracks;
 
@@ -37,6 +40,8 @@ public class Score : MonoBehaviour {
 
         if (0 == (score%10))
         {
+            level++;
+            level %= 3;
             BackingTracks.UpdateLevel();
         }
         return constellations.GetNextEmptyPosition().transform.position;
@@ -44,6 +49,6 @@ public class Score : MonoBehaviour {
 
     internal static int GetCurrentLevel()
     {
-        return LEVEL_ONE;
+        return level;
     }
 }

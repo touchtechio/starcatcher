@@ -41,7 +41,7 @@ public class StarMove : MonoBehaviour {
         // turn off trigger component so players can't catch stars at the start
         gameObject.GetComponent<SphereCollider>().isTrigger = false;
         startTime = Time.time;
-       // Debug.Log("strip number " + StripNumber + " ,star spawned at " + startTime + " ,fall for " + fallDuration);
+        // Debug.Log("strip number " + StripNumber + " ,star spawned at " + startTime + " ,fall for " + fallDuration);
         endMarker = transform.localPosition;
         startMarker = endMarker + Vector3.Scale(stripLength, starDropScale);
         journeyLength = Vector3.Distance(startMarker, endMarker);
@@ -50,12 +50,19 @@ public class StarMove : MonoBehaviour {
 
         timeToDestroyStar = fallDuration + lingerTime;
 
-        source.clip = starFall;
-        source.pitch = source.clip.length * 1/ fallDuration;
-        source.Play();
+        SoundFall();
     }
 
-    
+    private void SoundFall()
+    {
+        if (null != starFall)
+        {
+            source.clip = starFall;
+            source.pitch = source.clip.length * 1 / fallDuration;
+            source.Play();
+        }
+    }
+
     void LateUpdate()
     {
 
