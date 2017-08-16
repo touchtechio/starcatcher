@@ -137,7 +137,7 @@ public class StarSpawn : MonoBehaviour {
 
                 StarTypeToSpawn = StarType[i];
          
-                Debug.Log("based on rand no " + randomOriginal + "Spawning " + StarTypeToSpawn + " stars, at a rate of " + SpawnRate[i]);
+              //  Debug.Log("based on rand no " + randomOriginal + "Spawning " + StarTypeToSpawn + " stars, at a rate of " + SpawnRate[i]);
                 return SpawnRate[i];
             } else
             {
