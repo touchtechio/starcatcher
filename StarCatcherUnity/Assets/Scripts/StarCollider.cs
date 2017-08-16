@@ -79,7 +79,7 @@ public class StarCollider : MonoBehaviour {
         //Destroy(gameObject, timeToDestory);
 
          starEffects._color = Color.cyan;
-        //starEffects._jets = true;
+        starEffects._jets = true;
         starCaughtPosition = transform.position;
 
         // remove mesh collider in Jet when caught

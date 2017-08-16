@@ -61,7 +61,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &1237343981136996
 GameObject:
   m_ObjectHideFlags: 0
@@ -810,7 +810,7 @@ MonoBehaviour:
   flareSize: 0.452
   coronaSprites: 1
   simpleCoronaSprites: 0
-  coronaParticles: 1
+  coronaParticles: 0
   coronaTrails: 1
   trailsResolution: 1
   particlesDensity: 0.243
@@ -824,8 +824,8 @@ MonoBehaviour:
   coronaWaves: 0
   coronaRipple: 0.463
   coronaSpeed: 1
-  prominenceAmount: 0.469
-  prominenceSize: 0.576
+  prominenceAmount: 0
+  prominenceSize: 0
   coronaParticlesPrefab: {fileID: 1692661634884570, guid: 506ba855e56a01f459b0bc55e5f50fe3,
     type: 2}
   coronaParticlesComp: {fileID: 198247217783689550}
