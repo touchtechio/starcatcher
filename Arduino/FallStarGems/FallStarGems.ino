@@ -22,6 +22,8 @@
 #include "BassShader.h"
 #include "StrobingShader.h"
 #include "CandyStrobingShader.h"
+#include "StarConstellationFull.h"
+#include "StarCaught.h"
 
 // my color presets
 #include "colors.h"
@@ -60,27 +62,30 @@ OctoWS2811 leds(ledsPerStrip, displayMemory, drawingMemory, config);
 
 // create an instance of each shader to use from here on
 Shader* behavior[] = {
-  new StarFallDown(), // falling
-  new StarLinger(), // lingering
-  new TwinkleShader(), // 
-  new GlowShader(), //glow
-  new PulsingShader(), //pulse
-  new RisingShader(), // rise
-  new BassShader(), // bass
-  new MultiColorShader(), // colors
-  new MultiGlowShader(), // multiglow
-  new MultiTwinkleShader(), // multitwinkle
-  new StrobingShader(), // strobe
-  new CandyStrobingShader() // candystrobe
+  new StarFallDown(), // falling 0
+  new StarLinger(), // lingering 1
+  new TwinkleShader(), // 2
+  new GlowShader(), //glow 3
+  new PulsingShader(), //pulse 4
+  new RisingShader(), // rise 5
+  new BassShader(), // bass 6
+  new MultiColorShader(), // colors 7
+  new MultiGlowShader(), // multiglow 8
+  new MultiTwinkleShader(), // multitwinkle 9
+  new StrobingShader(), // strobe 10
+  new CandyStrobingShader(), // candystrobe 11
+  new StarConstellationFull(), // 12
+  new StarCaught() //13
 
   };
 
 // nice to keep an array size value around for validation and looping
-int behaviorCount = 11; 
+int behaviorCount = 12; 
 
 #define LINGER 1
 #define FALL 0
-#define CAUGHT 9
+#define CAUGHT 13
+#define CONSTELLATION 12
 
 
 // these are used for run-time configuration from message events
@@ -122,7 +127,6 @@ void setup() {
   leds.begin();
   leds.show();
 
-
   // setup OSC listener
   SLIPSerial.begin(38400);   // set this as high as you can reliably run on your platform
 
@@ -130,16 +134,16 @@ void setup() {
   loopElapsed = millis();
 
   // create neighbors for multi gem effects
-  behavior[CAUGHT]->neighbors = 7;
+  behavior[CAUGHT]->neighbors = 3;
 
 
   // initialize our gems
   for (int i = 0; i < gemCount; i++ ) {
 
     // todo Gem Number and Gem Count need to respect more Gems per Octo Channel
-    gems[i] = Gem(i, gemPixelCount, &leds, behavior[CAUGHT]);
+    gems[i] = Gem(i, gemPixelCount, &leds, behavior[0]);
     gems[i].setColor(color[i%7]);
-    gems[i].setSecondaryColor(color[0]);
+    gems[i].setSecondaryColor(2);
     gems[i].setDuration(2000);
 
   }
@@ -148,6 +152,8 @@ void setup() {
   digitalWrite(0,HIGH);
 
   setColorsWithHsb();
+
+ 
 
   return; 
 }
@@ -202,6 +208,7 @@ void pollForNewOscMessages() {
       msg.dispatch("/starfall", routeFallingStar);
       msg.dispatch("/starlinger", routeLingeringStar);
       msg.dispatch("/starcaught", routeCaughtStar);
+      msg.dispatch("/constellationfull", routeConstellationFull);
 
 
      // msg.route("/gem", routeGem);
@@ -246,6 +253,17 @@ void routeLingeringStar(OSCMessage &msg){
 }
 
 
+void routeConstellationFull(OSCMessage &msg){
+  //triggerStar( msg, LINGER);
+  for (int i = 0; i < gemCount; i++) {
+    triggerStar(i,1500, CONSTELLATION);
+  }
+  
+}
+
+//#define LINGER 1
+//#define FALL 0
+//#define CAUGHT 9
 
 void triggerStar(OSCMessage &msg, int behaviorId) {
   int starId = 0;
@@ -303,10 +321,25 @@ void hitNeighbors(int gemIndex) {
   int currentGemsMaxNeighborEffect = gems[gemIndex].getShader()->neighbors;
 
   for (int i = 1; i < currentGemsMaxNeighborEffect; i++) {
-    hitNeighbor(gemIndex, i);
+    hitNeighbor(gemIndex, i, gems[gemIndex].getShader());
   }
 
 }
+
+void hitNeighbor(int gemIndex, int distance, Shader* shader) {
+  
+  if (isValidGem(gemIndex-distance)) {
+    gems[gemIndex-distance].setShader(shader);
+    gems[gemIndex-distance].neighborHit(distance);
+  }
+  if (isValidGem(gemIndex+distance)) {
+    gems[gemIndex+distance].setShader(shader);
+    gems[gemIndex+distance].neighborHit(distance);
+  }
+  return;
+}
+
+
 
 void hitNeighbor(int gemIndex, int distance) {
   if (isValidGem(gemIndex-distance)) {
