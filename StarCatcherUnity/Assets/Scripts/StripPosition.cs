@@ -103,7 +103,7 @@ public class StripPosition : MonoBehaviour {
        // clear the array of strip positions to repopulate;
        if (clearStripArray == true)
         {
-            LogStripPositons();
+            //LogStripPositons();
 
             starStrips.Clear();
         //    stripCountText.text = "Clear";
