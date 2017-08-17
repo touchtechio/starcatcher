@@ -24,6 +24,10 @@ namespace UniOSC{
 
         public string spawnStar = "/2/spawn/";
 
+        public string levelSwitch = "/2/level/1/";
+
+
+
         private StarSpawn spawner;
 	
 		void Awake(){
@@ -71,7 +75,7 @@ namespace UniOSC{
             if (args.Address.Contains(spawnStar))
             {
                 string fullStarAddress = args.Address.Substring(spawnStar.Length);
-                
+
                 //Debug.Log(fullStarAddress.Substring(0, 1));
                 int row = int.Parse(fullStarAddress.Substring(0, 1));
 
@@ -86,6 +90,15 @@ namespace UniOSC{
 
 
                 spawner.Spawn(spawner.stripPositions.GetStrip(starNumber));
+
+            }
+            if (args.Address.Contains(levelSwitch))
+            {
+                string fullStarAddress = args.Address.Substring(levelSwitch.Length);
+
+                int level = int.Parse(fullStarAddress.Substring(0, 1))-1;
+                Debug.Log("setting level: " + level);
+                Score.SetLevel(level);
 
             }
 

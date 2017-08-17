@@ -2032,6 +2032,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   prefab: {fileID: 1590786058513120, guid: df000c50bb6edc445a1666c4e618d89e, type: 2}
+  stripPositions: {fileID: 0}
   oscSenderObject: {fileID: 1221206857}
   waitWaves: 20
   ShowerCount: 10
@@ -2092,16 +2093,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _oscAddress: /
   _oscAddresses:
-  - /1/easy/1
-  - /1/easy/2
-  - /1/easy/3
-  - /1/medium/1
-  - /1/medium/2
-  - /1/medium/3
-  - /1/hard/1
-  - /1/hard/2
-  - /1/hard/3
-  _receiveAllAddresses: 0
+  - /
+  _receiveAllAddresses: 1
   _useExplicitConnection: 0
   _explicitConnection: {fileID: 0}
   _oscPort: 8000
@@ -2117,6 +2110,8 @@ MonoBehaviour:
   hardRate: /1/hard/1
   hardFall: /1/hard/2
   hardLinger: /1/hard/3
+  spawnStar: /2/spawn/
+  levelSwitch: /2/level/1/
 --- !u!4 &750972697 stripped
 Transform:
   m_PrefabParentObject: {fileID: 400000, guid: 9d350f5bbf26d8a45a4f8a04d508fbe9, type: 3}
@@ -5668,9 +5663,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   levelAudio:
-  - {fileID: 8300000, guid: b0d36678fef37a4449d31005567d74be, type: 3}
-  - {fileID: 8300000, guid: e4098b685bdc69b4b9bd97a05d4ad30a, type: 3}
-  - {fileID: 8300000, guid: 054b9d7f5d0f7604986fbbd72f901f12, type: 3}
+  - {fileID: 8300000, guid: 6c66b392881d65d45a3d85756dcc95c4, type: 3}
+  - {fileID: 8300000, guid: 31c8ca33701b5784d8943373a3778a5c, type: 3}
+  - {fileID: 8300000, guid: 0d1800ecc95aa1c4095684615ca03923, type: 3}
 --- !u!4 &1771780591 stripped
 Transform:
   m_PrefabParentObject: {fileID: 400000, guid: e011d68aa7c202a469b7f7fa06aa530a, type: 3}

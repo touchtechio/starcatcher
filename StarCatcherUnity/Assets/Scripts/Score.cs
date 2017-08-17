@@ -38,13 +38,18 @@ public class Score : MonoBehaviour {
         score++;
         //Debug.Log("caught star " + score);
 
-        if (0 == (score%10))
+        if (0 == (score % 10))
         {
-            level++;
-            level %= 3;
-            BackingTracks.UpdateLevel();
+            SetLevel(level+1);
         }
         return constellations.GetNextEmptyPosition().transform.position;
+    }
+
+    public static void SetLevel(int level)
+    {
+        Score.level = level;
+        Score.level %= 3;
+        BackingTracks.UpdateLevel();
     }
 
     internal static int GetCurrentLevel()
