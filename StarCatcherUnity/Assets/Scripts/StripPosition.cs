@@ -103,6 +103,8 @@ public class StripPosition : MonoBehaviour {
        // clear the array of strip positions to repopulate;
        if (clearStripArray == true)
         {
+            LogStripPositons();
+
             starStrips.Clear();
         //    stripCountText.text = "Clear";
             clearStripArray = false;
@@ -182,49 +184,16 @@ public class StripPosition : MonoBehaviour {
         return testStrip;
     }
 
-	// how we generated without creating a strip class
-    private void oldStarStarts()
+    private void LogStripPositons()
     {
-
-        starStarts = new ArrayList();
-        starStarts.Add(new Vector3(-1.022f, 2.048f, -0.069f));
-        starStarts.Add(new Vector3(-0.94f, 2.048f, 0.42f));
-        starStarts.Add(new Vector3(-0.49f, 2.048f, -0.29f));
-        starStarts.Add(new Vector3(-0.46f, 2.048f, 0.8f));
-        starStarts.Add(new Vector3(-0.05f, 2.048f, -0.88f));
-        starStarts.Add(new Vector3(0.13f, 2.048f, 0.01f));
-        starStarts.Add(new Vector3(-0.09f, 2.048f, 0.89f));
-        starStarts.Add(new Vector3(1.06f, 2.048f, -0.92f));
-        starStarts.Add(new Vector3(0.97f, 2.048f, 0.02f));
-        starStarts.Add(new Vector3(0.94f, 2.048f, 0.84f));
-        starStarts.Add(new Vector3(1.75f, 2.048f, -1.19f));
-        starStarts.Add(new Vector3(1.78f, 2.048f, -0.47f));
-        starStarts.Add(new Vector3(1.67f, 2.048f, 0.17f));
-        starStarts.Add(new Vector3(1.7f, 2.048f, 0.5f));
-        starStarts.Add(new Vector3(1.62f, 2.048f, 1.1f));
-
-        stripLengths = new ArrayList();
-        stripLengths.Add(0.5f);
-        stripLengths.Add(0.5f);
-        stripLengths.Add(0.5f);
-        stripLengths.Add(0.5f);
-        stripLengths.Add(0.5f);
-        stripLengths.Add(1f);
-        stripLengths.Add(0.5f);
-        stripLengths.Add(0.5f);
-        stripLengths.Add(0.5f);
-        stripLengths.Add(0.5f);
-        stripLengths.Add(1f);
-        stripLengths.Add(1f);
-        stripLengths.Add(0.5f);
-        stripLengths.Add(0.5f);
-        stripLengths.Add(0.5f);
-
-        for (int i = 0; i < starStarts.Count; i++) {
-            Strip starStrip = new Strip((Vector3)starStarts.ToArray()[i], (float)stripLengths.ToArray()[i], i);
+        string msg = "        starStarts = new ArrayList();";
+        for (int i =0; i<starStarts.Count;i++) 
+        {
+            Strip strip = (Strip)starStarts.ToArray()[i];
+            msg = "        starStrips.Add(new Strip(new Vector3("+ strip.starStartPoints.x+ "f, "+ strip.starStartPoints.y+ "f, "+ strip.starStartPoints.z+ "f), 0.5f, "+i+"));";
         }
-       
     }
+    
 }
 
 
