@@ -14,13 +14,20 @@ public:
     height = height - (int) height;
     height = 1.0 - height;
     
-
+/*
     float closeness = 1.0 - abs(height - remaining);
-    if (closeness > .70) {
+    if (closeness > .80) {
       return colorByBrightness(closeness, color);
     } else {
-     return colorByBrightness(0.0, color);
+     return colorByBrightness(closeness*.3, currentColor);
     }
+*/
+    float closeness = 1.0 - abs(height - remaining);
+         if (closeness > .80) {
+      return colorByBrightness(closeness*closeness*closeness, color);
+    } else if (closeness > 0.6) {
+     return colorByBrightness((height - remaining) , color);
+    } 
 
   }  
 };
