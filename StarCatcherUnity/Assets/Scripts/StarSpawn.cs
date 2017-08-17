@@ -10,7 +10,7 @@ public class StarSpawn : MonoBehaviour {
 
     private static ArrayList starStarts;
     private static UnityEngine.Random random = new UnityEngine.Random();
-    private StripPosition stripPositions;
+    public StripPosition stripPositions;
     private float timeToNextSpawn = 0;
     private float hardTimeToNextSpawn = 0;
     private int stripNumber;
@@ -110,8 +110,7 @@ public class StarSpawn : MonoBehaviour {
         if (timeToNextSpawn <= 0)
         {
             Spawn();
-            int currentLevel = Score.GetCurrentLevel();
-            timeToNextSpawn = calcNextSpawnRate(LevelPercentages[currentLevel]);
+
             // what is next?
         }
 
@@ -148,46 +147,54 @@ public class StarSpawn : MonoBehaviour {
      
     }
 
-    private void SpawnHard()
+    private void SpawnHard(Strip strip)
     {
-        Spawn(hardFallDuration, hardLingerTime, UnityEngine.Random.ColorHSV(0.0f, 0.5f));
+        Spawn(strip, hardFallDuration, hardLingerTime, UnityEngine.Random.ColorHSV(0.0f, 0.5f));
 
     }
 
-    private void SpawnMedium()
+    private void SpawnMedium(Strip strip)
     {
-        Spawn(mediumFallDuration, mediumLingerTime, UnityEngine.Random.ColorHSV(0.5f, 1.0f));
+        Spawn(strip, mediumFallDuration, mediumLingerTime, UnityEngine.Random.ColorHSV(0.5f, 1.0f));
     }
 
 
-    private void SpawnEasy()
+    private void SpawnEasy(Strip strip)
     {
-        Spawn(easyFallDuration, easyLingerTime, UnityEngine.Random.ColorHSV(0.5f, 1.0f));
+        Spawn(strip, easyFallDuration, easyLingerTime, UnityEngine.Random.ColorHSV(0.5f, 1.0f));
     }
-
 
     public void Spawn()
     {
+        // get position of strip
+        Strip strip = GetStrip();
+        Spawn(strip);
+    }
+
+
+    public void Spawn(Strip strip)
+    {
+        int currentLevel = Score.GetCurrentLevel();
+        timeToNextSpawn = calcNextSpawnRate(LevelPercentages[currentLevel]);
+
         if (StarTypeToSpawn == "easy")
         {
-            SpawnEasy();
+            SpawnEasy(strip);
         }
         else if (StarTypeToSpawn == "medium")
         {
-            SpawnMedium();
+            SpawnMedium(strip);
         } else
         {
-            SpawnHard();
+            SpawnHard(strip);
         }
 
     }
 
 
-    private void Spawn(float duration, float lingerTime, Color color)
+    private void Spawn(Strip strip, float duration, float lingerTime, Color color)
     {
 
-        // get position of strip
-        Strip strip = GetStrip();
         Vector3 spawnPoint = strip.starStartPoints;
 
         // make star

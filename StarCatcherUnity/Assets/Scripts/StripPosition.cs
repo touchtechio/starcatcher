@@ -154,10 +154,19 @@ public class StripPosition : MonoBehaviour {
     private Strip FindRandomStrip()
     {
         int nextPosition = UnityEngine.Random.Range(0, (starStrips.Count - 1));
-        randomStrip = (Strip)starStrips.ToArray()[nextPosition];
+        randomStrip = GetStrip(nextPosition);
         return randomStrip;
     }
-    
+
+    public Strip GetStrip(int position)
+    {
+        if (position >= starStrips.Count)
+        {
+            position = 0;
+        }
+        return (Strip)starStrips.ToArray()[position];
+    }
+
     // having a running strip number that counts up for testing 
     public Strip getTestStrip()
     {

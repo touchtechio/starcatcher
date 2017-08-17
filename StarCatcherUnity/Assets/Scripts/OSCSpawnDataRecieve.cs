@@ -22,6 +22,8 @@ namespace UniOSC{
         public string hardFall = "/1/hard/2";
         public string hardLinger = "/1/hard/3";
 
+        public string spawnStar = "/2/spawn/";
+
         private StarSpawn spawner;
 	
 		void Awake(){
@@ -30,8 +32,8 @@ namespace UniOSC{
 
 		private void _Init(){
 		
-			receiveAllAddresses = false;
-			_oscAddresses.Clear();
+			receiveAllAddresses = true;
+	/*		_oscAddresses.Clear();
             _oscAddresses.Add(easyRate);
             _oscAddresses.Add(easyFall);
             _oscAddresses.Add(easyLinger);
@@ -41,7 +43,7 @@ namespace UniOSC{
             _oscAddresses.Add(hardRate);
             _oscAddresses.Add(hardFall);
             _oscAddresses.Add(hardLinger);
-
+            */
             if (Application.isPlaying){
                     spawner = gameObject.GetComponent<StarSpawn>();
 				}else{
@@ -63,6 +65,29 @@ namespace UniOSC{
 
 			if(!( ((OscMessage)args.Packet).Data[0]  is  System.Single))return;
 			float value = (float)((OscMessage)args.Packet).Data[0] ;
+
+
+
+            if (args.Address.Contains(spawnStar))
+            {
+                string fullStarAddress = args.Address.Substring(spawnStar.Length);
+                
+                //Debug.Log(fullStarAddress.Substring(0, 1));
+                int row = int.Parse(fullStarAddress.Substring(0, 1));
+
+                //Debug.Log(fullStarAddress.Substring(2, 1));
+                int column = int.Parse(fullStarAddress.Substring(2, 1));
+
+                row = 5 - row;
+                column = column - 1;
+
+                int starNumber = (row * 8 + column);
+                Debug.Log("star number spawning: " + starNumber);
+
+
+                spawner.Spawn(spawner.stripPositions.GetStrip(starNumber));
+
+            }
 
             if (String.Equals(args.Address, easyRate))
             {
