@@ -10,33 +10,47 @@ public class StarSpawn : MonoBehaviour {
 
     private static ArrayList starStarts;
     private static UnityEngine.Random random = new UnityEngine.Random();
-    private StripPosition stripPositions;
-	public OSCSenderSpawn oscSenderObject;
-	private int stripNumber;
+    public StripPosition stripPositions;
+    private float timeToNextSpawn = 0;
+    private float hardTimeToNextSpawn = 0;
+    private int stripNumber;
     private SoundManager soundManager;
-
+    bool betweenWaves = false;
     // empty game object as parent for spwned stars
     static private GameObject parent;
     int starCount = 0;
+    private string[] StarType = { "easy", "medium", "hard" };
 
+
+    public OSCSenderSpawn oscSenderObject;
+    public float waitWaves = 20;
+    public int ShowerCount = 10;
+    public bool testSend = false;
+    [HideInInspector]
+    public string StarTypeToSpawn;
 
     // set to durations between spawn events
     [Range(0.1f, 10.0f)]
-    public float easyTimeToSpawn = 0;
+    public float easyTimeToSpawn = 4.0f;
     [Range(0.1f, 10.0f)]
-    public float hardTimeToSpawn = 0;
-
+    public float mediumTimeToSpawn = 2.0f;
+    [Range(0.1f, 10.0f)]
+    public float hardTimeToSpawn = 1.0f;
 
     // set to durations between spawn events
     [Range(0.1f, 10.0f)]
-    public float easyFallDuration = 2.0f;
+    public float easyFallDuration = 5.0f;
+    [Range(0.1f, 10.0f)]
+    public float mediumFallDuration = 3.0f;
     [Range(0.1f, 10.0f)]
     public float hardFallDuration = 1.0f;
 
 
     // set to durations between spawn events
     [Range(0.1f, 10.0f)]
-    public float easyLingerTime = 2.0f;
+    public float easyLingerTime = 3.0f;
+    [Range(0.1f, 10.0f)]
+    public float mediumLingerTime = 2.0f;
     [Range(0.1f, 10.0f)]
     public float hardLingerTime = 1.0f;
 
@@ -44,13 +58,12 @@ public class StarSpawn : MonoBehaviour {
     public float starDropYScale = 3.0f;
 
 
-    private float easyTimeToNextSpawn = 0;
-    private float hardTimeToNextSpawn = 0;
+    private float[] SpawnRate;
+    private float[] LevelOnePercentages;
+    private float[] LevelTwoPercentages;
+    private float[] LevelThreePercentages;
+    private float[][] LevelPercentages;
 
-    bool betweenWaves = false;
-    public float waitWaves = 20;
-    public int ShowerCount = 10;
-    public bool testSend = false;
 
 
 
@@ -68,7 +81,12 @@ public class StarSpawn : MonoBehaviour {
 
         // StartCoroutine(SpawnShowers());
         soundManager = (SoundManager)FindObjectOfType<SoundManager>();
-      
+
+        LevelOnePercentages = new float[3] { 0.8f, 0.2f, 0f };
+        LevelTwoPercentages = new float[3] { 0.5f, 0.4f, 0.1f };
+        LevelThreePercentages = new float[3] { 0.2f, 0.4f, 0.4f };
+        LevelPercentages = new float[3][] { LevelOnePercentages, LevelTwoPercentages, LevelThreePercentages };
+
     }
 
     public static void DestroyStars()
@@ -84,70 +102,99 @@ public class StarSpawn : MonoBehaviour {
 
     public void Update()
     {
-        
+        SpawnRate = new float[3] { easyTimeToSpawn, mediumTimeToSpawn, hardTimeToSpawn }; // in case we are updating values at runtime
         // burn down time since last update
-        easyTimeToNextSpawn -= Time.deltaTime;
+        timeToNextSpawn -= Time.deltaTime;
         //hardTimeToNextSpawn -= Time.deltaTime;
 
-        if (easyTimeToNextSpawn <= 0)
+        if (timeToNextSpawn <= 0)
         {
-            SpawnEasy();
-            easyTimeToNextSpawn = easyTimeToSpawn;
+            Spawn();
+
+            // what is next?
         }
 
-        // Debug.Log("spawned" + ShowerCount);
-        //  betweenWaves = true;
-        if (Input.GetKeyDown("f"))
+    }
+
+    private float calcNextSpawnRate(float[] levelPercentages)
+    {
+        float total = 0;
+
+        foreach (float percentage in levelPercentages)
         {
-            StartCoroutine("BetweenWaves");
+            total += percentage;
         }
 
-        
-        if (hardTimeToNextSpawn <= 0)
+        float randomPoint = UnityEngine.Random.value * total;
+        float randomOriginal = randomPoint;
+        for (int i = 0; i < levelPercentages.Length; i++)
         {
-           // SpawnHard();
-            hardTimeToNextSpawn = hardTimeToSpawn; ;
+
+            if (randomPoint < levelPercentages[i])
+            {
+                // sets the corresponding spawn rate float from array
+
+                StarTypeToSpawn = StarType[i];
+         
+              //  Debug.Log("based on rand no " + randomOriginal + "Spawning " + StarTypeToSpawn + " stars, at a rate of " + SpawnRate[i]);
+                return SpawnRate[i];
+            } else
+            {
+                randomPoint -= levelPercentages[i];
+            }
         }
-        
-
-
+        return levelPercentages.Length - 1; // ???
+     
     }
 
-    IEnumerator BetweenWaves()
+    private void SpawnHard(Strip strip)
     {
-        
-        yield return new WaitForSeconds(waitWaves);
-        Debug.Log("between showers"+ Time.time);
-        betweenWaves = false;
+        Spawn(strip, hardFallDuration, hardLingerTime, UnityEngine.Random.ColorHSV(0.0f, 0.5f));
+
     }
-    
-    private void SpawnHard()
+
+    private void SpawnMedium(Strip strip)
     {
-        Spawn(hardFallDuration, hardLingerTime, UnityEngine.Random.ColorHSV(0.0f, 0.5f));
-
+        Spawn(strip, mediumFallDuration, mediumLingerTime, UnityEngine.Random.ColorHSV(0.5f, 1.0f));
     }
 
-    
-    private void SpawnEasy()
+
+    private void SpawnEasy(Strip strip)
     {
-        Spawn(easyFallDuration, easyLingerTime, UnityEngine.Random.ColorHSV(0.5f, 1.0f));
+        Spawn(strip, easyFallDuration, easyLingerTime, UnityEngine.Random.ColorHSV(0.5f, 1.0f));
     }
-
 
     public void Spawn()
     {
+        // get position of strip
+        Strip strip = GetStrip();
+        Spawn(strip);
+    }
 
-        SpawnEasy();
+
+    public void Spawn(Strip strip)
+    {
+        int currentLevel = Score.GetCurrentLevel();
+        timeToNextSpawn = calcNextSpawnRate(LevelPercentages[currentLevel]);
+
+        if (StarTypeToSpawn == "easy")
+        {
+            SpawnEasy(strip);
+        }
+        else if (StarTypeToSpawn == "medium")
+        {
+            SpawnMedium(strip);
+        } else
+        {
+            SpawnHard(strip);
+        }
 
     }
 
 
-    private void Spawn(float duration, float lingerTime, Color color)
+    private void Spawn(Strip strip, float duration, float lingerTime, Color color)
     {
 
-
-        // get position of strip
-        Strip strip = GetStrip();
         Vector3 spawnPoint = strip.starStartPoints;
 
         // make star

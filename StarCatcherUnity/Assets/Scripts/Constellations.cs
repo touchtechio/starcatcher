@@ -72,7 +72,7 @@ public class Constellations : MonoBehaviour {
             if (!constellation.IsFull())
             {
                 position = constellation.GetNextEmptyPosition();
-                
+
                 // only return good positions
                 if (position != null)
                 {
@@ -81,9 +81,11 @@ public class Constellations : MonoBehaviour {
 
                 // mark full and do all kinds of ui craziness
                 constellation.Complete();
-          
+                StarSpawn.DestroyStars();
+
+
                 oscSenderObject.SendOSCCompleteMessage("/constellationfull", 0);
-                AudioSource.PlayClipAtPoint(soundManager.constellationFull, gameObject.transform.position);
+                SoundConstellationFull();
                 allFull = true;
 
 
@@ -105,14 +107,19 @@ public class Constellations : MonoBehaviour {
 
     }
 
-    
+    private void SoundConstellationFull()
+    {
+        if (null != soundManager.constellationFull)
+        {
+            AudioSource.PlayClipAtPoint(soundManager.constellationFull, gameObject.transform.position);
+        }
+    }
+
 
     private GameObject ResetConstellations()
     {
-        foreach (Constellation constellation in constellations)
-        {
-            constellation.EmptyAllPositions();
-        }
+        ((Constellation)constellations.ToArray()[0]).EmptyAllPositions();
+
         return ((Constellation)constellations.ToArray()[0]).GetNextEmptyPosition();
     }
 
@@ -165,7 +172,7 @@ public class Constellation
     internal void Complete()
     {
         // find and set text and activate
-        GameObject canvas = GameObject.Find("InstructionalCanvas");
+        GameObject canvas = GameObject.Find("Canvas-LogoInstructions");
         foreach (Transform child in canvas.transform)
         {
             if (child.tag == "CONSTELLATION_COMPLETE")

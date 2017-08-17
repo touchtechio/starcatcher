@@ -99,8 +99,6 @@ namespace UniOSC{
 
             msg = (OscMessage)args.Packet;
 
-
-            Debug.Log(msg.Address);
             LastMessageUpdate();
 
         }

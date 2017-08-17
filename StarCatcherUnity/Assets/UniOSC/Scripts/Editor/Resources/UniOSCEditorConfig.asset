@@ -17,7 +17,7 @@ MonoBehaviour:
   isOSCTracing: 1
   isOSCLearning: 0
   isEditorEnabled: 0
-  isLastMessageTracing: 0
+  isLastMessageTracing: 1
   mySkin: {fileID: 0}
   learnStyle:
     m_Name: 
@@ -86,7 +86,8 @@ MonoBehaviour:
     m_FixedHeight: 0
     m_StretchWidth: 1
     m_StretchHeight: 0
-  OSCMappingFileObjList: []
+  OSCMappingFileObjList:
+  - {fileID: 11400000, guid: dcb103509c2b1534fabc217826320d23, type: 2}
   OSCSessionFileObjList: []
   toolbarInt: 0
   tex_LearnFrame: {fileID: 2800000, guid: f1ed84d0bc146974cb640799ad2714d9, type: 3}

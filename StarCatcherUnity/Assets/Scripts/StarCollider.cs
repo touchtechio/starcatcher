@@ -72,13 +72,13 @@ public class StarCollider : MonoBehaviour {
 
         timeCaught = Time.time;
         oscSenderObject.SendOSCCaughtMessage("/starcaught", CaughtStripNumber);
-    
+
         // play caught sound at place of caught
-        AudioSource.PlayClipAtPoint(soundManager.starCaught, gameObject.transform.position);
+        SoundCatch();
         //Debug.Log("star caught at " +timeCaught);
         //Destroy(gameObject, timeToDestory);
 
-        starEffects._color = Color.cyan;
+         starEffects._color = Color.cyan;
         starEffects._jets = true;
         starCaughtPosition = transform.position;
 
@@ -91,7 +91,14 @@ public class StarCollider : MonoBehaviour {
         onConstellationPosition = Score.catchStar(); // position got from the constellations script
         journeyLength = Vector3.Distance(starCaughtPosition, onConstellationPosition);
 
-     
+
     }
 
+    private void SoundCatch()
+    {
+        if (null != soundManager.starCaught)
+        {
+            AudioSource.PlayClipAtPoint(soundManager.starCaught, gameObject.transform.position);
+        }
+    }
 }
