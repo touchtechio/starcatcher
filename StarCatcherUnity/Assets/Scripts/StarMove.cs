@@ -39,7 +39,8 @@ public class StarMove : MonoBehaviour {
         //stripPosition = GameObject.FindGameObjectWithTag("GameManager").GetComponent<StripPosition>();
 
         // turn off trigger component so players can't catch stars at the start
-        gameObject.GetComponent<SphereCollider>().isTrigger = false;
+        //gameObject.GetComponent<SphereCollider>().isTrigger = false;
+        gameObject.GetComponent<CapsuleCollider>().isTrigger = false;
         startTime = Time.time;
         // Debug.Log("strip number " + StripNumber + " ,star spawned at " + startTime + " ,fall for " + fallDuration);
         endMarker = transform.localPosition;
@@ -79,7 +80,8 @@ public class StarMove : MonoBehaviour {
         // check if star nearly reaches bottom point of fall to turn off trails and allow star to be able to be caught
         if (Time.time >= startTime + fallDuration * 0.95)
         {
-            gameObject.GetComponent<SphereCollider>().isTrigger = true;
+           // gameObject.GetComponent<SphereCollider>().isTrigger = true;
+            gameObject.GetComponent<CapsuleCollider>().isTrigger = true;
             HU_Star starEffects = gameObject.GetComponent<HU_Star>();
             starEffects._coronaTrails = false;
             
