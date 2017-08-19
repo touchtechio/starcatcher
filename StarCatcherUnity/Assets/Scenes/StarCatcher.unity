@@ -548,7 +548,7 @@ GameObject:
   - component: {fileID: 193877094}
   - component: {fileID: 193877093}
   m_Layer: 5
-  m_Name: Text (1)
+  m_Name: ShareText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -609,7 +609,6 @@ MonoBehaviour:
   m_Text: 'Share
 
     #playnyc
-
 
     @StarCatcherVR
 
@@ -2218,8 +2217,7 @@ MonoBehaviour:
   _useExplicitConnection: 1
   _explicitConnection: {fileID: 1284096882}
   _drawDefaultInspector: 1
-  _myOSCConnections:
-  - {fileID: 1284096882}
+  _myOSCConnections: []
   downOSCDataValue: 1
   upOSCDataValue: 0
   showGUI: 0
@@ -2287,6 +2285,74 @@ Prefab:
 Transform:
   m_PrefabParentObject: {fileID: 400000, guid: e011d68aa7c202a469b7f7fa06aa530a, type: 3}
   m_PrefabInternal: {fileID: 213485000}
+--- !u!1 &798073695
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 798073696}
+  - component: {fileID: 798073698}
+  - component: {fileID: 798073697}
+  m_Layer: 5
+  m_Name: Image (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &798073696
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 798073695}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: -0}
+  m_LocalScale: {x: 0.13, y: 0.13, z: 0.13}
+  m_Children: []
+  m_Father: {fileID: 1755782002}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 1.7, y: -3.5}
+  m_SizeDelta: {x: 100, y: 200}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &798073697
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 798073695}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0.991, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
+      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  m_Sprite: {fileID: 21300000, guid: 2acbeb973781171418d66e4c03e04490, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 1
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+--- !u!222 &798073698
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 798073695}
 --- !u!1001 &799769111
 Prefab:
   m_ObjectHideFlags: 0
@@ -3653,8 +3719,7 @@ MonoBehaviour:
   _useExplicitConnection: 1
   _explicitConnection: {fileID: 1284096882}
   _drawDefaultInspector: 1
-  _myOSCConnections:
-  - {fileID: 1284096882}
+  _myOSCConnections: []
   downOSCDataValue: 1
   upOSCDataValue: 0
   showGUI: 0
@@ -3888,8 +3953,7 @@ MonoBehaviour:
   _useExplicitConnection: 1
   _explicitConnection: {fileID: 1284096882}
   _drawDefaultInspector: 1
-  _myOSCConnections:
-  - {fileID: 1284096882}
+  _myOSCConnections: []
   downOSCDataValue: 1
   upOSCDataValue: 0
   showGUI: 0
@@ -4361,7 +4425,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1384411848}
   m_LocalRotation: {x: 0.0000000018626449, y: -1, z: -0, w: 0}
-  m_LocalPosition: {x: 0, y: 0, z: -13.4010315}
+  m_LocalPosition: {x: 0, y: 0, z: -13.4}
   m_LocalScale: {x: -0.010188477, y: 0.010302276, z: 0.024835115}
   m_Children: []
   m_Father: {fileID: 1755782002}
@@ -4369,7 +4433,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -16.311695, y: -8.492718}
+  m_AnchoredPosition: {x: -18.4, y: -10.5}
   m_SizeDelta: {x: 1024, y: 300}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1384411850
@@ -4740,7 +4804,7 @@ GameObject:
   - component: {fileID: 1546590829}
   - component: {fileID: 1546590828}
   m_Layer: 5
-  m_Name: Text
+  m_Name: InstructionsText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4930,15 +4994,15 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1578942319}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.1623317, y: 0.16233176, z: 0.16233176}
+  m_LocalPosition: {x: 0, y: 0, z: -0.0000002682209}
+  m_LocalScale: {x: 0.13, y: 0.13, z: 0.13}
   m_Children: []
   m_Father: {fileID: 1755782002}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.7, y: -1.6}
+  m_AnchoredPosition: {x: -3.2100067, y: 9.1}
   m_SizeDelta: {x: 100, y: 200}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1578942321
@@ -4960,7 +5024,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: 7aa2ca0853d90a74e8a4944e00c7235b, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 0a4eedc5889559a4c871afcbbbcebbfb, type: 3}
   m_Type: 0
   m_PreserveAspect: 1
   m_FillCenter: 1
@@ -5454,12 +5518,13 @@ RectTransform:
   m_GameObject: {fileID: 1755781998}
   m_LocalRotation: {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 17.5}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.9, y: 0.9, z: 0.9}
   m_Children:
   - {fileID: 1546590827}
   - {fileID: 1578942320}
   - {fileID: 193877092}
   - {fileID: 1384411849}
+  - {fileID: 798073696}
   m_Father: {fileID: 0}
   m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
@@ -6269,8 +6334,7 @@ MonoBehaviour:
   _useExplicitConnection: 1
   _explicitConnection: {fileID: 1284096882}
   _drawDefaultInspector: 1
-  _myOSCConnections:
-  - {fileID: 1284096882}
+  _myOSCConnections: []
   downOSCDataValue: 1
   upOSCDataValue: 0
   showGUI: 0
