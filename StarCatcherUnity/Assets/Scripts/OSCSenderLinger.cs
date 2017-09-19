@@ -49,6 +49,7 @@ namespace UniOSC{
         
 		public override void OnEnable ()
 		{
+            Debug.Log("ENABLED");
 			base.OnEnable ();
             ClearData();
             AppendData(0f);

@@ -23,7 +23,6 @@ public class StripPosition : MonoBehaviour {
 
     public GameObject prefab;
     private ArrayList starStrips;
-    private static ArrayList starStarts;
     private static ArrayList stripLengths;
     private int setStripNumber = 0;
     
@@ -71,8 +70,8 @@ public class StripPosition : MonoBehaviour {
 
 
         // create and arraylist of Strip objects
-        playnyc();
-
+      //  playnyc();
+        home10by10();
 
         //oldStarStarts();
 
@@ -83,8 +82,59 @@ public class StripPosition : MonoBehaviour {
 
     }
 
-    void playnyc()
+    void home10by10()
     {
+
+
+        starStrips = new ArrayList();
+        starStrips.Add(new Strip(new Vector3(1.059726f, 1.33079f, -1.393115f), 0.5f, 0));
+        starStrips.Add(new Strip(new Vector3(0.520191f, 1.844978f, -1.396726f), 0.5f, 1));
+        starStrips.Add(new Strip(new Vector3(0.07259762f, 1.815557f, -1.615675f), 0.5f, 2));
+        starStrips.Add(new Strip(new Vector3(-0.08546925f, 1.842725f, -1.133391f), 0.5f, 3));
+        starStrips.Add(new Strip(new Vector3(-0.1843446f, 1.825109f, -0.6812489f), 0.5f, 4));
+        starStrips.Add(new Strip(new Vector3(1.175866f, 1.398848f, -0.08642793f), 0.5f, 5));
+        starStrips.Add(new Strip(new Vector3(1.134664f, 1.878924f, -0.4413282f), 0.5f, 6));
+        starStrips.Add(new Strip(new Vector3(0.7295327f, 1.854551f, -0.5884717f), 0.5f, 7));
+        starStrips.Add(new Strip(new Vector3(0.3300259f, 1.789383f, -0.4012734f), 0.5f, 8));
+        starStrips.Add(new Strip(new Vector3(-0.006430507f, 1.809757f, -0.2774734f), 0.5f, 9));
+        starStrips.Add(new Strip(new Vector3(0.2672575f, 1.454039f, 0.998863f), 0.5f, 10));
+        starStrips.Add(new Strip(new Vector3(0.5929818f, 1.895293f, 0.6950709f), 0.5f, 11));
+        starStrips.Add(new Strip(new Vector3(0.9057777f, 1.910389f, 0.3995727f), 0.5f, 12));
+        starStrips.Add(new Strip(new Vector3(0.5952582f, 1.869414f, 0.119608f), 0.5f, 13));
+        starStrips.Add(new Strip(new Vector3(0.05934513f, 1.829899f, -0.08878601f), 0.5f, 14));
+        starStrips.Add(new Strip(new Vector3(-0.6133128f, 1.439966f, 0.9932202f), 0.5f, 15));
+        starStrips.Add(new Strip(new Vector3(-0.1807976f, 1.965337f, 1.229396f), 0.5f, 16));
+        starStrips.Add(new Strip(new Vector3(-0.04258418f, 1.848567f, 0.7301938f), 0.5f, 17));
+        starStrips.Add(new Strip(new Vector3(-0.2516407f, 1.82855f, 0.3096327f), 0.5f, 18));
+        starStrips.Add(new Strip(new Vector3(-0.2351089f, 1.823797f, 0.08902574f), 0.5f, 19));
+        starStrips.Add(new Strip(new Vector3(-0.6319648f, 1.850767f, -1.546893f), 0.5f, 20));
+        starStrips.Add(new Strip(new Vector3(-0.970807f, 1.851188f, -1.524421f), 0.5f, 21));
+        starStrips.Add(new Strip(new Vector3(-0.8483121f, 1.758552f, -1.117436f), 0.5f, 22));
+        starStrips.Add(new Strip(new Vector3(-0.6108332f, 1.831099f, -0.9388616f), 0.5f, 23));
+        starStrips.Add(new Strip(new Vector3(-0.4988703f, 1.788141f, -0.5427201f), 0.5f, 24));
+        starStrips.Add(new Strip(new Vector3(-1.794754f, 1.947356f, -1.472434f), 0.5f, 25));
+        starStrips.Add(new Strip(new Vector3(-1.460273f, 1.882933f, -1.069819f), 0.5f, 26));
+        starStrips.Add(new Strip(new Vector3(-1.314088f, 1.882119f, -0.6206622f), 0.5f, 27));
+        starStrips.Add(new Strip(new Vector3(-0.8923193f, 1.848495f, -0.6032078f), 0.5f, 28));
+        starStrips.Add(new Strip(new Vector3(-0.4478242f, 1.827267f, -0.3069352f), 0.5f, 29));
+        starStrips.Add(new Strip(new Vector3(-1.784257f, 1.886664f, -0.468276f), 0.5f, 30));
+        starStrips.Add(new Strip(new Vector3(-1.648832f, 1.969646f, 0.0731101f), 0.5f, 31));
+        starStrips.Add(new Strip(new Vector3(-1.215944f, 1.883387f, -0.006329775f), 0.5f, 32));
+        starStrips.Add(new Strip(new Vector3(-1.015607f, 1.850521f, -0.2135639f), 0.5f, 33));
+        starStrips.Add(new Strip(new Vector3(-0.7152587f, 1.821804f, -0.1824857f), 0.5f, 34));
+        starStrips.Add(new Strip(new Vector3(-1.458969f, 1.937838f, 0.4310877f), 0.5f, 35));
+        starStrips.Add(new Strip(new Vector3(-1.12759f, 1.937596f, 0.8326677f), 0.5f, 36));
+        starStrips.Add(new Strip(new Vector3(-0.6527772f, 1.86044f, 0.5981877f), 0.5f, 37));
+        starStrips.Add(new Strip(new Vector3(-0.6507943f, 1.853665f, 0.1946073f), 0.5f, 38));
+        starStrips.Add(new Strip(new Vector3(-0.4770563f, 1.855852f, -0.08421588f), 0.5f, 39));
+
+
+    }
+
+     void playnyc()
+    {
+
+
         starStrips = new ArrayList();
         starStrips.Add(new Strip(new Vector3(1.94319f, 2.225813f, 0.5722012f), 0.5f, 0));
         starStrips.Add(new Strip(new Vector3(2.235461f, 2.211134f, 0.2997237f), 0.5f, 1));
@@ -215,7 +265,7 @@ public class StripPosition : MonoBehaviour {
 
     private void LogStripPositons()
     {
-        string msg = "        starStarts = new ArrayList();";
+        string msg = "        starStrips = new ArrayList();";
         for (int i =0; i<starStrips.Count;i++) 
         {
             Strip strip = (Strip)starStrips.ToArray()[i];
