@@ -9,7 +9,9 @@ public class StarSpawn : MonoBehaviour {
     public GameObject prefab;
 
     private static ArrayList starStarts;
-    private static UnityEngine.Random random = new UnityEngine.Random();
+    public static System.Random random = new System.Random();
+
+    //private static UnityEngine.Random random = new UnityEngine.Random();
     public StripPosition stripPositions;
     private float timeToNextSpawn = 0;
     private float hardTimeToNextSpawn = 0;

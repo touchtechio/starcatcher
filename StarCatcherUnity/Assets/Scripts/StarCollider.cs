@@ -61,6 +61,7 @@ public class StarCollider : MonoBehaviour {
         }
 	}
 
+    //When a GameObject collides with another GameObject, Unity calls OnTriggerEnter.
     void OnTriggerEnter(Collider other)
     {
         // other.gameObject.CompareTag(NET);
@@ -75,7 +76,7 @@ public class StarCollider : MonoBehaviour {
 
         // play caught sound at place of caught
         SoundCatch();
-        //Debug.Log("star caught at " +timeCaught);
+        Debug.Log("star caught at " +timeCaught);
         //Destroy(gameObject, timeToDestory);
 
          starEffects._color = Color.cyan;
