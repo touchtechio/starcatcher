@@ -58,7 +58,7 @@ public class Score : MonoBehaviour {
     {
         starCaughtCount++;
         Debug.Log("caught star " + starCaughtCount);
-        effectEnvironment();
+        checkEffectOnEnvironment();
 
         //TODO: add toggle for game type
         // if (0 == (constellationScore % 10))
@@ -80,16 +80,20 @@ public class Score : MonoBehaviour {
         return level;
     }
 
-    public static void effectEnvironment()
+    public static void checkEffectOnEnvironment()
     {
         // TODO: replace formula
-        environmentDamageScore = starCaughtCount / totalStarsToBeCaught;
-        cumulativeEnvironmentDamageScore = environmentDamageScore;
+        if (minStarCaught < starCaughtCount & starCaughtCount <= (totalStarsToBeCaught + minStarCaught)) {
+            environmentDamageScore = (float) (starCaughtCount - minStarCaught) / totalStarsToBeCaught;
+            cumulativeEnvironmentDamageScore = environmentDamageScore;
+            Debug.Log("environmental damage " + cumulativeEnvironmentDamageScore);
+        }
 
     }
     void Update(){
         if (Input. GetKeyUp("c")){
             starCaughtCount++;
+            checkEffectOnEnvironment();
             Debug.Log("key press caught star " + starCaughtCount);
         }
     }
