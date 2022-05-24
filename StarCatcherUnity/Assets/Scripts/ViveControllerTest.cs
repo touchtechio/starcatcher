@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Valve.VR;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class ViveControllerTest : MonoBehaviour
 {
@@ -13,7 +14,12 @@ public class ViveControllerTest : MonoBehaviour
     public SteamVR_Input_Sources handType;
     public SteamVR_Input_Sources inputSource = SteamVR_Input_Sources.Any;
     public SteamVR_Action_Boolean SphereOnOff;
+    public SteamVR_Action_Boolean SetStarPosition;
+    public SteamVR_Action_Boolean ClearStarPositions;
+    public SteamVR_Action_Boolean ChangeScene;
     public SteamVR_Action_Pose poseAction = null;
+    Scene currentScene;
+    public Camera projectorLoadCamera;
 
     //reference to the sphere
     public GameObject Sphere;
@@ -26,9 +32,12 @@ public class ViveControllerTest : MonoBehaviour
 
     void Start()
     {
+        currentScene = SceneManager.GetActiveScene();
         starcatcherControllerActionSet.Activate();
-        SphereOnOff.AddOnStateDownListener(TriggerDown, handType);
-        SphereOnOff.AddOnStateUpListener(TriggerUp, handType);
+
+        SetStarPosition.AddOnStateDownListener(TriggerDown, handType);
+        ClearStarPositions.AddOnStateDownListener(GripDown, handType);
+        ChangeScene.AddOnStateDownListener(MenuDown, handType);
     }
 
     void Update()
@@ -36,12 +45,6 @@ public class ViveControllerTest : MonoBehaviour
         triggerPosition = butterflyNet.transform.position;
     }
 
-    public void TriggerUp(SteamVR_Action_Boolean fromAction, SteamVR_Input_Sources fromSource)
-    {
-        Debug.Log("Trigger is up");
-        Sphere.GetComponent<MeshRenderer>().enabled = true;
-        
-    }
     public void TriggerDown(SteamVR_Action_Boolean fromAction, SteamVR_Input_Sources fromSource)
     {
         Debug.Log("Trigger is down");
@@ -50,4 +53,26 @@ public class ViveControllerTest : MonoBehaviour
         //Debug.Log("position"+ vPosition.x)
     }
 
+    public void GripDown(SteamVR_Action_Boolean fromAction, SteamVR_Input_Sources fromSource)
+    {
+        Debug.Log("Clear Star Positions");
+        stripPosition.clearStripArray = true;
+        //stripPositionLogObject.clearStripArray = true;
+    }
+
+        public void MenuDown(SteamVR_Action_Boolean fromAction, SteamVR_Input_Sources fromSource)
+    {
+        Debug.Log("Change Scene");
+
+        projectorLoadCamera.enabled = false;
+        if (currentScene.name == "StarCatcher")
+        {
+            SceneManager.LoadScene("StarCatcher-load");
+        }
+        else if (currentScene.name == "StarCatcher-load")
+        {
+            SceneManager.LoadScene("StarCatcher");
+
+        }
+    }
 }

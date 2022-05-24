@@ -83,12 +83,16 @@
       "requirement": "optional"
     },
     {
-      "name": "/actions/starcatchercontroller/in/Controller_click",
+      "name": "/actions/starcatchercontroller/in/set_star_position",
       "type": "boolean"
     },
     {
-      "name": "/actions/starcatchercontroller/in/InputSet",
-      "type": "vector3"
+      "name": "/actions/starcatchercontroller/in/clear_star_positions",
+      "type": "boolean"
+    },
+    {
+      "name": "/actions/starcatchercontroller/in/scene_change",
+      "type": "boolean"
     }
   ],
   "action_sets": [

@@ -5,12 +5,15 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/StarCatcher-working-incomplete.unity
     guid: 26eec68ff273e944d94768538fa180fc
   - enabled: 1
     path: Assets/Scenes/StarCatcher-load.unity
     guid: dbe8aefe0a94cc24599c77fc71f665a3
+  - enabled: 1
+    path: Assets/Scenes/StarCatcher.unity
+    guid: 0ed4c5282855bed46a40dcabeead2e2a
   m_configObjects:
     Unity.XR.Oculus.Settings: {fileID: 11400000, guid: 425a9c61c98c9f5468a4b947978b8655,
       type: 2}

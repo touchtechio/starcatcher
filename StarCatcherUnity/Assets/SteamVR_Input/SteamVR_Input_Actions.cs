@@ -55,9 +55,11 @@ namespace Valve.VR
         
         private static SteamVR_Action_Pose p_mixedreality_ExternalCamera;
         
-        private static SteamVR_Action_Boolean p_starcatchercontroller_Controller_click;
+        private static SteamVR_Action_Boolean p_starcatchercontroller_set_star_position;
         
-        private static SteamVR_Action_Vector3 p_starcatchercontroller_InputSet;
+        private static SteamVR_Action_Boolean p_starcatchercontroller_clear_star_positions;
+        
+        private static SteamVR_Action_Boolean p_starcatchercontroller_scene_change;
         
         public static SteamVR_Action_Boolean default_InteractUI
         {
@@ -211,19 +213,27 @@ namespace Valve.VR
             }
         }
         
-        public static SteamVR_Action_Boolean starcatchercontroller_Controller_click
+        public static SteamVR_Action_Boolean starcatchercontroller_set_star_position
         {
             get
             {
-                return SteamVR_Actions.p_starcatchercontroller_Controller_click.GetCopy<SteamVR_Action_Boolean>();
+                return SteamVR_Actions.p_starcatchercontroller_set_star_position.GetCopy<SteamVR_Action_Boolean>();
             }
         }
         
-        public static SteamVR_Action_Vector3 starcatchercontroller_InputSet
+        public static SteamVR_Action_Boolean starcatchercontroller_clear_star_positions
         {
             get
             {
-                return SteamVR_Actions.p_starcatchercontroller_InputSet.GetCopy<SteamVR_Action_Vector3>();
+                return SteamVR_Actions.p_starcatchercontroller_clear_star_positions.GetCopy<SteamVR_Action_Boolean>();
+            }
+        }
+        
+        public static SteamVR_Action_Boolean starcatchercontroller_scene_change
+        {
+            get
+            {
+                return SteamVR_Actions.p_starcatchercontroller_scene_change.GetCopy<SteamVR_Action_Boolean>();
             }
         }
         
@@ -249,8 +259,9 @@ namespace Valve.VR
                     SteamVR_Actions.buggy_Brake,
                     SteamVR_Actions.buggy_Reset,
                     SteamVR_Actions.mixedreality_ExternalCamera,
-                    SteamVR_Actions.starcatchercontroller_Controller_click,
-                    SteamVR_Actions.starcatchercontroller_InputSet};
+                    SteamVR_Actions.starcatchercontroller_set_star_position,
+                    SteamVR_Actions.starcatchercontroller_clear_star_positions,
+                    SteamVR_Actions.starcatchercontroller_scene_change};
             Valve.VR.SteamVR_Input.actionsIn = new Valve.VR.ISteamVR_Action_In[] {
                     SteamVR_Actions.default_InteractUI,
                     SteamVR_Actions.default_Teleport,
@@ -270,8 +281,9 @@ namespace Valve.VR
                     SteamVR_Actions.buggy_Brake,
                     SteamVR_Actions.buggy_Reset,
                     SteamVR_Actions.mixedreality_ExternalCamera,
-                    SteamVR_Actions.starcatchercontroller_Controller_click,
-                    SteamVR_Actions.starcatchercontroller_InputSet};
+                    SteamVR_Actions.starcatchercontroller_set_star_position,
+                    SteamVR_Actions.starcatchercontroller_clear_star_positions,
+                    SteamVR_Actions.starcatchercontroller_scene_change};
             Valve.VR.SteamVR_Input.actionsOut = new Valve.VR.ISteamVR_Action_Out[] {
                     SteamVR_Actions.default_Haptic};
             Valve.VR.SteamVR_Input.actionsVibration = new Valve.VR.SteamVR_Action_Vibration[] {
@@ -290,15 +302,16 @@ namespace Valve.VR
                     SteamVR_Actions.platformer_Jump,
                     SteamVR_Actions.buggy_Brake,
                     SteamVR_Actions.buggy_Reset,
-                    SteamVR_Actions.starcatchercontroller_Controller_click};
+                    SteamVR_Actions.starcatchercontroller_set_star_position,
+                    SteamVR_Actions.starcatchercontroller_clear_star_positions,
+                    SteamVR_Actions.starcatchercontroller_scene_change};
             Valve.VR.SteamVR_Input.actionsSingle = new Valve.VR.SteamVR_Action_Single[] {
                     SteamVR_Actions.default_Squeeze,
                     SteamVR_Actions.buggy_Throttle};
             Valve.VR.SteamVR_Input.actionsVector2 = new Valve.VR.SteamVR_Action_Vector2[] {
                     SteamVR_Actions.platformer_Move,
                     SteamVR_Actions.buggy_Steering};
-            Valve.VR.SteamVR_Input.actionsVector3 = new Valve.VR.SteamVR_Action_Vector3[] {
-                    SteamVR_Actions.starcatchercontroller_InputSet};
+            Valve.VR.SteamVR_Input.actionsVector3 = new Valve.VR.SteamVR_Action_Vector3[0];
             Valve.VR.SteamVR_Input.actionsSkeleton = new Valve.VR.SteamVR_Action_Skeleton[] {
                     SteamVR_Actions.default_SkeletonLeftHand,
                     SteamVR_Actions.default_SkeletonRightHand};
@@ -317,8 +330,9 @@ namespace Valve.VR
                     SteamVR_Actions.buggy_Throttle,
                     SteamVR_Actions.buggy_Brake,
                     SteamVR_Actions.buggy_Reset,
-                    SteamVR_Actions.starcatchercontroller_Controller_click,
-                    SteamVR_Actions.starcatchercontroller_InputSet};
+                    SteamVR_Actions.starcatchercontroller_set_star_position,
+                    SteamVR_Actions.starcatchercontroller_clear_star_positions,
+                    SteamVR_Actions.starcatchercontroller_scene_change};
         }
         
         private static void PreInitActions()
@@ -342,8 +356,9 @@ namespace Valve.VR
             SteamVR_Actions.p_buggy_Brake = ((SteamVR_Action_Boolean)(SteamVR_Action.Create<SteamVR_Action_Boolean>("/actions/buggy/in/Brake")));
             SteamVR_Actions.p_buggy_Reset = ((SteamVR_Action_Boolean)(SteamVR_Action.Create<SteamVR_Action_Boolean>("/actions/buggy/in/Reset")));
             SteamVR_Actions.p_mixedreality_ExternalCamera = ((SteamVR_Action_Pose)(SteamVR_Action.Create<SteamVR_Action_Pose>("/actions/mixedreality/in/ExternalCamera")));
-            SteamVR_Actions.p_starcatchercontroller_Controller_click = ((SteamVR_Action_Boolean)(SteamVR_Action.Create<SteamVR_Action_Boolean>("/actions/starcatchercontroller/in/Controller_click")));
-            SteamVR_Actions.p_starcatchercontroller_InputSet = ((SteamVR_Action_Vector3)(SteamVR_Action.Create<SteamVR_Action_Vector3>("/actions/starcatchercontroller/in/InputSet")));
+            SteamVR_Actions.p_starcatchercontroller_set_star_position = ((SteamVR_Action_Boolean)(SteamVR_Action.Create<SteamVR_Action_Boolean>("/actions/starcatchercontroller/in/set_star_position")));
+            SteamVR_Actions.p_starcatchercontroller_clear_star_positions = ((SteamVR_Action_Boolean)(SteamVR_Action.Create<SteamVR_Action_Boolean>("/actions/starcatchercontroller/in/clear_star_positions")));
+            SteamVR_Actions.p_starcatchercontroller_scene_change = ((SteamVR_Action_Boolean)(SteamVR_Action.Create<SteamVR_Action_Boolean>("/actions/starcatchercontroller/in/scene_change")));
         }
     }
 }

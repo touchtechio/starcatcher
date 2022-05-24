@@ -17,19 +17,27 @@ namespace Valve.VR
     public class SteamVR_Input_ActionSet_starcatchercontroller : Valve.VR.SteamVR_ActionSet
     {
         
-        public virtual SteamVR_Action_Boolean Controller_click
+        public virtual SteamVR_Action_Boolean set_star_position
         {
             get
             {
-                return SteamVR_Actions.starcatchercontroller_Controller_click;
+                return SteamVR_Actions.starcatchercontroller_set_star_position;
             }
         }
         
-        public virtual SteamVR_Action_Vector3 InputSet
+        public virtual SteamVR_Action_Boolean clear_star_positions
         {
             get
             {
-                return SteamVR_Actions.starcatchercontroller_InputSet;
+                return SteamVR_Actions.starcatchercontroller_clear_star_positions;
+            }
+        }
+        
+        public virtual SteamVR_Action_Boolean scene_change
+        {
+            get
+            {
+                return SteamVR_Actions.starcatchercontroller_scene_change;
             }
         }
     }
