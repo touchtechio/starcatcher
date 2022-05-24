@@ -76,7 +76,6 @@ public class StarCollider : MonoBehaviour {
 
         // play caught sound at place of caught
         SoundCatch();
-        Debug.Log("star caught at " +timeCaught);
         //Destroy(gameObject, timeToDestory);
 
          starEffects._color = Color.cyan;

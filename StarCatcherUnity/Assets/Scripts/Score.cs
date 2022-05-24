@@ -5,20 +5,41 @@ using UnityEngine;
 
 public class Score : MonoBehaviour {
 
-    public static int score;
+    public static int starCaughtCount;
     public static int level;
     private static Constellations constellations;
     internal static readonly int LEVEL_ONE = 0;
     internal static readonly int LEVEL_TWO = 1;
     internal static readonly int LEVEL_THREE = 2;
 
+    public static float environmentDamageScore;
+    public static float cumulativeEnvironmentDamageScore;
+    public static int totalStarsToBeCaught;
+    public static int minStarCaught;
+
+    
+    public int totalStarsToBeCaughtUser;
+    public int minStarCaughtUser;
 
 
     private static BackingTracks BackingTracks;
 
     // Use this for initialization
     void Start () {
-        score = 0;
+        starCaughtCount = 0;
+        minStarCaught = 3;
+        totalStarsToBeCaught = 10;
+        SetLevel(2);
+        if (totalStarsToBeCaughtUser > 0) 
+        {
+            totalStarsToBeCaught = totalStarsToBeCaughtUser;
+        }
+
+        if (minStarCaughtUser > 0)
+        {
+            minStarCaught = minStarCaughtUser;
+        }
+
         constellations = FindObjectOfType<Constellations>();
         if (null == constellations)
         {
@@ -28,20 +49,22 @@ public class Score : MonoBehaviour {
         BackingTracks = FindObjectOfType<BackingTracks>();
         if (null == BackingTracks)
         {
-            Debug.LogWarning("WARN: no BackingTracks  found");
+            Debug.LogWarning("WARN: no BackingTracks found");
         }
 
     }
 
     public static Vector3 catchStar()
     {
-        score++;
-        //Debug.Log("caught star " + score);
+        starCaughtCount++;
+        Debug.Log("caught star " + starCaughtCount);
+        effectEnvironment();
 
-        if (0 == (score % 10))
-        {
-            SetLevel(level+1);
-        }
+        //TODO: add toggle for game type
+        // if (0 == (constellationScore % 10))
+        // {
+        //     SetLevel(level+1);
+        // }
         return constellations.GetNextEmptyPosition().transform.position;
     }
 
@@ -49,11 +72,25 @@ public class Score : MonoBehaviour {
     {
         Score.level = level;
         Score.level %= 3;
-        BackingTracks.UpdateLevel();
+        //BackingTracks.UpdateLevel();
     }
 
     internal static int GetCurrentLevel()
     {
         return level;
+    }
+
+    public static void effectEnvironment()
+    {
+        // TODO: replace formula
+        environmentDamageScore = starCaughtCount / totalStarsToBeCaught;
+        cumulativeEnvironmentDamageScore = environmentDamageScore;
+
+    }
+    void Update(){
+        if (Input. GetKeyUp("c")){
+            starCaughtCount++;
+            Debug.Log("key press caught star " + starCaughtCount);
+        }
     }
 }
