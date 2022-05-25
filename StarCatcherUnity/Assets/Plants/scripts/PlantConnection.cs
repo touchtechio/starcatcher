@@ -2,6 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/*
+This is a joint on the plant limb that can be used to spawn future limbs
+*/
+
 public class PlantConnection : MonoBehaviour
 {
 

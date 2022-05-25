@@ -15,6 +15,7 @@ TagManager:
   - rightController
   - CONSTELLATION_WIN
   - CONSTELLATION_COMPLETE
+  - Limb
   layers:
   - Default
   - TransparentFX
@@ -22,7 +23,7 @@ TagManager:
   - 
   - Water
   - UI
-  - 
+  - Plants
   - 
   - 
   - 

@@ -2,6 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/*
+This class represents the root of the plant and is used ro propoigate information down the whole plant
+(things like health, color etc)
+*/
+
 public class PlantRoot 
 {
 
@@ -10,14 +15,14 @@ public class PlantRoot
     private float health_curve;
     private Color color;
 
-    public PlantRoot(GameObject limb_prefab, Vector3 position){
+    public PlantRoot(string root_limb_id, Vector3 position){
         health_curve = Random.Range(0.5f,1.5f);
 
         color = new Color(Random.Range(0.0f,1.0f),Random.Range(0.0f,1.0f),Random.Range(0.0f,1.0f));
 
         int z = (int)Random.Range(0,99);
 
-        GameObject obj = Object.Instantiate(limb_prefab, Vector3.zero, Quaternion.identity);
+        GameObject obj = Object.Instantiate(PlantPartPool.instance.get_limb(root_limb_id), Vector3.zero, Quaternion.identity);
         obj.transform.parent = PlantManager.instance.transform;
         obj.transform.localPosition = position;
         root_limb = obj.GetComponent<PlantLimb>();

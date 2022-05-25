@@ -2,7 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-using System.Linq;
+//using System.Linq;
+
+/*
+This is a plant limb. These are combined recursively to make a plant
+*/
+
 
 public class PlantLimb : MonoBehaviour
 {
@@ -28,22 +33,6 @@ public class PlantLimb : MonoBehaviour
 
 
     public void setup(int _depth, float _base_angle, float _base_scale, int z, Color _color, int _max_depth){
-        
-        //this is bad and you should clean it up
-        //this is because the prefab references itself
-        // List<Transform> to_kill = new List<Transform>();
-        // foreach (Transform child in transform){
-        //     if (child.tag == "Limb"){
-        //         to_kill.Add(child);
-        //     }
-        // }
-        // for (int i=to_kill.Count-1; i>=0; i--){
-        //     Destroy(to_kill[i].gameObject);
-        // }
-        // children.Clear();
-
-
-        //real setup starts here
         depth = _depth;
         max_depth = _max_depth;
         base_angle = _base_angle;
@@ -54,13 +43,17 @@ public class PlantLimb : MonoBehaviour
         base_color = _color;
         sprite_rend.color = base_color;
 
-        Debug.Log("set up with depth "+depth);
-        gameObject.name = "Limb  "+depth.ToString()+" , "+base_angle.ToString();
+        //Debug.Log("set up with depth "+depth);
+        gameObject.name = "Limb  "+depth.ToString();
 
         set_health_values();
 
         //demo coloring
-        //sprite_rend.color = Color.Lerp( Color.red, Color.blue, (float)depth / (float)max_depth);
+        if (PlantManager.instance.use_debug_sprite_color){
+            sprite_rend.color = Color.Lerp( Color.red, Color.blue, (float)depth / (float)max_depth);
+        }
+
+        //setting Z depth so later limbs are a little bit in front of their parents
         sprite_rend.sortingOrder = z + depth;
 
         //try to spawn children

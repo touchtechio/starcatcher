@@ -3,16 +3,20 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+/*
+Manager class that runs the plants
+*/
+
 public class PlantManager : MonoBehaviour
 {
-    public GameObject root_prefab;
+    public string[] root_ids;
 
     private List<PlantRoot> roots = new List<PlantRoot>();
-    //public Color[] colors;
 
     public int max_depth;
 
-    //public Slider health_slider; 
+    public bool use_debug_sprite_color;
+
 
     public static PlantManager instance = null;
 
@@ -38,7 +42,8 @@ public class PlantManager : MonoBehaviour
 
         for (int i=0; i<3; i++){
             Vector3 pos = new Vector3(3.5f*(i-1),-3,0);
-            roots.Add( new PlantRoot(root_prefab, pos));
+            string root_id = root_ids[ (int)Random.Range(0,root_ids.Length)];
+            roots.Add( new PlantRoot(root_id, pos));
         }
     }
 

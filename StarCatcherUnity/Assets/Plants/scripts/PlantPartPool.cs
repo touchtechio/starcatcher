@@ -2,6 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/*
+
+This is a singleton class dedicated to grabbing plant limb prefabs
+
+I cannot instantiate the limbs directly form inside their prefab because the recursive nature causes the original prefab to get the children
+I'm not sure exactly why this is, but setting up a pooler like this seems to solve it
+
+*/
+
 public class PlantPartPool : MonoBehaviour
 {
     [System.Serializable]

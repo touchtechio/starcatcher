@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3920916726762376079}
   - component: {fileID: 3920916726762376078}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: connection
   m_TagString: Untagged
   m_Icon: {fileID: 8418204508859773708, guid: 0000000000000000d000000000000000, type: 0}
@@ -49,8 +49,6 @@ MonoBehaviour:
   angle: -10
   angle_range: 5
   die_off_depth: 2
-  possible_prefabs:
-  - {fileID: 3920916727955005253}
   possible_children:
   - limb_left
   filled: 0
@@ -64,7 +62,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3920916727449444989}
   - component: {fileID: 3920916727449444988}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -148,7 +146,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3920916727955005255}
   - component: {fileID: 3920916727955005252}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: limb_left
   m_TagString: Limb
   m_Icon: {fileID: 1206586993520771344, guid: 0000000000000000d000000000000000, type: 0}
@@ -202,7 +200,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6507050686601214428}
   - component: {fileID: 8794429094471052918}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: connection (2)
   m_TagString: Untagged
   m_Icon: {fileID: 8418204508859773708, guid: 0000000000000000d000000000000000, type: 0}
@@ -241,8 +239,6 @@ MonoBehaviour:
   angle: -40
   angle_range: 5
   die_off_depth: 1
-  possible_prefabs:
-  - {fileID: 3920916727955005253}
   possible_children:
   - limb_left
   filled: 0
