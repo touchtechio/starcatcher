@@ -14,6 +14,7 @@ public class PlantLimb : MonoBehaviour
 
     private int depth;
     private int max_depth;
+    public int max_depth_if_trunk;
 
     private float base_angle;
     private float base_scale;

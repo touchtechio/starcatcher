@@ -15,7 +15,8 @@ public class PlantManager : MonoBehaviour
 
     private List<PlantRoot> roots = new List<PlantRoot>();
 
-    public int max_depth;   //this should be plant by plant
+    public float max_x_dist;
+    public int num_plants_to_spawn;
 
     //global health
     private float cur_health;
@@ -24,6 +25,10 @@ public class PlantManager : MonoBehaviour
     //debug tools
     [Header("Debug Tools")]
     public bool use_debug_sprite_color;
+
+    //testing out state stuff
+    public enum GameState {Game, Dead, Rejuvination, Flourishing, Decline};
+    public GameState cur_state;
 
 
     
@@ -48,13 +53,13 @@ public class PlantManager : MonoBehaviour
         }
         roots.Clear();
 
-        for (int i=0; i<3; i++){
-            Vector3 pos = new Vector3(3.5f*(i-1),-3,0);
+        for (int i=0; i<num_plants_to_spawn; i++){
+            Vector3 pos = new Vector3(Random.Range(-max_x_dist, max_x_dist),-3,0);
             string root_id = root_ids[ (int)Random.Range(0,root_ids.Length)];
-            roots.Add( new PlantRoot(root_id, pos));
+            roots.Add( new PlantRoot(root_id, pos, i*20));
         }
 
-        cur_health = 1.0f - Score.cumulativeEnvironmentDamageScore;
+        cur_health = 0;// 1.0f - Score.cumulativeEnvironmentDamageScore;
     }
 
     // Update is called once per frame
@@ -68,11 +73,17 @@ public class PlantManager : MonoBehaviour
         //grab the health value from the game
         //This value is treated as damage, so it is inverted (1=dead, 0=alive)
         float raw_health_value = Mathf.Clamp(1.0f-Score.cumulativeEnvironmentDamageScore, 0.0f, 1.0f);
+        
+        //in some game states, intercept this value and hard set it
+        if (cur_state == GameState.Dead)            raw_health_value = 0;
+        if (cur_state == GameState.Rejuvination)    raw_health_value = 1;
+        
         //lerp it
         cur_health = Mathf.Lerp(cur_health, raw_health_value, health_lerp);
 
-        for (int i=0; i<roots.Count; i++){
-            roots[i].set_health( cur_health );
+        //set the health value of all plants
+        foreach(PlantRoot root in roots){
+            root.set_health( cur_health );
         }
     }
 }

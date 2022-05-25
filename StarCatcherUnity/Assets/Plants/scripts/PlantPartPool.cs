@@ -14,7 +14,12 @@ I'm not sure exactly why this is, but setting up a pooler like this seems to sol
 public class PlantPartPool : MonoBehaviour
 {
     [System.Serializable]
-   public struct LimbObj { public string id_name; public GameObject prefab; }
+   public struct LimbObj { 
+       public string id_name; 
+       public GameObject prefab; 
+       //public int max_depth_if_trunk;
+    }
+
    public LimbObj[] limb_objs;
 
 

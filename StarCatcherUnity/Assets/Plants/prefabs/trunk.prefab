@@ -184,6 +184,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 05942d050e1c04e368671733584f204f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  max_depth_if_trunk: 5
   sway_dist: 10
   sway_speed: 1
   connections:
