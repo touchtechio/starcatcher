@@ -46,9 +46,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   root_ids:
-  - trunk
-  max_x_dist: 7
-  num_plants_to_spawn: 20
+  - cooksonia_limb_split_left
+  max_x_dist: 6
+  num_plants_to_spawn: 2
   health_lerp: 0.01
   use_debug_sprite_color: 0
   cur_state: 0
@@ -73,4 +73,19 @@ MonoBehaviour:
       type: 3}
   - id_name: limb_right
     prefab: {fileID: 3920916727955005253, guid: 61794b89ffabf4bc28bdb3167586be25,
+      type: 3}
+  - id_name: cooksonia_limb_split_left
+    prefab: {fileID: 3920916727955005253, guid: 050b436a8e81f4eb6b84372b0e5492ce,
+      type: 3}
+  - id_name: cooksonia_limb_split_right
+    prefab: {fileID: 3920916727955005253, guid: 414bfe912596e42c7a54675d660cde81,
+      type: 3}
+  - id_name: cooksonia_flower_1
+    prefab: {fileID: 3920916727955005253, guid: 6e190b8ef8db64397a626bf9f9c561f6,
+      type: 3}
+  - id_name: cooksonia_flower_2
+    prefab: {fileID: 3920916727955005253, guid: 87440bbc21cf44986a99ded54d12afeb,
+      type: 3}
+  - id_name: cooksonia_limb_long
+    prefab: {fileID: 3920916727955005253, guid: e564bf2283c5645d984a705db8216aef,
       type: 3}
