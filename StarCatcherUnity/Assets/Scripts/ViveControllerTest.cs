@@ -60,7 +60,7 @@ public class ViveControllerTest : MonoBehaviour
         //stripPositionLogObject.clearStripArray = true;
     }
 
-        public void MenuDown(SteamVR_Action_Boolean fromAction, SteamVR_Input_Sources fromSource)
+    public void MenuDown(SteamVR_Action_Boolean fromAction, SteamVR_Input_Sources fromSource)
     {
         Debug.Log("Change Scene");
 

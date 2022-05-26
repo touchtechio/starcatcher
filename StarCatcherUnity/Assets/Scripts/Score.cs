@@ -16,8 +16,9 @@ public class Score : MonoBehaviour {
     public static float cumulativeEnvironmentDamageScore;
     public static int totalStarsToBeCaught;
     public static int minStarCaught;
+    public static string plasmaWorldState;
 
-    
+
     public int totalStarsToBeCaughtUser;
     public int minStarCaughtUser;
 
@@ -29,7 +30,9 @@ public class Score : MonoBehaviour {
         starCaughtCount = 0;
         minStarCaught = 3;
         totalStarsToBeCaught = 10;
-        SetLevel(2);
+        SetLevel(0);
+        plasmaWorldState = "flourish";
+
         if (totalStarsToBeCaughtUser > 0) 
         {
             totalStarsToBeCaught = totalStarsToBeCaughtUser;
@@ -59,6 +62,7 @@ public class Score : MonoBehaviour {
         starCaughtCount++;
         Debug.Log("caught star " + starCaughtCount);
         checkEffectOnEnvironment();
+        SetGameState();
 
         //TODO: add toggle for game type
         // if (0 == (constellationScore % 10))
@@ -96,5 +100,22 @@ public class Score : MonoBehaviour {
             checkEffectOnEnvironment();
             Debug.Log("key press caught star " + starCaughtCount);
         }
+    }
+
+    public static void SetGameState()
+    {
+        if (cumulativeEnvironmentDamageScore < 0.5)
+        {
+            plasmaWorldState = "flourish";
+        } else if (cumulativeEnvironmentDamageScore >= 0.5 || cumulativeEnvironmentDamageScore < 1)
+        {
+            plasmaWorldState = "decline";
+        } else if (cumulativeEnvironmentDamageScore == 1)
+        {
+            plasmaWorldState = "dead";
+            //TODO: start dead sequence of events and game reset
+        }
+
+
     }
 }
