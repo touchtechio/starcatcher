@@ -22,7 +22,7 @@ public class PlantLimb : MonoBehaviour
     float shrink_start;
     float shrink_end;
 
-    public float sway_dist;
+    private float sway_dist = 5;
     public float sway_speed;
 
     public List<PlantConnection> connections;
