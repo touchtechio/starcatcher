@@ -1,0 +1,76 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &8226309043064118675
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8226309043064118672}
+  - component: {fileID: 8226309043064118686}
+  - component: {fileID: 8226309043064118673}
+  m_Layer: 6
+  m_Name: PlantsManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8226309043064118672
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8226309043064118675}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 2.3, y: 0, z: 3.4}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8226309043064118686
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8226309043064118675}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad1093a3e3ce54d7f91c709d20fd6953, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  root_ids:
+  - trunk
+  max_x_dist: 7
+  num_plants_to_spawn: 20
+  health_lerp: 0.01
+  use_debug_sprite_color: 0
+  cur_state: 0
+--- !u!114 &8226309043064118673
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8226309043064118675}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1716e001eeff3414883f64e9938e1d4f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  limb_objs:
+  - id_name: trunk
+    prefab: {fileID: 3920916727955005253, guid: 2bf6570cd0dd443d0ae7ba8023c4d688,
+      type: 3}
+  - id_name: limb_left
+    prefab: {fileID: 3920916727955005253, guid: 7ef49388b908c428aafeeb81c6c648ba,
+      type: 3}
+  - id_name: limb_right
+    prefab: {fileID: 3920916727955005253, guid: 61794b89ffabf4bc28bdb3167586be25,
+      type: 3}
