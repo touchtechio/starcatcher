@@ -16,8 +16,9 @@ public class Score : MonoBehaviour {
     public static float cumulativeEnvironmentDamageScore;
     public static int totalStarsToBeCaught;
     public static int minStarCaught;
-    public static string plasmaWorldState;
-
+    
+    public enum GameState {Dead, Rejuvination, Flourishing, Decline};
+    public GameState plasmaWorldState;
 
     public int totalStarsToBeCaughtUser;
     public int minStarCaughtUser;
@@ -31,7 +32,7 @@ public class Score : MonoBehaviour {
         minStarCaught = 3;
         totalStarsToBeCaught = 10;
         SetLevel(0);
-        plasmaWorldState = "flourish";
+        plasmaWorldState = GameState.Flourishing;
 
         if (totalStarsToBeCaughtUser > 0) 
         {
@@ -61,8 +62,6 @@ public class Score : MonoBehaviour {
     {
         starCaughtCount++;
         Debug.Log("caught star " + starCaughtCount);
-        checkEffectOnEnvironment();
-        SetGameState();
 
         //TODO: add toggle for game type
         // if (0 == (constellationScore % 10))
@@ -97,25 +96,23 @@ public class Score : MonoBehaviour {
     void Update(){
         if (Input. GetKeyUp("c")){
             starCaughtCount++;
-            checkEffectOnEnvironment();
             Debug.Log("key press caught star " + starCaughtCount);
         }
+        checkEffectOnEnvironment();
+        SetGameState();
     }
 
-    public static void SetGameState()
+    public void SetGameState()
     {
-        if (cumulativeEnvironmentDamageScore < 0.5)
+        if (cumulativeEnvironmentDamageScore < 0.5) plasmaWorldState = GameState.Flourishing;
+        else if (cumulativeEnvironmentDamageScore >= 0.5 || cumulativeEnvironmentDamageScore < 1)
         {
-            plasmaWorldState = "flourish";
-        } else if (cumulativeEnvironmentDamageScore >= 0.5 || cumulativeEnvironmentDamageScore < 1)
-        {
-            plasmaWorldState = "decline";
+            plasmaWorldState = GameState.Decline;
         } else if (cumulativeEnvironmentDamageScore == 1)
         {
-            plasmaWorldState = "dead";
+            plasmaWorldState = GameState.Dead;
             //TODO: start dead sequence of events and game reset
         }
-
 
     }
 }
