@@ -39,6 +39,9 @@ public class PlantManager : MonoBehaviour
     [Header("Debug Tools")]
     public bool use_debug_sprite_color;
     public bool debug_even_spacing;
+    public bool debug_use_fake_damage_value;
+    [Range(0.0f, 1.0f)]
+    public float debug_fake_damage_value;
 
     //testing out state stuff
     public enum GameState {Game, Dead, Rejuvination, Flourishing, Decline};
@@ -97,6 +100,10 @@ public class PlantManager : MonoBehaviour
         //grab the health value from the game
         //This value is treated as damage, so it is inverted (1=dead, 0=alive)
         float raw_health_value = Mathf.Clamp(1.0f-Score.cumulativeEnvironmentDamageScore, 0.0f, 1.0f);
+
+        if (debug_use_fake_damage_value){
+            raw_health_value = debug_fake_damage_value;
+        }
         
         //in some game states, intercept this value and hard set it
         if (cur_state == GameState.Dead)            raw_health_value = 0;

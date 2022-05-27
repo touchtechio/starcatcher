@@ -141,14 +141,22 @@ public class PlantLimb : MonoBehaviour
 
     private void set_health_values(){
         float depth_prc_step = 1.0f / ((float)(max_depth)+1.5f);
+        float base_window = depth_prc_step * 0.65f;
         float health_scale_wiggle = depth_prc_step * 0.2f;
         float shrink_center = depth_prc_step * (float)(depth+1);
         
-        shrink_start = shrink_center + depth_prc_step/2 + Random.Range(-health_scale_wiggle,health_scale_wiggle);
-        shrink_end = shrink_center - depth_prc_step/2 + Random.Range(-health_scale_wiggle,health_scale_wiggle);
+        shrink_start = shrink_center + base_window + Random.Range(-health_scale_wiggle,health_scale_wiggle);
+        shrink_end = shrink_center - base_window + Random.Range(-health_scale_wiggle,health_scale_wiggle);
+
+        // float depth_prc_step = 1.0f / ((float)(max_depth));
+        // float health_scale_wiggle = 0;// depth_prc_step * 0.2f;
+        // float shrink_center = depth_prc_step * (float)(depth);
+        
+        // shrink_start = shrink_center + depth_prc_step;// shrink_center + depth_prc_step/2 + Random.Range(-health_scale_wiggle,health_scale_wiggle);
+        // shrink_end = shrink_center;// - depth_prc_step/2 + Random.Range(-health_scale_wiggle,health_scale_wiggle);
 
         shrink_start = Mathf.Min(shrink_start, 1.0f);
-        shrink_end = Mathf.Min(shrink_end, 0.0f);
+        shrink_end = Mathf.Max(shrink_end, 0.0f);
     }
 
     //propigate health down the tree
@@ -159,7 +167,7 @@ public class PlantLimb : MonoBehaviour
         float cur_prc = (health - shrink_end) / (shrink_start - shrink_end);
         cur_prc = Mathf.Max(0.0f, Mathf.Min(cur_prc, 1.0f));
 
-        //Debug.Log("depth: "+depth+"  cur "+cur_prc);
+        //Debug.Log("health: "+health+"  cur "+cur_prc + "  start: "+shrink_start+ "  end: "+shrink_end);
 
 
         float cur_scale = base_scale * cur_prc;
