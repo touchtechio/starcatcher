@@ -18,7 +18,7 @@ public class Score : MonoBehaviour {
     public static int minStarCaught;
     
     public enum GameState {Dead, Rejuvination, Flourishing, Decline};
-    public GameState plasmaWorldState;
+    public static GameState plasmaWorldState;
 
     public int totalStarsToBeCaughtUser;
     public int minStarCaughtUser;
@@ -113,6 +113,7 @@ public class Score : MonoBehaviour {
             plasmaWorldState = GameState.Dead;
             //TODO: start dead sequence of events and game reset
         }
+        Debug.Log("state: " + plasmaWorldState);
 
     }
 }
