@@ -9,6 +9,13 @@ Manager class that runs the plants
 
 public class PlantManager : MonoBehaviour
 {
+    [System.Serializable]
+   public struct ChildInfo { 
+       public string id_name; 
+       public float weight_start, weight_end;
+       
+    }
+
     public static PlantManager instance = null;
 
     public string[] root_ids;
@@ -22,15 +29,26 @@ public class PlantManager : MonoBehaviour
     private float cur_health;
     public float health_lerp;
 
+    //movement - these may need to be specific to plants
+    [Header("Movement Values")]
+    public float min_sway_speed;
+    public float max_sway_speed;
+    public float sway_dist;
+
     //debug tools
     [Header("Debug Tools")]
     public bool use_debug_sprite_color;
+    public bool debug_even_spacing;
 
     //testing out state stuff
     public enum GameState {Game, Dead, Rejuvination, Flourishing, Decline};
     public GameState cur_state;
 
 
+    //setting child values
+    [Header("Cooksonia")]
+
+    public ChildInfo[] possible_children_cooksonia;
     
 
     void Awake(){
@@ -55,6 +73,12 @@ public class PlantManager : MonoBehaviour
 
         for (int i=0; i<num_plants_to_spawn; i++){
             Vector3 pos = new Vector3(Random.Range(-max_x_dist, max_x_dist),-3,0);
+
+            if (debug_even_spacing){
+                float prc = (float)i / (float)(num_plants_to_spawn-1);
+                pos.x = (1.0f-prc)*-max_x_dist + prc * max_x_dist;
+            }
+
             string root_id = root_ids[ (int)Random.Range(0,root_ids.Length)];
             roots.Add( new PlantRoot(root_id, pos, i*20));
         }
