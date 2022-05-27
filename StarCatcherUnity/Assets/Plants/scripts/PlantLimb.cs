@@ -148,28 +148,16 @@ public class PlantLimb : MonoBehaviour
         shrink_start = shrink_center + base_window + Random.Range(-health_scale_wiggle,health_scale_wiggle);
         shrink_end = shrink_center - base_window + Random.Range(-health_scale_wiggle,health_scale_wiggle);
 
-        // float depth_prc_step = 1.0f / ((float)(max_depth));
-        // float health_scale_wiggle = 0;// depth_prc_step * 0.2f;
-        // float shrink_center = depth_prc_step * (float)(depth);
-        
-        // shrink_start = shrink_center + depth_prc_step;// shrink_center + depth_prc_step/2 + Random.Range(-health_scale_wiggle,health_scale_wiggle);
-        // shrink_end = shrink_center;// - depth_prc_step/2 + Random.Range(-health_scale_wiggle,health_scale_wiggle);
-
         shrink_start = Mathf.Min(shrink_start, 1.0f);
         shrink_end = Mathf.Max(shrink_end, 0.0f);
     }
 
     //propigate health down the tree
     public void set_health(float health){
-
-        
-
         float cur_prc = (health - shrink_end) / (shrink_start - shrink_end);
         cur_prc = Mathf.Max(0.0f, Mathf.Min(cur_prc, 1.0f));
 
         //Debug.Log("health: "+health+"  cur "+cur_prc + "  start: "+shrink_start+ "  end: "+shrink_end);
-
-
         float cur_scale = base_scale * cur_prc;
         float cur_scale_x = cur_scale;
         if (flip_x) cur_scale_x *= -1;
@@ -179,6 +167,34 @@ public class PlantLimb : MonoBehaviour
         foreach(PlantLimb child in children){
             child.set_health(health);
         }
+    }
+
+
+    public void start_death_animation(){
+        float pause_time = Random.Range(PlantManager.instance.min_death_pause_time, PlantManager.instance.max_death_pause_time);
+        float shrink_time = Random.Range(PlantManager.instance.min_death_shrink_time, PlantManager.instance.max_death_shrink_time);
+        StartCoroutine(do_death(pause_time,shrink_time));
+         foreach(PlantLimb child in children){
+            child.start_death_animation();
+        }
+    }
+
+    IEnumerator do_death(float pause_time, float die_time){
+        yield return new WaitForSeconds(pause_time);
+
+        Vector3 start_scale = transform.localScale;
+
+        float timer = 0;
+        while (timer < die_time){
+            timer += Time.deltaTime;
+            float prc = 1.0f - (timer / die_time);
+
+            transform.localScale = start_scale * prc;
+
+            yield return null;
+        }
+
+        transform.localScale = Vector3.zero;
     }
 
 

@@ -38,6 +38,10 @@ public class PlantRoot
         root_limb.set_health( health_val );
     }
 
+    public void start_death_animation(){
+        root_limb.start_death_animation();
+    }
+
     public void kill(){
         Object.Destroy(root_limb.gameObject);
     }

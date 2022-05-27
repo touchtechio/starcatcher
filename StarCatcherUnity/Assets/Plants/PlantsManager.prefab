@@ -49,7 +49,8 @@ MonoBehaviour:
   - cooksonia_limb_split_left
   max_x_dist: 6
   num_plants_to_spawn: 4
-  health_lerp: 0.05
+  health_lerp: 0.01
+  min_health_during_gameplay: 0.3
   min_sway_speed: 0.7
   max_sway_speed: 1.1
   sway_dist: 5
@@ -58,6 +59,10 @@ MonoBehaviour:
   debug_use_fake_damage_value: 1
   debug_fake_damage_value: 1
   cur_state: 0
+  min_death_pause_time: 1
+  max_death_pause_time: 5
+  min_death_shrink_time: 2
+  max_death_shrink_time: 7
   possible_children_cooksonia:
   - id_name: cooksonia_flower_1
     weight_start: 0.1

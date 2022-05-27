@@ -28,12 +28,19 @@ public class PlantManager : MonoBehaviour
     //global health
     private float cur_health;
     public float health_lerp;
+    public float min_health_during_gameplay;
 
     //movement - these may need to be specific to plants
     [Header("Movement Values")]
     public float min_sway_speed;
     public float max_sway_speed;
     public float sway_dist;
+
+     [Header("Death State Time Control")]
+    public float min_death_pause_time;
+    public float max_death_pause_time;
+    public float min_death_shrink_time;
+    public float max_death_shrink_time;
 
     //debug tools
     [Header("Debug Tools")]
@@ -46,6 +53,10 @@ public class PlantManager : MonoBehaviour
     //testing out state stuff
     public enum GameState {Game, Dead, Rejuvination, Flourishing, Decline};
     public GameState cur_state;
+
+    private GameState prev_state;
+
+   
 
 
     //setting child values
@@ -87,6 +98,9 @@ public class PlantManager : MonoBehaviour
         }
 
         cur_health = 0;// 1.0f - Score.cumulativeEnvironmentDamageScore;
+
+        debug_fake_damage_value = 1.0f;
+        cur_state = GameState.Game;
     }
 
     // Update is called once per frame
@@ -97,24 +111,48 @@ public class PlantManager : MonoBehaviour
             reset();
         }
 
-        //grab the health value from the game
-        //This value is treated as damage, so it is inverted (1=dead, 0=alive)
-        float raw_health_value = Mathf.Clamp(1.0f-Score.cumulativeEnvironmentDamageScore, 0.0f, 1.0f);
+        //during gameplay and rejuvination, grab the health value form the game
+        if (cur_state == GameState.Game || cur_state == GameState.Rejuvination){
+            //grab the health value from the game
+            //This value is treated as damage, so it is inverted (1=dead, 0=alive)
+            float raw_health_value = Mathf.Clamp(1.0f-Score.cumulativeEnvironmentDamageScore, 0.0f, 1.0f);
 
-        if (debug_use_fake_damage_value){
-            raw_health_value = debug_fake_damage_value;
+            if (debug_use_fake_damage_value){
+                raw_health_value = debug_fake_damage_value;
+            }
+
+            //during gameplay, map this to a new minimum
+            if (cur_state == GameState.Game){
+                raw_health_value = min_health_during_gameplay + (1.0f-min_health_during_gameplay)*raw_health_value;
+            }
+            
+            //in some game states, intercept this value and hard set it
+            if (cur_state == GameState.Dead)            raw_health_value = 0;
+            if (cur_state == GameState.Rejuvination)    raw_health_value = 1;
+            
+            //Debug.Log("RAW HEALTH: "+raw_health_value);
+            //lerp it
+            cur_health = Mathf.Lerp(cur_health, raw_health_value, health_lerp);
+
+            //set the health value of all plants
+            foreach(PlantRoot root in roots){
+                root.set_health( cur_health );
+            }
         }
-        
-        //in some game states, intercept this value and hard set it
-        if (cur_state == GameState.Dead)            raw_health_value = 0;
-        if (cur_state == GameState.Rejuvination)    raw_health_value = 1;
-        
-        //lerp it
-        cur_health = Mathf.Lerp(cur_health, raw_health_value, health_lerp);
 
-        //set the health value of all plants
+        //if we just died, do that
+        if(cur_state == GameState.Dead && prev_state != GameState.Dead){
+            start_death();
+        }
+
+        //store the old state
+        prev_state = cur_state;
+    }
+
+    void start_death(){
+        Debug.Log("TIME 2 DIE!!!");
         foreach(PlantRoot root in roots){
-            root.set_health( cur_health );
+            root.start_death_animation();
         }
     }
 }
