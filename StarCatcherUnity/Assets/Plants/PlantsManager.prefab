@@ -63,6 +63,11 @@ MonoBehaviour:
   max_death_pause_time: 5
   min_death_shrink_time: 2
   max_death_shrink_time: 7
+  total_time_to_rejuvenate: 4
+  rejuvenation_min_pause_time: 0
+  rejuvenation_max_pause_time: 1
+  rejuvenation_min_grow_time: 2
+  rejuvenation_max_grow_time: 5
   use_debug_sprite_color: 0
   debug_even_spacing: 1
   debug_use_fake_damage_value: 1

@@ -93,17 +93,9 @@ public class PlantLimb : MonoBehaviour
             child.setup(depth + 1, con.get_angle(), con.get_scale(), z, base_color, max_depth, root);
             children.Add(child);
         }
-        // if (depth < max_depth){
-        //     float depth_prc = (float)depth / (float)(max_depth-1);
-        //     Debug.Log("dpeth prc "+depth_prc);
-        //     foreach(PlantConnection con in connections){
-        //         if (con.get_spawn_roll(depth, max_depth)){
-        //             PlantLimb child = con.spawn_child(this);
-        //             child.setup(depth + 1, con.get_angle(), con.get_scale(), z, base_color, max_depth, root);
-        //             children.Add(child);
-        //         }
-        //     }
-        // }
+
+        //set the scale to 0 so we can animate in
+        transform.localScale = Vector3.zero;
     }
 
     public string select_from_possible_children(float depth_prc, PlantManager.ChildInfo[] possible_children){
@@ -174,7 +166,7 @@ public class PlantLimb : MonoBehaviour
         float pause_time = Random.Range(PlantManager.instance.min_death_pause_time, PlantManager.instance.max_death_pause_time);
         float shrink_time = Random.Range(PlantManager.instance.min_death_shrink_time, PlantManager.instance.max_death_shrink_time);
         StartCoroutine(do_death(pause_time,shrink_time));
-         foreach(PlantLimb child in children){
+        foreach(PlantLimb child in children){
             child.start_death_animation();
         }
     }
@@ -195,6 +187,36 @@ public class PlantLimb : MonoBehaviour
         }
 
         transform.localScale = Vector3.zero;
+    }
+
+
+    public void start_growth_animation(){
+        float pause_time = Random.Range(PlantManager.instance.rejuvenation_min_pause_time, PlantManager.instance.rejuvenation_max_pause_time);;
+        float grow_time = Random.Range(PlantManager.instance.rejuvenation_min_grow_time, PlantManager.instance.rejuvenation_max_grow_time);
+        StartCoroutine(do_growth(pause_time, grow_time));
+        foreach(PlantLimb child in children){
+            child.start_growth_animation();
+        }
+    }
+    IEnumerator do_growth(float pause_time, float grow_time){
+        yield return new WaitForSeconds(pause_time);
+
+        //Vector3 start_scale = Vector3.zero;// transform.localScale;
+        float scale_x = base_scale;
+        if (flip_x) scale_x *= -1;
+        Vector3 end_scale = new Vector3(scale_x, base_scale,base_scale);
+
+        float timer = 0;
+        while (timer < grow_time){
+            timer += Time.deltaTime;
+            float prc = (timer / grow_time);
+
+            transform.localScale = end_scale * prc;
+
+            yield return null;
+        }
+
+        transform.localScale = end_scale;
     }
 
 

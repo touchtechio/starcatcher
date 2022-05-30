@@ -41,6 +41,7 @@ public class PlantRoot
         GameObject obj = Object.Instantiate(PlantPartPool.instance.get_limb(info.limb_id), Vector3.zero, Quaternion.identity);
         obj.transform.parent = PlantManager.instance.transform;
         obj.transform.localPosition = position;
+        
         root_limb = obj.GetComponent<PlantLimb>();
         root_limb.set_as_root(z, info.start_angle, info.max_depth, this);
         //root_limb.setup(0, 0, 1, z, color, root_limb.max_depth_if_trunk);
@@ -53,6 +54,10 @@ public class PlantRoot
 
     public void start_death_animation(){
         root_limb.start_death_animation();
+    }
+
+    public void start_growth_animation(){
+        root_limb.start_growth_animation();
     }
 
     public void kill(){

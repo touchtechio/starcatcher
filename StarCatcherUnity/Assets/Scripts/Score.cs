@@ -89,7 +89,7 @@ public class Score : MonoBehaviour {
         if (minStarCaught < starCaughtCount & starCaughtCount <= (totalStarsToBeCaught + minStarCaught)) {
             environmentDamageScore = (float) (starCaughtCount - minStarCaught) / totalStarsToBeCaught;
             cumulativeEnvironmentDamageScore = environmentDamageScore;
-            Debug.Log("environmental damage " + cumulativeEnvironmentDamageScore);
+            //Debug.Log("environmental damage " + cumulativeEnvironmentDamageScore);
         }
 
     }
