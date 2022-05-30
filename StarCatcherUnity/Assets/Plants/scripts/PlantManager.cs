@@ -32,31 +32,44 @@ public class PlantManager : MonoBehaviour
     private List<PlantRoot> roots = new List<PlantRoot>();
 
     [Header("Plant Positions")]
+    [Tooltip("max X distance from center to spawn plants")]
     public float max_x_dist;
+    [Tooltip("Number of plants to spawn")]
     public int num_plants_to_spawn;
+    [Tooltip("How evenly spaced they'll be. 1=perfectly evenly spaced. The higher the vlaue the more random. Must be 1 or higher")]
     public float random_position_density;
 
     //global health
     [Header("Game Health")]
     private float cur_health;
+    [Tooltip("How quickly the plant health will slide to match the environment damage value")]
     public float health_lerp;
+    [Tooltip("lowest health plants can have in game mode. Must be 0-1")]
     public float min_health_during_gameplay;
 
     //movement - these may need to be specific to plants
     [Header("Movement Values")]
     public float min_sway_speed;
     public float max_sway_speed;
+    [Tooltip("Distance in angles that an individual joint can sway")]
     public float sway_dist;
 
     [Header("Death State Control")]
+    [Tooltip("min time to wait per plant before dying")]
     public float min_death_pause_time;
+    [Tooltip("max time to wait per plant before dying")]
     public float max_death_pause_time;
+    [Tooltip("min time for a dying plant to shrink to nothing")]
     public float min_death_shrink_time;
+    [Tooltip("max time for a dying plant to shrink to nothing")]
     public float max_death_shrink_time;
 
     [Header("Rejuvenation State Control")]
+    [Tooltip("time in seconds for all new plants to start the growth animation")]
     public float total_time_to_rejuvenate;
+    [Tooltip("pause time before an individual plant does growth animation")]
     public float rejuvenation_min_pause_time, rejuvenation_max_pause_time;
+    [Tooltip("time it takes an individual plant part to grow to full suze")]
     public float rejuvenation_min_grow_time, rejuvenation_max_grow_time;
 
     //debug tools
