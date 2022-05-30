@@ -107,9 +107,9 @@ public class PlantManager : MonoBehaviour
             roots.Add( new PlantRoot(info, pos, i*20));
         }
 
-        cur_health = 0;// 1.0f - Score.cumulativeEnvironmentDamageScore;
+        cur_health = 0;
 
-        debug_fake_damage_value = 1.0f;
+        debug_fake_damage_value = 0.0f;
         cur_state = GameState.Game;
     }
 
@@ -128,7 +128,9 @@ public class PlantManager : MonoBehaviour
             float raw_health_value = Mathf.Clamp(1.0f-Score.cumulativeEnvironmentDamageScore, 0.0f, 1.0f);
 
             if (debug_use_fake_damage_value){
-                raw_health_value = debug_fake_damage_value;
+                raw_health_value = 1.0f - debug_fake_damage_value;
+                // Debug.Log("RAW HEALTH: "+raw_health_value);
+                // Debug.Log("DEBUG VAL: "+debug_fake_damage_value);
             }
 
             //during gameplay, map this to a new minimum
@@ -140,7 +142,7 @@ public class PlantManager : MonoBehaviour
             if (cur_state == GameState.Dead)            raw_health_value = 0;
             if (cur_state == GameState.Rejuvination)    raw_health_value = 1;
             
-            //Debug.Log("RAW HEALTH: "+raw_health_value);
+            
             //lerp it
             cur_health = Mathf.Lerp(cur_health, raw_health_value, health_lerp);
 
@@ -160,7 +162,6 @@ public class PlantManager : MonoBehaviour
     }
 
     void start_death(){
-        Debug.Log("TIME 2 DIE!!!");
         foreach(PlantRoot root in roots){
             root.start_death_animation();
         }

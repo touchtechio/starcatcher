@@ -113,7 +113,7 @@ public class Score : MonoBehaviour {
             plasmaWorldState = GameState.Dead;
             //TODO: start dead sequence of events and game reset
         }
-        Debug.Log("state: " + plasmaWorldState);
+        //Debug.Log("state: " + plasmaWorldState);
 
     }
 }
