@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class Score : MonoBehaviour {
 
-    public static int starCaughtCount;
+    public int starCaughtCount;
     public static int level;
     private static Constellations constellations;
     internal static readonly int LEVEL_ONE = 0;
@@ -14,36 +14,19 @@ public class Score : MonoBehaviour {
 
     public static float environmentDamageScore;
     public static float cumulativeEnvironmentDamageScore;
-    public static int totalStarsToBeCaught;
-    public static int minStarCaught;
+    public int totalStarsToBeCaught;
     
     public enum GameState {Dead, Rejuvination, Flourishing, Decline, Dying};
-    public GameState plasmaWorldStateTester;
     public static GameState plasmaWorldState;
-
-    public int totalStarsToBeCaughtUser;
-    public int minStarCaughtUser;
-
 
     private static BackingTracks BackingTracks;
 
     // Use this for initialization
     void Start () {
         starCaughtCount = 0;
-        minStarCaught = 3;
-        totalStarsToBeCaught = 10;
+        totalStarsToBeCaught = 30;
         SetLevel(0);
         plasmaWorldState = GameState.Flourishing;
-
-        if (totalStarsToBeCaughtUser > 0) 
-        {
-            totalStarsToBeCaught = totalStarsToBeCaughtUser;
-        }
-
-        if (minStarCaughtUser > 0)
-        {
-            minStarCaught = minStarCaughtUser;
-        }
 
         constellations = FindObjectOfType<Constellations>();
         if (null == constellations)
@@ -59,7 +42,7 @@ public class Score : MonoBehaviour {
 
     }
 
-    public static Vector3 catchStar()
+    public Vector3 catchStar()
     {
         starCaughtCount++;
         Debug.Log("caught star " + starCaughtCount);
@@ -84,20 +67,19 @@ public class Score : MonoBehaviour {
         return level;
     }
 
-    public static void checkEffectOnEnvironment()
+    public void checkEffectOnEnvironment()
     {
         // TODO: replace formula
-        if (minStarCaught < starCaughtCount & starCaughtCount <= (totalStarsToBeCaught + minStarCaught)) {
-            environmentDamageScore = (float) (starCaughtCount - minStarCaught) / totalStarsToBeCaught;
+        if (starCaughtCount <= totalStarsToBeCaught) {
+            environmentDamageScore = (float) starCaughtCount / totalStarsToBeCaught;
             cumulativeEnvironmentDamageScore = environmentDamageScore;
-            Debug.Log("environmental damage " + cumulativeEnvironmentDamageScore);
+            Debug.Log("damage: " + cumulativeEnvironmentDamageScore);
         }
 
     }
     void Update(){
         if (Input. GetKeyUp("c")){
             starCaughtCount++;
-            Debug.Log("key press caught star " + starCaughtCount);
         }
         checkEffectOnEnvironment();
         SetGameState();
@@ -109,7 +91,7 @@ public class Score : MonoBehaviour {
         else if (cumulativeEnvironmentDamageScore >= 0.5 || cumulativeEnvironmentDamageScore < 0.9)
         {
             plasmaWorldState = GameState.Decline;
-        else if (cumulativeEnvironmentDamageScore >= 0.9 || cumulativeEnvironmentDamageScore < 1)
+        } else if (cumulativeEnvironmentDamageScore >= 0.9 || cumulativeEnvironmentDamageScore < 1)
         {
             plasmaWorldState = GameState.Dying;
         } else if (cumulativeEnvironmentDamageScore == 1)

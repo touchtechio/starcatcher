@@ -90,7 +90,7 @@ public class StarMove : MonoBehaviour {
        
 
         StarCollider starCollider = gameObject.GetComponent<StarCollider>();
-        starCollider.CaughtStripNumber = StripNumber;
+        starCollider.caughtStripNumber = StripNumber;
 
         if (starCollider.isStarCaught == false)
         {
