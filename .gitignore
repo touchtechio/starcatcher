@@ -18,6 +18,7 @@ StarCatcherUnity/Logs/AssetImportWorker0.log
 StarCatcherUnity/Logs/AssetImportWorker1.log
 StarCatcherUnity/Logs/shadercompiler-AssetImportWorker0.log
 /StarCatcherUnity/UserSettings/Layouts/
+/StarCatcherUnity/ProjectSettings/
 
 # MemoryCaptures can get excessive in size.
 # They also could contain extremely sensitive data
@@ -79,3 +80,4 @@ crashlytics-build.properties
 # Temporary auto-generated Android Assets
 /[Aa]ssets/[Ss]treamingAssets/aa.meta
 /[Aa]ssets/[Ss]treamingAssets/aa/*
+StarCatcherUnity/Assets/XR/Settings/Open\ VR\ Settings.asset

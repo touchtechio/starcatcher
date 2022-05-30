@@ -15,8 +15,10 @@ public class StarCollider : MonoBehaviour {
     public bool isStarCaught = false;
     public float tiltAngle;
     HU_Star starEffects;
-    public int CaughtStripNumber;
+    public int caughtStripNumber;
     private SoundManager soundManager;
+    private GameObject gameManagerObject;
+    private Score gameScore;
  
     OSCSenderCaught oscSenderObject;
 
@@ -27,6 +29,8 @@ public class StarCollider : MonoBehaviour {
         starEffects = gameObject.GetComponent<HU_Star>();
         oscSenderObject = (OSCSenderCaught)FindObjectOfType<OSCSenderCaught>();
         soundManager = (SoundManager)FindObjectOfType<SoundManager>();
+        gameManagerObject = GameObject.Find("GameManager");
+        gameScore = (Score)FindObjectOfType<Score>();
        
     }
 
@@ -72,7 +76,7 @@ public class StarCollider : MonoBehaviour {
         isStarCaught = true;
 
         timeCaught = Time.time;
-        oscSenderObject.SendOSCCaughtMessage("/starcaught", CaughtStripNumber);
+        oscSenderObject.SendOSCCaughtMessage("/starcaught", caughtStripNumber);
 
         // play caught sound at place of caught
         SoundCatch();
@@ -88,10 +92,7 @@ public class StarCollider : MonoBehaviour {
             child.GetComponentInChildren<MeshCollider>().enabled = false;
         }
 
-        onConstellationPosition = Score.catchStar(); // position got from the constellations script
-        journeyLength = Vector3.Distance(starCaughtPosition, onConstellationPosition);
-
-
+        onConstellationPosition = gameScore.catchStar(); // position got from the constellations script
     }
 
     private void SoundCatch()

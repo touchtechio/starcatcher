@@ -9,4 +9,6 @@ Andy is doing work on the plants. They are currently visible to projector 2, whi
 
 To avoid conflict in the scene, the plant manager is stored as a prefab and instantiated into the scene when the game starts. You can find it in `Assets/Plants/PlantsManager`. Go there to change settings for the plants.
 
-To make changes to PlantManager while the game is running, make sure to select the instance in the heirarchy so you are editting that and not the prefab. Changing the PlantManager prefab while the game is running won't do anything. 
+I've tried to add mouse-over tooltips to the variables in PlantsManager.
+
+To make changes to PlantsManager while the game is running, make sure to select the instance in the heirarchy so you are editting that and not the prefab. Changing the PlantsManager prefab while the game is running won't do anything. 

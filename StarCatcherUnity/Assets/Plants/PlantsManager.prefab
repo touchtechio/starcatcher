@@ -53,8 +53,8 @@ MonoBehaviour:
     max_depth: 5
     start_angle: 15
   max_x_dist: 6
-  num_plants_to_spawn: 4
-  random_position_density: 0
+  num_plants_to_spawn: 5
+  random_position_density: 1.5
   health_lerp: 0.01
   min_health_during_gameplay: 0.3
   min_sway_speed: 0.7
