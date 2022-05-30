@@ -17,7 +17,8 @@ public class Score : MonoBehaviour {
     public static int totalStarsToBeCaught;
     public static int minStarCaught;
     
-    public enum GameState {Dead, Rejuvination, Flourishing, Decline};
+    public enum GameState {Dead, Rejuvination, Flourishing, Decline, Dying};
+    public GameState plasmaWorldStateTester;
     public static GameState plasmaWorldState;
 
     public int totalStarsToBeCaughtUser;
@@ -105,9 +106,12 @@ public class Score : MonoBehaviour {
     public void SetGameState()
     {
         if (cumulativeEnvironmentDamageScore < 0.5) plasmaWorldState = GameState.Flourishing;
-        else if (cumulativeEnvironmentDamageScore >= 0.5 || cumulativeEnvironmentDamageScore < 1)
+        else if (cumulativeEnvironmentDamageScore >= 0.5 || cumulativeEnvironmentDamageScore < 0.9)
         {
             plasmaWorldState = GameState.Decline;
+        else if (cumulativeEnvironmentDamageScore >= 0.9 || cumulativeEnvironmentDamageScore < 1)
+        {
+            plasmaWorldState = GameState.Dying;
         } else if (cumulativeEnvironmentDamageScore == 1)
         {
             plasmaWorldState = GameState.Dead;
