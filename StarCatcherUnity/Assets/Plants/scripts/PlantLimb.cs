@@ -14,8 +14,8 @@ public class PlantLimb : MonoBehaviour
 
     private int depth;
     private int max_depth;
-    public int max_depth_if_trunk;
-    public float angle_if_trunk;
+    //public int max_depth_if_trunk;
+    //public float angle_if_trunk;
 
     private float base_angle;
     private float base_scale;
@@ -39,10 +39,10 @@ public class PlantLimb : MonoBehaviour
     private PlantRoot root;
 
 
-    public void set_as_trunk(int z, PlantRoot _root){
+    public void set_as_root(int z, float angle, int _max_depth, PlantRoot _root){
         Color color = Color.white;
         //color = new Color(Random.Range(0.0f,1.0f),Random.Range(0.0f,1.0f),Random.Range(0.0f,1.0f));
-        setup(0, angle_if_trunk, 1, z, color, max_depth_if_trunk, _root);
+        setup(0, angle, 1, z, color, _max_depth, _root);
     }
 
     public void setup(int _depth, float _base_angle, float _base_scale, int z, Color _color, int _max_depth, PlantRoot _root){
@@ -86,7 +86,7 @@ public class PlantLimb : MonoBehaviour
         Debug.Log("dpeth prc "+depth_prc);
         foreach(PlantConnection con in connections){
 
-            string child_id = select_from_possible_children(depth_prc, PlantManager.instance.possible_children_cooksonia);
+            string child_id = select_from_possible_children(depth_prc, root.possible_children);
             GameObject prefab = PlantPartPool.instance.get_limb(child_id);
 
             PlantLimb child = con.spawn_child(this, prefab);

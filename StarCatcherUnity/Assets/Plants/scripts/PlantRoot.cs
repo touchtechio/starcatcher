@@ -18,18 +18,31 @@ public class PlantRoot
 
     [System.NonSerialized]
     public float sway_speed;
+
+    [System.NonSerialized]
+    public PlantManager.ChildInfo[] possible_children;
+
+    [System.NonSerialized]
+    public PlantManager.PlantRootInfo info;
     
     
-    public PlantRoot(string root_limb_id, Vector3 position, int z){
+    public PlantRoot(PlantManager.PlantRootInfo _info, Vector3 position, int z){
+
+        info = _info;
+        
+        //get the possible children
+        possible_children = null;
+        if (info.plant_type == "cooksonia") possible_children = PlantManager.instance.possible_children_cooksonia;
+
         health_curve = Random.Range(0.5f,1.5f);
 
         sway_speed = Random.Range(PlantManager.instance.min_sway_speed, PlantManager.instance.max_sway_speed);
 
-        GameObject obj = Object.Instantiate(PlantPartPool.instance.get_limb(root_limb_id), Vector3.zero, Quaternion.identity);
+        GameObject obj = Object.Instantiate(PlantPartPool.instance.get_limb(info.limb_id), Vector3.zero, Quaternion.identity);
         obj.transform.parent = PlantManager.instance.transform;
         obj.transform.localPosition = position;
         root_limb = obj.GetComponent<PlantLimb>();
-        root_limb.set_as_trunk(z, this);
+        root_limb.set_as_root(z, info.start_angle, info.max_depth, this);
         //root_limb.setup(0, 0, 1, z, color, root_limb.max_depth_if_trunk);
     }
 

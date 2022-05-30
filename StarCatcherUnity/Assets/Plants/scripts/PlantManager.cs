@@ -16,9 +16,18 @@ public class PlantManager : MonoBehaviour
        
     }
 
+    [System.Serializable]
+   public struct PlantRootInfo { 
+       public string plant_type;
+       public string limb_id; 
+       public int max_depth;
+       public float start_angle;
+    }
+
     public static PlantManager instance = null;
 
     public string[] root_ids;
+    public PlantRootInfo[] possible_roots;
 
     private List<PlantRoot> roots = new List<PlantRoot>();
 
@@ -93,8 +102,9 @@ public class PlantManager : MonoBehaviour
                 pos.x = (1.0f-prc)*-max_x_dist + prc * max_x_dist;
             }
 
-            string root_id = root_ids[ (int)Random.Range(0,root_ids.Length)];
-            roots.Add( new PlantRoot(root_id, pos, i*20));
+            //string root_id = root_ids[ (int)Random.Range(0,root_ids.Length)];
+            PlantRootInfo info = possible_roots[ (int)Random.Range(0,possible_roots.Length)];
+            roots.Add( new PlantRoot(info, pos, i*20));
         }
 
         cur_health = 0;// 1.0f - Score.cumulativeEnvironmentDamageScore;
