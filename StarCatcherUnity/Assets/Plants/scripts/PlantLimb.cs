@@ -83,7 +83,6 @@ public class PlantLimb : MonoBehaviour
 
         //try to spawn children
         float depth_prc = (float)depth / (float)(max_depth-1);
-        Debug.Log("dpeth prc "+depth_prc);
         foreach(PlantConnection con in connections){
 
             string child_id = select_from_possible_children(depth_prc, root.possible_children);

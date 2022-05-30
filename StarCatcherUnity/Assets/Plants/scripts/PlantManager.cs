@@ -31,10 +31,13 @@ public class PlantManager : MonoBehaviour
 
     private List<PlantRoot> roots = new List<PlantRoot>();
 
+    [Header("Plant Positions")]
     public float max_x_dist;
     public int num_plants_to_spawn;
+    public float random_position_density;
 
     //global health
+    [Header("Game Health")]
     private float cur_health;
     public float health_lerp;
     public float min_health_during_gameplay;
@@ -201,14 +204,34 @@ public class PlantManager : MonoBehaviour
         //give it a moment after destroying everything
         yield return new WaitForSeconds(0.1f);
 
+        //generate a list of possible spaces
+        List<Vector3> spawn_positions = new List<Vector3>();
+
+        //make sure we're in range
+        if (random_position_density < 1.0f){
+            random_position_density = 1.0f;
+            Debug.Log("random_position_density MUS BE >= 1! Setting it to 1.");
+        }
+        int num_spawn_spots = (int)((float) num_plants_to_spawn * random_position_density);
+        for (int i=0; i<num_spawn_spots; i++){
+            float prc = (float)i / (float)(num_spawn_spots-1);
+            float x = (1.0f-prc) * -max_x_dist + prc * max_x_dist;
+            Vector3 pos = new Vector3(x, -3, 0);
+            spawn_positions.Add(pos);
+        }
+
         //space it so we grow all the plants in the time allotted
         float time_spacing = total_time_to_rejuvenate / (float) num_plants_to_spawn;
 
         //spawn plants one by one
         for (int i=0; i<num_plants_to_spawn; i++){
-            Vector3 pos = new Vector3(Random.Range(-max_x_dist, max_x_dist),-3,0);
+            //grab one of the random positions
+            int rand_pos_id = (int)Random.Range(0, spawn_positions.Count);
+            Vector3 pos =spawn_positions [rand_pos_id];
+            spawn_positions.RemoveAt(rand_pos_id);
 
             if (debug_even_spacing){
+                pos = new Vector3(Random.Range(-max_x_dist, max_x_dist),-3,0);
                 float prc = (float)i / (float)(num_plants_to_spawn-1);
                 pos.x = (1.0f-prc)*-max_x_dist + prc * max_x_dist;
             }

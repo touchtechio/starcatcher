@@ -54,6 +54,7 @@ MonoBehaviour:
     start_angle: 15
   max_x_dist: 6
   num_plants_to_spawn: 4
+  random_position_density: 0
   health_lerp: 0.01
   min_health_during_gameplay: 0.3
   min_sway_speed: 0.7
@@ -69,7 +70,7 @@ MonoBehaviour:
   rejuvenation_min_grow_time: 2
   rejuvenation_max_grow_time: 5
   use_debug_sprite_color: 0
-  debug_even_spacing: 1
+  debug_even_spacing: 0
   debug_use_fake_damage_value: 1
   debug_fake_damage_value: 0
   cur_state: 0
