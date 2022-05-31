@@ -24,6 +24,9 @@ public class PlantRoot
 
     [System.NonSerialized]
     public PlantManager.PlantRootInfo info;
+
+    [System.NonSerialized]
+    public Color color;
     
     
     public PlantRoot(PlantManager.PlantRootInfo _info, Vector3 position, int z){
@@ -34,10 +37,15 @@ public class PlantRoot
         possible_children = null;
         if (info.plant_type == "cooksonia") possible_children = PlantManager.instance.possible_children_cooksonia;
 
+        //generate some values
         health_curve = Random.Range(0.5f,1.5f);
 
         sway_speed = Random.Range(PlantManager.instance.min_sway_speed, PlantManager.instance.max_sway_speed);
 
+        //select a color
+        color = PlantManager.instance.colors[ (int)Random.Range(0, PlantManager.instance.colors.Length)];
+
+        //spawn the root limb
         GameObject obj = Object.Instantiate(PlantPartPool.instance.get_limb(info.limb_id), Vector3.zero, Quaternion.identity);
         obj.transform.parent = PlantManager.instance.transform;
         obj.transform.localPosition = position;

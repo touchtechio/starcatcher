@@ -29,6 +29,8 @@ public class PlantManager : MonoBehaviour
     public string[] root_ids;
     public PlantRootInfo[] possible_roots;
 
+    public Color[] colors;
+
     private List<PlantRoot> roots = new List<PlantRoot>();
 
     [Header("Plant Positions")]
@@ -76,6 +78,7 @@ public class PlantManager : MonoBehaviour
     [Header("Debug Tools")]
     public bool use_debug_sprite_color;
     public bool debug_even_spacing;
+    public bool debug_fast_grow;
     public bool debug_use_fake_damage_value;
     [Range(0.0f, 1.0f)]
     public float debug_fake_damage_value;
@@ -106,6 +109,14 @@ public class PlantManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        if (debug_fast_grow){
+            total_time_to_rejuvenate = 0.1f;
+            rejuvenation_max_pause_time = 0.0f;
+            rejuvenation_min_pause_time = 0.1f;
+            rejuvenation_min_grow_time = 0.0f;
+            rejuvenation_max_grow_time = 0.1f;
+
+        }
         //reset();
         cur_state = GameState.Rejuvination;
         prev_state = cur_state;

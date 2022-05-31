@@ -73,6 +73,8 @@ public class PlantLimb : MonoBehaviour
 
         set_health_values();
 
+        sprite_rend.color = root.color;
+
         //demo coloring
         if (PlantManager.instance.use_debug_sprite_color){
             sprite_rend.color = Color.Lerp( Color.red, Color.blue, (float)depth / (float)max_depth);
