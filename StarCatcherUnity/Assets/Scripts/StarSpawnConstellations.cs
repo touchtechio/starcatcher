@@ -4,12 +4,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UniOSC;
 
-public class StarSpawn : MonoBehaviour {
+public class StarSpawnConstallations : MonoBehaviour {
 
     public GameObject prefab;
-    public GameObject warmStar;
-    public GameObject neutralStar;
-    public GameObject coolStar;
 
     private static ArrayList starStarts;
     public static System.Random random = new System.Random();
@@ -38,9 +35,9 @@ public class StarSpawn : MonoBehaviour {
     [Range(0.1f, 10.0f)]
     public float easyTimeToSpawn = 4.0f;
     [Range(0.1f, 10.0f)]
-    public float mediumTimeToSpawn = 6.0f;
+    public float mediumTimeToSpawn = 2.0f;
     [Range(0.1f, 10.0f)]
-    public float hardTimeToSpawn = 10.0f;
+    public float hardTimeToSpawn = 1.0f;
 
     // set to durations between spawn events
     [Range(0.1f, 10.0f)]
@@ -64,11 +61,12 @@ public class StarSpawn : MonoBehaviour {
 
 
     private float[] SpawnRate;
-    private float[] FlourishPercentages;
-    private float[] DeclinePercentages;
-    private float[] DyingPercentages;
-    private float[] DeadPercentages;
+    private float[] LevelOnePercentages;
+    private float[] LevelTwoPercentages;
+    private float[] LevelThreePercentages;
     private float[][] LevelPercentages;
+
+
 
 
     // Use this for initialization
@@ -86,11 +84,10 @@ public class StarSpawn : MonoBehaviour {
         // StartCoroutine(SpawnShowers());
         soundManager = (SoundManager)FindObjectOfType<SoundManager>();
 
-        FlourishPercentages = new float[3] { 0.8f, 0.2f, 0f };
-        DeclinePercentages = new float[3] { 0.4f, 0.4f, 0.2f };
-        DyingPercentages = new float[3] { 0f, 0.2f, 0.8f };
-        DeadPercentages = new float[3] { 0f, 0f, 0f };
-        LevelPercentages = new float[4][] { FlourishPercentages, DeclinePercentages, DyingPercentages, DeadPercentages};
+        LevelOnePercentages = new float[3] { 0.8f, 0.2f, 0f };
+        LevelTwoPercentages = new float[3] { 0.5f, 0.4f, 0.1f };
+        LevelThreePercentages = new float[3] { 0.2f, 0.4f, 0.4f };
+        LevelPercentages = new float[3][] { LevelOnePercentages, LevelTwoPercentages, LevelThreePercentages };
 
     }
 
@@ -132,9 +129,10 @@ public class StarSpawn : MonoBehaviour {
 
         float randomPoint = UnityEngine.Random.value * total;
         float randomOriginal = randomPoint;
-        // check which type of star to spawn for current level passed in
         for (int i = 0; i < levelPercentagesCurrentLevel.Length; i++)
         {
+            Debug.Log("random " + randomPoint);
+            Debug.Log("levelPercentages " + i + ": " + levelPercentagesCurrentLevel[i]);
             if (randomPoint < levelPercentagesCurrentLevel[i])
             {
                 // sets the corresponding spawn rate float from array
@@ -210,7 +208,6 @@ public class StarSpawn : MonoBehaviour {
         starCount++;
         string starNumber = starCount.ToString();
         star.name = "star-" + strip.stripNumber;
-        Debug.Log("strip: " + strip.stripNumber);
 
 
         // configure Star Mover
