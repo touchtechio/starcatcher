@@ -42,7 +42,7 @@ public class StarMove : MonoBehaviour {
         //gameObject.GetComponent<SphereCollider>().isTrigger = false;
         gameObject.GetComponent<CapsuleCollider>().isTrigger = false;
         startTime = Time.time;
-        Debug.Log("strip number " + StripNumber + " ,star spawned at " + startTime + " ,fall for " + fallDuration);
+        //Debug.Log("strip number " + StripNumber + " ,star spawned at " + startTime + " ,fall for " + fallDuration);
         endMarker = transform.localPosition;
         startMarker = endMarker + Vector3.Scale(stripLength, starDropScale);
         journeyLength = Vector3.Distance(startMarker, endMarker);
@@ -119,7 +119,6 @@ public class StarMove : MonoBehaviour {
         {
             // if caught stop playing audio
             source.Stop();
-            Debug.Log("caught moves: "+ StripNumber);
         }
         //Debug.Log(gameObject.GetComponent<SphereCollider>().isTrigger);
 

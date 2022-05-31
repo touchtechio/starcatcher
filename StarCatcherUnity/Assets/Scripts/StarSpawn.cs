@@ -70,9 +70,25 @@ public class StarSpawn : MonoBehaviour {
     private float[] DeadPercentages;
     private float[][] LevelPercentages;
 
+    Dictionary<Score.GameState, float[]> worldStatePercentages = new Dictionary<Score.GameState, float[]> ();
+
 
     // Use this for initialization
     void Start () {
+        easyTimeToSpawn = 1.5f;
+        mediumTimeToSpawn = 3.0f;
+        hardTimeToSpawn = 8.0f;
+
+        // set to durations between spawn events
+        easyFallDuration = 5.0f;
+        mediumFallDuration = 3.0f;
+        hardFallDuration = 1.0f;
+
+
+        // set to durations between spawn events
+        easyLingerTime = 3.0f;
+        mediumLingerTime = 2.0f;
+        hardLingerTime = 1.5f;
 
         parent = GameObject.FindGameObjectWithTag("STARS");
         //InvokeRepeating("Spawn", 0.5f, spawnRate);
@@ -90,7 +106,13 @@ public class StarSpawn : MonoBehaviour {
         DeclinePercentages = new float[3] { 0.4f, 0.4f, 0.2f };
         DyingPercentages = new float[3] { 0f, 0.2f, 0.8f };
         DeadPercentages = new float[3] { 0f, 0f, 0f };
-        LevelPercentages = new float[4][] { FlourishPercentages, DeclinePercentages, DyingPercentages, DeadPercentages};
+        // LevelPercentages = new float[4][] { FlourishPercentages, DeclinePercentages, DyingPercentages, DeadPercentages};
+
+
+        worldStatePercentages.Add(Score.GameState.Flourishing, FlourishPercentages);
+        worldStatePercentages.Add(Score.GameState.Decline, DeclinePercentages);
+        worldStatePercentages.Add(Score.GameState.Dying, DyingPercentages);
+        worldStatePercentages.Add(Score.GameState.Dead, DeadPercentages);
 
     }
 
@@ -179,8 +201,7 @@ public class StarSpawn : MonoBehaviour {
 
     public void Spawn(Strip strip)
     {
-        int currentLevel = Score.GetCurrentLevel();
-        timeToNextSpawn = calcNextSpawnRate(LevelPercentages[currentLevel]);
+        timeToNextSpawn = calcNextSpawnRate(worldStatePercentages[Score.plasmaWorldState]);
 
         if (StarTypeToSpawn == "easy")
         {
@@ -209,8 +230,6 @@ public class StarSpawn : MonoBehaviour {
         star.transform.parent = parent.transform;
         starCount++;
         string starNumber = starCount.ToString();
-        star.name = "star-" + strip.stripNumber;
-        Debug.Log("strip: " + strip.stripNumber);
 
 
         // configure Star Mover

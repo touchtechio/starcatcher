@@ -20,6 +20,7 @@ public class Score : MonoBehaviour {
     public static GameState plasmaWorldState;
 
     private static BackingTracks BackingTracks;
+    private scoreLog scoreLogger;
 
     // Use this for initialization
     void Start () {
@@ -40,12 +41,13 @@ public class Score : MonoBehaviour {
             Debug.LogWarning("WARN: no BackingTracks found");
         }
 
+        scoreLogger = (scoreLog)FindObjectOfType<scoreLog>();
+
     }
 
     public Vector3 catchStar()
     {
         starCaughtCount++;
-        Debug.Log("caught star " + starCaughtCount);
 
         //TODO: add toggle for game type
         // if (0 == (constellationScore % 10))
@@ -73,8 +75,6 @@ public class Score : MonoBehaviour {
         if (starCaughtCount <= totalStarsToBeCaught) {
             environmentDamageScore = (float) starCaughtCount / totalStarsToBeCaught;
             cumulativeEnvironmentDamageScore = environmentDamageScore;
-             Debug.Log("damage: " + cumulativeEnvironmentDamageScore);
-
         }
 
     }
@@ -84,15 +84,16 @@ public class Score : MonoBehaviour {
         }
         checkEffectOnEnvironment();
         SetGameState();
+        scoreLogger.LogScore();
     }
 
     public void SetGameState()
     {
         if (cumulativeEnvironmentDamageScore < 0.5) plasmaWorldState = GameState.Flourishing;
-        else if (cumulativeEnvironmentDamageScore >= 0.5 || cumulativeEnvironmentDamageScore < 0.9)
+        else if (cumulativeEnvironmentDamageScore >= 0.5 && cumulativeEnvironmentDamageScore < 0.8)
         {
             plasmaWorldState = GameState.Decline;
-        } else if (cumulativeEnvironmentDamageScore >= 0.9 || cumulativeEnvironmentDamageScore < 1)
+        } else if (cumulativeEnvironmentDamageScore >= 0.8 && cumulativeEnvironmentDamageScore < 1)
         {
             plasmaWorldState = GameState.Dying;
         } else if (cumulativeEnvironmentDamageScore == 1)
@@ -100,7 +101,7 @@ public class Score : MonoBehaviour {
             plasmaWorldState = GameState.Dead;
             //TODO: start dead sequence of events and game reset
         }
-        //Debug.Log("state: " + plasmaWorldState);
+        //Debug.Log("score: " + cumulativeEnvironmentDamageScore + "state: " + plasmaWorldState);
 
     }
 }
