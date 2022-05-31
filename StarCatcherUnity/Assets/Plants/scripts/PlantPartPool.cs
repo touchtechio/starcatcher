@@ -17,7 +17,6 @@ public class PlantPartPool : MonoBehaviour
    public struct LimbObj { 
        public string id_name; 
        public GameObject prefab; 
-       //public int max_depth_if_trunk;
     }
 
    public LimbObj[] limb_objs;

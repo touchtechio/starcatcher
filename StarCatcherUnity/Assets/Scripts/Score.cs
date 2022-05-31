@@ -73,7 +73,8 @@ public class Score : MonoBehaviour {
         if (starCaughtCount <= totalStarsToBeCaught) {
             environmentDamageScore = (float) starCaughtCount / totalStarsToBeCaught;
             cumulativeEnvironmentDamageScore = environmentDamageScore;
-            Debug.Log("damage: " + cumulativeEnvironmentDamageScore);
+             Debug.Log("damage: " + cumulativeEnvironmentDamageScore);
+
         }
 
     }
@@ -99,7 +100,7 @@ public class Score : MonoBehaviour {
             plasmaWorldState = GameState.Dead;
             //TODO: start dead sequence of events and game reset
         }
-        Debug.Log("state: " + plasmaWorldState);
+        //Debug.Log("state: " + plasmaWorldState);
 
     }
 }
