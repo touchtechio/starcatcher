@@ -32,10 +32,13 @@ public class PlantRoot
     public PlantRoot(PlantManager.PlantRootInfo _info, Vector3 position, int z){
 
         info = _info;
+
+        Debug.Log("create plant of type: "+info.plant_type);
         
         //get the possible children
         possible_children = null;
         if (info.plant_type == "cooksonia") possible_children = PlantManager.instance.possible_children_cooksonia;
+        if (info.plant_type == "leafy")     possible_children = PlantManager.instance.possible_children_leafy;
 
         //generate some values
         health_curve = Random.Range(0.5f,1.5f);

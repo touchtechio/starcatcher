@@ -26,7 +26,6 @@ public class PlantManager : MonoBehaviour
 
     public static PlantManager instance = null;
 
-    public string[] root_ids;
     public PlantRootInfo[] possible_roots;
 
     public Color[] colors;
@@ -96,6 +95,10 @@ public class PlantManager : MonoBehaviour
     [Header("Cooksonia")]
 
     public ChildInfo[] possible_children_cooksonia;
+    
+    [Header("Leafy")]
+
+    public ChildInfo[] possible_children_leafy;
     
 
     void Awake(){

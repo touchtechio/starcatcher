@@ -14,8 +14,6 @@ public class PlantLimb : MonoBehaviour
 
     private int depth;
     private int max_depth;
-    //public int max_depth_if_trunk;
-    //public float angle_if_trunk;
 
     private float base_angle;
     private float base_scale;
@@ -23,11 +21,13 @@ public class PlantLimb : MonoBehaviour
     float shrink_start;
     float shrink_end;
 
+    [Tooltip("if true, 50% chance of flipping the sprite")]
     public bool can_flip_x;
+
+    [Tooltip("every other depth will be flipped. overrides can_flip_x")]
+    public bool alternate_flip_x;   
     private bool flip_x;
 
-    //private float sway_dist = 5;
-    //private float sway_speed = 1;
 
     public List<PlantConnection> connections;
     public List<PlantLimb> children = new List<PlantLimb>();
@@ -62,10 +62,29 @@ public class PlantLimb : MonoBehaviour
         if (can_flip_x){
             flip_x = Random.Range(0.0f, 1.0f) > 0.5f;
 
-            //if this is roo, flip the angle
+            //if this is root, flip the angle
             if (flip_x && depth == 0){
                 base_angle *= -1;
             }
+        }
+
+        if (alternate_flip_x){
+            if (depth == 0) flip_x = false;
+            else            flip_x = true;
+
+            // if (depth % 3 == 0) flip_x = false;
+            // if (depth % 3 == 1) flip_x = true;
+            // if (depth % 3 == 2) flip_x = true;
+            //if (depth % 4 == 3) flip_x = true;
+
+            //flip_x = false;//depth % 2 == 1;
+        }
+
+        //sanity check to prevent infinite loops
+        //this happens if you don't have terminal limbs
+        if (depth > 50){
+            Debug.Log("<color=red>UNBOUDNED PLANT DEPTH!!!</color>");
+            return;
         }
 
         //Debug.Log("set up with depth "+depth);
@@ -85,9 +104,17 @@ public class PlantLimb : MonoBehaviour
 
         //try to spawn children
         float depth_prc = (float)depth / (float)(max_depth-1);
-        foreach(PlantConnection con in connections){
 
-            string child_id = select_from_possible_children(depth_prc, root.possible_children);
+        //spawn a child for each connection
+        foreach(PlantConnection con in connections){
+            //get the list of children
+            PlantManager.ChildInfo[] possible_children = root.possible_children;
+            //check if this connection overrides it
+            if (con.possible_children_override.Length > 0){
+                possible_children = con.possible_children_override;
+            }
+
+            string child_id = select_from_possible_children(depth_prc, possible_children);
             GameObject prefab = PlantPartPool.instance.get_limb(child_id);
 
             PlantLimb child = con.spawn_child(this, prefab);
