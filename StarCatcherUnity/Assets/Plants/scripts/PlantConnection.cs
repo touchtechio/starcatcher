@@ -14,29 +14,31 @@ public class PlantConnection : MonoBehaviour
     public float angle;
     public float angle_range = 5;
 
-    public int die_off_depth = 1;
+    //public int die_off_depth = 1;
 
-    //public GameObject[] possible_prefabs;
-    public string[] possible_children;
+    //public string[] possible_children_overwrite;    //make sure this is used or remove it
 
-    public bool filled;
     
-    
-    public PlantLimb spawn_child(PlantLimb parent){
-        int rand_id = (int)Random.Range(0,possible_children.Length);
-        GameObject prefab = PlantPartPool.instance.get_limb(possible_children[rand_id]);
+    public PlantLimb spawn_child(PlantLimb parent, GameObject prefab){
+
         GameObject obj = Instantiate(prefab, transform.position, Quaternion.identity) as GameObject;
         obj.transform.parent = parent.gameObject.transform;
-
-        //float new_scale = scale * Random.Range(1.0f-scale_range_prc, 1.0f+scale_range_prc);
-
-        //obj.transform.localScale = new Vector3(new_scale,new_scale,new_scale);
-
-        
 
         PlantLimb child = obj.GetComponent<PlantLimb>();
         return child;
     }
+    // public PlantLimb spawn_child(PlantLimb parent){
+
+    //     PlantManager.ChildInfo[] possible_children = PlantManager.instance.possible_children_cooksonia;
+
+    //     int rand_id = (int)Random.Range(0,possible_children.Length);
+    //     GameObject prefab = PlantPartPool.instance.get_limb(possible_children[rand_id].id_name);
+    //     GameObject obj = Instantiate(prefab, transform.position, Quaternion.identity) as GameObject;
+    //     obj.transform.parent = parent.gameObject.transform;
+
+    //     PlantLimb child = obj.GetComponent<PlantLimb>();
+    //     return child;
+    // }
 
     public float get_angle(){
         return angle + Random.Range(-angle_range, angle_range);
@@ -46,16 +48,18 @@ public class PlantConnection : MonoBehaviour
         return scale * Random.Range(1.0f-scale_range_prc, 1.0f+scale_range_prc);
     }
 
-    public bool get_spawn_roll(int depth, int max_depth){
-        float chance = 1.0f;
+    // public bool get_spawn_roll(int depth, int max_depth){
 
-        if (depth >= die_off_depth){
-            chance = 1.0f - (float)(depth-die_off_depth) / (float)(max_depth-die_off_depth);
-        }
+    //     return true;
+    //     float chance = 1.0f;
 
-        Debug.Log("depth of "+depth+" has spawn chance "+chance);
+    //     if (depth >= die_off_depth){
+    //         chance = 1.0f - (float)(depth-die_off_depth) / (float)(max_depth-die_off_depth);
+    //     }
 
-        return Random.Range(0.0f,1.0f) < chance; 
+    //     Debug.Log("depth of "+depth+" has spawn chance "+chance);
 
-    }
+    //     return Random.Range(0.0f,1.0f) < chance; 
+
+    // }
 }
