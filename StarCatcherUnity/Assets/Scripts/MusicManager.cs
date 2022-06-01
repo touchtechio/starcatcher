@@ -6,65 +6,79 @@ public class MusicManager : MonoBehaviour
 {
     public MusicStemCrossfade[] flourishingStems, decayingStems, rejuvenationStems;
 
+    private Score.GameState currentState = Score.GameState.Dead;
+
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.F))
+        if (Score.plasmaWorldState != currentState)
         {
-            StartFlourishingStems();
-        }
-        else if (Input.GetKeyDown(KeyCode.D))
-        {
-            StartDecayingStems();
-        }
-        else if (Input.GetKeyDown(KeyCode.E))
-        {
-            StartDeadZone();
-        }
-        else if (Input.GetKeyDown(KeyCode.R))
-        {
-            StartRejuvinationStems();
+            switch(Score.plasmaWorldState)
+            {
+                case Score.GameState.Dead:
+                    StartDeadZone();
+                    break;
+                case Score.GameState.Decline:
+                    StartDecayingStems();
+                    break;
+                case Score.GameState.Rejuvination:
+                    StartRejuvinationStems();
+                    break;
+                case Score.GameState.Flourishing:
+                    StartFlourishingStems();
+                    break;
+            }
+            currentState = Score.plasmaWorldState;
         }
     }
 
     public void StartFlourishingStems()
     {
-        foreach (MusicStemCrossfade rejuvinationStem in rejuvenationStems)
-        {
-            rejuvinationStem.FadeOutAudio();
-        }
+        StopStemGroup(rejuvenationStems);
+        StopStemGroup(decayingStems);
 
-        foreach (MusicStemCrossfade flourishingStem in flourishingStems)
-        {
-            flourishingStem.FadeInAudio();
-        }
+        StartStemGroup(flourishingStems);
     }
 
     public void StartDecayingStems()
     {
-        foreach (MusicStemCrossfade flourishingStem in flourishingStems)
-        {
-            flourishingStem.FadeOutAudio();
-        }
+        StopStemGroup(flourishingStems);
+        StopStemGroup(rejuvenationStems);
 
-        foreach (MusicStemCrossfade decayingStem in decayingStems)
-        {
-            decayingStem.FadeInAudio();
-        }
+        StartStemGroup(decayingStems);
     }
 
     public void StartDeadZone()
     {
-        foreach (MusicStemCrossfade decayingStem in decayingStems)
-        {
-            decayingStem.FadeOutAudio();
-        }
+        //stopping all
+        StopStemGroup(flourishingStems);
+        StopStemGroup(rejuvenationStems);
+        StopStemGroup(decayingStems);
+
     }
 
     public void StartRejuvinationStems()
     {
-        foreach (MusicStemCrossfade rejuvStem in rejuvenationStems)
+        StopStemGroup(flourishingStems);
+        StopStemGroup(decayingStems);
+
+        StartStemGroup(rejuvenationStems);
+    }
+
+
+    //private methods
+    void StopStemGroup(MusicStemCrossfade[] musicGroup)
+    {
+        foreach (MusicStemCrossfade xFade in musicGroup)
         {
-            rejuvStem.FadeInAudio();
+            xFade.FadeOutAudio();
+        }
+    }
+
+    void StartStemGroup(MusicStemCrossfade[] musicGroup)
+    {
+        foreach (MusicStemCrossfade xFade in musicGroup)
+        {
+            xFade.FadeInAudio();
         }
     }
 
