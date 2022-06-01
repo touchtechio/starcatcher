@@ -54,7 +54,8 @@ public class PlantRoot
         obj.transform.localPosition = position;
         
         root_limb = obj.GetComponent<PlantLimb>();
-        root_limb.set_as_root(z, info.start_angle, info.max_depth, this);
+        float angle = info.start_angle + Random.Range(-info.start_angle_range, info.start_angle_range);
+        root_limb.set_as_root(z, angle, info.max_depth, this);
         //root_limb.setup(0, 0, 1, z, color, root_limb.max_depth_if_trunk);
     }
 

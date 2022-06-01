@@ -28,24 +28,25 @@ public class PlantLimb : MonoBehaviour
     public bool alternate_flip_x;   
     private bool flip_x;
 
+    public float extra_sway_dist_range;
+    public float extra_sway_speed_range;
+    private float extra_sway_dist, extra_sway_speed;
+
 
     public List<PlantConnection> connections;
     public List<PlantLimb> children = new List<PlantLimb>();
 
     public SpriteRenderer sprite_rend;
 
-    private Color base_color;
-
     private PlantRoot root;
 
 
     public void set_as_root(int z, float angle, int _max_depth, PlantRoot _root){
-        Color color = Color.white;
-        //color = new Color(Random.Range(0.0f,1.0f),Random.Range(0.0f,1.0f),Random.Range(0.0f,1.0f));
-        setup(0, angle, 1, z, color, _max_depth, _root);
+        float root_scale = 1 + Random.Range(0, _root.info.max_bonus_scale);
+        setup(0, angle, root_scale, z, _max_depth, _root);
     }
 
-    public void setup(int _depth, float _base_angle, float _base_scale, int z, Color _color, int _max_depth, PlantRoot _root){
+    public void setup(int _depth, float _base_angle, float _base_scale, int z, int _max_depth, PlantRoot _root){
         root = _root;
 
         depth = _depth;
@@ -54,9 +55,6 @@ public class PlantLimb : MonoBehaviour
 
         base_scale = _base_scale;
         transform.localScale = new Vector3(base_scale, base_scale, base_scale);
-
-        base_color = _color;
-        sprite_rend.color = base_color;
 
         flip_x = false;
         if (can_flip_x){
@@ -71,13 +69,6 @@ public class PlantLimb : MonoBehaviour
         if (alternate_flip_x){
             if (depth == 0) flip_x = false;
             else            flip_x = true;
-
-            // if (depth % 3 == 0) flip_x = false;
-            // if (depth % 3 == 1) flip_x = true;
-            // if (depth % 3 == 2) flip_x = true;
-            //if (depth % 4 == 3) flip_x = true;
-
-            //flip_x = false;//depth % 2 == 1;
         }
 
         //sanity check to prevent infinite loops
@@ -100,7 +91,7 @@ public class PlantLimb : MonoBehaviour
         }
 
         //setting Z depth so later limbs are a little bit in front of their parents
-        sprite_rend.sortingOrder = z + depth;
+        sprite_rend.sortingOrder = z - depth;
 
         //try to spawn children
         float depth_prc = (float)depth / (float)(max_depth-1);
@@ -118,9 +109,13 @@ public class PlantLimb : MonoBehaviour
             GameObject prefab = PlantPartPool.instance.get_limb(child_id);
 
             PlantLimb child = con.spawn_child(this, prefab);
-            child.setup(depth + 1, con.get_angle(), con.get_scale(), z, base_color, max_depth, root);
+            child.setup(depth + 1, con.get_angle(), con.get_scale(), z, max_depth, root);
             children.Add(child);
         }
+
+        //set the sway
+        extra_sway_dist = Random.Range(0,extra_sway_dist_range);
+        extra_sway_speed = Random.Range(-extra_sway_speed_range,extra_sway_speed_range);
 
         //set the scale to 0 so we can animate in
         transform.localScale = Vector3.zero;
@@ -154,7 +149,7 @@ public class PlantLimb : MonoBehaviour
     void Update()
     {
         //sway in the breeze
-        float sway_angle = Mathf.Sin(Time.time * root.sway_speed) * PlantManager.instance.sway_dist;
+        float sway_angle = Mathf.Sin(Time.time * (root.sway_speed + extra_sway_speed)) * (PlantManager.instance.sway_dist + extra_sway_dist);
         transform.localEulerAngles = new Vector3(0,0, base_angle + sway_angle);
 
     }

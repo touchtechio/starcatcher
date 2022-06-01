@@ -50,10 +50,20 @@ MonoBehaviour:
     limb_id: cooksonia_limb_split_left
     max_depth: 5
     start_angle: 15
+    start_angle_range: 0
+    max_bonus_scale: 0
   - plant_type: leafy
     limb_id: leafy_stem
     max_depth: 7
     start_angle: 0
+    start_angle_range: 0
+    max_bonus_scale: 0
+  - plant_type: big_leaf
+    limb_id: big_leaf_stem
+    max_depth: 2
+    start_angle: 0
+    start_angle_range: 5
+    max_bonus_scale: 0.5
   colors:
   - {r: 0.96862745, g: 0.5803922, b: 0.11372549, a: 1}
   - {r: 0.57254905, g: 0.15294118, b: 0.56078434, a: 1}
@@ -81,6 +91,7 @@ MonoBehaviour:
   debug_fast_grow: 0
   debug_use_fake_damage_value: 1
   debug_fake_damage_value: 0
+  debug_root_id: -1
   cur_state: 0
   possible_children_cooksonia:
   - id_name: cooksonia_flower_1
@@ -144,4 +155,13 @@ MonoBehaviour:
       type: 3}
   - id_name: leafy_stem_terminal
     prefab: {fileID: 3920916727955005253, guid: f937146c4a2a24872a9e8a8093ac9e79,
+      type: 3}
+  - id_name: big_leaf_stem
+    prefab: {fileID: 3920916727955005253, guid: 43ed9f60257c64184ac8f6af307cc787,
+      type: 3}
+  - id_name: big_leaf_back_1
+    prefab: {fileID: 3920916727955005253, guid: def718a8b1b004eacb80452d8e20b41e,
+      type: 3}
+  - id_name: big_leaf_back_2
+    prefab: {fileID: 3920916727955005253, guid: 83bc9def40c5e426e880dd2df53f4d9f,
       type: 3}
