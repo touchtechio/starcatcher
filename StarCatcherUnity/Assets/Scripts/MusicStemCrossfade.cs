@@ -15,6 +15,14 @@ public class MusicStemCrossfade : MonoBehaviour
     public float maxVolume = 1.0f;
 
 
+    private void Awake()
+    {
+        if (sourceToCrossfade == null)
+        {
+            sourceToCrossfade = GetComponent<AudioSource>();
+        }
+    }
+
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.C))
@@ -27,6 +35,24 @@ public class MusicStemCrossfade : MonoBehaviour
         }
     }
 
+    
+
+    public void FadeInAudio()
+    {
+        StopAllCoroutines();
+        sourceToCrossfade.volume = 0f;
+        sourceToCrossfade.Play();
+        StartCoroutine(AudioFadeIn(maxVolume));
+    }
+
+    public void FadeOutAudio()
+    {
+        if (!sourceToCrossfade.isPlaying) return;
+
+        StopAllCoroutines();
+        StartCoroutine(AudioFadeOut());
+    }
+
     /// <summary>
     /// fade an audiosource based on an incoming parameter
     /// to fade out, use 1-parameter
@@ -34,7 +60,7 @@ public class MusicStemCrossfade : MonoBehaviour
     /// <param name="normInput">Input that's normalized from 0-1</param>
     void FadeAudio(float normInput, float _maxVolume)
     {
-        if(crossfadeType == CrossfadeType.ConstantPwr)
+        if (crossfadeType == CrossfadeType.ConstantPwr)
         {
             normInput *= 2f;
             normInput -= 1f;
@@ -45,20 +71,6 @@ public class MusicStemCrossfade : MonoBehaviour
         {
             sourceToCrossfade.volume = normInput * _maxVolume;
         }
-    }
-
-    void FadeInAudio()
-    {
-        StopAllCoroutines();
-        sourceToCrossfade.volume = 0f;
-        sourceToCrossfade.Play();
-        StartCoroutine(AudioFadeIn(maxVolume));
-    }
-
-    void FadeOutAudio()
-    {
-        StopAllCoroutines();
-        StartCoroutine(AudioFadeOut());
     }
 
     IEnumerator AudioFadeIn(float destVolume)
@@ -78,7 +90,6 @@ public class MusicStemCrossfade : MonoBehaviour
 
     IEnumerator AudioFadeOut()
     {
-        Debug.Log("fadeout");
         float timer = 0f;
         //crossfade from the current volume, in case this is less than maxVolume
         float startVolume = sourceToCrossfade.volume;
@@ -95,5 +106,7 @@ public class MusicStemCrossfade : MonoBehaviour
 
         sourceToCrossfade.Stop();
     }
+
+
 
 }
