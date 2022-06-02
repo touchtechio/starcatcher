@@ -176,19 +176,19 @@ public class StarSpawn : MonoBehaviour {
 
     private void SpawnHard(Strip strip)
     {
-        Spawn(strip, hardFallDuration, hardLingerTime, UnityEngine.Random.ColorHSV(0.0f, 0.5f));
+        Spawn(strip, hardFallDuration, hardLingerTime, UnityEngine.Random.ColorHSV(0.0f, 0.5f), coolStar);
 
     }
 
     private void SpawnMedium(Strip strip)
     {
-        Spawn(strip, mediumFallDuration, mediumLingerTime, UnityEngine.Random.ColorHSV(0.5f, 1.0f));
+        Spawn(strip, mediumFallDuration, mediumLingerTime, UnityEngine.Random.ColorHSV(0.5f, 1.0f), neutralStar);
     }
 
 
     private void SpawnEasy(Strip strip)
     {
-        Spawn(strip, easyFallDuration, easyLingerTime, UnityEngine.Random.ColorHSV(0.5f, 1.0f));
+        Spawn(strip, easyFallDuration, easyLingerTime, UnityEngine.Random.ColorHSV(0.5f, 1.0f), warmStar);
     }
 
     public void Spawn()
@@ -218,13 +218,13 @@ public class StarSpawn : MonoBehaviour {
     }
 
 
-    private void Spawn(Strip strip, float duration, float lingerTime, Color color)
+    private void Spawn(Strip strip, float duration, float lingerTime, Color color, GameObject starType)
     {
 
         Vector3 spawnPoint = strip.starStartPoints;
 
         // make star
-        GameObject star = Instantiate(prefab, spawnPoint, Quaternion.identity) as GameObject;
+        GameObject star = Instantiate(starType, spawnPoint, Quaternion.identity) as GameObject;
 
         // parent to STARS 
         star.transform.parent = parent.transform;
