@@ -22,12 +22,15 @@ public class PlantManager : MonoBehaviour
        public string limb_id; 
        public int max_depth;
        public float start_angle;
+       public float start_angle_range;
+       public float max_bonus_scale;
     }
 
     public static PlantManager instance = null;
 
-    public string[] root_ids;
     public PlantRootInfo[] possible_roots;
+
+    public Color[] colors;
 
     private List<PlantRoot> roots = new List<PlantRoot>();
 
@@ -76,9 +79,12 @@ public class PlantManager : MonoBehaviour
     [Header("Debug Tools")]
     public bool use_debug_sprite_color;
     public bool debug_even_spacing;
+    public bool debug_fast_grow;
     public bool debug_use_fake_damage_value;
     [Range(0.0f, 1.0f)]
     public float debug_fake_damage_value;
+    [Tooltip("set this to -1 to turn it off")]
+    public int debug_root_id;
 
     //testing out state stuff
     public enum GameState {Game, Dead, Rejuvination, Flourishing, Decline};
@@ -94,6 +100,10 @@ public class PlantManager : MonoBehaviour
 
     public ChildInfo[] possible_children_cooksonia;
     
+    [Header("Leafy")]
+
+    public ChildInfo[] possible_children_leafy;
+    
 
     void Awake(){
         if (instance == null){
@@ -106,6 +116,14 @@ public class PlantManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        if (debug_fast_grow){
+            total_time_to_rejuvenate = 0.1f;
+            rejuvenation_max_pause_time = 0.0f;
+            rejuvenation_min_pause_time = 0.1f;
+            rejuvenation_min_grow_time = 0.0f;
+            rejuvenation_max_grow_time = 0.1f;
+
+        }
         //reset();
         cur_state = GameState.Rejuvination;
         prev_state = cur_state;
@@ -251,6 +269,10 @@ public class PlantManager : MonoBehaviour
 
             //string root_id = root_ids[ (int)Random.Range(0,root_ids.Length)];
             PlantRootInfo info = possible_roots[ (int)Random.Range(0,possible_roots.Length)];
+            if (debug_root_id >= 0){
+                info = possible_roots[ debug_root_id ];
+            }
+
             PlantRoot root = new PlantRoot(info, pos, i*20);
 
             root.start_growth_animation();

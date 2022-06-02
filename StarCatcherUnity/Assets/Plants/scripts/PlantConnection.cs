@@ -14,9 +14,8 @@ public class PlantConnection : MonoBehaviour
     public float angle;
     public float angle_range = 5;
 
-    //public int die_off_depth = 1;
-
-    //public string[] possible_children_overwrite;    //make sure this is used or remove it
+    [Tooltip("overrides the normal children list for this plant")]
+    public PlantManager.ChildInfo[] possible_children_override;
 
     
     public PlantLimb spawn_child(PlantLimb parent, GameObject prefab){
