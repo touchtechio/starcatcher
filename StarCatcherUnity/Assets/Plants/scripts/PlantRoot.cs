@@ -33,7 +33,7 @@ public class PlantRoot
 
         info = _info;
 
-        Debug.Log("create plant of type: "+info.plant_type);
+        //Debug.Log("create plant of type: "+info.plant_type);
         
         //get the possible children
         possible_children = null;

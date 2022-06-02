@@ -87,10 +87,10 @@ public class PlantManager : MonoBehaviour
     public int debug_root_id;
 
     //testing out state stuff
-    public enum GameState {Game, Dead, Rejuvination, Flourishing, Decline};
-    public GameState cur_state;
+    //public enum GameState {Game, Dead, Rejuvination, Flourishing, Decline};
+    public Score.GameState cur_state;
 
-    private GameState prev_state;
+    private Score.GameState prev_state;
 
    
 
@@ -125,7 +125,7 @@ public class PlantManager : MonoBehaviour
 
         }
         //reset();
-        cur_state = GameState.Rejuvination;
+        cur_state = Score.GameState.Rejuvination;
         prev_state = cur_state;
         start_rejuvination();
     }
@@ -160,13 +160,11 @@ public class PlantManager : MonoBehaviour
     {
         //Debug spacebar to reset
         if (Input.GetKeyDown(KeyCode.Space)){
-            cur_state = GameState.Rejuvination;
-            // start_rejuvination();
-            // return;
+            cur_state = Score.GameState.Rejuvination;
         }
 
         //during gameplay and rejuvination, grab the health value form the game
-        if (cur_state == GameState.Game){//} || cur_state == GameState.Rejuvination){
+        if (cur_state == Score.GameState.Flourishing || cur_state == Score.GameState.Decline){
             //grab the health value from the game
             //This value is treated as damage, so it is inverted (1=dead, 0=alive)
             float raw_health_value = Mathf.Clamp(1.0f-Score.cumulativeEnvironmentDamageScore, 0.0f, 1.0f);
@@ -176,14 +174,7 @@ public class PlantManager : MonoBehaviour
             }
 
             //during gameplay, map this to a new minimum
-            if (cur_state == GameState.Game){
-                raw_health_value = min_health_during_gameplay + (1.0f-min_health_during_gameplay)*raw_health_value;
-            }
-            
-            //in some game states, intercept this value and hard set it
-            // if (cur_state == GameState.Dead)            raw_health_value = 0;
-            // if (cur_state == GameState.Rejuvination)    raw_health_value = 1;
-            
+            raw_health_value = min_health_during_gameplay + (1.0f-min_health_during_gameplay)*raw_health_value;
             
             //lerp it
             cur_health = Mathf.Lerp(cur_health, raw_health_value, health_lerp);
@@ -195,15 +186,15 @@ public class PlantManager : MonoBehaviour
         }
 
         //if we just died, do that
-        if(cur_state == GameState.Dead && prev_state != GameState.Dead){
+        if(cur_state == Score.GameState.Dying && prev_state != Score.GameState.Dying){
             start_death();
         }
 
         //if we just entered regrwoth, do that
-        if(cur_state == GameState.Rejuvination && prev_state != GameState.Rejuvination){
+        if(cur_state == Score.GameState.Rejuvination && prev_state != Score.GameState.Rejuvination){
             start_rejuvination();
         }
-        if (cur_state == GameState.Rejuvination){
+        if (cur_state == Score.GameState.Rejuvination){
             cur_health = 1.0f;
         }
 
@@ -232,6 +223,7 @@ public class PlantManager : MonoBehaviour
     }
 
     IEnumerator do_rejuvination(){
+        Debug.Log("<color=purple>Rejuvnation start</color>");
         //give it a moment after destroying everything
         yield return new WaitForSeconds(0.1f);
 
@@ -283,6 +275,6 @@ public class PlantManager : MonoBehaviour
 
         //testing
         yield return new WaitForSeconds(rejuvenation_max_grow_time + rejuvenation_min_pause_time);
-        cur_state = GameState.Game;
+        cur_state = Score.GameState.Flourishing;
     }
 }

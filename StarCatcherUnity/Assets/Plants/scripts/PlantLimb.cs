@@ -53,6 +53,7 @@ public class PlantLimb : MonoBehaviour
         max_depth = _max_depth;
         base_angle = _base_angle;
 
+        //briefly setting it to the scale it will ultimatly be at so children get placed correctly
         base_scale = _base_scale;
         transform.localScale = new Vector3(base_scale, base_scale, base_scale);
 
@@ -79,7 +80,7 @@ public class PlantLimb : MonoBehaviour
         }
 
         //Debug.Log("set up with depth "+depth);
-        gameObject.name = "Limb  "+depth.ToString();
+        gameObject.name = root.info.plant_type +" depth  "+depth.ToString();
 
         set_health_values();
 
@@ -119,6 +120,7 @@ public class PlantLimb : MonoBehaviour
 
         //set the scale to 0 so we can animate in
         transform.localScale = Vector3.zero;
+
     }
 
     public string select_from_possible_children(float depth_prc, PlantManager.ChildInfo[] possible_children){
@@ -151,7 +153,6 @@ public class PlantLimb : MonoBehaviour
         //sway in the breeze
         float sway_angle = Mathf.Sin(Time.time * (root.sway_speed + extra_sway_speed)) * (PlantManager.instance.sway_dist + extra_sway_dist);
         transform.localEulerAngles = new Vector3(0,0, base_angle + sway_angle);
-
     }
 
     private void set_health_values(){
@@ -178,7 +179,7 @@ public class PlantLimb : MonoBehaviour
         if (flip_x) cur_scale_x *= -1;
 
         transform.localScale = new Vector3(cur_scale_x, cur_scale, cur_scale);
-
+        
         foreach(PlantLimb child in children){
             child.set_health(health);
         }
@@ -224,7 +225,6 @@ public class PlantLimb : MonoBehaviour
     IEnumerator do_growth(float pause_time, float grow_time){
         yield return new WaitForSeconds(pause_time);
 
-        //Vector3 start_scale = Vector3.zero;// transform.localScale;
         float scale_x = base_scale;
         if (flip_x) scale_x *= -1;
         Vector3 end_scale = new Vector3(scale_x, base_scale,base_scale);

@@ -70,7 +70,7 @@ MonoBehaviour:
   - {r: 0.92941177, g: 0.16470589, b: 0.53333336, a: 0.69803923}
   - {r: 0, g: 0.654902, b: 0.6156863, a: 0.69803923}
   max_x_dist: 6
-  num_plants_to_spawn: 5
+  num_plants_to_spawn: 6
   random_position_density: 1.25
   health_lerp: 0.01
   min_health_during_gameplay: 0.3
@@ -92,7 +92,7 @@ MonoBehaviour:
   debug_use_fake_damage_value: 1
   debug_fake_damage_value: 0
   debug_root_id: -1
-  cur_state: 0
+  cur_state: 1
   possible_children_cooksonia:
   - id_name: cooksonia_flower_1
     weight_start: 0.1
