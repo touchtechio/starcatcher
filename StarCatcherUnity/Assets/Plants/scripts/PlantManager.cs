@@ -168,7 +168,7 @@ public class PlantManager : MonoBehaviour
         }
 
         //during gameplay and rejuvination, grab the health value form the game
-        if (cur_state == Score.GameState.Flourishing || cur_state == Score.GameState.Decline){
+        if (cur_state == Score.GameState.Flourishing || cur_state == Score.GameState.Decline || cur_state == Score.GameState.Dying){
             //grab the health value from the game
             //This value is treated as damage, so it is inverted (1=dead, 0=alive)
             float raw_health_value = Mathf.Clamp(1.0f-Score.cumulativeEnvironmentDamageScore, 0.0f, 1.0f);
@@ -190,7 +190,7 @@ public class PlantManager : MonoBehaviour
         }
 
         //if we just died, do that
-        if(cur_state == Score.GameState.Dying && prev_state != Score.GameState.Dying){
+        if(cur_state == Score.GameState.Dead && prev_state != Score.GameState.Dead){
             start_death();
         }
 
