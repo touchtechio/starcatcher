@@ -103,6 +103,10 @@ public class PlantManager : MonoBehaviour
     [Header("Leafy")]
 
     public ChildInfo[] possible_children_leafy;
+
+    [Header("Tall")]
+
+    public ChildInfo[] possible_children_tall;
     
 
     void Awake(){

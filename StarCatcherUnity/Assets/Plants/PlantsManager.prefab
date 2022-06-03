@@ -64,6 +64,12 @@ MonoBehaviour:
     start_angle: 0
     start_angle_range: 5
     max_bonus_scale: 0.5
+  - plant_type: tall
+    limb_id: tall_stem
+    max_depth: 4
+    start_angle: 0
+    start_angle_range: 5
+    max_bonus_scale: 0
   colors:
   - {r: 0.96862745, g: 0.5803922, b: 0.11372549, a: 0.69803923}
   - {r: 0.57254905, g: 0.15294118, b: 0.56078434, a: 0.69803923}
@@ -91,7 +97,7 @@ MonoBehaviour:
   debug_fast_grow: 0
   debug_use_fake_damage_value: 1
   debug_fake_damage_value: 0
-  debug_root_id: -1
+  debug_root_id: 3
   cur_state: 1
   possible_children_cooksonia:
   - id_name: cooksonia_flower_1
@@ -116,6 +122,16 @@ MonoBehaviour:
   - id_name: leafy_branch_terminal
     weight_start: -2
     weight_end: 2
+  possible_children_tall:
+  - id_name: tall_vert_1
+    weight_start: 1
+    weight_end: 0
+  - id_name: tall_vert_2
+    weight_start: 1
+    weight_end: 0
+  - id_name: tall_cap
+    weight_start: -2
+    weight_end: 1
 --- !u!114 &8226309043064118673
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -164,4 +180,22 @@ MonoBehaviour:
       type: 3}
   - id_name: big_leaf_back_2
     prefab: {fileID: 3920916727955005253, guid: 83bc9def40c5e426e880dd2df53f4d9f,
+      type: 3}
+  - id_name: tall_stem
+    prefab: {fileID: 3920916727955005253, guid: 5a08c41be6b694584bae2a9495b26501,
+      type: 3}
+  - id_name: tall_back
+    prefab: {fileID: 3920916727955005253, guid: 2cca074c275e8487383a65bdaee2743f,
+      type: 3}
+  - id_name: tall_vert_1
+    prefab: {fileID: 3920916727955005253, guid: 66c651a4b172542db9ac1d41a3a9ecc4,
+      type: 3}
+  - id_name: tall_vert_2
+    prefab: {fileID: 3920916727955005253, guid: d2943a4ef33fc45d9ae68c274570e1c1,
+      type: 3}
+  - id_name: tall_cap
+    prefab: {fileID: 3920916727955005253, guid: d1b0d6721e3d7426c94f9d41829adb01,
+      type: 3}
+  - id_name: tall_back
+    prefab: {fileID: 3920916727955005253, guid: 2cca074c275e8487383a65bdaee2743f,
       type: 3}

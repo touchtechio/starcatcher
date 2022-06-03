@@ -39,6 +39,7 @@ public class PlantRoot
         possible_children = null;
         if (info.plant_type == "cooksonia") possible_children = PlantManager.instance.possible_children_cooksonia;
         if (info.plant_type == "leafy")     possible_children = PlantManager.instance.possible_children_leafy;
+        if (info.plant_type == "tall")     possible_children = PlantManager.instance.possible_children_tall;
 
         //generate some values
         health_curve = Random.Range(0.5f,1.5f);
