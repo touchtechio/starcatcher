@@ -78,10 +78,13 @@ public class StarMove : MonoBehaviour {
            */
         
         // check if star nearly reaches bottom point of fall to turn off trails and allow star to be able to be caught
+        // except stars in rejuvination state - those can't be caught
         if (Time.time >= startTime + fallDuration * 0.95)
         {
            // gameObject.GetComponent<SphereCollider>().isTrigger = true;
-            gameObject.GetComponent<CapsuleCollider>().isTrigger = true;
+            if (Score.plasmaWorldState != Score.GameState.Rejuvination) {
+                gameObject.GetComponent<CapsuleCollider>().isTrigger = true;
+            }
             HU_Star starEffects = gameObject.GetComponent<HU_Star>();
             starEffects._coronaTrails = false;
             
