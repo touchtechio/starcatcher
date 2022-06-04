@@ -79,7 +79,6 @@ public class PlantLimb : MonoBehaviour
             return;
         }
 
-        //Debug.Log("set up with depth "+depth);
         gameObject.name = root.info.plant_type +" depth  "+depth.ToString();
 
         set_health_values();
@@ -173,7 +172,6 @@ public class PlantLimb : MonoBehaviour
         float cur_prc = (health - shrink_end) / (shrink_start - shrink_end);
         cur_prc = Mathf.Max(0.0f, Mathf.Min(cur_prc, 1.0f));
 
-        //Debug.Log("health: "+health+"  cur "+cur_prc + "  start: "+shrink_start+ "  end: "+shrink_end);
         float cur_scale = base_scale * cur_prc;
         float cur_scale_x = cur_scale;
         if (flip_x) cur_scale_x *= -1;

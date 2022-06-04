@@ -32,17 +32,6 @@ public class PlantPartPool : MonoBehaviour
         }
     }
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 
     public GameObject get_limb(string limb_id){
         for (int i=0; i<limb_objs.Length; i++){

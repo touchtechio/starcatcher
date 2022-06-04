@@ -64,7 +64,7 @@ public class PlantManager : MonoBehaviour
     [Header("Death State Control")]
     [Tooltip("min time to wait per plant before dying")]
     public float min_death_pause_time;
-    [Tooltip("max time to wait per plant before dying")]
+    [Tooltip("max time to wait per plant before dying. SHOULD BE LESS THAN Score.deadTimerValue")]
     public float max_death_pause_time;
     [Tooltip("min time for a dying plant to shrink to nothing")]
     public float min_death_shrink_time;
@@ -72,8 +72,6 @@ public class PlantManager : MonoBehaviour
     public float max_death_shrink_time;
 
     [Header("Rejuvenation State Control")]
-    [Tooltip("time in seconds for all new plants to start the growth animation")]
-    public float total_time_to_rejuvenate;
     [Tooltip("pause time before an individual plant does growth animation")]
     public float rejuvenation_min_pause_time, rejuvenation_max_pause_time;
     [Tooltip("time it takes an individual plant part to grow to full size")]
@@ -125,7 +123,6 @@ public class PlantManager : MonoBehaviour
     {
         //change some timing values if fast_grow is on
         if (debug_fast_grow){
-            total_time_to_rejuvenate = 0.1f;
             rejuvenation_max_pause_time = 0.0f;
             rejuvenation_min_pause_time = 0.1f;
             rejuvenation_min_grow_time = 0.0f;
@@ -138,13 +135,7 @@ public class PlantManager : MonoBehaviour
             colors[i].a = color_alpha;
         }
 
-
         prev_state = Score.GameState.Dead;
-
-        //if we're faking the states, start in rejuvination
-        // if (debug_use_fake_game_state){
-        //     debug_cur_state = Score.GameState.Rejuvination;
-        // }
     }
 
     // Update is called once per frame
@@ -169,6 +160,7 @@ public class PlantManager : MonoBehaviour
             //This value is treated as damage, so it is inverted (1=dead, 0=alive)
             float raw_health_value = Mathf.Clamp(1.0f-Score.cumulativeEnvironmentDamageScore, 0.0f, 1.0f);
 
+            //if testing, replace it with the dbeug value
             if (debug_use_fake_game_state){
                 raw_health_value = 1.0f - debug_fake_damage_value;
             }
@@ -226,6 +218,15 @@ public class PlantManager : MonoBehaviour
         Debug.Log("<color=purple>Rejuvnation start</color>");
         //give it a moment after destroying everything
         yield return new WaitForSeconds(0.1f);
+
+        //get our total time
+        float total_time_to_rejuvenate = Score.Instance.rejuvinationTimerValue - rejuvenation_max_grow_time - rejuvenation_max_pause_time;
+
+        if (debug_fast_grow){
+            total_time_to_rejuvenate = 0.2f;
+        }
+
+        Debug.Log("total rejuventation time: "+total_time_to_rejuvenate);
 
         //generate a list of possible spaces
         List<Vector3> spawn_positions = new List<Vector3>();
