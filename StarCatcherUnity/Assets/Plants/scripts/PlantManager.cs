@@ -30,6 +30,10 @@ public class PlantManager : MonoBehaviour
 
     public PlantRootInfo[] possible_roots;
 
+    
+    [Header("Colors")]
+    [Tooltip("This value overrides the alpha value in the colors aray")]
+    public float color_alpha;
     public Color[] colors;
 
     private List<PlantRoot> roots = new List<PlantRoot>();
@@ -119,6 +123,7 @@ public class PlantManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        //change some timing values if fast_grow is on
         if (debug_fast_grow){
             total_time_to_rejuvenate = 0.1f;
             rejuvenation_max_pause_time = 0.0f;
@@ -127,10 +132,15 @@ public class PlantManager : MonoBehaviour
             rejuvenation_max_grow_time = 0.1f;
 
         }
-        //reset();
-        //cur_state = Score.GameState.Rejuvination;
+
+        //make sure all colors have the correct alpha value
+        for (int i=0; i<colors.Length; i++){
+            colors[i].a = color_alpha;
+        }
+
+
         prev_state = Score.GameState.Dead;
-        start_rejuvination();
+        //start_rejuvination();
     }
 
     // Update is called once per frame
