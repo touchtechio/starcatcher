@@ -72,7 +72,7 @@ public class PlantManager : MonoBehaviour
     public float total_time_to_rejuvenate;
     [Tooltip("pause time before an individual plant does growth animation")]
     public float rejuvenation_min_pause_time, rejuvenation_max_pause_time;
-    [Tooltip("time it takes an individual plant part to grow to full suze")]
+    [Tooltip("time it takes an individual plant part to grow to full size")]
     public float rejuvenation_min_grow_time, rejuvenation_max_grow_time;
 
     //debug tools
@@ -80,15 +80,14 @@ public class PlantManager : MonoBehaviour
     public bool use_debug_sprite_color;
     public bool debug_even_spacing;
     public bool debug_fast_grow;
-    public bool debug_use_fake_damage_value;
+    [Tooltip("if true, debug_fake_damage_value & debug_cur_state are used")]
+    public bool debug_use_fake_game_state;
     [Range(0.0f, 1.0f)]
     public float debug_fake_damage_value;
     [Tooltip("set this to -1 to turn it off")]
     public int debug_root_id;
 
-    //testing out state stuff
-    //public enum GameState {Game, Dead, Rejuvination, Flourishing, Decline};
-    public Score.GameState cur_state;
+    public Score.GameState debug_cur_state;
 
     private Score.GameState prev_state;
 
@@ -129,42 +128,25 @@ public class PlantManager : MonoBehaviour
 
         }
         //reset();
-        cur_state = Score.GameState.Rejuvination;
-        prev_state = cur_state;
+        //cur_state = Score.GameState.Rejuvination;
+        prev_state = Score.GameState.Dead;
         start_rejuvination();
     }
-
-    // void reset(){
-    //     for (int i=roots.Count-1; i>=0; i--){
-    //         roots[i].kill();
-    //     }
-    //     roots.Clear();
-
-    //     for (int i=0; i<num_plants_to_spawn; i++){
-    //         Vector3 pos = new Vector3(Random.Range(-max_x_dist, max_x_dist),-3,0);
-
-    //         if (debug_even_spacing){
-    //             float prc = (float)i / (float)(num_plants_to_spawn-1);
-    //             pos.x = (1.0f-prc)*-max_x_dist + prc * max_x_dist;
-    //         }
-
-    //         //string root_id = root_ids[ (int)Random.Range(0,root_ids.Length)];
-    //         PlantRootInfo info = possible_roots[ (int)Random.Range(0,possible_roots.Length)];
-    //         roots.Add( new PlantRoot(info, pos, i*20));
-    //     }
-
-    //     cur_health = 0;
-
-    //     debug_fake_damage_value = 0.0f;
-    //     cur_state = GameState.Game;
-    // }
 
     // Update is called once per frame
     void Update()
     {
-        //Debug spacebar to reset
-        if (Input.GetKeyDown(KeyCode.Space)){
-            cur_state = Score.GameState.Rejuvination;
+        //Debug spacebar to reset when testing
+        if (Input.GetKeyDown(KeyCode.Space) && debug_use_fake_game_state){
+            debug_cur_state = Score.GameState.Rejuvination;
+        }
+
+        //grab the global game state
+        Score.GameState cur_state = Score.plasmaWorldState;
+
+        //when testing, override the real game state with the testing value
+        if (debug_use_fake_game_state){
+            cur_state = debug_cur_state;
         }
 
         //during gameplay and rejuvination, grab the health value form the game
@@ -173,7 +155,7 @@ public class PlantManager : MonoBehaviour
             //This value is treated as damage, so it is inverted (1=dead, 0=alive)
             float raw_health_value = Mathf.Clamp(1.0f-Score.cumulativeEnvironmentDamageScore, 0.0f, 1.0f);
 
-            if (debug_use_fake_damage_value){
+            if (debug_use_fake_game_state){
                 raw_health_value = 1.0f - debug_fake_damage_value;
             }
 
@@ -263,7 +245,6 @@ public class PlantManager : MonoBehaviour
                 pos.x = (1.0f-prc)*-max_x_dist + prc * max_x_dist;
             }
 
-            //string root_id = root_ids[ (int)Random.Range(0,root_ids.Length)];
             PlantRootInfo info = possible_roots[ (int)Random.Range(0,possible_roots.Length)];
             if (debug_root_id >= 0){
                 info = possible_roots[ debug_root_id ];
@@ -277,8 +258,10 @@ public class PlantManager : MonoBehaviour
             yield return new WaitForSeconds(time_spacing);
         }
 
-        //testing
-        yield return new WaitForSeconds(rejuvenation_max_grow_time + rejuvenation_min_pause_time);
-        cur_state = Score.GameState.Flourishing;
+        //if we're testing automatically move to the game
+        if (debug_use_fake_game_state){
+            yield return new WaitForSeconds(rejuvenation_max_grow_time + rejuvenation_min_pause_time);
+            debug_cur_state = Score.GameState.Flourishing;
+        }
     }
 }

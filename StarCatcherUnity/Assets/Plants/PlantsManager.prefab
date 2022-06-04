@@ -75,8 +75,8 @@ MonoBehaviour:
   - {r: 0.57254905, g: 0.15294118, b: 0.56078434, a: 0.69803923}
   - {r: 0.92941177, g: 0.16470589, b: 0.53333336, a: 0.69803923}
   - {r: 0, g: 0.654902, b: 0.6156863, a: 0.69803923}
-  max_x_dist: 6
-  num_plants_to_spawn: 6
+  max_x_dist: 6.5
+  num_plants_to_spawn: 7
   random_position_density: 1.25
   health_lerp: 0.01
   min_health_during_gameplay: 0.3
