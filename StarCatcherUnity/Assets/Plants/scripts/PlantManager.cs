@@ -140,7 +140,11 @@ public class PlantManager : MonoBehaviour
 
 
         prev_state = Score.GameState.Dead;
-        //start_rejuvination();
+
+        //if we're faking the states, start in rejuvination
+        // if (debug_use_fake_game_state){
+        //     debug_cur_state = Score.GameState.Rejuvination;
+        // }
     }
 
     // Update is called once per frame
@@ -239,6 +243,15 @@ public class PlantManager : MonoBehaviour
             spawn_positions.Add(pos);
         }
 
+        //list of possible colors
+        int num_color_sets = (int)Mathf.Ceil( (float)num_plants_to_spawn / (float)colors.Length );
+        List<Color> possible_colors = new List<Color>();
+        for (int i=0; i<num_color_sets; i++){
+            for (int k=0; k<colors.Length; k++){
+                possible_colors.Add(colors[k]);
+            }
+        }
+
         //space it so we grow all the plants in the time allotted
         float time_spacing = total_time_to_rejuvenate / (float) num_plants_to_spawn;
 
@@ -255,12 +268,17 @@ public class PlantManager : MonoBehaviour
                 pos.x = (1.0f-prc)*-max_x_dist + prc * max_x_dist;
             }
 
+            //grab a color
+            int rand_color_id =  (int)Random.Range(0, possible_colors.Count);
+            Color color = possible_colors[rand_color_id];
+            possible_colors.RemoveAt(rand_color_id);
+
             PlantRootInfo info = possible_roots[ (int)Random.Range(0,possible_roots.Length)];
             if (debug_root_id >= 0){
                 info = possible_roots[ debug_root_id ];
             }
 
-            PlantRoot root = new PlantRoot(info, pos, i*20);
+            PlantRoot root = new PlantRoot(info, pos, i*20, color);
 
             root.start_growth_animation();
             roots.Add( root );

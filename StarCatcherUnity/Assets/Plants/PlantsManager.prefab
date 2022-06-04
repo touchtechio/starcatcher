@@ -99,7 +99,7 @@ MonoBehaviour:
   debug_use_fake_game_state: 0
   debug_fake_damage_value: 0
   debug_root_id: -1
-  debug_cur_state: 0
+  debug_cur_state: 1
   possible_children_cooksonia:
   - id_name: cooksonia_flower_1
     weight_start: 0.1

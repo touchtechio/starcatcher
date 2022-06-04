@@ -29,9 +29,11 @@ public class PlantRoot
     public Color color;
     
     
-    public PlantRoot(PlantManager.PlantRootInfo _info, Vector3 position, int z){
+    public PlantRoot(PlantManager.PlantRootInfo _info, Vector3 position, int z, Color _color){
 
         info = _info;
+
+        color = _color;
 
         //Debug.Log("create plant of type: "+info.plant_type);
         
@@ -47,7 +49,7 @@ public class PlantRoot
         sway_speed = Random.Range(PlantManager.instance.min_sway_speed, PlantManager.instance.max_sway_speed);
 
         //select a color
-        color = PlantManager.instance.colors[ (int)Random.Range(0, PlantManager.instance.colors.Length)];
+        //color = PlantManager.instance.colors[ (int)Random.Range(0, PlantManager.instance.colors.Length)];
 
         //spawn the root limb
         GameObject obj = Object.Instantiate(PlantPartPool.instance.get_limb(info.limb_id), Vector3.zero, Quaternion.identity);
