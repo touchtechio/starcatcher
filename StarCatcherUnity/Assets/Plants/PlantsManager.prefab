@@ -167,7 +167,7 @@ MonoBehaviour:
     prefab: {fileID: 3920916727955005253, guid: f0fd375f4dd8a4e5196445ee51a59aed,
       type: 3}
   - id_name: leafy_stem
-    prefab: {fileID: 3920916727955005253, guid: 67faf7730f2f94f58bef5677344836bc,
+    prefab: {fileID: 3920916727955005253, guid: 7aa685222710a4d14af4617bded44e2a,
       type: 3}
   - id_name: leafy_stem_terminal
     prefab: {fileID: 3920916727955005253, guid: f937146c4a2a24872a9e8a8093ac9e79,
