@@ -54,7 +54,7 @@ MonoBehaviour:
     max_bonus_scale: 0
   - plant_type: leafy
     limb_id: leafy_stem
-    max_depth: 7
+    max_depth: 10
     start_angle: 0
     start_angle_range: 0
     max_bonus_scale: 0
@@ -97,7 +97,7 @@ MonoBehaviour:
   debug_fast_grow: 0
   debug_use_fake_damage_value: 1
   debug_fake_damage_value: 0
-  debug_root_id: 3
+  debug_root_id: -1
   cur_state: 1
   possible_children_cooksonia:
   - id_name: cooksonia_flower_1
@@ -115,12 +115,12 @@ MonoBehaviour:
   possible_children_leafy:
   - id_name: leafy_branch_1
     weight_start: 1
-    weight_end: 0
+    weight_end: -0.5
   - id_name: leafy_branch_2
     weight_start: 1
-    weight_end: 0.1
+    weight_end: 0
   - id_name: leafy_branch_terminal
-    weight_start: -2
+    weight_start: -1
     weight_end: 2
   possible_children_tall:
   - id_name: tall_vert_1
@@ -167,7 +167,7 @@ MonoBehaviour:
     prefab: {fileID: 3920916727955005253, guid: f0fd375f4dd8a4e5196445ee51a59aed,
       type: 3}
   - id_name: leafy_stem
-    prefab: {fileID: 3920916727955005253, guid: 21abcaa27a9e448c5a7a44c170368441,
+    prefab: {fileID: 3920916727955005253, guid: 67faf7730f2f94f58bef5677344836bc,
       type: 3}
   - id_name: leafy_stem_terminal
     prefab: {fileID: 3920916727955005253, guid: f937146c4a2a24872a9e8a8093ac9e79,

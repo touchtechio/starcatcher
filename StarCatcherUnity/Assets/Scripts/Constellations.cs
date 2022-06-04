@@ -41,7 +41,7 @@ public class Constellations : MonoBehaviour {
                 {
                     child.gameObject.SetActive(false);
                     Children.Add(child.gameObject);
-                    Debug.Log("Found : " + child.tag + ":: position: " + child.transform.localPosition + " on " + objs[i].name);
+                    //Debug.Log("Found : " + child.tag + ":: position: " + child.transform.localPosition + " on " + objs[i].name);
 
                 }
 

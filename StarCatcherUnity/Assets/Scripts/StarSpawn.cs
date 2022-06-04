@@ -68,9 +68,11 @@ public class StarSpawn : MonoBehaviour {
     private float[] DeclinePercentages;
     private float[] DyingPercentages;
     private float[] DeadPercentages;
+    private float[] RejuvinationPercentages;
     private float[][] LevelPercentages;
 
     Dictionary<Score.GameState, float[]> worldStatePercentages = new Dictionary<Score.GameState, float[]> ();
+    private static float deadTimer;
 
 
     // Use this for initialization
@@ -102,17 +104,19 @@ public class StarSpawn : MonoBehaviour {
         // StartCoroutine(SpawnShowers());
         soundManager = (SoundManager)FindObjectOfType<SoundManager>();
 
-        FlourishPercentages = new float[3] { 0.8f, 0.2f, 0f };
+        FlourishPercentages = new float[3] { 0.7f, 0.3f, 0f };
         DeclinePercentages = new float[3] { 0.4f, 0.4f, 0.2f };
         DyingPercentages = new float[3] { 0f, 0.2f, 0.8f };
-        DeadPercentages = new float[3] { 0f, 0f, 0f };
+        // DeadPercentages = new float[3] {10f, 10f, 10f };
+        RejuvinationPercentages = new float[3] { 0.8f, 0.1f, 0.1f };
         // LevelPercentages = new float[4][] { FlourishPercentages, DeclinePercentages, DyingPercentages, DeadPercentages};
 
 
         worldStatePercentages.Add(Score.GameState.Flourishing, FlourishPercentages);
         worldStatePercentages.Add(Score.GameState.Decline, DeclinePercentages);
         worldStatePercentages.Add(Score.GameState.Dying, DyingPercentages);
-        worldStatePercentages.Add(Score.GameState.Dead, DeadPercentages);
+        // worldStatePercentages.Add(Score.GameState.Dead, DeadPercentages);
+        worldStatePercentages.Add(Score.GameState.Rejuvination, RejuvinationPercentages);
 
     }
 
@@ -132,14 +136,15 @@ public class StarSpawn : MonoBehaviour {
         SpawnRate = new float[3] { easyTimeToSpawn, mediumTimeToSpawn, hardTimeToSpawn }; // in case we are updating values at runtime
         // burn down time since last update
         timeToNextSpawn -= Time.deltaTime;
-        //hardTimeToNextSpawn -= Time.deltaTime;
 
-        if (timeToNextSpawn <= 0)
+        // if in Dead state, don't spawn stars
+        if (timeToNextSpawn <= 0 && Score.plasmaWorldState != Score.GameState.Dead)
         {
             Spawn();
 
             // what is next?
         }
+
 
     }
 
@@ -150,27 +155,31 @@ public class StarSpawn : MonoBehaviour {
         foreach (float percentage in levelPercentagesCurrentLevel)
         {
             total += percentage;
+            Debug.Log("percentage:" + percentage);
         }
+        Debug.Log("total:" + total);
 
         float randomPoint = UnityEngine.Random.value * total;
         float randomOriginal = randomPoint;
         // check which type of star to spawn for current level passed in
+        
         for (int i = 0; i < levelPercentagesCurrentLevel.Length; i++)
         {
+            Debug.Log("random point "+ randomPoint + "levelPercentagesCurrentLevel " + i + ": " + levelPercentagesCurrentLevel[i]);
             if (randomPoint < levelPercentagesCurrentLevel[i])
             {
                 // sets the corresponding spawn rate float from array
-
                 StarTypeToSpawn = StarType[i];
-         
-              //  Debug.Log("based on rand no " + randomOriginal + "Spawning " + StarTypeToSpawn + " stars, at a rate of " + SpawnRate[i]);
+                Debug.Log("based on rand no " + randomOriginal + "Spawning " + StarTypeToSpawn + " stars, at a rate of " + SpawnRate[i]);
                 return SpawnRate[i];
             } else
             {
                 randomPoint -= levelPercentagesCurrentLevel[i];
+                
             }
         }
-        return levelPercentagesCurrentLevel.Length - 1; // ???
+        Debug.Log("random point: " + randomPoint + "returning: " + (levelPercentagesCurrentLevel.Length - 1));
+        return SpawnRate[levelPercentagesCurrentLevel.Length - 1]; // ???
      
     }
 
