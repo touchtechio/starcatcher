@@ -77,7 +77,7 @@ MonoBehaviour:
   - {r: 0.92941177, g: 0.16470589, b: 0.53333336, a: 1}
   - {r: 0, g: 0.654902, b: 0.6156863, a: 1}
   max_x_dist: 6.5
-  num_plants_to_spawn: 7
+  num_plants_to_spawn: 8
   random_position_density: 1.25
   health_lerp: 0.01
   min_health_during_gameplay: 0.3
@@ -88,7 +88,6 @@ MonoBehaviour:
   max_death_pause_time: 5
   min_death_shrink_time: 2
   max_death_shrink_time: 7
-  total_time_to_rejuvenate: 4
   rejuvenation_min_pause_time: 0
   rejuvenation_max_pause_time: 1
   rejuvenation_min_grow_time: 2
