@@ -29,24 +29,21 @@ public class PlantRoot
     public Color color;
     
     
-    public PlantRoot(PlantManager.PlantRootInfo _info, Vector3 position, int z){
+    public PlantRoot(PlantManager.PlantRootInfo _info, Vector3 position, int z, Color _color){
 
         info = _info;
+        color = _color;
 
-        Debug.Log("create plant of type: "+info.plant_type);
-        
         //get the possible children
         possible_children = null;
         if (info.plant_type == "cooksonia") possible_children = PlantManager.instance.possible_children_cooksonia;
         if (info.plant_type == "leafy")     possible_children = PlantManager.instance.possible_children_leafy;
+        if (info.plant_type == "tall")     possible_children = PlantManager.instance.possible_children_tall;
 
         //generate some values
         health_curve = Random.Range(0.5f,1.5f);
 
         sway_speed = Random.Range(PlantManager.instance.min_sway_speed, PlantManager.instance.max_sway_speed);
-
-        //select a color
-        color = PlantManager.instance.colors[ (int)Random.Range(0, PlantManager.instance.colors.Length)];
 
         //spawn the root limb
         GameObject obj = Object.Instantiate(PlantPartPool.instance.get_limb(info.limb_id), Vector3.zero, Quaternion.identity);
@@ -56,7 +53,6 @@ public class PlantRoot
         root_limb = obj.GetComponent<PlantLimb>();
         float angle = info.start_angle + Random.Range(-info.start_angle_range, info.start_angle_range);
         root_limb.set_as_root(z, angle, info.max_depth, this);
-        //root_limb.setup(0, 0, 1, z, color, root_limb.max_depth_if_trunk);
     }
 
     public void set_health(float val){

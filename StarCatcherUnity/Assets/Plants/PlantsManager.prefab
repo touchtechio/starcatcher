@@ -54,7 +54,7 @@ MonoBehaviour:
     max_bonus_scale: 0
   - plant_type: leafy
     limb_id: leafy_stem
-    max_depth: 7
+    max_depth: 10
     start_angle: 0
     start_angle_range: 0
     max_bonus_scale: 0
@@ -64,13 +64,20 @@ MonoBehaviour:
     start_angle: 0
     start_angle_range: 5
     max_bonus_scale: 0.5
+  - plant_type: tall
+    limb_id: tall_stem
+    max_depth: 4
+    start_angle: 0
+    start_angle_range: 5
+    max_bonus_scale: 0
+  color_alpha: 0.8
   colors:
-  - {r: 0.96862745, g: 0.5803922, b: 0.11372549, a: 0.69803923}
-  - {r: 0.57254905, g: 0.15294118, b: 0.56078434, a: 0.69803923}
-  - {r: 0.92941177, g: 0.16470589, b: 0.53333336, a: 0.69803923}
-  - {r: 0, g: 0.654902, b: 0.6156863, a: 0.69803923}
-  max_x_dist: 6
-  num_plants_to_spawn: 5
+  - {r: 0.96862745, g: 0.5803922, b: 0.11372549, a: 1}
+  - {r: 0.57254905, g: 0.15294118, b: 0.56078434, a: 1}
+  - {r: 0.92941177, g: 0.16470589, b: 0.53333336, a: 1}
+  - {r: 0, g: 0.654902, b: 0.6156863, a: 1}
+  max_x_dist: 6.5
+  num_plants_to_spawn: 8
   random_position_density: 1.25
   health_lerp: 0.01
   min_health_during_gameplay: 0.3
@@ -81,7 +88,6 @@ MonoBehaviour:
   max_death_pause_time: 5
   min_death_shrink_time: 2
   max_death_shrink_time: 7
-  total_time_to_rejuvenate: 4
   rejuvenation_min_pause_time: 0
   rejuvenation_max_pause_time: 1
   rejuvenation_min_grow_time: 2
@@ -89,10 +95,10 @@ MonoBehaviour:
   use_debug_sprite_color: 0
   debug_even_spacing: 0
   debug_fast_grow: 0
-  debug_use_fake_damage_value: 1
+  debug_use_fake_game_state: 0
   debug_fake_damage_value: 0
   debug_root_id: -1
-  cur_state: 0
+  debug_cur_state: 1
   possible_children_cooksonia:
   - id_name: cooksonia_flower_1
     weight_start: 0.1
@@ -109,13 +115,23 @@ MonoBehaviour:
   possible_children_leafy:
   - id_name: leafy_branch_1
     weight_start: 1
-    weight_end: 0
+    weight_end: -0.5
   - id_name: leafy_branch_2
     weight_start: 1
-    weight_end: 0.1
+    weight_end: 0
   - id_name: leafy_branch_terminal
-    weight_start: -2
+    weight_start: -1
     weight_end: 2
+  possible_children_tall:
+  - id_name: tall_vert_1
+    weight_start: 1
+    weight_end: 0
+  - id_name: tall_vert_2
+    weight_start: 1
+    weight_end: 0
+  - id_name: tall_cap
+    weight_start: -2
+    weight_end: 1
 --- !u!114 &8226309043064118673
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -151,7 +167,7 @@ MonoBehaviour:
     prefab: {fileID: 3920916727955005253, guid: f0fd375f4dd8a4e5196445ee51a59aed,
       type: 3}
   - id_name: leafy_stem
-    prefab: {fileID: 3920916727955005253, guid: 21abcaa27a9e448c5a7a44c170368441,
+    prefab: {fileID: 3920916727955005253, guid: 7aa685222710a4d14af4617bded44e2a,
       type: 3}
   - id_name: leafy_stem_terminal
     prefab: {fileID: 3920916727955005253, guid: f937146c4a2a24872a9e8a8093ac9e79,
@@ -164,4 +180,22 @@ MonoBehaviour:
       type: 3}
   - id_name: big_leaf_back_2
     prefab: {fileID: 3920916727955005253, guid: 83bc9def40c5e426e880dd2df53f4d9f,
+      type: 3}
+  - id_name: tall_stem
+    prefab: {fileID: 3920916727955005253, guid: 5a08c41be6b694584bae2a9495b26501,
+      type: 3}
+  - id_name: tall_back
+    prefab: {fileID: 3920916727955005253, guid: 2cca074c275e8487383a65bdaee2743f,
+      type: 3}
+  - id_name: tall_vert_1
+    prefab: {fileID: 3920916727955005253, guid: 66c651a4b172542db9ac1d41a3a9ecc4,
+      type: 3}
+  - id_name: tall_vert_2
+    prefab: {fileID: 3920916727955005253, guid: d2943a4ef33fc45d9ae68c274570e1c1,
+      type: 3}
+  - id_name: tall_cap
+    prefab: {fileID: 3920916727955005253, guid: d1b0d6721e3d7426c94f9d41829adb01,
+      type: 3}
+  - id_name: tall_back
+    prefab: {fileID: 3920916727955005253, guid: 2cca074c275e8487383a65bdaee2743f,
       type: 3}

@@ -30,6 +30,10 @@ public class PlantManager : MonoBehaviour
 
     public PlantRootInfo[] possible_roots;
 
+    
+    [Header("Colors")]
+    [Tooltip("This value overrides the alpha value in the colors aray")]
+    public float color_alpha;
     public Color[] colors;
 
     private List<PlantRoot> roots = new List<PlantRoot>();
@@ -60,7 +64,7 @@ public class PlantManager : MonoBehaviour
     [Header("Death State Control")]
     [Tooltip("min time to wait per plant before dying")]
     public float min_death_pause_time;
-    [Tooltip("max time to wait per plant before dying")]
+    [Tooltip("max time to wait per plant before dying. SHOULD BE LESS THAN Score.deadTimerValue")]
     public float max_death_pause_time;
     [Tooltip("min time for a dying plant to shrink to nothing")]
     public float min_death_shrink_time;
@@ -68,11 +72,9 @@ public class PlantManager : MonoBehaviour
     public float max_death_shrink_time;
 
     [Header("Rejuvenation State Control")]
-    [Tooltip("time in seconds for all new plants to start the growth animation")]
-    public float total_time_to_rejuvenate;
     [Tooltip("pause time before an individual plant does growth animation")]
     public float rejuvenation_min_pause_time, rejuvenation_max_pause_time;
-    [Tooltip("time it takes an individual plant part to grow to full suze")]
+    [Tooltip("time it takes an individual plant part to grow to full size")]
     public float rejuvenation_min_grow_time, rejuvenation_max_grow_time;
 
     //debug tools
@@ -80,17 +82,16 @@ public class PlantManager : MonoBehaviour
     public bool use_debug_sprite_color;
     public bool debug_even_spacing;
     public bool debug_fast_grow;
-    public bool debug_use_fake_damage_value;
+    [Tooltip("if true, debug_fake_damage_value & debug_cur_state are used")]
+    public bool debug_use_fake_game_state;
     [Range(0.0f, 1.0f)]
     public float debug_fake_damage_value;
     [Tooltip("set this to -1 to turn it off")]
     public int debug_root_id;
 
-    //testing out state stuff
-    public enum GameState {Game, Dead, Rejuvination, Flourishing, Decline};
-    public GameState cur_state;
+    public Score.GameState debug_cur_state;
 
-    private GameState prev_state;
+    private Score.GameState prev_state;
 
    
 
@@ -103,6 +104,10 @@ public class PlantManager : MonoBehaviour
     [Header("Leafy")]
 
     public ChildInfo[] possible_children_leafy;
+
+    [Header("Tall")]
+
+    public ChildInfo[] possible_children_tall;
     
 
     void Awake(){
@@ -116,74 +121,52 @@ public class PlantManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        //change some timing values if fast_grow is on
         if (debug_fast_grow){
-            total_time_to_rejuvenate = 0.1f;
             rejuvenation_max_pause_time = 0.0f;
             rejuvenation_min_pause_time = 0.1f;
             rejuvenation_min_grow_time = 0.0f;
             rejuvenation_max_grow_time = 0.1f;
 
         }
-        //reset();
-        cur_state = GameState.Rejuvination;
-        prev_state = cur_state;
-        start_rejuvination();
+
+        //make sure all colors have the correct alpha value
+        for (int i=0; i<colors.Length; i++){
+            colors[i].a = color_alpha;
+        }
+
+        prev_state = Score.GameState.Dead;
     }
-
-    // void reset(){
-    //     for (int i=roots.Count-1; i>=0; i--){
-    //         roots[i].kill();
-    //     }
-    //     roots.Clear();
-
-    //     for (int i=0; i<num_plants_to_spawn; i++){
-    //         Vector3 pos = new Vector3(Random.Range(-max_x_dist, max_x_dist),-3,0);
-
-    //         if (debug_even_spacing){
-    //             float prc = (float)i / (float)(num_plants_to_spawn-1);
-    //             pos.x = (1.0f-prc)*-max_x_dist + prc * max_x_dist;
-    //         }
-
-    //         //string root_id = root_ids[ (int)Random.Range(0,root_ids.Length)];
-    //         PlantRootInfo info = possible_roots[ (int)Random.Range(0,possible_roots.Length)];
-    //         roots.Add( new PlantRoot(info, pos, i*20));
-    //     }
-
-    //     cur_health = 0;
-
-    //     debug_fake_damage_value = 0.0f;
-    //     cur_state = GameState.Game;
-    // }
 
     // Update is called once per frame
     void Update()
     {
-        //Debug spacebar to reset
-        if (Input.GetKeyDown(KeyCode.Space)){
-            cur_state = GameState.Rejuvination;
-            // start_rejuvination();
-            // return;
+        //Debug spacebar to reset when testing
+        if (Input.GetKeyDown(KeyCode.Space) && debug_use_fake_game_state){
+            debug_cur_state = Score.GameState.Rejuvination;
+        }
+
+        //grab the global game state
+        Score.GameState cur_state = Score.plasmaWorldState;
+
+        //when testing, override the real game state with the testing value
+        if (debug_use_fake_game_state){
+            cur_state = debug_cur_state;
         }
 
         //during gameplay and rejuvination, grab the health value form the game
-        if (cur_state == GameState.Game){//} || cur_state == GameState.Rejuvination){
+        if (cur_state == Score.GameState.Flourishing || cur_state == Score.GameState.Decline || cur_state == Score.GameState.Dying){
             //grab the health value from the game
             //This value is treated as damage, so it is inverted (1=dead, 0=alive)
             float raw_health_value = Mathf.Clamp(1.0f-Score.cumulativeEnvironmentDamageScore, 0.0f, 1.0f);
 
-            if (debug_use_fake_damage_value){
+            //if testing, replace it with the dbeug value
+            if (debug_use_fake_game_state){
                 raw_health_value = 1.0f - debug_fake_damage_value;
             }
 
             //during gameplay, map this to a new minimum
-            if (cur_state == GameState.Game){
-                raw_health_value = min_health_during_gameplay + (1.0f-min_health_during_gameplay)*raw_health_value;
-            }
-            
-            //in some game states, intercept this value and hard set it
-            // if (cur_state == GameState.Dead)            raw_health_value = 0;
-            // if (cur_state == GameState.Rejuvination)    raw_health_value = 1;
-            
+            raw_health_value = min_health_during_gameplay + (1.0f-min_health_during_gameplay)*raw_health_value;
             
             //lerp it
             cur_health = Mathf.Lerp(cur_health, raw_health_value, health_lerp);
@@ -195,15 +178,15 @@ public class PlantManager : MonoBehaviour
         }
 
         //if we just died, do that
-        if(cur_state == GameState.Dead && prev_state != GameState.Dead){
+        if(cur_state == Score.GameState.Dead && prev_state != Score.GameState.Dead){
             start_death();
         }
 
         //if we just entered regrwoth, do that
-        if(cur_state == GameState.Rejuvination && prev_state != GameState.Rejuvination){
+        if(cur_state == Score.GameState.Rejuvination && prev_state != Score.GameState.Rejuvination){
             start_rejuvination();
         }
-        if (cur_state == GameState.Rejuvination){
+        if (cur_state == Score.GameState.Rejuvination){
             cur_health = 1.0f;
         }
 
@@ -232,8 +215,18 @@ public class PlantManager : MonoBehaviour
     }
 
     IEnumerator do_rejuvination(){
+        Debug.Log("<color=purple>Rejuvnation start</color>");
         //give it a moment after destroying everything
         yield return new WaitForSeconds(0.1f);
+
+        //get our total time
+        float total_time_to_rejuvenate = Score.Instance.rejuvinationTimerValue - rejuvenation_max_grow_time - rejuvenation_max_pause_time;
+
+        if (debug_fast_grow){
+            total_time_to_rejuvenate = 0.2f;
+        }
+
+        Debug.Log("total rejuventation time: "+total_time_to_rejuvenate);
 
         //generate a list of possible spaces
         List<Vector3> spawn_positions = new List<Vector3>();
@@ -249,6 +242,15 @@ public class PlantManager : MonoBehaviour
             float x = (1.0f-prc) * -max_x_dist + prc * max_x_dist;
             Vector3 pos = new Vector3(x, -3, 0);
             spawn_positions.Add(pos);
+        }
+
+        //list of possible colors
+        int num_color_sets = (int)Mathf.Ceil( (float)num_plants_to_spawn / (float)colors.Length );
+        List<Color> possible_colors = new List<Color>();
+        for (int i=0; i<num_color_sets; i++){
+            for (int k=0; k<colors.Length; k++){
+                possible_colors.Add(colors[k]);
+            }
         }
 
         //space it so we grow all the plants in the time allotted
@@ -267,13 +269,17 @@ public class PlantManager : MonoBehaviour
                 pos.x = (1.0f-prc)*-max_x_dist + prc * max_x_dist;
             }
 
-            //string root_id = root_ids[ (int)Random.Range(0,root_ids.Length)];
+            //grab a color
+            int rand_color_id =  (int)Random.Range(0, possible_colors.Count);
+            Color color = possible_colors[rand_color_id];
+            possible_colors.RemoveAt(rand_color_id);
+
             PlantRootInfo info = possible_roots[ (int)Random.Range(0,possible_roots.Length)];
             if (debug_root_id >= 0){
                 info = possible_roots[ debug_root_id ];
             }
 
-            PlantRoot root = new PlantRoot(info, pos, i*20);
+            PlantRoot root = new PlantRoot(info, pos, i*20, color);
 
             root.start_growth_animation();
             roots.Add( root );
@@ -281,8 +287,10 @@ public class PlantManager : MonoBehaviour
             yield return new WaitForSeconds(time_spacing);
         }
 
-        //testing
-        yield return new WaitForSeconds(rejuvenation_max_grow_time + rejuvenation_min_pause_time);
-        cur_state = GameState.Game;
+        //if we're testing automatically move to the game
+        if (debug_use_fake_game_state){
+            yield return new WaitForSeconds(rejuvenation_max_grow_time + rejuvenation_min_pause_time);
+            debug_cur_state = Score.GameState.Flourishing;
+        }
     }
 }
