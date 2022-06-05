@@ -155,9 +155,9 @@ public class StarSpawn : MonoBehaviour {
         foreach (float percentage in levelPercentagesCurrentLevel)
         {
             total += percentage;
-            Debug.Log("percentage:" + percentage);
+            //Debug.Log("percentage:" + percentage);
         }
-        Debug.Log("total:" + total);
+        //Debug.Log("total:" + total);
 
         float randomPoint = UnityEngine.Random.value * total;
         float randomOriginal = randomPoint;
@@ -165,12 +165,12 @@ public class StarSpawn : MonoBehaviour {
         
         for (int i = 0; i < levelPercentagesCurrentLevel.Length; i++)
         {
-            Debug.Log("random point "+ randomPoint + "levelPercentagesCurrentLevel " + i + ": " + levelPercentagesCurrentLevel[i]);
+            //Debug.Log("random point "+ randomPoint + "levelPercentagesCurrentLevel " + i + ": " + levelPercentagesCurrentLevel[i]);
             if (randomPoint < levelPercentagesCurrentLevel[i])
             {
                 // sets the corresponding spawn rate float from array
                 StarTypeToSpawn = StarType[i];
-                Debug.Log("based on rand no " + randomOriginal + "Spawning " + StarTypeToSpawn + " stars, at a rate of " + SpawnRate[i]);
+                //Debug.Log("based on rand no " + randomOriginal + "Spawning " + StarTypeToSpawn + " stars, at a rate of " + SpawnRate[i]);
                 return SpawnRate[i];
             } else
             {
@@ -178,7 +178,7 @@ public class StarSpawn : MonoBehaviour {
                 
             }
         }
-        Debug.Log("random point: " + randomPoint + "returning: " + (levelPercentagesCurrentLevel.Length - 1));
+        //Debug.Log("random point: " + randomPoint + "returning: " + (levelPercentagesCurrentLevel.Length - 1));
         return SpawnRate[levelPercentagesCurrentLevel.Length - 1]; // ???
      
     }
