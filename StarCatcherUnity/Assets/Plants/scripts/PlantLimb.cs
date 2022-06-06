@@ -32,6 +32,9 @@ public class PlantLimb : MonoBehaviour
     public float extra_sway_speed_range;
     private float extra_sway_dist, extra_sway_speed;
 
+    [Tooltip("modifies the z index of the sprite to make sure it is behind of in front of other elements in the plant")]
+    public int z_index_mod;
+
 
     public List<PlantConnection> connections;
     public List<PlantLimb> children = new List<PlantLimb>();
@@ -91,7 +94,7 @@ public class PlantLimb : MonoBehaviour
         }
 
         //setting Z depth so later limbs are a little bit in front of their parents
-        sprite_rend.sortingOrder = z - depth;
+        sprite_rend.sortingOrder = z - depth + z_index_mod;
 
         //try to spawn children
         float depth_prc = (float)depth / (float)(max_depth-1);
