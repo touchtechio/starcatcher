@@ -7,7 +7,6 @@ using UnityEngine.Audio;
 public class SoundManager : MonoBehaviour {
 
     private AudioSource source;
-    public AudioClip starFall;
     public AudioClip starCaught;
     public AudioClip constellationFull;
 
