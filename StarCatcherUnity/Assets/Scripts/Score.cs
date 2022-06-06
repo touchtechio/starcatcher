@@ -6,6 +6,7 @@ using UnityEngine;
 public class Score : MonoBehaviour {
 
     public int starCaughtCount;
+    public static int starCaughtLog;
     public static int level;
     private static Constellations constellations;
     private static StarAnimations starAnimations;
@@ -106,7 +107,8 @@ public class Score : MonoBehaviour {
         // TODO: replace formula
         if (starCaughtCount <= totalStarsToBeCaught) {
             environmentDamageScore = (float) starCaughtCount / totalStarsToBeCaught;
-            cumulativeEnvironmentDamageScore = environmentDamageScore;
+            //cumulativeEnvironmentDamageScore = environmentDamageScore;
+            cumulativeEnvironmentDamageScore = (float) Mathf.Exp(-1 * Mathf.Pow(3*environmentDamageScore-3.0f,2f));
             //Debug.Log("damage: " + cumulativeEnvironmentDamageScore);
         }
     }
@@ -133,13 +135,17 @@ public class Score : MonoBehaviour {
         if (Input. GetKeyUp("c")){
             starCaughtCount++;
         }
+        starCaughtLog = starCaughtCount;
     }
 
     public void SetGameState()
     {
         // change states as damage score increases
-        if (cumulativeEnvironmentDamageScore < 0.5) plasmaWorldState = GameState.Flourishing;
-        else if (cumulativeEnvironmentDamageScore >= 0.5 && cumulativeEnvironmentDamageScore < 0.8)
+        if (cumulativeEnvironmentDamageScore < 0.2) {
+            plasmaWorldState = GameState.Flourishing;
+            previousWorldState = plasmaWorldState;
+        }
+        else if (cumulativeEnvironmentDamageScore >= 0.2 && cumulativeEnvironmentDamageScore < 0.7)
         {
             plasmaWorldState = GameState.Decline;
             if (plasmaWorldState != previousWorldState)
@@ -147,7 +153,7 @@ public class Score : MonoBehaviour {
                 starAnimations.FullAnimation();
             }
             previousWorldState = plasmaWorldState;
-        } else if (cumulativeEnvironmentDamageScore >= 0.8 && cumulativeEnvironmentDamageScore < 1)
+        } else if (cumulativeEnvironmentDamageScore >= 0.7 && cumulativeEnvironmentDamageScore < 1)
         {
             plasmaWorldState = GameState.Dying;
             if (plasmaWorldState != previousWorldState)
