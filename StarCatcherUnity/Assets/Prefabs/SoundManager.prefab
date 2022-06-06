@@ -45,7 +45,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: adc688543e4d5ab4ba7f5757f38ea7d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  starFall: {fileID: 0}
   starCaught: {fileID: 8300000, guid: 0f4c5b9625eca7c4c91556bc8a50d1a8, type: 3}
   constellationFull: {fileID: 8300000, guid: afded7b34fc8181458d6101da1ebcd0a, type: 3}
   plantSoundGroup: {fileID: -7718154944213900996, guid: ec12f7772c03e4c4c9e4c2f1643595ad,
@@ -54,13 +53,15 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 9208cfb5f36d0ee469128d6277579dab, type: 3}
   - {fileID: 8300000, guid: 66d9d44713344c7489ce1f7b15c8a4b6, type: 3}
   - {fileID: 8300000, guid: 4a67213c3cac2e8469997088821bee7a, type: 3}
+  - {fileID: 8300000, guid: 11c16cef8d5d3fb4dba2f1eb4b83954d, type: 3}
   swayClips:
   - {fileID: 8300000, guid: d984660601d4a61428c22a59da218b9e, type: 3}
   - {fileID: 8300000, guid: 776f918326362914896520020c859eec, type: 3}
   - {fileID: 8300000, guid: 7ae5319e170750f4da712dfb33016972, type: 3}
   dieClips:
-  - {fileID: 8300000, guid: 4a67213c3cac2e8469997088821bee7a, type: 3}
-  - {fileID: 8300000, guid: 66d9d44713344c7489ce1f7b15c8a4b6, type: 3}
+  - {fileID: 8300000, guid: 6996b707b175f8c45bd40e6aeffcd5a0, type: 3}
+  - {fileID: 8300000, guid: 1386d214f7405be46bcf26d1613d7fce, type: 3}
+  - {fileID: 8300000, guid: 29ed1d1e999dd954a8af2f4925d0c22b, type: 3}
   audioPrefab: {fileID: 8079001495080412881, guid: 9676b8d8c1dc33b4eb2c707a7fecad77,
     type: 3}
 --- !u!114 &7296839890642770602
