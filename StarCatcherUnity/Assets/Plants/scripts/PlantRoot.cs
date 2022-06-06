@@ -27,7 +27,8 @@ public class PlantRoot
 
     [System.NonSerialized]
     public Color color;
-    
+
+    private SoundManager soundManager;
     
     public PlantRoot(PlantManager.PlantRootInfo _info, Vector3 position, int z, Color _color){
 
@@ -53,6 +54,8 @@ public class PlantRoot
         root_limb = obj.GetComponent<PlantLimb>();
         float angle = info.start_angle + Random.Range(-info.start_angle_range, info.start_angle_range);
         root_limb.set_as_root(z, angle, info.max_depth, this);
+
+        soundManager = (SoundManager)Object.FindObjectOfType<SoundManager>();
     }
 
     public void set_health(float val){
@@ -62,10 +65,14 @@ public class PlantRoot
 
     public void start_death_animation(){
         root_limb.start_death_animation();
+
+        soundManager.PlayPlantDieSound(root_limb.transform.position);
     }
 
     public void start_growth_animation(){
         root_limb.start_growth_animation();
+
+        soundManager.PlayGrowSound(root_limb.transform.position);
     }
 
     public void kill(){

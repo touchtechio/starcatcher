@@ -17,6 +17,10 @@ public class MusicManager : MonoBehaviour
                 case Score.GameState.Dead:
                     StartDeadZone();
                     break;
+                case Score.GameState.Dying:
+                    //remove brighter layers of the decline music
+                    decayingStems[1].FadeOutAudio();
+                    break;
                 case Score.GameState.Decline:
                     StartDecayingStems();
                     break;
@@ -45,6 +49,11 @@ public class MusicManager : MonoBehaviour
         StopStemGroup(rejuvenationStems);
 
         StartStemGroup(decayingStems);
+    }
+
+    public void StartDyingStems()
+    {
+        
     }
 
     public void StartDeadZone()
