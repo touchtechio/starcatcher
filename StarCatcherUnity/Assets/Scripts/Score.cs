@@ -8,6 +8,7 @@ public class Score : MonoBehaviour {
     public int starCaughtCount;
     public static int level;
     private static Constellations constellations;
+    private static StarAnimations starAnimations;
     internal static readonly int LEVEL_ONE = 0;
     internal static readonly int LEVEL_TWO = 1;
     internal static readonly int LEVEL_THREE = 2;
@@ -18,6 +19,7 @@ public class Score : MonoBehaviour {
     
     public enum GameState {Dead, Rejuvination, Flourishing, Decline, Dying};
     public static GameState plasmaWorldState;
+    private static GameState previousWorldState;
     private float rejuvinationTimer;
     public float rejuvinationTimerValue = 5f;
     public static float deadTimer;
@@ -27,8 +29,10 @@ public class Score : MonoBehaviour {
 
     private static BackingTracks BackingTracks;
     private scoreLog scoreLogger;
+    public bool constellationMode = true;
 
     public static Score Instance;
+    private bool stateChange = false;
      
     void Awake(){
         Instance = this;
@@ -41,14 +45,21 @@ public class Score : MonoBehaviour {
         totalStarsToBeCaught = 30;
         SetLevel(0);
         plasmaWorldState = GameState.Rejuvination;
+        previousWorldState = plasmaWorldState;
         rejuvinationTimer = rejuvinationTimerValue;
         deadTimer = deadTimerValue;
         reduceScoreTimer = reduceScoreTimerValue;
 
         constellations = FindObjectOfType<Constellations>();
+        starAnimations = FindObjectOfType<StarAnimations>();
         if (null == constellations)
         {
             Debug.Log("ERROR: no constellation manager found");
+            constellationMode = false;
+        }
+        if (null == starAnimations)
+        {
+            Debug.Log("ERROR: no star animation manager found");
         }
 
         BackingTracks = FindObjectOfType<BackingTracks>();
@@ -71,6 +82,11 @@ public class Score : MonoBehaviour {
         //     SetLevel(level+1);
         // }
         return constellations.GetNextEmptyPosition().transform.position;
+    }
+
+    public void catchStarNoConstellation()
+    {
+        starCaughtCount++;
     }
 
     public static void SetLevel(int level)
@@ -126,12 +142,25 @@ public class Score : MonoBehaviour {
         else if (cumulativeEnvironmentDamageScore >= 0.5 && cumulativeEnvironmentDamageScore < 0.8)
         {
             plasmaWorldState = GameState.Decline;
+            if (plasmaWorldState != previousWorldState)
+            {
+                starAnimations.FullAnimation();
+            }
+            previousWorldState = plasmaWorldState;
         } else if (cumulativeEnvironmentDamageScore >= 0.8 && cumulativeEnvironmentDamageScore < 1)
         {
             plasmaWorldState = GameState.Dying;
+            if (plasmaWorldState != previousWorldState)
+            {
+                starAnimations.FullAnimation();
+            }
+            previousWorldState = plasmaWorldState;
+
         } else if (cumulativeEnvironmentDamageScore == 1)
         {
             plasmaWorldState = GameState.Dead;
+            StarSpawn.DestroyStars();
+            previousWorldState = plasmaWorldState;
         }
         //Debug.Log("score: " + cumulativeEnvironmentDamageScore + "state: " + plasmaWorldState);
 
@@ -149,6 +178,11 @@ public class Score : MonoBehaviour {
         if (rejuvinationTimer <= 0)  {
             plasmaWorldState = GameState.Flourishing;
             rejuvinationTimer = rejuvinationTimerValue;
+            if (plasmaWorldState != previousWorldState)
+            {
+                starAnimations.FullAnimation();
+            }
+            previousWorldState = plasmaWorldState;
         }
     }
 
@@ -158,6 +192,7 @@ public class Score : MonoBehaviour {
             plasmaWorldState = GameState.Rejuvination;
             starCaughtCount = 0;
             deadTimer = deadTimerValue;
+            previousWorldState = plasmaWorldState;
         }
     }
 }

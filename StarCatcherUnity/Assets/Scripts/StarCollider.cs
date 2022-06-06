@@ -38,7 +38,7 @@ public class StarCollider : MonoBehaviour {
     // Update is called once per frame
     void Update () {
 
-        if (isStarCaught == true)
+        if (isStarCaught == true && gameScore.constellationMode == true)
         {
             timeToMove = timeCaught + blazeTime;
             //Debug.Log("time to move" + timeToMove);
@@ -62,7 +62,11 @@ public class StarCollider : MonoBehaviour {
                     transform.GetChild(4).rotation = Quaternion.Slerp(transform.rotation, targetRotation, travelSpeed);
                 }
             }
+        } else if (isStarCaught == true){
+            // destroy star
+            Destroy(gameObject);
         }
+        
 	}
 
     //When a GameObject collides with another GameObject, Unity calls OnTriggerEnter.
@@ -92,8 +96,12 @@ public class StarCollider : MonoBehaviour {
         {
             child.GetComponentInChildren<MeshCollider>().enabled = false;
         }
-
-        onConstellationPosition = gameScore.catchStar(); // position got from the constellations script
+        if (gameScore.constellationMode == true) 
+        {
+            onConstellationPosition = gameScore.catchStar(); // position got from the constellations script
+        } else {
+            gameScore.catchStarNoConstellation();
+        }
     }
 
     private void SoundCatch()

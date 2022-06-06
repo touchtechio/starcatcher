@@ -110,7 +110,7 @@ namespace UniOSC{
 
         public void SendOSCCompleteMessage(string address, int strip)
         {
-            Debug.Log("constellationfull message sent");
+            Debug.Log("osc: full animation message sent");
             // _SetupOSCMessage(false); // set to not bundle
             if (_OSCeArg.Packet is OscMessage)
             {
