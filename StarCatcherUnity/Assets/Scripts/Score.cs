@@ -43,7 +43,7 @@ public class Score : MonoBehaviour {
     void Start () {
 
         starCaughtCount = 0;
-        totalStarsToBeCaught = 30;
+        totalStarsToBeCaught = 45;
         SetLevel(0);
         plasmaWorldState = GameState.Rejuvination;
         previousWorldState = plasmaWorldState;
@@ -88,6 +88,7 @@ public class Score : MonoBehaviour {
     public void catchStarNoConstellation()
     {
         starCaughtCount++;
+        reduceScoreTimer = reduceScoreTimerValue;
     }
 
     public static void SetLevel(int level)
@@ -136,39 +137,6 @@ public class Score : MonoBehaviour {
             starCaughtCount++;
         }
         starCaughtLog = starCaughtCount;
-    }
-
-    public void SetGameState()
-    {
-        // change states as damage score increases
-        if (cumulativeEnvironmentDamageScore < 0.2) {
-            plasmaWorldState = GameState.Flourishing;
-            previousWorldState = plasmaWorldState;
-        }
-        else if (cumulativeEnvironmentDamageScore >= 0.2 && cumulativeEnvironmentDamageScore < 0.7)
-        {
-            plasmaWorldState = GameState.Decline;
-            if (plasmaWorldState != previousWorldState)
-            {
-                starAnimations.FullAnimation();
-            }
-            previousWorldState = plasmaWorldState;
-        } else if (cumulativeEnvironmentDamageScore >= 0.7 && cumulativeEnvironmentDamageScore < 1)
-        {
-            plasmaWorldState = GameState.Dying;
-            if (plasmaWorldState != previousWorldState)
-            {
-                starAnimations.FullAnimation();
-            }
-            previousWorldState = plasmaWorldState;
-
-        } else if (cumulativeEnvironmentDamageScore == 1)
-        {
-            plasmaWorldState = GameState.Dead;
-            StarSpawn.DestroyStars();
-            previousWorldState = plasmaWorldState;
-        }
-        //Debug.Log("score: " + cumulativeEnvironmentDamageScore + "state: " + plasmaWorldState);
 
         // Reduce score over time so that the world regenerates if noone is playing
         reduceScoreTimer -= Time.deltaTime;
@@ -176,7 +144,46 @@ public class Score : MonoBehaviour {
             if (starCaughtCount > 0) starCaughtCount --;
             reduceScoreTimer = reduceScoreTimerValue;
         }
+    }
 
+    public void SetGameState()
+    {
+        // change states as damage score increases
+        if (cumulativeEnvironmentDamageScore < 0.2) {
+            plasmaWorldState = GameState.Flourishing;
+            if (plasmaWorldState != previousWorldState)
+            {
+                starAnimations.FullAnimation();
+                reduceScoreTimerValue = 5f;
+            }
+        }
+        else if (cumulativeEnvironmentDamageScore >= 0.2 && cumulativeEnvironmentDamageScore < 0.7)
+        {
+            plasmaWorldState = GameState.Decline;
+            if (plasmaWorldState != previousWorldState)
+            {
+                starAnimations.FullAnimation();
+                reduceScoreTimerValue = 8f;
+            }
+        } else if (cumulativeEnvironmentDamageScore >= 0.7 && cumulativeEnvironmentDamageScore < 1)
+        {
+            plasmaWorldState = GameState.Dying;
+            if (plasmaWorldState != previousWorldState)
+            {
+                starAnimations.FullAnimation();
+                reduceScoreTimerValue = 12f;
+            }
+
+        } else if (cumulativeEnvironmentDamageScore == 1)
+        {
+            plasmaWorldState = GameState.Dead;
+            StarSpawn.DestroyStars();
+            
+        }
+        //Debug.Log("score: " + cumulativeEnvironmentDamageScore + "state: " + plasmaWorldState);
+        Debug.Log("before change: " + previousWorldState);
+        previousWorldState = plasmaWorldState;
+        Debug.Log("after change: " + previousWorldState);
     }
 
     public void setRejuvinationTimer(){
