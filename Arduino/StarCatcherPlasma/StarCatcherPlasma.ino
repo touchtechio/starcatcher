@@ -206,6 +206,8 @@ void pollForNewOscMessages() {
       msg.dispatch("/allfall", routeAllFall);
       msg.dispatch("/allcaught", routeAllCaught);
       msg.dispatch("/starfall", routeFallingStar);
+      msg.dispatch("/starfallcool", routeFallingStar);
+      msg.dispatch("/starfallwarm", routeFallingStar);
       msg.dispatch("/starlinger", routeLingeringStar);
       msg.dispatch("/starcaught", routeCaughtStar);
       msg.dispatch("/constellationfull", routeConstellationFull);
