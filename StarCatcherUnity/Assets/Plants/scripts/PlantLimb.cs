@@ -220,6 +220,16 @@ public class PlantLimb : MonoBehaviour
         foreach(PlantLimb child in children){
             child.start_death_animation();
         }
+
+        //death sounds
+        if(depth == 0)
+        {
+            soundManager.PlayPlantDieSound(transform.position);
+        }
+        else
+        {
+            soundManager.PlayLimbDieSound(transform.position);
+        }
     }
 
     IEnumerator do_death(float pause_time, float die_time){
@@ -250,6 +260,16 @@ public class PlantLimb : MonoBehaviour
         foreach(PlantLimb child in children){
             child.start_growth_animation();
         }
+
+        //grow sounds
+        if (depth == 0)
+        {
+            soundManager.PlayGrowSound(transform.position);
+        }
+        else
+        {
+            soundManager.PlayLimbGrowSound(transform.position);
+        }
     }
     IEnumerator do_growth(float pause_time, float grow_time){
         isGrown = false;
@@ -273,7 +293,6 @@ public class PlantLimb : MonoBehaviour
         transform.localScale = end_scale;
 
         isGrown = true;
-        Debug.Log("grown");
     }
 
 

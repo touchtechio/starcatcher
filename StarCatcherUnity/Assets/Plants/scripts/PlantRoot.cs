@@ -65,14 +65,10 @@ public class PlantRoot
 
     public void start_death_animation(){
         root_limb.start_death_animation();
-
-        soundManager.PlayPlantDieSound(root_limb.transform.position);
     }
 
     public void start_growth_animation(){
         root_limb.start_growth_animation();
-
-        soundManager.PlayGrowSound(root_limb.transform.position);
     }
 
     public void kill(){

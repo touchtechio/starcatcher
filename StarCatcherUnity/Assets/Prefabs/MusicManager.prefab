@@ -502,7 +502,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sourceToCrossfade: {fileID: 0}
   crossfadeType: 0
-  crossfadeTime: 20
+  crossfadeTime: 7
   maxVolume: 1
 --- !u!1 &2084390128327422851
 GameObject:
@@ -794,7 +794,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sourceToCrossfade: {fileID: 0}
   crossfadeType: 0
-  crossfadeTime: 15
+  crossfadeTime: 7
   maxVolume: 1
 --- !u!1 &3255847611128913059
 GameObject:
@@ -1507,5 +1507,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sourceToCrossfade: {fileID: 0}
   crossfadeType: 0
-  crossfadeTime: 10
+  crossfadeTime: 5
   maxVolume: 1

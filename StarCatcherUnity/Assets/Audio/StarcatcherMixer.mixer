@@ -43,6 +43,7 @@ AudioMixerGroupController:
   m_Send: 00000000000000000000000000000000
   m_Effects:
   - {fileID: -8180835868220838391}
+  - {fileID: -5527871775311568075}
   m_UserColorIndex: 2
   m_Mute: 0
   m_Solo: 0
@@ -72,6 +73,28 @@ AudioMixerEffectController:
     m_GUID: 03bc901d7a0bf384c880311c4a8375ab
   - m_ParameterName: Sidechain Mix
     m_GUID: e3bc0b6a9be56f744843702a4490ea6a
+  m_SendTarget: {fileID: 0}
+  m_EnableWetMix: 0
+  m_Bypass: 0
+--- !u!244 &-5527871775311568075
+AudioMixerEffectController:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 
+  m_EffectID: 35dcc3c3fc83b01489b55b50a5e9ad3a
+  m_EffectName: Compressor
+  m_MixLevel: 513b9d94874462942b9ef6e85d250f7e
+  m_Parameters:
+  - m_ParameterName: Threshold
+    m_GUID: f8a4cd18013564945bd997faa37a6e59
+  - m_ParameterName: Attack
+    m_GUID: 7bd5f32dd25155c4aa30b700cce9200c
+  - m_ParameterName: Release
+    m_GUID: 41411ae44d9707d469fadabb679835a2
+  - m_ParameterName: Make up gain
+    m_GUID: 4fa2290fc1931a84ebbfadb25e4a38a9
   m_SendTarget: {fileID: 0}
   m_EnableWetMix: 0
   m_Bypass: 0
@@ -215,16 +238,19 @@ AudioMixerSnapshotController:
   m_AudioMixer: {fileID: 24100000}
   m_SnapshotID: 11eeb42ee582ef74eadba8b72f70d734
   m_FloatValues:
-    e911b581e99477348b6fb103a5e4e2f5: -1.1315297
+    124417207d23fb046b4a1867bb6928e0: -0.08374829
+    e911b581e99477348b6fb103a5e4e2f5: -2.9490063
     44d3a7f2e9311854f9789fa2cc2390de: -19.899971
     cf2301e488ce90e4b96811f2e0660c9b: 0.1
     eb1236c5b446ebe4f8f88d5c73398556: 4.75
     4a9d7af79abccd84aa7353b4e2e0997e: 0
+    f8a4cd18013564945bd997faa37a6e59: -22
     5f6a09f8ca4e52a409934b4ce63bd413: -15.9
-    85ab982a3c28c844d9bc427979f0f0e9: -6.991066
+    85ab982a3c28c844d9bc427979f0f0e9: -6.133707
     03bc901d7a0bf384c880311c4a8375ab: 1.5
     44d055dd59229664aaf2dbd0a1e4b726: 0.1
     1b0fcc7e3e0bbc94d889c1af94185f85: 0
+    4fa2290fc1931a84ebbfadb25e4a38a9: 4.4
     2bb1cd0f240ab084da2a4e1238ac22c8: -8.481216
   m_TransitionOverrides: {}
 --- !u!244 &2290988227896298068

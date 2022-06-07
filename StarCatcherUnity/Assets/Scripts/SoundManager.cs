@@ -7,16 +7,32 @@ using UnityEngine.Audio;
 public class SoundManager : MonoBehaviour {
 
     private AudioSource source;
-    public AudioClip starCaught;
+    public AudioClip[] starCaught;
     public AudioClip constellationFull;
 
-    [Header("Plant Audio")]
+    [Header("Mixer Groups")]
+    public AudioMixerGroup starFallingGroup; 
+    public AudioMixerGroup starCatchingGroup;
     public AudioMixerGroup plantSoundGroup;
+
+    [Space(10)]
+    [Header("Transition Sounds")]
+    public AudioClip restoreTransition;
+    public AudioClip flourishTransition, decayTransition, dyingTransition, deathTransition;
+
+    [Space(10)]
+    [Header("Plant Audio")]
     public AudioClip[] growClips;
+    public AudioClip[] limbGrowClips;
+    [Range(0f, 1f)] [SerializeField] float limbGrowClipChance = 0.2f;
     public AudioClip[] swayClips;
     [Range(0f,1f)] [SerializeField] float swayClipChance = 0.3f;
     public AudioClip[] dieClips;
+    public AudioClip[] limbDieClips;
+    [Range(0f, 1f)] [SerializeField] float limbDieClipChance = 0.2f;
 
+    [Space(10)]
+    [Header("Voice Management")]
     public int maxSimultaneousSwaySounds = 2;
     public bool voiceSteal = true;
 
@@ -30,9 +46,43 @@ public class SoundManager : MonoBehaviour {
         currentlyPlaying = new List<AudioSource>();
     }
 
+    public void PlayStateTransition()
+    {
+        if (source.isPlaying) return;
+
+        switch (Score.plasmaWorldState)
+        {
+            case Score.GameState.Dead:
+                source.clip = deathTransition;
+                break;
+            case Score.GameState.Dying:
+                source.clip = dyingTransition;
+                break;
+            case Score.GameState.Decline:
+                source.clip = decayTransition;
+                break;
+            case Score.GameState.Rejuvination:
+                source.clip = restoreTransition;
+                break;
+            case Score.GameState.Flourishing:
+                source.clip = flourishTransition;
+                break;
+                
+        }
+        source.Play();
+    }
+
     public void PlayGrowSound(Vector3 pos)
     {
         PlaySoundFromArray(growClips, pos, plantSoundGroup);
+    }
+
+    public void PlayLimbGrowSound(Vector3 pos)
+    {
+        //random chance
+        if (Random.value > limbGrowClipChance) return;
+        PlaySoundFromArray(limbGrowClips, pos, plantSoundGroup, true);
+
     }
 
     public void PlaySwaySound(Vector3 pos)
@@ -47,10 +97,24 @@ public class SoundManager : MonoBehaviour {
         PlaySoundFromArray(dieClips, pos, plantSoundGroup);
     }
 
+    public void PlayLimbDieSound(Vector3 pos)
+    {
+        if (Random.value > limbDieClipChance) return;
+        PlaySoundFromArray(limbDieClips, pos, plantSoundGroup, true);
+    }
+
+    public void PlayStarCaughtSound(Vector3 pos)
+    {
+        PlaySoundFromArray(starCaught, pos, starCatchingGroup, false);
+    }
+
     public void PlaySoundFromArray(AudioClip[] clips, Vector3 posToPlay, AudioMixerGroup groupToUse, bool checkMaxSounds = false)
     {
+        //Check that clips are assigned
+        if (clips.Length == 0) return;
+
+        //instantiate game object for sound, set to destroy after it's finished playing
         GameObject newSound = Instantiate(audioPrefab, posToPlay, Quaternion.identity);
-        
 
         AudioSource aSource = newSound.GetComponent<AudioSource>();
         aSource.clip = clips[Random.Range(0, clips.Length)];
