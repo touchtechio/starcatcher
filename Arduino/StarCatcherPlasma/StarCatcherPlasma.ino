@@ -206,12 +206,11 @@ void pollForNewOscMessages() {
       msg.dispatch("/allfall", routeAllFall);
       msg.dispatch("/allcaught", routeAllCaught);
       msg.dispatch("/starfall", routeFallingStar);
-      msg.dispatch("/starfallcool", routeFallingStar);
-      msg.dispatch("/starfallwarm", routeFallingStar);
+      msg.dispatch("/starcool", routeFallingStarCool);
+      msg.dispatch("/starwarm", routeFallingStarWarm);
       msg.dispatch("/starlinger", routeLingeringStar);
       msg.dispatch("/starcaught", routeCaughtStar);
       msg.dispatch("/constellationfull", routeConstellationFull);
-     // msg.route("/gem", routeGem);
       msg.route("/color", routeColor);
       msg.route("/behavior", routeBehavior);
       msg.route("/info", routeInfo);
@@ -259,6 +258,7 @@ void routeFallingStarWarm(OSCMessage &msg){
 }
 
 void routeFallingStar(OSCMessage &msg){
+  currentColor = 0xFDF1E4;
   triggerStar( msg, FALL);
 }
 
@@ -297,6 +297,8 @@ void triggerStar(OSCMessage &msg, int behaviorId) {
 void triggerStar(int starId, int duration, int behaviorId) {
     gems[starId].setShader(behavior[behaviorId]);
     gems[starId].setDuration(duration);
+    gems[starId].setColor(currentColor); 
+
     hit(starId);
     return;
 }
