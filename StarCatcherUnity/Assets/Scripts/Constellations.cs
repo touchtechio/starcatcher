@@ -109,9 +109,11 @@ public class Constellations : MonoBehaviour {
 
     private void SoundConstellationFull()
     {
+        Debug.Log("doing something????????");
         if (null != soundManager.constellationFull)
         {
             AudioSource.PlayClipAtPoint(soundManager.constellationFull, gameObject.transform.position);
+            Debug.Log(" constellation script - full ");
         }
     }
 

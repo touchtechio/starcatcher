@@ -41,10 +41,9 @@ public class StarAnimations : MonoBehaviour {
 
     private void SoundConstellationFull()
     {
-        if (null != soundManager.constellationFull)
-        {
-            AudioSource.PlayClipAtPoint(soundManager.constellationFull, gameObject.transform.position);
-        }
+
+        soundManager.PlayStateTransition();
+        
     }
 }
 
