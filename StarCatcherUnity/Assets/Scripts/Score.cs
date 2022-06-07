@@ -17,6 +17,7 @@ public class Score : MonoBehaviour {
     public static float environmentDamageScore;
     public static float cumulativeEnvironmentDamageScore;
     public int totalStarsToBeCaught;
+    public static int randomAdd;
     
     public enum GameState {Dead, Rejuvination, Flourishing, Decline, Dying};
     public static GameState plasmaWorldState;
@@ -89,6 +90,7 @@ public class Score : MonoBehaviour {
     {
         starCaughtCount++;
         reduceScoreTimer = reduceScoreTimerValue;
+        randomAdd = (int) (UnityEngine.Random.value * 3f);
     }
 
     public static void SetLevel(int level)
@@ -134,7 +136,7 @@ public class Score : MonoBehaviour {
 
         // simulate stars caught with hotkey
         if (Input. GetKeyUp("c")){
-            starCaughtCount++;
+            catchStarNoConstellation();
         }
         starCaughtLog = starCaughtCount;
 
@@ -182,9 +184,7 @@ public class Score : MonoBehaviour {
             
         }
         //Debug.Log("score: " + cumulativeEnvironmentDamageScore + "state: " + plasmaWorldState);
-        Debug.Log("before change: " + previousWorldState);
         previousWorldState = plasmaWorldState;
-        Debug.Log("after change: " + previousWorldState);
     }
 
     public void setRejuvinationTimer(){

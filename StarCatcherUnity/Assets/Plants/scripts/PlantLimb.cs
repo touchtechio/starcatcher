@@ -43,6 +43,12 @@ public class PlantLimb : MonoBehaviour
 
     private PlantRoot root;
 
+    //using for audio
+    bool isGrown;
+    bool swaySoundPlayed;
+    SoundManager soundManager;
+
+
 
     public void set_as_root(int z, float angle, int _max_depth, PlantRoot _root){
         float root_scale = 1 + Random.Range(0, _root.info.max_bonus_scale);
@@ -123,6 +129,12 @@ public class PlantLimb : MonoBehaviour
         //set the scale to 0 so we can animate in
         transform.localScale = Vector3.zero;
 
+        //for audio
+        isGrown = false;
+        swaySoundPlayed = false;
+        
+        soundManager = (SoundManager)FindObjectOfType<SoundManager>();
+
     }
 
     public string select_from_possible_children(float depth_prc, PlantManager.ChildInfo[] possible_children){
@@ -155,6 +167,20 @@ public class PlantLimb : MonoBehaviour
         //sway in the breeze
         float sway_angle = Mathf.Sin(Time.time * (root.sway_speed + extra_sway_speed)) * (PlantManager.instance.sway_dist + extra_sway_dist);
         transform.localEulerAngles = new Vector3(0,0, base_angle + sway_angle);
+
+        //play sway sound if plantlimb is the root and at max speed
+        float swayAngleDerivative = Mathf.Cos(Time.time * (root.sway_speed + extra_sway_speed));
+        if (swayAngleDerivative > 0.9f && !swaySoundPlayed && isGrown && depth == 0)
+        {
+            //Debug.Log("PlaySwaySound " + gameObject.name);
+            swaySoundPlayed = true;
+            soundManager.PlaySwaySound(transform.position);
+        }
+
+        if (swayAngleDerivative < 0.1f)
+        {
+            swaySoundPlayed = false;
+        }
     }
 
     private void set_health_values(){
@@ -194,6 +220,16 @@ public class PlantLimb : MonoBehaviour
         foreach(PlantLimb child in children){
             child.start_death_animation();
         }
+
+        //death sounds
+        if(depth == 0)
+        {
+            soundManager.PlayPlantDieSound(transform.position);
+        }
+        else
+        {
+            soundManager.PlayLimbDieSound(transform.position);
+        }
     }
 
     IEnumerator do_death(float pause_time, float die_time){
@@ -212,6 +248,8 @@ public class PlantLimb : MonoBehaviour
         }
 
         transform.localScale = Vector3.zero;
+
+        isGrown = false;
     }
 
 
@@ -222,8 +260,20 @@ public class PlantLimb : MonoBehaviour
         foreach(PlantLimb child in children){
             child.start_growth_animation();
         }
+
+        //grow sounds
+        if (depth == 0)
+        {
+            soundManager.PlayGrowSound(transform.position);
+        }
+        else
+        {
+            soundManager.PlayLimbGrowSound(transform.position);
+        }
     }
     IEnumerator do_growth(float pause_time, float grow_time){
+        isGrown = false;
+
         yield return new WaitForSeconds(pause_time);
 
         float scale_x = base_scale;
@@ -241,6 +291,8 @@ public class PlantLimb : MonoBehaviour
         }
 
         transform.localScale = end_scale;
+
+        isGrown = true;
     }
 
 

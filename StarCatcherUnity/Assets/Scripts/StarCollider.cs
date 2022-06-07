@@ -108,7 +108,7 @@ public class StarCollider : MonoBehaviour {
     {
         if (null != soundManager.starCaught)
         {
-            AudioSource.PlayClipAtPoint(soundManager.starCaught, gameObject.transform.position);
+            soundManager.PlayStarCaughtSound(transform.position);
         }
     }
 }

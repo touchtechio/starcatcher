@@ -33,6 +33,6 @@ public class scoreLog : MonoBehaviour {
     {
         scoreText.text = (starScoreLogger).ToString();
         worldStateText.text = (Score.plasmaWorldState).ToString();
-        starsCaughtText.text = (Score.starCaughtLog).ToString();
+        starsCaughtText.text = "stars caught  " + (Score.starCaughtLog + Score.randomAdd).ToString();
     }
 }

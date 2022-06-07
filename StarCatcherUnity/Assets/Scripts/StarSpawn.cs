@@ -28,6 +28,8 @@ public class StarSpawn : MonoBehaviour {
 
 
     public OSCSenderSpawn oscSenderObject;
+    public OSCSenderWarmSpawn oscSenderWarmObject;
+    public OSCSenderCoolSpawn oscSenderCoolObject;
     public float waitWaves = 20;
     public int ShowerCount = 10;
     public bool testSend = false;
@@ -184,19 +186,19 @@ public class StarSpawn : MonoBehaviour {
 
     private void SpawnHard(Strip strip)
     {
-        Spawn(strip, hardFallDuration, hardLingerTime, UnityEngine.Random.ColorHSV(0.0f, 0.5f), coolStar);
+        Spawn(strip, hardFallDuration, hardLingerTime, UnityEngine.Random.ColorHSV(0.0f, 0.5f), coolStar, "cool");
 
     }
 
     private void SpawnMedium(Strip strip)
     {
-        Spawn(strip, mediumFallDuration, mediumLingerTime, UnityEngine.Random.ColorHSV(0.5f, 1.0f), neutralStar);
+        Spawn(strip, mediumFallDuration, mediumLingerTime, UnityEngine.Random.ColorHSV(0.5f, 1.0f), neutralStar, "neutral");
     }
 
 
     private void SpawnEasy(Strip strip)
     {
-        Spawn(strip, easyFallDuration, easyLingerTime, UnityEngine.Random.ColorHSV(0.5f, 1.0f), warmStar);
+        Spawn(strip, easyFallDuration, easyLingerTime, UnityEngine.Random.ColorHSV(0.5f, 1.0f), warmStar, "warm");
     }
 
     public void Spawn()
@@ -226,7 +228,7 @@ public class StarSpawn : MonoBehaviour {
     }
 
 
-    private void Spawn(Strip strip, float duration, float lingerTime, Color color, GameObject starType)
+    private void Spawn(Strip strip, float duration, float lingerTime, Color color, GameObject starType, string starColor)
     {
 
         Vector3 spawnPoint = strip.starStartPoints;
@@ -258,7 +260,19 @@ public class StarSpawn : MonoBehaviour {
         starComponent._color2 = UnityEngine.Random.ColorHSV(0.0f, 1.0f);
 
         // send an OSC message with argurments for strip number, durationg and linger time
-        oscSenderObject.SendOSCStarMessage("/starfall", strip.stripNumber, (int)(duration * 1000));
+
+        if (starColor == "warm") {
+            oscSenderWarmObject.SendOSCWarmStarMessage("/starwarm", strip.stripNumber, (int)(duration * 1000));
+        } else if (starColor == "neutral") {
+            oscSenderObject.SendOSCStarMessage("/starfall", strip.stripNumber, (int)(duration * 1000));
+        } else if (starColor == "cool") {
+            oscSenderCoolObject.SendOSCCoolStarMessage("/starcool", strip.stripNumber, (int)(duration * 1000));
+        }
+        //oscSenderObject.SendOSCStarMessage("/starfall", strip.stripNumber, (int)(duration * 1000));
+
+        if (strip.stripNumber == 0) {
+            Debug.Log("sending: " + starColor);
+        }
     
       //  soundManager.GetComponent<AudioSource>().pitch = duration / 1 * soundManager.starFall.length;
       //  AudioSource.PlayClipAtPoint(soundManager.starFall, spawnPoint);
