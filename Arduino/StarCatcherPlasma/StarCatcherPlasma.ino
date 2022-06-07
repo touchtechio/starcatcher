@@ -104,8 +104,6 @@ float colorSkew = 0.01;
 
 boolean hitSync = false;
 
-
-
 long loopElapsed;
 int fps;
 
@@ -162,17 +160,11 @@ void setup() {
 
   setColorsWithHsb();
 
- 
-
   return; 
 }
 
 
-
-
 void loop() {
-
-
   pollForNewOscMessages();
 
   updateGems();
@@ -181,8 +173,6 @@ void loop() {
 
   fps = 1000 / (millis() - loopElapsed);
   loopElapsed = millis();
-
-
   return; 
 }
 
@@ -214,14 +204,14 @@ void pollForNewOscMessages() {
     if(!msg.hasError()) {
 
       msg.dispatch("/allfall", routeAllFall);
+      msg.dispatch("/allcaught", routeAllCaught);
       msg.dispatch("/starfall", routeFallingStar);
+      msg.dispatch("/starfallcool", routeFallingStar);
+      msg.dispatch("/starfallwarm", routeFallingStar);
       msg.dispatch("/starlinger", routeLingeringStar);
       msg.dispatch("/starcaught", routeCaughtStar);
       msg.dispatch("/constellationfull", routeConstellationFull);
-
-
      // msg.route("/gem", routeGem);
-
       msg.route("/color", routeColor);
       msg.route("/behavior", routeBehavior);
       msg.route("/info", routeInfo);
@@ -240,24 +230,40 @@ void pollForNewOscMessages() {
 
 
 void routeAllFall(OSCMessage &msg){
+  // triggers animation on all stars with last set behavior id
   for (int i = 0; i<gemCount; i++){
-     hit(i);
+    hit(i);
   }
 }
 
-void routeCaughtStar(OSCMessage &msg){
+void routeAllCaught(OSCMessage &msg){
+  for (int i = 0; i < gemCount; i++) {
+    triggerStar(i, 3500, CAUGHT);
+  }
+  
+}
 
+void routeCaughtStar(OSCMessage &msg){
   triggerStar( msg, CAUGHT);
 }
 
-void routeFallingStar(OSCMessage &msg){
 
+void routeFallingStarCool(OSCMessage &msg){
+  currentColor = 0x508679;
+  triggerStar( msg, FALL);
+}
+
+void routeFallingStarWarm(OSCMessage &msg){
+  currentColor = 0xF1AF62;
+  triggerStar( msg, FALL);
+}
+
+void routeFallingStar(OSCMessage &msg){
   triggerStar( msg, FALL);
 }
 
 
 void routeLingeringStar(OSCMessage &msg){
-
   triggerStar( msg, LINGER);
 }
 
@@ -269,10 +275,6 @@ void routeConstellationFull(OSCMessage &msg){
   }
   
 }
-
-//#define LINGER 1
-//#define FALL 0
-//#define CAUGHT 9
 
 void triggerStar(OSCMessage &msg, int behaviorId) {
   int starId = 0;
@@ -290,7 +292,6 @@ void triggerStar(OSCMessage &msg, int behaviorId) {
   
   triggerStar( starId,  duration, behaviorId);
 }
-
 
 
 void triggerStar(int starId, int duration, int behaviorId) {
@@ -316,12 +317,8 @@ void hit(int gemIndex) {
     setGemColor(gemIndex, currentColor, currentSecondaryColor);
   }
 
-
   gems[gemIndex].hit();
-
   hitNeighbors(gemIndex);
-
-
   return;
 }
 
@@ -359,9 +356,6 @@ void hitNeighbor(int gemIndex, int distance) {
   }
   return;
 }
-
-
-
 
 
 boolean isValidGem(int gemIndex) {

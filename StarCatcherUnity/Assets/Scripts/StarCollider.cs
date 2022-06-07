@@ -87,7 +87,7 @@ public class StarCollider : MonoBehaviour {
         SoundCatch();
         //Destroy(gameObject, timeToDestory);
 
-         starEffects._color = Color.cyan;
+        starEffects._color = Color.cyan;
         starEffects._jets = true;
         starCaughtPosition = transform.position;
 

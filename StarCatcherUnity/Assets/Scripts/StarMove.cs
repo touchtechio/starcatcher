@@ -27,7 +27,8 @@ public class StarMove : MonoBehaviour {
     public AudioClip starFall;
     //private StripPosition stripPosition;
     
-    
+    CapsuleCollider m_Collider;
+
     void Awake()
     {
 
@@ -38,9 +39,11 @@ public class StarMove : MonoBehaviour {
         source = GetComponent<AudioSource>();
         //stripPosition = GameObject.FindGameObjectWithTag("GameManager").GetComponent<StripPosition>();
 
-        // turn off trigger component so players can't catch stars at the start
-        //gameObject.GetComponent<SphereCollider>().isTrigger = false;
-        gameObject.GetComponent<CapsuleCollider>().isTrigger = false;
+        //gameObject.GetComponent<CapsuleCollider>().isTrigger = false;
+        //Fetch the GameObject's Collider (make sure it has a Collider component)
+        // turn off collider so players can't catch stars at the start
+        m_Collider = GetComponent<CapsuleCollider>();
+        m_Collider.enabled = false;
         startTime = Time.time;
         //Debug.Log("strip number " + StripNumber + " ,star spawned at " + startTime + " ,fall for " + fallDuration);
         endMarker = transform.localPosition;
@@ -81,19 +84,18 @@ public class StarMove : MonoBehaviour {
         // except stars in rejuvination state - those can't be caught
         if (Time.time >= startTime + fallDuration * 0.95)
         {
-           // gameObject.GetComponent<SphereCollider>().isTrigger = true;
             if (Score.plasmaWorldState != Score.GameState.Rejuvination) {
-                gameObject.GetComponent<CapsuleCollider>().isTrigger = true;
+                //gameObject.GetComponent<CapsuleCollider>().isTrigger = true;
+                m_Collider.enabled = true;
             }
             HU_Star starEffects = gameObject.GetComponent<HU_Star>();
             starEffects._coronaTrails = false;
             
         }
 
-       
+        // strip number
         StarCollider starCollider = gameObject.GetComponent<StarCollider>();
         starCollider.caughtStripNumber = StripNumber;
-
 
         if (starCollider.isStarCaught == false)
         {
@@ -107,7 +109,6 @@ public class StarMove : MonoBehaviour {
             if ((Time.time >= (startTime + fallDuration)) && !lingerSent)
             {
                 // Debug.Log("strip number " + StripNumber + " ,start stamp " + startTime + " ,fall duration "+ fallDuration + " ,linger for " +lingerTime);
-
                 oscSenderObject.SendOSCLingerMessage("/starlinger", StripNumber, (int)(lingerTime * 1000));
                 lingerSent = true;
             }

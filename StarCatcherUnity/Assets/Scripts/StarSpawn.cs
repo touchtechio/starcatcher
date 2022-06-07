@@ -60,7 +60,7 @@ public class StarSpawn : MonoBehaviour {
     public float hardLingerTime = 1.0f;
 
     [Range(0.1f, 10.0f)]
-    public float starDropYScale = 3.0f;
+    public float starDropYScale = 2.0f;
 
 
     private float[] SpawnRate;
@@ -77,20 +77,19 @@ public class StarSpawn : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-        easyTimeToSpawn = 1.5f;
-        mediumTimeToSpawn = 3.0f;
-        hardTimeToSpawn = 8.0f;
+        easyTimeToSpawn = 1.2f;
+        mediumTimeToSpawn = 2.5f;
+        hardTimeToSpawn = 5.0f;
 
         // set to durations between spawn events
-        easyFallDuration = 5.0f;
-        mediumFallDuration = 3.0f;
+        easyFallDuration = 4.0f;
+        mediumFallDuration = 2.8f;
         hardFallDuration = 1.0f;
-
 
         // set to durations between spawn events
         easyLingerTime = 3.0f;
         mediumLingerTime = 2.0f;
-        hardLingerTime = 1.5f;
+        hardLingerTime = 1.0f;
 
         parent = GameObject.FindGameObjectWithTag("STARS");
         //InvokeRepeating("Spawn", 0.5f, spawnRate);
@@ -104,12 +103,11 @@ public class StarSpawn : MonoBehaviour {
         // StartCoroutine(SpawnShowers());
         soundManager = (SoundManager)FindObjectOfType<SoundManager>();
 
-        FlourishPercentages = new float[3] { 0.7f, 0.3f, 0f };
-        DeclinePercentages = new float[3] { 0.4f, 0.4f, 0.2f };
-        DyingPercentages = new float[3] { 0f, 0.2f, 0.8f };
+        FlourishPercentages = new float[3] { 0.75f, 0.2f, 0.05f };
+        DeclinePercentages = new float[3] { 0.5f, 0.3f, 0.2f };
+        DyingPercentages = new float[3] { 0.1f, 0.2f, 0.7f };
         // DeadPercentages = new float[3] {10f, 10f, 10f };
         RejuvinationPercentages = new float[3] { 0.8f, 0.1f, 0.1f };
-        // LevelPercentages = new float[4][] { FlourishPercentages, DeclinePercentages, DyingPercentages, DeadPercentages};
 
 
         worldStatePercentages.Add(Score.GameState.Flourishing, FlourishPercentages);
@@ -159,10 +157,11 @@ public class StarSpawn : MonoBehaviour {
         }
         //Debug.Log("total:" + total);
 
+        // roll dice to see which type of star is spawned
         float randomPoint = UnityEngine.Random.value * total;
         float randomOriginal = randomPoint;
+
         // check which type of star to spawn for current level passed in
-        
         for (int i = 0; i < levelPercentagesCurrentLevel.Length; i++)
         {
             //Debug.Log("random point "+ randomPoint + "levelPercentagesCurrentLevel " + i + ": " + levelPercentagesCurrentLevel[i]);

@@ -9,6 +9,7 @@ using UniOSC;
 public class StarAnimations : MonoBehaviour {
 
     OSCSenderComplete oscSenderObject;
+    OSCSenderAllCaught oscSenderCaughtObject;
     private SoundManager soundManager;
 
     bool allFull = false;
@@ -18,6 +19,7 @@ public class StarAnimations : MonoBehaviour {
     void Start () {
 
         oscSenderObject = (OSCSenderComplete)FindObjectOfType<OSCSenderComplete>();
+        oscSenderCaughtObject = (OSCSenderAllCaught)FindObjectOfType<OSCSenderAllCaught>();
         soundManager = (SoundManager)FindObjectOfType<SoundManager>();
 
     }
@@ -30,6 +32,13 @@ public class StarAnimations : MonoBehaviour {
 
     }
 
+    public void FullCaughtAnimation()
+    {
+        oscSenderCaughtObject.SendOSCAllCaughtMessage("/allcaught", 0);
+        SoundConstellationFull();
+    }
+
+
     private void SoundConstellationFull()
     {
         if (null != soundManager.constellationFull)
@@ -37,6 +46,5 @@ public class StarAnimations : MonoBehaviour {
             AudioSource.PlayClipAtPoint(soundManager.constellationFull, gameObject.transform.position);
         }
     }
-
 }
 
