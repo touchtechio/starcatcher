@@ -151,27 +151,28 @@ public class Score : MonoBehaviour {
         // change states as damage score increases
         if (cumulativeEnvironmentDamageScore < 0.2) {
             plasmaWorldState = GameState.Flourishing;
+            reduceScoreTimerValue = 5f;
             if (plasmaWorldState != previousWorldState)
             {
-                starAnimations.FullAnimation();
-                reduceScoreTimerValue = 5f;
+                starAnimations.FullCaughtAnimation();
             }
         }
         else if (cumulativeEnvironmentDamageScore >= 0.2 && cumulativeEnvironmentDamageScore < 0.7)
         {
             plasmaWorldState = GameState.Decline;
+            reduceScoreTimerValue = 8f;
             if (plasmaWorldState != previousWorldState)
             {
                 starAnimations.FullAnimation();
-                reduceScoreTimerValue = 8f;
+               
             }
         } else if (cumulativeEnvironmentDamageScore >= 0.7 && cumulativeEnvironmentDamageScore < 1)
         {
             plasmaWorldState = GameState.Dying;
+            reduceScoreTimerValue = 12f;
             if (plasmaWorldState != previousWorldState)
             {
                 starAnimations.FullAnimation();
-                reduceScoreTimerValue = 12f;
             }
 
         } else if (cumulativeEnvironmentDamageScore == 1)
@@ -193,7 +194,7 @@ public class Score : MonoBehaviour {
             rejuvinationTimer = rejuvinationTimerValue;
             if (plasmaWorldState != previousWorldState)
             {
-                starAnimations.FullAnimation();
+                starAnimations.FullCaughtAnimation();
             }
             previousWorldState = plasmaWorldState;
         }
