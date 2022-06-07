@@ -247,6 +247,17 @@ void routeCaughtStar(OSCMessage &msg){
   triggerStar( msg, CAUGHT);
 }
 
+
+void routeFallingStarCool(OSCMessage &msg){
+  currentColor = 0x508679;
+  triggerStar( msg, FALL);
+}
+
+void routeFallingStarWarm(OSCMessage &msg){
+  currentColor = 0xF1AF62;
+  triggerStar( msg, FALL);
+}
+
 void routeFallingStar(OSCMessage &msg){
   triggerStar( msg, FALL);
 }
