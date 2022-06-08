@@ -44,7 +44,7 @@ public class Score : MonoBehaviour {
     void Start () {
 
         starCaughtCount = 0;
-        totalStarsToBeCaught = 45;
+        totalStarsToBeCaught = 50;
         SetLevel(0);
         plasmaWorldState = GameState.Rejuvination;
         previousWorldState = plasmaWorldState;

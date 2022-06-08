@@ -38,9 +38,9 @@ public class StarSpawn : MonoBehaviour {
 
     // set to durations between spawn events
     [Range(0.1f, 10.0f)]
-    public float easyTimeToSpawn = 4.0f;
+    public float easyTimeToSpawn = 2.5f;
     [Range(0.1f, 10.0f)]
-    public float mediumTimeToSpawn = 6.0f;
+    public float mediumTimeToSpawn = 5.0f;
     [Range(0.1f, 10.0f)]
     public float hardTimeToSpawn = 10.0f;
 
@@ -79,14 +79,14 @@ public class StarSpawn : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-        easyTimeToSpawn = 1.2f;
+        easyTimeToSpawn = 0.8f;
         mediumTimeToSpawn = 2.5f;
-        hardTimeToSpawn = 5.0f;
+        hardTimeToSpawn = 4.0f;
 
         // set to durations between spawn events
         easyFallDuration = 4.0f;
         mediumFallDuration = 2.8f;
-        hardFallDuration = 1.0f;
+        hardFallDuration = 1.5f;
 
         // set to durations between spawn events
         easyLingerTime = 3.0f;
@@ -105,11 +105,11 @@ public class StarSpawn : MonoBehaviour {
         // StartCoroutine(SpawnShowers());
         soundManager = (SoundManager)FindObjectOfType<SoundManager>();
 
-        FlourishPercentages = new float[3] { 0.75f, 0.2f, 0.05f };
-        DeclinePercentages = new float[3] { 0.5f, 0.3f, 0.2f };
+        FlourishPercentages = new float[3] { 0.8f, 0.2f, 0.05f };
+        DeclinePercentages = new float[3] { 0.4f, 0.3f, 0.3f };
         DyingPercentages = new float[3] { 0.1f, 0.2f, 0.7f };
         // DeadPercentages = new float[3] {10f, 10f, 10f };
-        RejuvinationPercentages = new float[3] { 0.8f, 0.1f, 0.1f };
+        RejuvinationPercentages = new float[3] {0.75f, 0.1f, 0.15f };
 
 
         worldStatePercentages.Add(Score.GameState.Flourishing, FlourishPercentages);
@@ -268,12 +268,7 @@ public class StarSpawn : MonoBehaviour {
         } else if (starColor == "cool") {
             oscSenderCoolObject.SendOSCCoolStarMessage("/starcool", strip.stripNumber, (int)(duration * 1000));
         }
-        //oscSenderObject.SendOSCStarMessage("/starfall", strip.stripNumber, (int)(duration * 1000));
 
-        if (strip.stripNumber == 0) {
-            Debug.Log("sending: " + starColor);
-        }
-    
       //  soundManager.GetComponent<AudioSource>().pitch = duration / 1 * soundManager.starFall.length;
       //  AudioSource.PlayClipAtPoint(soundManager.starFall, spawnPoint);
 

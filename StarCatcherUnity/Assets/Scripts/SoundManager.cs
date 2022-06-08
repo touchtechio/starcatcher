@@ -89,6 +89,13 @@ public class SoundManager : MonoBehaviour {
     {
         if (Random.value > swayClipChance) return;
 
+        switch(Score.plasmaWorldState)
+        {
+            case Score.GameState.Dying:
+            case Score.GameState.Dead:
+                return;
+        }
+
         PlaySoundFromArray(swayClips, pos, plantSoundGroup, true);
     }
 

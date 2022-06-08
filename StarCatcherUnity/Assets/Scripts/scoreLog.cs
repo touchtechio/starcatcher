@@ -6,33 +6,41 @@ using UnityEngine.SceneManagement;
 
 
 public class scoreLog : MonoBehaviour {
-    private GameObject scoreObjectUI;
+    public GameObject scoreObjectUI;
     private Text scoreText;
-    private GameObject worldStateUI;
+    public GameObject worldStateUI;
     private Text worldStateText;
     private float starScoreLogger;
-    private GameObject starsCaughtUI;
+    public GameObject starsCaughtUI;
     private Text starsCaughtText;
 
     // Use this for initialization
     void Start() {
-        scoreObjectUI = GameObject.Find("ScoreText");
+        //scoreObjectUI = GameObject.Find("ScoreText");
         scoreText = scoreObjectUI.GetComponent<Text>();
-        worldStateUI = GameObject.Find("WorldState");
+        //worldStateUI = GameObject.Find("WorldState");
         worldStateText = worldStateUI.GetComponent<Text>();
-        starsCaughtUI = GameObject.Find("StarsCaught");
+        //starsCaughtUI = GameObject.Find("StarsCaught");
         starsCaughtText = starsCaughtUI.GetComponent<Text>();
+        Debug.Log("logging scores");
     }
 
     // Update is called once per frame
     void Update() {
+        starsCaughtText.enabled = true;
         starScoreLogger = Score.cumulativeEnvironmentDamageScore;
+        if (Score.plasmaWorldState == Score.GameState.Dead || Score.plasmaWorldState == Score.GameState.Rejuvination)
+        {
+            starsCaughtText.enabled = false;
+        } 
     }
 
     public void LogScore()
     {
         scoreText.text = (starScoreLogger).ToString();
         worldStateText.text = (Score.plasmaWorldState).ToString();
-        starsCaughtText.text = "stars caught  " + (Score.starCaughtLog + Score.randomAdd).ToString();
+        //starsCaughtText.text = "stars caught  " + (Score.starCaughtLog + Score.randomAdd).ToString();
+        starsCaughtText.text = (Score.starCaughtLog + Score.randomAdd).ToString();
+        Debug.Log("random" +  Score.randomAdd);
     }
 }

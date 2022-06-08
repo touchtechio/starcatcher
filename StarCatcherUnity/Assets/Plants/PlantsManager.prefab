@@ -70,14 +70,14 @@ MonoBehaviour:
     start_angle: 0
     start_angle_range: 5
     max_bonus_scale: 0
-  color_alpha: 0.8
+  color_alpha: 0.7
   colors:
   - {r: 0.96862745, g: 0.5803922, b: 0.11372549, a: 1}
   - {r: 0.57254905, g: 0.15294118, b: 0.56078434, a: 1}
   - {r: 0.92941177, g: 0.16470589, b: 0.53333336, a: 1}
   - {r: 0, g: 0.654902, b: 0.6156863, a: 1}
   max_x_dist: 6.5
-  num_plants_to_spawn: 15
+  num_plants_to_spawn: 16
   random_position_density: 1.25
   health_lerp: 0.01
   min_health_during_gameplay: 0.3
