@@ -104,7 +104,11 @@ namespace UniOSC{
 
             if (String.Equals(args.Address, easyRate))
             {
-                spawner.easyTimeToSpawn = value;
+                spawner.flourishTimeToSpawnMin = value - 1;
+            }
+            if (String.Equals(args.Address, easyRate))
+            {
+                spawner.flourishTimeToSpawnMax = value + 1;
             }
             if (String.Equals(args.Address, easyFall))
             {
@@ -117,7 +121,11 @@ namespace UniOSC{
 
             if (String.Equals(args.Address, mediumRate))
             {
-                spawner.mediumTimeToSpawn = value;
+                spawner.declineTimeToSpawnMin = value - 2;
+            }
+            if (String.Equals(args.Address, mediumRate))
+            {
+                spawner.declineTimeToSpawnMax = value - 2;
             }
             if (String.Equals(args.Address, mediumFall))
             {
@@ -131,7 +139,11 @@ namespace UniOSC{
 
             if (String.Equals(args.Address, hardRate))
             {
-                spawner.hardTimeToSpawn = value;
+                spawner.declineTimeToSpawnMin = value - 3;
+            }
+            if (String.Equals(args.Address, hardRate))
+            {
+                spawner.declineTimeToSpawnMax = value + 3;
             }
             if (String.Equals(args.Address, hardFall))
             {

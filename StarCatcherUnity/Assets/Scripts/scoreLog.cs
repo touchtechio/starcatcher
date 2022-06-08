@@ -22,7 +22,6 @@ public class scoreLog : MonoBehaviour {
         worldStateText = worldStateUI.GetComponent<Text>();
         //starsCaughtUI = GameObject.Find("StarsCaught");
         starsCaughtText = starsCaughtUI.GetComponent<Text>();
-        Debug.Log("logging scores");
     }
 
     // Update is called once per frame
@@ -39,8 +38,8 @@ public class scoreLog : MonoBehaviour {
     {
         scoreText.text = (starScoreLogger).ToString();
         worldStateText.text = (Score.plasmaWorldState).ToString();
-        //starsCaughtText.text = "stars caught  " + (Score.starCaughtLog + Score.randomAdd).ToString();
+        //starsCaughtText.text = "stars caught  " + (Score.starCaughtLog).ToString();
         starsCaughtText.text = (Score.starCaughtLog + Score.randomAdd).ToString();
-        Debug.Log("random" +  Score.randomAdd);
+        //Debug.Log("random" +  Score.randomAdd);
     }
 }

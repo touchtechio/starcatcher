@@ -60,7 +60,7 @@ namespace UniOSC{
             }
             if (msg.Address.Contains(easyPeriod))
             {
-                starSpawner.easyTimeToSpawn = (float)msg.Data[0] * 10.0f;
+                starSpawner.flourishTimeToSpawnMin = (float)msg.Data[0] * 10.0f;
 
             }
             if (msg.Address.Contains(hardDuration))
@@ -75,7 +75,7 @@ namespace UniOSC{
             }
             if (msg.Address.Contains(hardPeriod))
             {
-                starSpawner.hardTimeToSpawn = (float)msg.Data[0] * 10.0f;
+                starSpawner.dyingTimeToSpawnMax = (float)msg.Data[0] * 10.0f;
 
             }
 
