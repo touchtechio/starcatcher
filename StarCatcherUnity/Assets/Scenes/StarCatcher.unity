@@ -7126,8 +7126,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   starCaughtCount: 0
   totalStarsToBeCaught: 0
-  rejuvinationTimerValue: 30
-  deadTimerValue: 20
+  rejuvinationTimerValue: 40
+  deadTimerValue: 30
   reduceScoreTimerValue: 8
   constellationMode: 1
 --- !u!4 &1709206218
