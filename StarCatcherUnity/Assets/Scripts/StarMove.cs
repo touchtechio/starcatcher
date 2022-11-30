@@ -82,7 +82,7 @@ public class StarMove : MonoBehaviour {
         
         // check if star nearly reaches bottom point of fall to turn off trails and allow star to be able to be caught
         // except stars in rejuvination state - those can't be caught
-        if (Time.time >= startTime + fallDuration * 0.95)
+        if (Time.time >= startTime + fallDuration * 0.85)
         {
             if (Score.plasmaWorldState != Score.GameState.Rejuvination) {
                 //gameObject.GetComponent<CapsuleCollider>().isTrigger = true;

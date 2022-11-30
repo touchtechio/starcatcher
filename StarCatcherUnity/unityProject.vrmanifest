@@ -5,7 +5,7 @@
       "app_key": "application.generated.unity.starcatchervr.exe",
       "launch_type": "url",
       "url": "steam://launch/",
-      "action_manifest_path": "E:\\Git\\starcatcher\\StarCatcherUnity\\Assets\\StreamingAssets\\SteamVR\\actions.json",
+      "action_manifest_path": "G:\\Git\\starcatcher\\StarCatcherUnity\\Assets\\StreamingAssets\\SteamVR\\actions.json",
       "strings": {
         "en_us": {
           "name": "StarCatcherVR [Testing]"

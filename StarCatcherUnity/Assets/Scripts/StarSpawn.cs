@@ -94,11 +94,11 @@ public class StarSpawn : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-        flourishTimeToSpawnMin = 0.5f;
-        flourishTimeToSpawnMax = 2.5f;
+        flourishTimeToSpawnMin = 0f;
+        flourishTimeToSpawnMax = 2f;
         declineTimeToSpawnMin = 1.0f;
         declineTimeToSpawnMax = 3.0f;
-        dyingTimeToSpawnMin = 2.0f;
+        dyingTimeToSpawnMin = 1.5f;
         dyingTimeToSpawnMax = 5.0f;
         rejunvinateTimeToSpawnMin = 0f;
         rejunvinateTimeToSpawnMax = 1f;
@@ -126,10 +126,10 @@ public class StarSpawn : MonoBehaviour {
         soundManager = (SoundManager)FindObjectOfType<SoundManager>();
 
         flourishPercentages = new float[3] { 0.8f, 0.2f, 0.05f };
-        declinePercentages = new float[3] { 0.4f, 0.3f, 0.3f };
-        dyingPercentages = new float[3] { 0.1f, 0.2f, 0.7f };
+        declinePercentages = new float[3] { 0.3f, 0.3f, 0.4f };
+        dyingPercentages = new float[3] { 0.05f, 0.3f, 0.6f };
         // DeadPercentages = new float[3] {10f, 10f, 10f };
-        rejuvinationPercentages = new float[3] {0.75f, 0.1f, 0.15f };
+        rejuvinationPercentages = new float[3] {0.5f, 0.2f, 0.3f };
 
         worldStatePercentages.Add(Score.GameState.Flourishing, flourishPercentages);
         worldStatePercentages.Add(Score.GameState.Decline, declinePercentages);
