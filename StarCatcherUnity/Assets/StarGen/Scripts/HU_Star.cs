@@ -1003,7 +1003,8 @@ public class HU_Star : MonoBehaviour
             if (isNear) { i--; continue; }
             {
                 GameObject segment = GameObject.CreatePrimitive(PrimitiveType.Quad);
-                DestroyImmediate(segment.GetComponent<MeshCollider>());
+                segment.GetComponent<MeshCollider>().convex = true;
+                Destroy(segment.GetComponent<MeshCollider>());
                 Renderer rend = segment.GetComponent<Renderer>();
                 rend.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
                 rend.receiveShadows = false;
@@ -1024,7 +1025,7 @@ public class HU_Star : MonoBehaviour
     void DeleteCorona()
     {
         if (transform.Find("Corona") != null)
-            DestroyImmediate(transform.Find("Corona").gameObject,true);
+            Destroy(transform.Find("Corona").gameObject);
         coronaParent = new GameObject("Corona").transform;
         coronaParent.transform.parent = gameObject.transform;
         coronaParent.transform.localPosition = Vector3.zero;

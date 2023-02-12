@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+[ExecuteInEditMode]
 public class Strip
 {
     public Vector3 starStartPoints;
@@ -35,6 +36,8 @@ public class StripPosition : MonoBehaviour {
     public int stripNumber;
     public bool clearStripArray = false;
     public static StripPosition thisStripPosition;
+    public GameObject starPositionPrefab;
+    private GameObject parentStartPositions;
 
     // to test all LED strips spawning in sequence;
     [Header ("test strip conditions")]
@@ -60,14 +63,8 @@ public class StripPosition : MonoBehaviour {
             DontDestroyOnLoad(gameObject);
             thisStripPosition = this;
         }
-    }
-
-    // Use this for initialization
-    void Start() {
 
         parent = GameObject.FindGameObjectWithTag("STRIPS");
-
-
 
         // create and arraylist of Strip objects
       //  playnyc();
@@ -79,7 +76,19 @@ public class StripPosition : MonoBehaviour {
         // set a random starting strip position
         lastRandomStrip = new Strip(new Vector3(0, 0, 0), 0.5f, 0);
 
+        parentStartPositions = GameObject.FindGameObjectWithTag("STARTING POSITIONS");
+        //InvokeRepeating("Spawn", 0.5f, spawnRate);
 
+        int positionCount = starStrips.Count;
+
+        for (int i = 0; i < positionCount; i++) {
+            Strip strip = (Strip)starStrips[i];
+            Vector3 starPosition = strip.starStartPoints;
+            GameObject star = Instantiate(starPositionPrefab, starPosition, Quaternion.identity) as GameObject;
+            star.transform.parent = parentStartPositions.transform;
+            StripIndex index = star.GetComponent<StripIndex>();
+            index.stripIndex = i; 
+        }    
 
     }
 
@@ -229,6 +238,10 @@ public class StripPosition : MonoBehaviour {
     public int Count()
     {
         return starStrips.Count;
+    }
+
+    public ArrayList getStarPositions() {
+        return starStrips;
     }
 
     public void SetStripPosition(Vector3 triggerPosition)

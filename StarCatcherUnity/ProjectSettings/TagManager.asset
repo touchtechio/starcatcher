@@ -16,6 +16,8 @@ TagManager:
   - CONSTELLATION_WIN
   - CONSTELLATION_COMPLETE
   - Limb
+  - STARTING POSITIONS
+  - STAR POSITION
   layers:
   - Default
   - TransparentFX

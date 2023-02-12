@@ -170,7 +170,7 @@ public class StarSpawn : MonoBehaviour {
         // if in Dead state, don't spawn stars
         if (timeToNextSpawn <= 0 && Score.plasmaWorldState != Score.GameState.Dead)
         {
-            Spawn();
+          //  Spawn();
 
             // what is next?
         }
@@ -184,28 +184,18 @@ public class StarSpawn : MonoBehaviour {
         return spawnRates[0] + randomPoint*(spawnRates[1]-spawnRates[0]);
     }
 
-    private void SpawnHard(Strip strip)
-    {
-        Spawn(strip, hardFallDuration, hardLingerTime, UnityEngine.Random.ColorHSV(0.0f, 0.5f), coolStar, "cool");
-
-    }
-
-    private void SpawnMedium(Strip strip)
-    {
-        Spawn(strip, mediumFallDuration, mediumLingerTime, UnityEngine.Random.ColorHSV(0.5f, 1.0f), neutralStar, "neutral");
-    }
-
-
-    private void SpawnEasy(Strip strip)
-    {
-        Spawn(strip, easyFallDuration, easyLingerTime, UnityEngine.Random.ColorHSV(0.5f, 1.0f), warmStar, "warm");
-    }
-
     public void Spawn()
     {
         // get position of strip
         Strip strip = GetStrip();
         Spawn(strip);
+    }
+
+
+    public void Spawn(int stripId)
+    {
+        Strip strip = this.stripPositions.getStarPositions()[stripId] as Strip;
+        this.Spawn(strip);
     }
 
 
@@ -229,6 +219,22 @@ public class StarSpawn : MonoBehaviour {
 
     }
 
+    private void SpawnHard(Strip strip)
+    {
+        Spawn(strip, hardFallDuration, hardLingerTime, UnityEngine.Random.ColorHSV(0.0f, 0.5f), coolStar, "cool");
+
+    }
+
+    private void SpawnMedium(Strip strip)
+    {
+        Spawn(strip, mediumFallDuration, mediumLingerTime, UnityEngine.Random.ColorHSV(0.5f, 1.0f), neutralStar, "neutral");
+    }
+
+
+    private void SpawnEasy(Strip strip)
+    {
+        Spawn(strip, easyFallDuration, easyLingerTime, UnityEngine.Random.ColorHSV(0.5f, 1.0f), warmStar, "warm");
+    }
 
     private void Spawn(Strip strip, float duration, float lingerTime, Color color, GameObject starType, string starColor)
     {
