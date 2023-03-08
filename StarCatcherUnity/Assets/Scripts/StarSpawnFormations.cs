@@ -4,14 +4,16 @@ using UnityEngine;
 
 public class StarSpawnFormations : MonoBehaviour
 {
+    /*
+    The Star Spawn formations class handles behaviors for stars spawned using shapes
+    and collisions with star positions
+
+    */
     public StarSpawn starSpawn;
 
     // Start is called before the first frame update
     void Start()
     {
-        
-     Debug.Log("I AM SPHERE");
-
         starSpawn = StarSpawn.FindObjectOfType<StarSpawn>();
         if (null == starSpawn)
         {
@@ -21,12 +23,10 @@ public class StarSpawnFormations : MonoBehaviour
 
 
     void OnCollisionEnter(Collision collision){
-        Debug.Log("collided, " + collision.gameObject.name);
         foreach(ContactPoint contact in collision.contacts)
         {
             Debug.DrawRay(contact.point, contact.normal, Color.white);
             Vector3 position = contact.point;
-            Debug.Log("collided, "+ position);
         }
     
         if (collision.gameObject.tag == "STAR POSITION")

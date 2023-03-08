@@ -65,13 +65,13 @@ public class ViveControllerTest : MonoBehaviour
         Debug.Log("Change Scene");
 
         projectorLoadCamera.enabled = false;
-        if (currentScene.name == "StarCatcher")
+        if (currentScene.name == "StarCatcher-audienceChoreo")
         {
             SceneManager.LoadScene("StarCatcher-load");
         }
         else if (currentScene.name == "StarCatcher-load")
         {
-            SceneManager.LoadScene("StarCatcher");
+            SceneManager.LoadScene("StarCatcher-audienceChoreo");
 
         }
     }

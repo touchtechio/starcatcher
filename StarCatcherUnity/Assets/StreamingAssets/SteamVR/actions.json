@@ -114,7 +114,7 @@
     },
     {
       "name": "/actions/starcatchercontroller",
-      "usage": "leftright"
+      "usage": "single"
     }
   ],
   "default_bindings": [

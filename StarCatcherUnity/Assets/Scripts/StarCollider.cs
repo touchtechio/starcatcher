@@ -92,10 +92,10 @@ public class StarCollider : MonoBehaviour {
         starCaughtPosition = transform.position;
 
         // remove mesh collider in Jet when caught
-        foreach (Transform child in gameObject.transform.GetChild(4))
-        {
-            child.GetComponentInChildren<MeshCollider>().enabled = false;
-        }
+        // foreach (Transform child in gameObject.transform.GetChild(4))
+        // {
+        //     child.GetComponentInChildren<MeshCollider>().enabled = false;
+        // }
         if (gameScore.constellationMode == true) 
         {
             onConstellationPosition = gameScore.catchStar(); // position got from the constellations script

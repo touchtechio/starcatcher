@@ -5,6 +5,11 @@ using UnityEngine;
 using UniOSC;
 
 public class StarSpawn : MonoBehaviour {
+    /*
+    The Star Spawn class spawns different types of stars for the game, sends the osc message
+    handles timing for random star spawning, sets star spawn probabilities for different world states
+    destroys stars upon death
+    */
 
     public GameObject prefab;
     public GameObject warmStar;
@@ -33,6 +38,7 @@ public class StarSpawn : MonoBehaviour {
     public float waitWaves = 20;
     public int ShowerCount = 10;
     public bool testSend = false;
+    public bool randomStarsSending = false;
     [HideInInspector]
     public string StarTypeToSpawn;
 
@@ -167,12 +173,14 @@ public class StarSpawn : MonoBehaviour {
         // burn down time since last update
         timeToNextSpawn -= Time.deltaTime;
 
-        // if in Dead state, don't spawn stars
-        if (timeToNextSpawn <= 0 && Score.plasmaWorldState != Score.GameState.Dead)
-        {
-          //  Spawn();
 
-            // what is next?
+        // send random stars. This was the original functionality
+        if (randomStarsSending) {
+            // if in Dead state, don't spawn stars
+            if (timeToNextSpawn <= 0 && Score.plasmaWorldState != Score.GameState.Dead)
+            {
+                Spawn();
+            }
         }
 
 
@@ -188,6 +196,7 @@ public class StarSpawn : MonoBehaviour {
     {
         // get position of strip
         Strip strip = GetStrip();
+        // Debug.Log("which strip" + strip.stripNumber);
         Spawn(strip);
     }
 
@@ -236,6 +245,14 @@ public class StarSpawn : MonoBehaviour {
         Spawn(strip, easyFallDuration, easyLingerTime, UnityEngine.Random.ColorHSV(0.5f, 1.0f), warmStar, "warm");
     }
 
+
+    private void SpawnTrail(Strip strip)
+    {
+        timeToNextSpawn = calcNextSpawnRate(worldStateSpawnRates[Score.plasmaWorldState]);
+        StarTypeToSpawn = calcNextSpawnType(worldStatePercentages[Score.plasmaWorldState]);
+        Spawn(strip, 250, 50, UnityEngine.Random.ColorHSV(0.5f, 1.0f), warmStar, "warm");
+    }
+
     private void Spawn(Strip strip, float duration, float lingerTime, Color color, GameObject starType, string starColor)
     {
 
@@ -259,22 +276,15 @@ public class StarSpawn : MonoBehaviour {
         mover.starDropScale = new Vector3(1, starDropYScale, 1);
         mover.StripNumber = strip.stripNumber;
 
-        // create unique Star Gen config
-        HU_Star starComponent = star.GetComponent<HU_Star>();
-        starComponent.MakeUniqueRunTime();
-
-        // change a color
-        starComponent._color = color;
-        starComponent._color2 = UnityEngine.Random.ColorHSV(0.0f, 1.0f);
 
         // send an OSC message with argurments for strip number, durationg and linger time
 
         if (starColor == "warm") {
-            oscSenderWarmObject.SendOSCWarmStarMessage("/starwarm", strip.stripNumber, (int)(duration * 1000));
+            oscSenderWarmObject.SendOSCWarmStarMessage("/starwarm", strip.stripNumber, (int)(duration*1000));
         } else if (starColor == "neutral") {
-            oscSenderObject.SendOSCStarMessage("/starfall", strip.stripNumber, (int)(duration * 1000));
+            oscSenderObject.SendOSCStarMessage("/starfall", strip.stripNumber, (int)(duration*1000));
         } else if (starColor == "cool") {
-            oscSenderCoolObject.SendOSCCoolStarMessage("/starcool", strip.stripNumber, (int)(duration * 1000));
+            oscSenderCoolObject.SendOSCCoolStarMessage("/starcool", strip.stripNumber, (int)(duration*1000));
         }
 
       //  soundManager.GetComponent<AudioSource>().pitch = duration / 1 * soundManager.starFall.length;

@@ -43,12 +43,12 @@ public class StripPositionMessageSender : MonoBehaviour {
             return;
         }
 
-        //Debug.Log("catch " + currentStripSent);
+        Debug.Log("catch " + currentStripSent);
         OSCSenderCaught.SendOSCCaughtMessage("/starcaught", currentStripSent);
 
         currentStripSent = StripPosition.Count();
 
-        //Debug.Log("linger " + currentStripSent);
+        Debug.Log("linger " + currentStripSent);
         OSCSenderLinger.SendOSCLingerMessage("/starlinger", currentStripSent, 15000);
 
     }
