@@ -3,6 +3,10 @@ import processing.serial.*;
 import hypermedia.net.*;
 //download at www.sojamo.de/libraries/controlp5
 import controlP5.*;
+import oscP5.*;
+import netP5.*;
+import java.net.*;
+
 
 /************************************************************************************
  GUI
@@ -22,6 +26,18 @@ Textfield incomingPortField;
 Textfield outgoingPortField;
 Textlabel serialPortName;
 
+boolean SERIAL_OUT_LOG = true;
+boolean UDP_LOG = false;
+
+public class OscMessageLogger extends OscMessage {
+  public OscMessageLogger(final byte[] theBytes,
+                         final InetAddress theInetAddress,
+                         final int thePort,
+                         final TcpClient theClient) {
+    super(theBytes, theInetAddress, thePort, theClient);
+  }
+  
+}
 
 void setupGUI() {
   //the ControlP5 object
@@ -252,7 +268,26 @@ void SerialSendToUDP() {
   drawIncomingSerial();
 }
 
+void printOscData(byte[] data) {
+ // println(new String(data));
+  try {
+  OscMessageLogger logger = new OscMessageLogger(data, InetAddress.getLocalHost(), 9000, null);
+//  logger.print();
+  print(logger.toString() + ": ");
+  Object[] oscArgs = logger.arguments();
+  for (Object o: oscArgs) {
+    print(o);
+    print(", ");
+  }
+  println();
+} catch(UnknownHostException e) {}
+}
+
 void serialSend(byte[] data) {
+  
+  if (SERIAL_OUT_LOG) {
+    printOscData(data);
+  }
   //encode the message and send it
   for (int i = 0; i < data.length; i++){
      slipEncode(data[i]);
@@ -321,7 +356,7 @@ String ipAddress = "127.0.0.1";
 
 void setupUDP() {
   udp = new UDP( this, inPort );
-  //udp.log( true );     // <-- printout the connection activity
+  udp.log( UDP_LOG );     // <-- printout the connection activity
   udp.listen( true );
 }
 
