@@ -52,7 +52,8 @@ SLIPEncodedSerial SLIPSerial(Serial1);
 // LED CONFIG
 //const int ledsPerStrip = 90;
 //const int ledsPerStrip = 80;
-const int ledsPerStrip = 144;  // 32 + 7*16
+//const int ledsPerStrip = 144;  // 32 + 7*16
+const int ledsPerStrip = 128;  // 8*16
 
 
 // declaring some memory for led buffer
@@ -88,6 +89,8 @@ int behaviorCount = 12;
 #define FALL 0
 #define CAUGHT 13
 #define CONSTELLATION 12
+#define RETURN 8
+
 
 
 // these are used for run-time configuration from message events
@@ -114,7 +117,7 @@ Gem gems[gemCount];
 // todo : pixels per-gem
 // led count of strip within each gem
 int shortGemPixelCount = 16;
-int longGemPixelCount = 2*shortGemPixelCount;
+//int longGemPixelCount = 2*shortGemPixelCount;
 
 // serial event globals 
 String inputString = "";         // a string to hold incoming data
@@ -142,7 +145,8 @@ void setup() {
   // initialize our gems
   for (int i = 0; i < gemCount; i++ ) {
     int pixelCount = shortGemPixelCount;
-    if (i%8 == 0) pixelCount = longGemPixelCount;
+    // no long gems tody
+    //if (i%8 == 0) pixelCount = longGemPixelCount;
 
 
     // todo Gem Number and Gem Count need to respect more Gems per Octo Channel
@@ -206,6 +210,7 @@ void pollForNewOscMessages() {
       msg.dispatch("/allfall", routeAllFall);
       msg.dispatch("/allcaught", routeAllCaught);
       msg.dispatch("/starfall", routeFallingStar);
+      msg.dispatch("/starreturn", routeReturnStar);
       msg.dispatch("/starcool", routeFallingStarCool);
       msg.dispatch("/starwarm", routeFallingStarWarm);
       msg.dispatch("/starlinger", routeLingeringStar);
@@ -261,6 +266,12 @@ void routeFallingStar(OSCMessage &msg){
   currentColor = 0xFDF1E4;
   triggerStar( msg, FALL);
 }
+
+void routeReturnStar(OSCMessage &msg){
+  currentColor = 0xFDF1E4;
+  triggerStar( msg, RETURN);
+}
+
 
 
 void routeLingeringStar(OSCMessage &msg){
