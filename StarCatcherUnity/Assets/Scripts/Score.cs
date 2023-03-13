@@ -6,6 +6,8 @@ using UnityEngine;
 public class Score : MonoBehaviour {
 
     public int starCaughtCount;
+    public int starReturnCount;
+
     public static int starCaughtLog;
     public static int level;
     private static Constellations constellations;
@@ -17,6 +19,8 @@ public class Score : MonoBehaviour {
     public static float environmentDamageScore;
     public static float cumulativeEnvironmentDamageScore;
     public int totalStarsToBeCaught;
+    public int totalDeadStarsToBeReturned;
+
     public static int randomAdd;
     
     public enum GameState {Dead, Rejuvination, Flourishing, Decline, Dying};
@@ -31,10 +35,27 @@ public class Score : MonoBehaviour {
 
     private static BackingTracks BackingTracks;
     private scoreLog scoreLogger;
+
+    public StarSpawn starSpawn;
+    public DeadStarPositionColliders deadStarPositionCollider;
     public bool constellationMode = true;
 
     public static Score Instance;
-    private bool stateChange = false;
+    public bool reduceScoreBool = false;
+
+    // FORMATIONS
+    private AnimatorTorus1 torus1Animator;
+    private Animator torusAnimatorComponent;
+    private bool hasTorus1Triggered = false;
+    private float animationTimerTorus1Value = 12f;
+    private float animationTimerTorus1;
+    private bool torus1AnimationState = false;
+    private float animationTimerSphere1Value = 6f;
+    private float animationTimerSphere1;
+    private bool hasSphere1Triggered = false;
+    private bool sphere1AnimationState = false;
+    private AnimatorSphere1 sphere1Animator;
+
      
     void Awake(){
         Instance = this;
@@ -43,12 +64,12 @@ public class Score : MonoBehaviour {
     // Use this for initialization
     void Start () {
 
+        // set the scene to rejuvenation, with timer fast at the start
         starCaughtCount = 0;
-        totalStarsToBeCaught = 20;
         SetLevel(0);
         plasmaWorldState = GameState.Rejuvination;
         previousWorldState = plasmaWorldState;
-        rejuvinationTimer = rejuvinationTimerValue;
+        rejuvinationTimer = reduceScoreTimerValue;
         deadTimer = deadTimerValue;
         reduceScoreTimer = reduceScoreTimerValue;
 
@@ -70,9 +91,70 @@ public class Score : MonoBehaviour {
             Debug.LogWarning("WARN: no BackingTracks found");
         }
 
+        // Initialize score logger, star spawn and dead star positions
         scoreLogger = (scoreLog)FindObjectOfType<scoreLog>();
+        starSpawn = (StarSpawn)FindObjectOfType<StarSpawn>();
+        deadStarPositionCollider = (DeadStarPositionColliders)FindObjectOfType<DeadStarPositionColliders>();
 
+        // Set up formation animations - find componened and disable
+        animationTimerTorus1 = animationTimerTorus1Value;
+        torus1Animator = GameObject.FindObjectOfType(typeof(AnimatorTorus1)) as AnimatorTorus1;
+        //torusAnimatorComponent = (Animator)torus1Animator.GetComponent<Animator>();
+        // torusAnimatorComponent.enabled = false;
+
+        animationTimerSphere1 = animationTimerSphere1Value;
+        sphere1Animator = GameObject.FindObjectOfType(typeof(AnimatorSphere1)) as AnimatorSphere1;
     }
+
+        void Update(){
+
+        updateStarCaughtOnKeyPress();
+
+        // set timers for rejuvination state and dead state
+        // during rejuvination, no stars can be caught
+        // during dead state, no stars are spawned
+        if (plasmaWorldState == GameState.Rejuvination) {
+            setRejuvinationTimer();
+        }
+
+        if (plasmaWorldState == GameState.Flourishing) {
+
+        }
+
+        if (plasmaWorldState == GameState.Dead) {
+            setDeadTimer();
+        }
+
+        if (torus1AnimationState == true) {
+            setTorus1AnimationTimer();
+            }
+
+        if (sphere1AnimationState == true) {
+            setSphere1AnimationTimer();
+        }
+
+        checkEffectOnEnvironment();
+        if (plasmaWorldState != GameState.Rejuvination && plasmaWorldState != GameState.Dead){
+            SetGameState();
+        }
+        scoreLogger.LogScore();
+
+        // simulate stars caught with hotkey
+        if (Input. GetKeyUp("c")){
+            catchStarNoConstellation();
+        }
+        starCaughtLog = starCaughtCount;
+
+        // If on, reduce score over time so that the world regenerates if noone is playing
+        if (reduceScoreBool == true) {
+            reduceScoreTimer -= Time.deltaTime;
+            if (reduceScoreTimer <= 0) {
+                if (starCaughtCount > 0) starCaughtCount --;
+                reduceScoreTimer = reduceScoreTimerValue;
+            }
+        }
+    }
+
 
     public Vector3 catchStar()
     {
@@ -84,6 +166,11 @@ public class Score : MonoBehaviour {
         //     SetLevel(level+1);
         // }
         return constellations.GetNextEmptyPosition().transform.position;
+    }
+
+    public void returnStar()
+    {
+        starReturnCount++;
     }
 
     public void catchStarNoConstellation()
@@ -105,6 +192,31 @@ public class Score : MonoBehaviour {
         return level;
     }
 
+    public void updateStarCaughtOnKeyPress() {
+        if (Input.GetKeyDown(KeyCode.F1))
+        {
+            plasmaWorldState = GameState.Rejuvination;
+            starReturnCount = 0;
+            starCaughtCount = 0;
+            starSpawn.StartRandomStars();
+            deadTimer = deadTimerValue;
+        }
+        if (Input.GetKeyDown(KeyCode.F2))
+        {
+            starCaughtCount = totalStarsToBeCaught / 2;
+        }
+        if (Input.GetKeyDown(KeyCode.F3))
+        {
+            starCaughtCount = totalStarsToBeCaught -1;
+        }
+        if (Input.GetKeyDown(KeyCode.F4))
+        {
+            starCaughtCount = totalStarsToBeCaught;
+        }
+        
+    }
+
+
     public void checkEffectOnEnvironment()
     {
         // TODO: replace formula
@@ -113,38 +225,8 @@ public class Score : MonoBehaviour {
             //cumulativeEnvironmentDamageScore = environmentDamageScore;
             cumulativeEnvironmentDamageScore = (float) Mathf.Exp(-1 * Mathf.Pow(3*environmentDamageScore-3.0f,2f));
             //Debug.Log("damage: " + cumulativeEnvironmentDamageScore);
-        }
-    }
-
-    void Update(){
-        // set timers for rejuvination state and dead state
-        // during rejuvination, no stars can be caught
-        // during dead state, no stars are spawned
-        if (plasmaWorldState == GameState.Rejuvination) {
-            setRejuvinationTimer();
-        }
-
-        if (plasmaWorldState == GameState.Dead) {
-            setDeadTimer();
-        }
-
-        checkEffectOnEnvironment();
-        if (plasmaWorldState != GameState.Rejuvination && plasmaWorldState != GameState.Dead){
-            SetGameState();
-        }
-        scoreLogger.LogScore();
-
-        // simulate stars caught with hotkey
-        if (Input. GetKeyUp("c")){
-            catchStarNoConstellation();
-        }
-        starCaughtLog = starCaughtCount;
-
-        // Reduce score over time so that the world regenerates if noone is playing
-        reduceScoreTimer -= Time.deltaTime;
-        if (reduceScoreTimer <= 0) {
-            if (starCaughtCount > 0) starCaughtCount --;
-            reduceScoreTimer = reduceScoreTimerValue;
+        } else  {
+            cumulativeEnvironmentDamageScore = 1.0f;
         }
     }
 
@@ -153,37 +235,61 @@ public class Score : MonoBehaviour {
         // change states as damage score increases
         if (cumulativeEnvironmentDamageScore < 0.2) {
             plasmaWorldState = GameState.Flourishing;
-            reduceScoreTimerValue = 5f;
+            reduceScoreTimerValue = 10f;
             if (plasmaWorldState != previousWorldState)
             {
                 starAnimations.FullCaughtAnimation();
+                starSpawn.StartRandomStars();
+                deadStarPositionCollider.DestroyDeadStars();
+                hasSphere1Triggered = false;
             }
+            
+            if (hasTorus1Triggered == false && cumulativeEnvironmentDamageScore > 0.1) {
+                //Debug.Log(hasTorus1Triggered + ", " + cumulativeEnvironmentDamageScore);
+                starSpawn.StopRandomStars();
+                torus1Animator.triggerTorus1Animation();
+                hasTorus1Triggered = true;
+                torus1AnimationState = true;
+                }
         }
         else if (cumulativeEnvironmentDamageScore >= 0.2 && cumulativeEnvironmentDamageScore < 0.7)
         {
             plasmaWorldState = GameState.Decline;
-            reduceScoreTimerValue = 8f;
-            if (plasmaWorldState != previousWorldState)
-            {
-                starAnimations.FullAnimation();
-               
-            }
-        } else if (cumulativeEnvironmentDamageScore >= 0.7 && cumulativeEnvironmentDamageScore < 1)
-        {
-            plasmaWorldState = GameState.Dying;
             reduceScoreTimerValue = 12f;
             if (plasmaWorldState != previousWorldState)
             {
                 starAnimations.FullAnimation();
+                starSpawn.StartRandomStars();        
+                deadStarPositionCollider.DestroyDeadStars();
+                hasTorus1Triggered = false;
+            }
+            if (hasSphere1Triggered == false && cumulativeEnvironmentDamageScore > 0.4){
+                starSpawn.StopRandomStars();
+                sphere1Animator.TriggerSphere1Animation();
+                hasSphere1Triggered = true;
+                sphere1AnimationState = true;
+            }
+        } else if (cumulativeEnvironmentDamageScore >= 0.7 && cumulativeEnvironmentDamageScore < 1)
+        {
+            plasmaWorldState = GameState.Dying;
+            reduceScoreTimerValue = 15f;
+            if (plasmaWorldState != previousWorldState)
+            {
+                starAnimations.FullAnimation();
+                starSpawn.StartRandomStars();
+                deadStarPositionCollider.DestroyDeadStars();
+                hasSphere1Triggered = false;
             }
 
-        } else if (cumulativeEnvironmentDamageScore == 1)
-        {
+        } else if (cumulativeEnvironmentDamageScore == 1) {
             plasmaWorldState = GameState.Dead;
-            StarSpawn.DestroyStars();
+            starSpawn.DestroyStars();
+            deadStarPositionCollider.UpdateDeadStarPositionColliders();
+            this.starReturnCount = 0;
+
             
         }
-        //Debug.Log("score: " + cumulativeEnvironmentDamageScore + "state: " + plasmaWorldState);
+        // Debug.Log("score: " + cumulativeEnvironmentDamageScore + "state: " + plasmaWorldState);
         previousWorldState = plasmaWorldState;
     }
 
@@ -202,11 +308,51 @@ public class Score : MonoBehaviour {
 
     public void setDeadTimer(){
         deadTimer -= Time.deltaTime;
-        if (deadTimer <= 0)  {
+        if ((deadTimer <= 0) && (starReturnCount >= totalDeadStarsToBeReturned))  {
+            deadStarPositionCollider.DestroyDeadStars();
             plasmaWorldState = GameState.Rejuvination;
+            starReturnCount = 0;
             starCaughtCount = 0;
+            starSpawn.StartRandomStars();
             deadTimer = deadTimerValue;
             previousWorldState = plasmaWorldState;
         }
     }
+
+    private void setTorus1AnimationTimer(){
+        // continuous on update
+        animationTimerTorus1 -= Time.deltaTime;
+        //Debug.Log("timer "+ animationTimerTorus1);
+        if (animationTimerTorus1 <= 0) {
+            starSpawn.StartRandomStars();
+            animationTimerTorus1 = animationTimerTorus1Value;
+            torus1AnimationState = false;
+            hasTorus1Triggered = true;
+            // torusAnimatorComponent.enabled = false;
+        }
+    }
+
+    private void setSphere1AnimationTimer(){
+        // continuous on update
+        animationTimerSphere1 -= Time.deltaTime;
+        //Debug.Log("timer "+ animationTimerSphere1);
+        if (animationTimerSphere1 <= 0) {
+            starSpawn.StartRandomStars();
+            animationTimerSphere1 = animationTimerSphere1Value;
+            sphere1AnimationState = false;
+            hasSphere1Triggered = true;
+            // torusAnimatorComponent.enabled = false;
+        }
+    }
+
+    // private void setTorus1Animator() {
+    //     // once trigger
+    //     starSpawn.StopRandomStars();
+    //     torusAnimatorComponent.enabled = true;
+    //     torus1torus1AnimationState = true;
+    //     hasTorus1Triggered = true;
+    //     Debug.Log("torus triggered");
+    // }
 }
+
+

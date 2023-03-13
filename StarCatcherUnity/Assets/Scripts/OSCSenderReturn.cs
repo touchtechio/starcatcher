@@ -20,7 +20,7 @@ namespace UniOSC{
 	/// </summary>
 	[AddComponentMenu("UniOSC/EventDispatcherButton")]
 	[ExecuteInEditMode]
-	public class OSCSenderCaught: UniOSCEventDispatcher {
+	public class OSCSenderReturn: UniOSCEventDispatcher {
 
         #region public
         [HideInInspector]
@@ -107,7 +107,7 @@ namespace UniOSC{
 		}
 
 
-        public void SendOSCCaughtMessage(string address, int strip)
+        public void SendOSCReturnMessage(string address, int strip)
         {
 
             // _SetupOSCMessage(false); // set to not bundle

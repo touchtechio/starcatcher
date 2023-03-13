@@ -43,6 +43,11 @@ public class ViveControllerTest : MonoBehaviour
     void Update()
     {
         triggerPosition = butterflyNet.transform.position;
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            Debug.Log("KEY PRESS: space");
+            SwitchScene();
+        }    
     }
 
     public void TriggerDown(SteamVR_Action_Boolean fromAction, SteamVR_Input_Sources fromSource)
@@ -62,6 +67,10 @@ public class ViveControllerTest : MonoBehaviour
 
     public void MenuDown(SteamVR_Action_Boolean fromAction, SteamVR_Input_Sources fromSource)
     {
+        SwitchScene();
+    }
+
+    public void SwitchScene() {
         Debug.Log("Change Scene");
 
         projectorLoadCamera.enabled = false;

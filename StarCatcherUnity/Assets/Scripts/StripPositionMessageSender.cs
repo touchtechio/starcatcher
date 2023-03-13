@@ -49,7 +49,7 @@ public class StripPositionMessageSender : MonoBehaviour {
         currentStripSent = StripPosition.Count();
 
         Debug.Log("linger " + currentStripSent);
-        OSCSenderLinger.SendOSCLingerMessage("/starlinger", currentStripSent, 15000);
+        OSCSenderLinger.SendOSCLingerMessage("/starlinger", currentStripSent, 30000);
 
     }
 

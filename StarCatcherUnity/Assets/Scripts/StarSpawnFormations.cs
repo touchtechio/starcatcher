@@ -31,8 +31,10 @@ public class StarSpawnFormations : MonoBehaviour
     
         if (collision.gameObject.tag == "STAR POSITION")
         {
+            //Debug.Log("Spawn from formation");
             GameObject starPosition = collision.gameObject;
             StripIndex index = starPosition.GetComponent<StripIndex>();
+            //Debug.Log("star index " + index.stripIndex);
             starSpawn.Spawn(index.stripIndex);
         }
     

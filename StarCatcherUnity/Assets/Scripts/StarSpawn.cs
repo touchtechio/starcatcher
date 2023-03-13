@@ -22,10 +22,7 @@ public class StarSpawn : MonoBehaviour {
     //private static UnityEngine.Random random = new UnityEngine.Random();
     public StripPosition stripPositions;
     private float timeToNextSpawn = 0;
-    private float hardTimeToNextSpawn = 0;
-    private int stripNumber;
     private SoundManager soundManager;
-    bool betweenWaves = false;
     // empty game object as parent for spwned stars
     static private GameObject parent;
     int starCount = 0;
@@ -38,7 +35,7 @@ public class StarSpawn : MonoBehaviour {
     public float waitWaves = 20;
     public int ShowerCount = 10;
     public bool testSend = false;
-    public bool randomStarsSending = false;
+    public bool randomStarsSending = true;
     [HideInInspector]
     public string StarTypeToSpawn;
 
@@ -155,15 +152,29 @@ public class StarSpawn : MonoBehaviour {
 
     }
 
-    public static void DestroyStars()
+    public void DestroyStars()
     {
-
+        this.randomStarsSending = false;
         foreach (Transform child in parent.transform)
         {
             Destroy(child.gameObject);
         }
         return;
     }
+
+    public void StartRandomStars()
+    {
+        Debug.Log("Restarted random stars");
+        this.randomStarsSending = true;
+    }
+
+    public void StopRandomStars()
+    {
+        // Debug.Log("Stopped random stars");
+        this.randomStarsSending = false;
+    }
+
+
 
 
     public void Update()
@@ -212,6 +223,9 @@ public class StarSpawn : MonoBehaviour {
     {
         timeToNextSpawn = calcNextSpawnRate(worldStateSpawnRates[Score.plasmaWorldState]);
         StarTypeToSpawn = calcNextSpawnType(worldStatePercentages[Score.plasmaWorldState]);
+        // if (!randomStarsSending) {
+        //     Debug.Log("Star " + StarTypeToSpawn);
+        // }
 
         // TODO: change to enum type and case switch statements
         if (StarTypeToSpawn == "easy")
@@ -255,6 +269,9 @@ public class StarSpawn : MonoBehaviour {
 
     private void Spawn(Strip strip, float duration, float lingerTime, Color color, GameObject starType, string starColor)
     {
+        // if (!randomStarsSending) {
+        //     Debug.Log("instantiate star");
+        // }
 
         Vector3 spawnPoint = strip.starStartPoints;
 
@@ -292,8 +309,6 @@ public class StarSpawn : MonoBehaviour {
 
         return;
     }
-
-
 
     private Strip GetStrip()
     {

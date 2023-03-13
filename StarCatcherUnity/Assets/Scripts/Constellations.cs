@@ -11,6 +11,8 @@ public class Constellations : MonoBehaviour {
     public List<Constellation> constellations = new List<Constellation>();
     OSCSenderComplete oscSenderObject;
     private SoundManager soundManager;
+    public StarSpawn starSpawn;
+
 
     bool allFull = false;
 
@@ -50,6 +52,7 @@ public class Constellations : MonoBehaviour {
 
             // create constellation and all to our list
             constellations.Add(new Constellation(objs[i], Children, objs[i].name));
+            starSpawn = (StarSpawn)FindObjectOfType<StarSpawn>();
 
         }
 
@@ -81,7 +84,7 @@ public class Constellations : MonoBehaviour {
 
                 // mark full and do all kinds of ui craziness
                 constellation.Complete();
-                StarSpawn.DestroyStars();
+                starSpawn.DestroyStars();
 
 
                 oscSenderObject.SendOSCCompleteMessage("/constellationfull", 0);
@@ -97,7 +100,7 @@ public class Constellations : MonoBehaviour {
 
 
         // cleanup some memory
-        StarSpawn.DestroyStars();
+        starSpawn.DestroyStars();
 
         // allow first to be re-enabled
         allFull = true;

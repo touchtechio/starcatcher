@@ -20,7 +20,6 @@ public class StarMove : MonoBehaviour {
     Vector3 nearlyEndMarker;
     private float startTime;
     private float journeyLength;
-    bool timeRecorded = false;
     private bool lingerSent = false;
     OSCSenderLinger oscSenderObject;
     private AudioSource source;
