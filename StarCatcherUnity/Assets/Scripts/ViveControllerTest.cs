@@ -48,6 +48,10 @@ public class ViveControllerTest : MonoBehaviour
             Debug.Log("KEY PRESS: space");
             SwitchScene();
         }    
+
+ 
+        
+
     }
 
     public void TriggerDown(SteamVR_Action_Boolean fromAction, SteamVR_Input_Sources fromSource)
@@ -84,4 +88,5 @@ public class ViveControllerTest : MonoBehaviour
 
         }
     }
+
 }

@@ -5,6 +5,7 @@
 * info@monoflow.org
 */
 using UnityEngine;
+
 using System.Collections;
 using System.Collections.Generic;
 using System;
@@ -12,6 +13,7 @@ using OSCsharp.Data;
 
 
 namespace UniOSC{
+
 
 	/// <summary>
 	/// Rotates (localRotation) the hosting game object.
@@ -21,6 +23,9 @@ namespace UniOSC{
 	public class OSCReciever :  UniOSCEventTarget {
 
         private StarSpawn starSpawner;
+
+        public NarrationManager buttonAnimations;
+
 
 
 
@@ -33,6 +38,10 @@ namespace UniOSC{
         private const string hardDuration = "/1/rotary4";
         private const string hardDelay = "/1/rotary5";
         private const string hardPeriod = "/1/rotary6";
+
+        private const string button = "/button";
+        private const string slider = "/slider";
+
         
 
 
@@ -79,7 +88,20 @@ namespace UniOSC{
 
             }
 
+            if (msg.Address.Contains(button))
+            {
+                int index = (int)msg.Data[0];
+                Debug.Log("button "+ index);
+                buttonAnimations.TriggerNarration(index);
+                //buttonAnimations.TriggerAnimation(index);
 
+
+            }
+            if (msg.Address.Contains(slider))
+            {
+                Debug.Log("slider "+ msg.Data[0]);
+
+            }
 
 
 

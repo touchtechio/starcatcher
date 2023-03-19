@@ -18,6 +18,9 @@ TagManager:
   - Limb
   - STARTING POSITIONS
   - STAR POSITION
+  - DEAD STARS
+  - NARRATION_TEXT
+  - STAR POSITION TUTORIAL
   layers:
   - Default
   - TransparentFX

@@ -25,11 +25,11 @@ public class MusicStemCrossfade : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.C))
+        if (Input.GetKeyDown(KeyCode.W))
         {
             FadeInAudio();
         }
-        else if (Input.GetKeyDown(KeyCode.D) && sourceToCrossfade.isPlaying)
+        else if (Input.GetKeyDown(KeyCode.Q) && sourceToCrossfade.isPlaying)
         {
             FadeOutAudio();
         }

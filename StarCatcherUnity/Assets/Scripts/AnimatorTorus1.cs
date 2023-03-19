@@ -27,7 +27,12 @@ public class AnimatorTorus1 : MonoBehaviour
 
     // function to trigger animator, that can be called from the score script
     public void triggerTorus1Animation() {
-         Debug.Log("trigger torus animation");
+        //  Debug.Log("trigger torus animation");
          myAnimationController.SetTrigger("triggerMove");
     } 
+
+    public void ResetTorus1Animation() {
+      // Debug.Log("trigger sphere animation");
+        myAnimationController.ResetTrigger("triggerMove");
+   }
 }

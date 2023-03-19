@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -36,6 +37,10 @@ public class StripPosition : MonoBehaviour {
     public static StripPosition thisStripPosition;
     private GameObject parentStartPositions;
 
+    public string stripPositionfilename = "Strip_Positions.csv";
+    public string ApplicationDataPath = Application.dataPath;
+
+
     // to test all LED strips spawning in sequence;
     [Header ("test strip conditions")]
     public int maxStripNumer = 10;
@@ -46,20 +51,23 @@ public class StripPosition : MonoBehaviour {
     private Vector3 lastTriggerPosition = new Vector3(0, 0, 0);
     private Vector3 triggerPosition = new Vector3(1,0,0);
 
-    //public Text stripCountText;
-
+    public bool IsLoadFromFile = true;
 
     void Awake ()
     {
-        if (thisStripPosition)
-        {
-            DestroyImmediate(gameObject);
-        }
-        else
-        {
-            DontDestroyOnLoad(gameObject);
-            thisStripPosition = this;
-        }
+        // create shared object
+        // 
+        // if (thisStripPosition)
+        // {
+        //     DestroyImmediate(gameObject);
+        // }
+        // else
+        // {
+        //     DontDestroyOnLoad(gameObject);
+        //     thisStripPosition = this;
+        // }
+
+        lastRandomStrip = new Strip(new Vector3(0, 0, 0), 0.5f, 0);
 
         parent = GameObject.FindGameObjectWithTag("STRIPS");
 
@@ -67,9 +75,14 @@ public class StripPosition : MonoBehaviour {
         //starStrips = new ArrayList();
         onxStudio();
 
+        if(IsLoadFromFile) {
+        //    ExportStripPositons();
+            ImportStripPositons();
+            Debug.Log("IMPORTED Strips");
+            LogStripPositons();
+        }
 
         // set a random starting strip position
-        lastRandomStrip = new Strip(new Vector3(0, 0, 0), 0.5f, 0);
 
     }
 
@@ -179,6 +192,13 @@ public class StripPosition : MonoBehaviour {
         }
 
         starStripCount = starStrips.Count;
+
+        
+
+        if(Input.GetKeyDown(KeyCode.P)) {
+            SetStripPosition(new Vector3(0, 0, 0));
+        }
+
     }
 
     public int Count()
@@ -202,6 +222,8 @@ public class StripPosition : MonoBehaviour {
 
         // GetComponent<VRTK_ControllerEvents>().TriggerReleased += new ControllerInteractionEventHandler(DoTriggerReleased);
         LogStripPositons();
+
+        ExportStripPositons();
     }
 
 
@@ -266,6 +288,60 @@ public class StripPosition : MonoBehaviour {
 
         }
         Debug.LogWarning(msg);
+    }
+
+    private void ExportStripPositons()
+    {
+        string filePath = getStripPositionFilePath();
+        StreamWriter writer = new StreamWriter(filePath, false);
+
+        for (int i = 0; i < starStrips.Count; i++) 
+        {
+            Strip strip = (Strip)starStrips.ToArray()[i];
+            string msg = strip.starStartPoints.x + "," + strip.starStartPoints.y + "," + strip.starStartPoints.z;
+            writer.WriteLine(msg);
+        }
+        writer.Close();
+        Debug.LogWarning("finished writing " + starStrips.Count + " strip positions: " + filePath);
+    }
+
+    private void ImportStripPositons()
+    {
+        string filePath = getStripPositionFilePath();
+        if (!File.Exists(filePath)) {
+            Debug.LogError("file not found for importing strip positions: " + filePath);
+            return;
+        }
+        
+        FileStream fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read);
+        StreamReader reader = new StreamReader(filePath);
+
+        Debug.LogWarning("clearing previous star positions");
+        starStrips = new ArrayList();
+
+        for (int starIndex = 0; !reader.EndOfStream; starIndex++) {
+            string line = reader.ReadLine();
+            string[] corr = line.Split(',');
+            if (corr.Length == 3) {
+                starStrips.Add(new Strip(new Vector3(float.Parse(corr[0]), float.Parse(corr[1]), float.Parse(corr[2])), 0.5f, starIndex));
+            }
+            else {
+                Debug.LogError("line at index " + starIndex + " invalid. `" + line + "'");
+            }
+        }
+
+        reader.Close();
+
+        Debug.LogWarning("finished reading " + starStrips.Count + " strip positions from " + filePath);
+    }
+
+    private string getStripPositionFilePath()
+    {
+    #if UNITY_EDITOR
+            return Application.dataPath + "/Data/"  + stripPositionfilename;
+    #else
+            return Application.dataPath + "/" + stripPositionfilename;
+    #endif
     }
     
 }

@@ -29,7 +29,12 @@ public class AnimatorSphere1 : MonoBehaviour
     }
 }
    public void TriggerSphere1Animation() {
-      Debug.Log("trigger sphere animation");
+      // Debug.Log("trigger sphere animation");
          myAnimationController.SetTrigger("triggerMove");
+   }
+
+   public void ResetSphere1Animation() {
+      // Debug.Log("trigger sphere animation");
+         myAnimationController.ResetTrigger("triggerMove");
    }
 }
