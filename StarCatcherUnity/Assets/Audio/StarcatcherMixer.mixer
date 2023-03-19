@@ -242,9 +242,9 @@ AudioMixerController:
   m_OutputGroup: {fileID: 0}
   m_MasterGroup: {fileID: 24300002}
   m_Snapshots:
+  - {fileID: 6589051301820312192}
   - {fileID: -1458435840701292538}
   - {fileID: 24500006}
-  - {fileID: 6589051301820312192}
   m_StartSnapshot: {fileID: 24500006}
   m_SuspendThreshold: -80
   m_EnableSuspend: 1
@@ -263,7 +263,7 @@ AudioMixerController:
     - 6cacd93309ccf6545a9ae9f287d2f789
     name: View
   m_CurrentViewIndex: 0
-  m_TargetSnapshot: {fileID: -1458435840701292538}
+  m_TargetSnapshot: {fileID: 6589051301820312192}
 --- !u!243 &24300002
 AudioMixerGroupController:
   m_ObjectHideFlags: 0

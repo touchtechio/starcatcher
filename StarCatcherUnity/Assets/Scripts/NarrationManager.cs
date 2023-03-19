@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Audio;
 
 public class NarrationManager : MonoBehaviour
 {
@@ -12,10 +13,14 @@ public class NarrationManager : MonoBehaviour
     private float starFallTime;
     public AnimatorSphere2 animatorSphere2;
     private bool hasIntroEnded = false;
+    public AudioMixerSnapshot tutorialSnapshot;
+
 
     // Start is called before the first frame update
     void Start()
     {
+        tutorialSnapshot.TransitionTo(0.0f);
+
         //StarSpawnObject.StartRandomStars();
         // Debug.Log("spawn");
         // TriggerSpawnAnimation();
