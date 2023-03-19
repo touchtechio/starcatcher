@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Audio;
 
 public class NarrationManager : MonoBehaviour
 {
@@ -13,12 +14,12 @@ public class NarrationManager : MonoBehaviour
 
 
     public string[] narrationText;
-
+    public AudioMixerSnapshot tutorialSnapshot;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        tutorialSnapshot.TransitionTo(0.0f);
     }
 
     // Update is called once per frame
