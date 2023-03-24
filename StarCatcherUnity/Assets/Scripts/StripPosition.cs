@@ -36,9 +36,7 @@ public class StripPosition : MonoBehaviour {
     public bool clearStripArray = false;
     public static StripPosition thisStripPosition;
     private GameObject parentStartPositions;
-
     public string stripPositionfilename = "Strip_Positions.csv";
-    public string ApplicationDataPath = Application.dataPath;
 
 
     // to test all LED strips spawning in sequence;

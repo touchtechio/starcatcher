@@ -80,7 +80,7 @@ public class StarCollider : MonoBehaviour {
         isStarCaught = true;
 
         timeCaught = Time.time;
-        Debug.Log("caught: "+ caughtStripNumber);
+        //Debug.Log("caught: "+ caughtStripNumber);
         oscSenderObject.SendOSCCaughtMessage("/starcaught", caughtStripNumber);
 
         // play caught sound at place of caught

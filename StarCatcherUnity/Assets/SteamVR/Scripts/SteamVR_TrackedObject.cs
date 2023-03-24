@@ -95,6 +95,7 @@ namespace Valve.VR
             }
 
             newPosesAction.enabled = true;
+            
         }
 
         void OnDisable()

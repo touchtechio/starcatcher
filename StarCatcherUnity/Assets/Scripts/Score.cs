@@ -113,14 +113,10 @@ public class Score : MonoBehaviour {
         updateStarCaughtOnKeyPress();
         scoreLogger.LogScore();
         // simulate stars caught with hotkey
-        if (Input. GetKeyUp("c")){
+        if (Input. GetKeyUp("n")){
             catchStarNoConstellation();
         }
         starCaughtLog = starCaughtCount;
-
-        // if (isTutorialScene == true) {
-        //     return;
-        // }
 
         // set timers for rejuvination state and dead state
         // during rejuvination, no stars can be caught
@@ -137,6 +133,7 @@ public class Score : MonoBehaviour {
             setDeadTimer();
         }
 
+        if (isTutorialScene == false) {
         if (torus1AnimationRunTimer == true) {
             runTorus1AnimationTimer();
             }
@@ -157,6 +154,7 @@ public class Score : MonoBehaviour {
                 if (starCaughtCount > 0) starCaughtCount --;
                 reduceScoreTimer = reduceScoreTimerValue;
             }
+        }
         }
     }
 

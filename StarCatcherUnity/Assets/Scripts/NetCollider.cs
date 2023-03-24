@@ -1,4 +1,5 @@
 using UnityEngine;
+using Valve.VR;
 
 public class NetCollider : MonoBehaviour
 {
@@ -10,16 +11,21 @@ public class NetCollider : MonoBehaviour
     // private StarSpawnBase starSpawnBase;
     public int starsCaughtbyNet = 0;
 
+    public int deviceIndex;
+
     // Start is called before the first frame update
     void Start()
     {
-        Debug.Log("net check");
+        // Debug.Log("net check " + gameObject.transform.parent.parent.name);
         // starSpawn = StarSpawn.FindObjectOfType<StarSpawn>();
         // starSpawnBase = StarSpawn.FindObjectOfType<StarSpawnBase>();
         // if (null == starSpawn)
         // {
         //     Debug.Log("ERROR: no starSpawn found");
         // }    
+        
+        SteamVR_TrackedObject netController = gameObject.transform.parent.parent.gameObject.GetComponent<SteamVR_TrackedObject>();
+        deviceIndex = (int)netController.index;
     }
 
 

@@ -14,12 +14,18 @@ public class NarrationManager : MonoBehaviour
     public AnimatorSphere2 animatorSphere2;
     private bool hasIntroEnded = false;
     public AudioMixerSnapshot tutorialSnapshot;
+    private Score scoreObject;
+    private bool startedEndTimer = false;
+    private float endStartTime;
+
+    public int CaughtStarCountToAdvanceScene = 10;
 
 
     // Start is called before the first frame update
     void Start()
     {
         tutorialSnapshot.TransitionTo(0.0f);
+        scoreObject = FindObjectOfType<Score>();
 
         //StarSpawnObject.StartRandomStars();
         // Debug.Log("spawn");
@@ -41,12 +47,30 @@ public class NarrationManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.S))
         {
             Debug.Log("KEY PRESS: S");
-            Debug.Log("spawn");
+            Debug.Log("Score = " + scoreObject.starCaughtCount);
         }
 
         // also check if star caught
         if (hasIntroEnded && (Time.time >= (startTime + starFallTime))) {
             TriggerSpawnAnimation();
+        }
+
+        // Start ending narrative and then change scene
+        if (scoreObject.starCaughtCount >= CaughtStarCountToAdvanceScene) {
+            if (startedEndTimer == false) { 
+                Debug.Log(scoreObject.starCaughtCount);
+                TriggerNarration(1);
+                endStartTime = Time.time;
+                startedEndTimer = true;
+            }
+        }
+
+        // change to main game
+        if (startedEndTimer && (Time.time >= endStartTime + narrationStems[1].sourceToCrossfade.clip.length)) {
+            Debug.Log("clip length " + narrationStems[1].sourceToCrossfade.clip.length);
+            Debug.LogWarning("CHANGE SCENE not yet impl");
+            SceneTrigger sceneTrigger = GameObject.FindGameObjectWithTag("GameManager").GetComponent<SceneTrigger>();
+            sceneTrigger.SwitchToGameScene();
         }
     
     }
