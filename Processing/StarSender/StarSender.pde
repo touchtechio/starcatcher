@@ -237,6 +237,8 @@ int serialListNumber = 0;
 ArrayList<Byte> serialBuffer = new ArrayList<Byte>();
 
 void setupSerial() {
+    println(Serial.list());
+
   serial = new Serial(this, Serial.list()[serialListNumber], baud);
   println(Serial.list()[serialListNumber]);
   serialPortName.setText(Serial.list()[serialListNumber] + "\n"
