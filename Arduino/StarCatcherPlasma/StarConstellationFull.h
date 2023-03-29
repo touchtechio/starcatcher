@@ -9,23 +9,21 @@ class StarConstellationFull:
   public:
     inline uint32_t shade (float height, uint32_t color, uint32_t currentColor, float remaining, uint32_t secondaryColor) {
 
-      uint32_t mauve = 0xE6E6FA;
+      uint32_t mustard = 0xF1BA46;
       
       if (height > .90) {
         if (remaining > 0.6) {
-          return colorByBrightness(remaining, mauve);
+          return colorByBrightness(remaining, mustard);
         }
         else {
-          return colorByBrightness(1.0 * remaining, mauve);
+          return colorByBrightness(1.0 * remaining, mustard);
         }
 
       } else {
-        return colorByBrightness(0.0, mauve);
+        return colorByBrightness(0.0, mustard);
       }
 
-
     }
-
 
 };
 

@@ -10,6 +10,7 @@
 // shaders define pattern behaviors
 #include "TopShader.h"
 #include "StarFallDown.h"
+#include "StarRiseUp.h"
 #include "StarLinger.h"
 #include "TwinkleShader.h"
 #include "GlowShader.h"
@@ -24,6 +25,7 @@
 #include "CandyStrobingShader.h"
 #include "StarConstellationFull.h"
 #include "StarCaught.h"
+#include "PulsingLinger.h"
 
 // my color presets
 #include "colors.h"
@@ -69,7 +71,7 @@ Shader* behavior[] = {
   new StarLinger(), // lingering 1
   new TwinkleShader(), // 2
   new GlowShader(), //glow 3
-  new PulsingShader(), //pulse 4
+  new PulsingLinger(), // 4
   new RisingShader(), // rise 5
   new BassShader(), // bass 6
   new MultiColorShader(), // colors 7
@@ -78,18 +80,20 @@ Shader* behavior[] = {
   new StrobingShader(), // strobe 10
   new CandyStrobingShader(), // candystrobe 11
   new StarConstellationFull(), // 12
-  new StarCaught() //13
+  new StarCaught(), //13
+  new StarRiseUp() //14
 
   };
 
 // nice to keep an array size value around for validation and looping
-int behaviorCount = 12; 
+int behaviorCount = 15; 
 
 #define LINGER 1
 #define FALL 0
 #define CAUGHT 13
 #define CONSTELLATION 12
-#define RETURN 8
+#define PULSE_LINGER 5
+#define RETURN 5
 
 
 
@@ -214,6 +218,7 @@ void pollForNewOscMessages() {
       msg.dispatch("/starcool", routeFallingStarCool);
       msg.dispatch("/starwarm", routeFallingStarWarm);
       msg.dispatch("/starlinger", routeLingeringStar);
+      msg.dispatch("/faintstarlinger", routePulseLingeringStar);
       msg.dispatch("/starcaught", routeCaughtStar);
       msg.dispatch("/constellationfull", routeConstellationFull);
       msg.route("/color", routeColor);
@@ -276,6 +281,12 @@ void routeReturnStar(OSCMessage &msg){
 
 void routeLingeringStar(OSCMessage &msg){
   triggerStar( msg, LINGER);
+}
+
+
+
+void routePulseLingeringStar(OSCMessage &msg){
+  triggerStar( msg, PULSE_LINGER);
 }
 
 
@@ -566,12 +577,24 @@ void routeBehavior(OSCMessage &msg, int patternOffset){
     newBehavior = 9;
   }
 
-  if ( 0 < msg.match("/a",patternOffset)) {
+  if ( 0 < msg.match("/10",patternOffset)) {
     newBehavior = 10;
   }
 
-  if ( 0 < msg.match("/b",patternOffset)) {
+  if ( 0 < msg.match("/11",patternOffset)) {
     newBehavior = 11;
+  }
+
+  if ( 0 < msg.match("/12",patternOffset)) {
+    newBehavior = 12;
+  }
+
+  if ( 0 < msg.match("/13",patternOffset)) {
+    newBehavior = 13;
+  }
+
+  if ( 0 < msg.match("/14",patternOffset)) {
+    newBehavior = 14;
   }
 
 

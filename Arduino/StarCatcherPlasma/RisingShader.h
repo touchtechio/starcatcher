@@ -12,7 +12,7 @@ public:
     int scale = 1;
     height = height * scale;
     height = height - (int) height;
-    height = 1.0 - height;
+    //height = 1.0 - height;
     
 
     float closeness = 1.0 - abs(height - remaining);

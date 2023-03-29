@@ -23,7 +23,7 @@ public:
     }
 */
     float closeness = 1.0 - abs(height - remaining);
-         if (closeness > .80) {
+    if (closeness > 0.8) {
       return colorByBrightness(closeness*closeness*closeness, color);
     } else if (closeness > 0.6) {
      return colorByBrightness((height - remaining) , color);

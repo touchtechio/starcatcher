@@ -10,12 +10,17 @@ public:
     inline uint32_t shade (float height, uint32_t color, uint32_t currentColor, float remaining, uint32_t secondaryColor) {
         
         int stobeClock = (int) (remaining * 100.0);
-        
-        if ( 0 == (stobeClock % 2) ) {
-            return colorByBrightness(remaining, candyColors[stobeClock%candyColorCount]);
+        if (height > .90) {
+            if ( 0 == (stobeClock % 2) ) {
+                return colorByBrightness(remaining, candyColors[stobeClock%candyColorCount]);
+            }
         }
         
-        return colorByBrightness(0.0, color);
+        if(7 > random(100)) {
+            return colorByBrightness(0.99, currentColor);
+        }
+        
+        return currentColor;
         
     }
     
