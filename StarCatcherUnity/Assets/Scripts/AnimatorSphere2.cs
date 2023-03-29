@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AnimatorSphere2 : MonoBehaviour
+public class AnimatorSphere2 : MonoBehaviour, IFormationAnimation
 {
     [SerializeField] private Animator myAnimationController;
     // Start is called before the first frame update
@@ -26,35 +26,29 @@ public class AnimatorSphere2 : MonoBehaviour
     void Update()
     {
 
-        if (Input.GetKeyDown(KeyCode.Alpha9)) {
+      if (Input.GetKeyDown(KeyCode.Alpha9)) {
          Debug.Log("trigger sphere animation");
-         myAnimationController.SetTrigger("TriggerMove");
-
-      //  //Debug.Log(myAnimationController.GetCurrentAnimatorStateInfo(0).normalizedTime); 
-      //  if (myAnimationController.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1) {
-      //       //Debug.Log("diagonal sphere return");
-      //       myAnimationController.SetBool("sphereMoveDiagonal1", false);
-      //  }
-
-         TriggerTutorialSectionAnimation();
+         Animate();
+      }
     }
-}
-   public void TriggerTutorialSectionAnimation() {
+   public void Animate() {
       // Debug.Log("Random section selection");
       // chose one of the parent posisiont and do animation on that
       int randomNumber = Random.Range(0, parentPositions.Count);
       Transform aSectionParent = parentPositions[randomNumber];
       transform.SetParent(aSectionParent, false);
-      TriggerSphere2Animation();
+      // in the script on the animating object the type of spawn is determined
+         myAnimationController.SetTrigger("TriggerMove");
    
    }
-   public void TriggerSphere2Animation() {
-         // Debug.Log("trigger tutorial sphere animation");
-         myAnimationController.SetTrigger("TriggerMove");
-   }
+ 
 
-   public void ResetSphere2Animation() {
+   public void Reset() {
       // Debug.Log("trigger sphere animation");
          myAnimationController.ResetTrigger("TriggerMove");
    }
+
+   // public void TriggerFaintStarAnimation(){
+
+   // }
 }

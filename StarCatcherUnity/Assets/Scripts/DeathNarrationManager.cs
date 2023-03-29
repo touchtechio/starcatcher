@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Audio;
 
-public class NarrationManager : MonoBehaviour
+public class DeathNarrationManager : MonoBehaviour
 {
 
     public Text text;
@@ -14,11 +14,12 @@ public class NarrationManager : MonoBehaviour
     public AnimatorSphere2 animatorSphere2;
     private bool hasIntroEnded = false;
     public AudioMixerSnapshot tutorialSnapshot;
-    private Score scoreObject;
+    private Score scoreObject; // do we need this?? 
     private bool startedEndTimer = false;
     private float endStartTime;
+    private bool hasDeathStarted = false;
 
-    public int CaughtStarCountToAdvanceScene = 10;
+    // public int CaughtStarCountToAdvanceScene = 10;
 
 
     // Start is called before the first frame update
@@ -35,45 +36,28 @@ public class NarrationManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Keypad0)) {
-            TriggerAnimation(0);
-            // TriggerNarration(0);
-        }
-        if(Input.GetKeyDown(KeyCode.Keypad1)) {
-            TriggerAnimation(0);
-            // TriggerNarration(1);
-        }
-
-        if (Input.GetKeyDown(KeyCode.S))
-        {
-            Debug.Log("KEY PRESS: S");
-            Debug.Log("Score = " + scoreObject.starCaughtCount);
+        if (hasDeathStarted && (Time.time >= startTime + narrationStems[0].sourceToCrossfade.clip.length)) {
+            Debug.Log("clip length " + narrationStems[0].sourceToCrossfade.clip.length);
+            Debug.LogWarning("Trigger star and clip");
+            DeadStarPositionColliders deadStarPositionCollider = FindObjectOfType<DeadStarPositionColliders>();
+            deadStarPositionCollider.UpdateDeadStarPositionColliders();
+            TriggerSpawnFaintStarAnimation(); //TODO: look into the trigger narration and formation with index
         }
 
-        // also check if star caught
-        if (hasIntroEnded && (Time.time >= (startTime + starFallTime))) {
-            TriggerSpawnAnimation();
-        }
 
-        // Start ending narrative and then change scene
-        if (scoreObject.starCaughtCount >= CaughtStarCountToAdvanceScene) {
-            if (startedEndTimer == false) { 
-                Debug.Log(scoreObject.starCaughtCount);
-                TriggerNarration(1);
-                endStartTime = Time.time;
-                startedEndTimer = true;
-            }
-        }
-
-        // change to main game
-        if (startedEndTimer && (Time.time >= endStartTime + narrationStems[1].sourceToCrossfade.clip.length)) {
-            Debug.Log("clip length " + narrationStems[1].sourceToCrossfade.clip.length);
-            Debug.LogWarning("CHANGE SCENE not yet impl");
-            SceneTrigger sceneTrigger = GameObject.FindGameObjectWithTag("GameManager").GetComponent<SceneTrigger>();
-            sceneTrigger.SwitchToGameScene();
-        }
     
     }
+
+    // this starts the Death Narration from the score / game mode transistion
+    public void TriggerDeath() {
+        Debug.Log("Death getting triggered");
+        hasDeathStarted = true;
+        startTime = Time.time;
+        TriggerNarration(0);
+
+    }
+
+
 
     public void TriggerNarration(int triggerItemIndex) {
         Debug.Log("TriggerNarration() w triggerItemIndex: " + triggerItemIndex);
@@ -117,11 +101,12 @@ public class NarrationManager : MonoBehaviour
 
     }
 
-    private void TriggerSpawnAnimation() {
+    private void TriggerSpawnFaintStarAnimation() {
         // Debug.Log("trigger tutorial animation");
         hasIntroEnded = true;
         startTime = Time.time;
         starFallTime = starSpawnObject.TutorialFallDuration + starSpawnObject.TutorialLingerTime;
+
         animatorSphere2.Animate();
         // if star caught, Spawn star
 

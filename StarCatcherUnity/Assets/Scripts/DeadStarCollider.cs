@@ -16,8 +16,8 @@ public class DeadStarCollider : MonoBehaviour {
     private GameObject gameManagerObject;
     private Score gameScore;
  
+    // OSC
     OSCSenderReturn oscSenderObject;
-
     OSCSenderLinger oscSenderLinger;
 
 
@@ -55,9 +55,12 @@ public class DeadStarCollider : MonoBehaviour {
 
         timeCaught = Time.time;
         Debug.Log("returning: "+ caughtStripNumber);
+
+                // Debug.Log("linger " + caughtStripNumber);
+        oscSenderLinger.SendOSCLingerMessage("/starlinger", caughtStripNumber, 2000);
+
+
         oscSenderObject.SendOSCReturnMessage("/starreturn", caughtStripNumber);
-        Debug.Log("linger " + caughtStripNumber);
-        oscSenderLinger.SendOSCLingerMessage("/starlinger", caughtStripNumber, 20000);
 
         // play caught sound at place of caught
         SoundCatch();

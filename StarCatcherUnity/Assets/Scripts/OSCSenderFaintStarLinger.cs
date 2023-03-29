@@ -18,7 +18,7 @@ namespace UniOSC{
 	/// </summary>
 	[AddComponentMenu("UniOSC/EventDispatcherButton")]
 	[ExecuteInEditMode]
-	public class OSCSenderLinger: UniOSCEventDispatcher {
+	public class OSCSenderFaintStarLinger: UniOSCEventDispatcher {
 
         #region public
         [HideInInspector]
@@ -106,7 +106,7 @@ namespace UniOSC{
 		}
 
 
-        public void SendOSCLingerMessage(string address, int strip, int linger)
+        public void SendOSCFaintStarLingerMessage(string address, int strip, int linger)
         {
 
            // _SetupOSCMessage(false); // set to not bundle

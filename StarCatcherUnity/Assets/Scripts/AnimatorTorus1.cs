@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AnimatorTorus1 : MonoBehaviour
+public class AnimatorTorus1 : MonoBehaviour, IFormationAnimation
 {
     [SerializeField] private Animator myAnimationController;
     // Start is called before the first frame update
@@ -14,24 +14,20 @@ public class AnimatorTorus1 : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-     if (Input.GetKeyDown(KeyCode.Alpha7)) {
-         Debug.Log("trigger torus animation from keypress");
-         myAnimationController.SetTrigger("triggerMove");
-     }
-     //   //Debug.Log(myAnimationController.GetCurrentAnimatorStateInfo(0).normalizedTime); 
-     //   if (myAnimationController.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1) {
-     //       // Debug.Log("torus return");
-     //        myAnimationController.SetBool("torusDrop", false);
-     //   }
+      if (Input.GetKeyDown(KeyCode.Alpha7)) {
+        Debug.Log("trigger torus animation from keypress");
+        Animate();
+      }
+
     }
 
     // function to trigger animator, that can be called from the score script
-    public void triggerTorus1Animation() {
+    public void Animate() {
         //  Debug.Log("trigger torus animation");
          myAnimationController.SetTrigger("triggerMove");
     } 
 
-    public void ResetTorus1Animation() {
+    public void Reset() {
       // Debug.Log("trigger sphere animation");
         myAnimationController.ResetTrigger("triggerMove");
    }

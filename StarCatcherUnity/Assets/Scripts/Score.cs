@@ -30,7 +30,7 @@ public class Score : MonoBehaviour {
     private float rejuvinationTimer;
     public float rejuvinationTimerValue = 5f;
     public static float deadTimer;
-    public float deadTimerValue = 10f;
+    public float deadTimerValue = 60f;  // length of clip one + silence + period + star fall + linger
     private float reduceScoreTimer;
     public float reduceScoreTimerValue = 10f;
 
@@ -39,6 +39,7 @@ public class Score : MonoBehaviour {
 
     public StarSpawn starSpawn;
     public DeadStarPositionColliders deadStarPositionCollider;
+    public DeathNarrationManager deathNarrationManager; 
     public bool constellationMode = true;
     public bool isTutorialScene = false;
 
@@ -47,7 +48,6 @@ public class Score : MonoBehaviour {
 
     // FORMATIONS
     private AnimatorTorus1 torus1Animator;
-    private Animator torusAnimatorComponent;
     private bool hasTorus1Triggered = false;
     private float animationTimerTorus1Value = 15f;
     private float animationTimerTorus1;
@@ -58,6 +58,9 @@ public class Score : MonoBehaviour {
     private bool sphere1AnimationRunTimer = false;
     private AnimatorSphere1 sphere1Animator;
 
+    public IFormationAnimation[] flourishAnimators;
+
+    public int formationIndex = 0;
      
     void Awake(){
         Instance = this;
@@ -106,9 +109,10 @@ public class Score : MonoBehaviour {
 
         animationTimerSphere1 = animationTimerSphere1Value;
         sphere1Animator = GameObject.FindObjectOfType(typeof(AnimatorSphere1)) as AnimatorSphere1;
+        flourishAnimators = new IFormationAnimation[] {sphere1Animator, torus1Animator};
     }
 
-        void Update(){
+    void Update(){
 
         updateStarCaughtOnKeyPress();
         scoreLogger.LogScore();
@@ -133,28 +137,30 @@ public class Score : MonoBehaviour {
             setDeadTimer();
         }
 
+        // The tutorial scene also uses the score script, however it doens't need the following actions
+        // so they only run in the main scene
         if (isTutorialScene == false) {
-        if (torus1AnimationRunTimer == true) {
-            runTorus1AnimationTimer();
+            if (torus1AnimationRunTimer == true) {
+                runTorus1AnimationTimer();
+                }
+
+            if (sphere1AnimationRunTimer == true) {
+                runSphere1AnimationTimer();
             }
 
-        if (sphere1AnimationRunTimer == true) {
-            runSphere1AnimationTimer();
-        }
-
-        checkEffectOnEnvironment();
-        if (plasmaWorldState != GameState.Rejuvination && plasmaWorldState != GameState.Dead){
-            SetGameState();
-        }
-
-        // If on, reduce score over time so that the world regenerates if noone is playing
-        if (reduceScoreBool == true) {
-            reduceScoreTimer -= Time.deltaTime;
-            if (reduceScoreTimer <= 0) {
-                if (starCaughtCount > 0) starCaughtCount --;
-                reduceScoreTimer = reduceScoreTimerValue;
+            checkEffectOnEnvironment();
+            if (plasmaWorldState != GameState.Rejuvination && plasmaWorldState != GameState.Dead){
+                SetGameState();
             }
-        }
+
+            // If on, reduce score over time so that the world regenerates if noone is playing
+            if (reduceScoreBool == true) {
+                reduceScoreTimer -= Time.deltaTime;
+                if (reduceScoreTimer <= 0) {
+                    if (starCaughtCount > 0) starCaughtCount --;
+                    reduceScoreTimer = reduceScoreTimerValue;
+                }
+            }
         }
     }
 
@@ -216,7 +222,14 @@ public class Score : MonoBehaviour {
         {
             starCaughtCount = totalStarsToBeCaught;
         }
-        
+        if (Input.GetKeyDown(KeyCode.KeypadPlus))
+        {
+            starCaughtCount ++;
+        }
+        if (Input.GetKeyDown(KeyCode.KeypadMinus))
+        {
+            starCaughtCount --;
+        }
     }
 
 
@@ -253,10 +266,11 @@ public class Score : MonoBehaviour {
             if (hasTorus1Triggered == false && cumulativeEnvironmentDamageScore > 0.1) {
                 //Debug.Log(hasTorus1Triggered + ", " + cumulativeEnvironmentDamageScore);
                 starSpawn.StopRandomStars();
-                torus1Animator.triggerTorus1Animation();
+                formationIndex++;
+                flourishAnimators[formationIndex%flourishAnimators.Length].Animate();
                 // hasTorus1Triggered = true;
                 torus1AnimationRunTimer = true;
-                }
+            }
         }
 
         // Decline
@@ -275,7 +289,7 @@ public class Score : MonoBehaviour {
             // formations 
             if (hasSphere1Triggered == false && cumulativeEnvironmentDamageScore > 0.4){
                 starSpawn.StopRandomStars();
-                sphere1Animator.TriggerSphere1Animation();
+                sphere1Animator.Animate();
                 //hasSphere1Triggered = true;
                 sphere1AnimationRunTimer = true;
                 //Invoke("endSphere1Animation", 1f); // Invoke triggers for the duration of the delay set
@@ -299,7 +313,7 @@ public class Score : MonoBehaviour {
         } else if (cumulativeEnvironmentDamageScore == 1) {
             plasmaWorldState = GameState.Dead;
             starSpawn.DestroyStars();
-            deadStarPositionCollider.UpdateDeadStarPositionColliders();
+            deathNarrationManager.TriggerDeath(); 
             this.starReturnCount = 0;
 
             
@@ -343,8 +357,8 @@ public class Score : MonoBehaviour {
             animationTimerTorus1 = animationTimerTorus1Value;
             torus1AnimationRunTimer = false;
             hasTorus1Triggered = true;
-            torus1Animator.ResetTorus1Animation();
-            // torusAnimatorComponent.enabled = false;
+            formationIndex++;
+            flourishAnimators[formationIndex%flourishAnimators.Length].Animate();
         }
     }
 
@@ -363,7 +377,7 @@ public class Score : MonoBehaviour {
         starSpawn.StartRandomStars();
         animationTimerSphere1 = animationTimerSphere1Value;
         sphere1AnimationRunTimer = false;
-        sphere1Animator.ResetSphere1Animation();
+        sphere1Animator.Animate();
     }
 }
 

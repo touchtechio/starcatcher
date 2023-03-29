@@ -1,0 +1,201 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &8226309043064118675
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8226309043064118672}
+  - component: {fileID: 8226309043064118686}
+  - component: {fileID: 8226309043064118673}
+  m_Layer: 6
+  m_Name: PlantsManagerStretched
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8226309043064118672
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8226309043064118675}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 2.3, y: 0, z: 3.4}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8226309043064118686
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8226309043064118675}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad1093a3e3ce54d7f91c709d20fd6953, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  possible_roots:
+  - plant_type: cooksonia
+    limb_id: cooksonia_limb_split_left
+    max_depth: 5
+    start_angle: 15
+    start_angle_range: 0
+    max_bonus_scale: 0
+  - plant_type: leafy
+    limb_id: leafy_stem
+    max_depth: 10
+    start_angle: 0
+    start_angle_range: 0
+    max_bonus_scale: 0
+  - plant_type: big_leaf
+    limb_id: big_leaf_stem
+    max_depth: 2
+    start_angle: 0
+    start_angle_range: 5
+    max_bonus_scale: 0.5
+  - plant_type: tall
+    limb_id: tall_stem
+    max_depth: 5
+    start_angle: 0
+    start_angle_range: 5
+    max_bonus_scale: 0
+  color_alpha: 0.7
+  colors:
+  - {r: 0.96862745, g: 0.5803922, b: 0.11372549, a: 1}
+  - {r: 0.57254905, g: 0.15294118, b: 0.56078434, a: 1}
+  - {r: 0.92941177, g: 0.16470589, b: 0.53333336, a: 1}
+  - {r: 0, g: 0.654902, b: 0.6156863, a: 1}
+  max_x_dist: 20
+  num_plants_to_spawn: 35
+  random_position_density: 1.25
+  health_lerp: 0.01
+  min_health_during_gameplay: 0.3
+  min_sway_speed: 0.7
+  max_sway_speed: 1.1
+  sway_dist: 5
+  min_death_pause_time: 1
+  max_death_pause_time: 5
+  min_death_shrink_time: 2
+  max_death_shrink_time: 7
+  rejuvenation_min_pause_time: 0
+  rejuvenation_max_pause_time: 1
+  rejuvenation_min_grow_time: 2
+  rejuvenation_max_grow_time: 5
+  use_debug_sprite_color: 0
+  debug_even_spacing: 0
+  debug_fast_grow: 0
+  debug_use_fake_game_state: 0
+  debug_fake_damage_value: 0
+  debug_root_id: -1
+  debug_cur_state: 1
+  possible_children_cooksonia:
+  - id_name: cooksonia_flower_1
+    weight_start: 0.1
+    weight_end: 1
+  - id_name: cooksonia_flower_2
+    weight_start: 0.1
+    weight_end: 1
+  - id_name: cooksonia_limb_long
+    weight_start: 0.5
+    weight_end: 0
+  - id_name: cooksonia_limb_split_left
+    weight_start: 1
+    weight_end: 0
+  possible_children_leafy:
+  - id_name: leafy_branch_1
+    weight_start: 1
+    weight_end: -0.5
+  - id_name: leafy_branch_2
+    weight_start: 1
+    weight_end: 0
+  - id_name: leafy_branch_terminal
+    weight_start: -1
+    weight_end: 2
+  possible_children_tall:
+  - id_name: tall_vert_1
+    weight_start: 1
+    weight_end: 0
+  - id_name: tall_vert_2
+    weight_start: 1
+    weight_end: 0
+  - id_name: tall_cap
+    weight_start: -2
+    weight_end: 1
+--- !u!114 &8226309043064118673
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8226309043064118675}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1716e001eeff3414883f64e9938e1d4f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  limb_objs:
+  - id_name: cooksonia_limb_split_left
+    prefab: {fileID: 3920916727955005253, guid: 050b436a8e81f4eb6b84372b0e5492ce,
+      type: 3}
+  - id_name: cooksonia_flower_1
+    prefab: {fileID: 3920916727955005253, guid: 6e190b8ef8db64397a626bf9f9c561f6,
+      type: 3}
+  - id_name: cooksonia_flower_2
+    prefab: {fileID: 3920916727955005253, guid: 87440bbc21cf44986a99ded54d12afeb,
+      type: 3}
+  - id_name: cooksonia_limb_long
+    prefab: {fileID: 3920916727955005253, guid: e564bf2283c5645d984a705db8216aef,
+      type: 3}
+  - id_name: leafy_branch_1
+    prefab: {fileID: 3920916727955005253, guid: c51cc7b9547a84c9e884f8a25e72ac00,
+      type: 3}
+  - id_name: leafy_branch_2
+    prefab: {fileID: 3920916727955005253, guid: acaedc40c240b488eb6f6e42d5a6f80a,
+      type: 3}
+  - id_name: leafy_branch_terminal
+    prefab: {fileID: 3920916727955005253, guid: f0fd375f4dd8a4e5196445ee51a59aed,
+      type: 3}
+  - id_name: leafy_stem
+    prefab: {fileID: 3920916727955005253, guid: 7aa685222710a4d14af4617bded44e2a,
+      type: 3}
+  - id_name: leafy_stem_terminal
+    prefab: {fileID: 3920916727955005253, guid: f937146c4a2a24872a9e8a8093ac9e79,
+      type: 3}
+  - id_name: big_leaf_stem
+    prefab: {fileID: 3920916727955005253, guid: 43ed9f60257c64184ac8f6af307cc787,
+      type: 3}
+  - id_name: big_leaf_back_1
+    prefab: {fileID: 3920916727955005253, guid: def718a8b1b004eacb80452d8e20b41e,
+      type: 3}
+  - id_name: big_leaf_back_2
+    prefab: {fileID: 3920916727955005253, guid: 83bc9def40c5e426e880dd2df53f4d9f,
+      type: 3}
+  - id_name: tall_stem
+    prefab: {fileID: 3920916727955005253, guid: 5a08c41be6b694584bae2a9495b26501,
+      type: 3}
+  - id_name: tall_back
+    prefab: {fileID: 3920916727955005253, guid: 2cca074c275e8487383a65bdaee2743f,
+      type: 3}
+  - id_name: tall_vert_1
+    prefab: {fileID: 3920916727955005253, guid: 66c651a4b172542db9ac1d41a3a9ecc4,
+      type: 3}
+  - id_name: tall_vert_2
+    prefab: {fileID: 3920916727955005253, guid: d2943a4ef33fc45d9ae68c274570e1c1,
+      type: 3}
+  - id_name: tall_cap
+    prefab: {fileID: 3920916727955005253, guid: d1b0d6721e3d7426c94f9d41829adb01,
+      type: 3}
+  - id_name: tall_back
+    prefab: {fileID: 3920916727955005253, guid: 2cca074c275e8487383a65bdaee2743f,
+      type: 3}

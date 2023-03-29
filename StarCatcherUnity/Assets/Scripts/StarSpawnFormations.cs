@@ -1,21 +1,25 @@
 using UnityEngine;
+using UniOSC;
 
 public class StarSpawnFormations : MonoBehaviour
 {
     /*
     The Star Spawn formations class handles behaviors for stars spawned using shapes
     and collisions with star positions
-
     */
     public StarSpawn starSpawn;
 
     public StarSpawnBase starSpawnBase;
+
+    OSCSenderFaintStarLinger oscSenderFaintStarLinger;
 
 
     // Start is called before the first frame update
     void Start()
     {
         starSpawn = StarSpawn.FindObjectOfType<StarSpawn>();
+        oscSenderFaintStarLinger = (OSCSenderFaintStarLinger)FindObjectOfType<OSCSenderFaintStarLinger>();
+
         if (null == starSpawn)
         {
             Debug.Log("ERROR: no starSpawn found");
@@ -42,12 +46,23 @@ public class StarSpawnFormations : MonoBehaviour
         
         if (collision.gameObject.tag == "STAR POSITION")
         {
-            //Debug.Log("Spawn from formation");
             GameObject starPosition = collision.gameObject;
             StripIndex index = starPosition.GetComponent<StripIndex>();
+            if (gameObject.tag == "STAR POSITION REVIVE")
+            {
+                // Debug.Log("Spawn tutorial revive this star");
+                Debug.Log("faintly star " + index.stripIndex);
+                // No need to spawn as dead stars are already created
+                // This creates the linger signal for the faint star to turn on
+                oscSenderFaintStarLinger.SendOSCFaintStarLingerMessage("/faintstarlinger", index.stripIndex, 20000);
+                return;
+        }
+            //Debug.Log("Spawn from formation");
             //Debug.Log("star index " + index.stripIndex);
             starSpawn.Spawn(index.stripIndex);
         }
+
+
     
     }
 }

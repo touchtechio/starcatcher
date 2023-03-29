@@ -34,6 +34,7 @@ public class StarSpawnBase : MonoBehaviour
         
     }
 
+    // this function is specifically to spawn warm stars, in the tutorial scene
     public void SpawnStrip(int stripId)
     {
         Strip strip = stripPositions.getStarPositions()[stripId] as Strip;

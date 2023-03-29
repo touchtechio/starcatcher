@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class DeadStarPositionColliders : MonoBehaviour
@@ -57,7 +56,6 @@ public class DeadStarPositionColliders : MonoBehaviour
             GameObject star = Instantiate(deadStarPositionPrefab, starPosition, Quaternion.identity) as GameObject;
             star.transform.parent = deadStars.transform;
             DeadStarCollider deadStarCollider = star.GetComponent<DeadStarCollider>();
-
             deadStarCollider.caughtStripNumber = i; 
         }    
     }
