@@ -78,7 +78,7 @@ void sendOscCC(int channel,  int number, int value) {
   /* in the following different ways of creating osc messages are shown by example */
   OscMessage myMessage = new OscMessage(address);
   
-  myMessage.add(new Float(value*2)); /* add an int to the osc message */
+  myMessage.add(((float)value)/127.0); /* add an int to the osc message */
   println("SEND OSC CC ");
 
   /* send the message */
