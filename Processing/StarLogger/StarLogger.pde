@@ -232,7 +232,11 @@ String[] serialRateStrings = {
   "19200", "28800", "38400", "57600", "115200"
 };
 int baud = 38400;
-int serialListNumber = 11;
+
+// matt macbook
+//int serialListNumber = 11;
+// windows lvs sager
+int serialListNumber = 0;
 
 ArrayList<Byte> serialBuffer = new ArrayList<Byte>();
 
