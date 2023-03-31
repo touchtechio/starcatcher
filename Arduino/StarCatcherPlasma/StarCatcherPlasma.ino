@@ -86,13 +86,12 @@ Shader* behavior[] = {
   };
 
 // nice to keep an array size value around for validation and looping
-int behaviorCount = 15; 
+int behaviorCount = 12; 
 
 #define LINGER 1
 #define FALL 0
 #define CAUGHT 13
 #define CONSTELLATION 12
-#define PULSE_LINGER 5
 #define RETURN 5
 
 
@@ -121,7 +120,7 @@ Gem gems[gemCount];
 // todo : pixels per-gem
 // led count of strip within each gem
 int shortGemPixelCount = 16;
-//int longGemPixelCount = 2*shortGemPixelCount;
+int longGemPixelCount = 2*shortGemPixelCount;
 
 // serial event globals 
 String inputString = "";         // a string to hold incoming data
@@ -149,8 +148,8 @@ void setup() {
   // initialize our gems
   for (int i = 0; i < gemCount; i++ ) {
     int pixelCount = shortGemPixelCount;
-    // no long gems tody
-    //if (i%8 == 0) pixelCount = longGemPixelCount;
+    // add long gems today
+    if (i%8 == 7) pixelCount = longGemPixelCount;
 
 
     // todo Gem Number and Gem Count need to respect more Gems per Octo Channel
@@ -218,7 +217,6 @@ void pollForNewOscMessages() {
       msg.dispatch("/starcool", routeFallingStarCool);
       msg.dispatch("/starwarm", routeFallingStarWarm);
       msg.dispatch("/starlinger", routeLingeringStar);
-      msg.dispatch("/faintstarlinger", routePulseLingeringStar);
       msg.dispatch("/starcaught", routeCaughtStar);
       msg.dispatch("/constellationfull", routeConstellationFull);
       msg.route("/color", routeColor);
@@ -281,12 +279,6 @@ void routeReturnStar(OSCMessage &msg){
 
 void routeLingeringStar(OSCMessage &msg){
   triggerStar( msg, LINGER);
-}
-
-
-
-void routePulseLingeringStar(OSCMessage &msg){
-  triggerStar( msg, PULSE_LINGER);
 }
 
 
