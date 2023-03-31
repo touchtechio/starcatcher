@@ -12,14 +12,14 @@ EditorBuildSettings:
     path: Assets/Scenes/StarCatcher.unity
     guid: 0ed4c5282855bed46a40dcabeead2e2a
   - enabled: 1
-    path: Assets/Scenes/StarCatcher-load.unity
-    guid: dbe8aefe0a94cc24599c77fc71f665a3
+    path: Assets/Scenes/StarCatcher-WelcomeScene.unity
+    guid: d62744cab2d7dc94986780659b54366a
   - enabled: 1
     path: Assets/Scenes/StarCatcher-audienceChoreo.unity
     guid: dbd1964a7b023754e9084e396a90f670
   - enabled: 1
-    path: Assets/Scenes/StarCatcher-WelcomeScene.unity
-    guid: d62744cab2d7dc94986780659b54366a
+    path: Assets/Scenes/StarCatcher-load.unity
+    guid: dbe8aefe0a94cc24599c77fc71f665a3
   m_configObjects:
     Unity.XR.Oculus.Settings: {fileID: 11400000, guid: 425a9c61c98c9f5468a4b947978b8655,
       type: 2}

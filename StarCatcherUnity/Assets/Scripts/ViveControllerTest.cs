@@ -57,8 +57,9 @@ public class ViveControllerTest : MonoBehaviour
     public void TriggerDown(SteamVR_Action_Boolean fromAction, SteamVR_Input_Sources fromSource)
     {
         Debug.Log("Trigger is down");
-        Sphere.GetComponent<MeshRenderer>().enabled = false;
         stripPosition.SetStripPosition(triggerPosition);
+      //  Sphere.GetComponent<MeshRenderer>().enabled = false;
+
         //Debug.Log("position"+ vPosition.x)
     }
 

@@ -21,6 +21,7 @@ TagManager:
   - DEAD STARS
   - NARRATION_TEXT
   - STAR POSITION TUTORIAL
+  - STAR POSITION REVIVE
   layers:
   - Default
   - TransparentFX

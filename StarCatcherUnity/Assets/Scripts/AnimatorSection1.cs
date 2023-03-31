@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AnimatorSection1 : MonoBehaviour
+public class AnimatorSection1 : MonoBehaviour, IFormationAnimation
 {
      
      [SerializeField] private Animator myAnimationController;
@@ -23,25 +23,31 @@ public class AnimatorSection1 : MonoBehaviour
     public void Update()
     {
         
-        if (Input.GetKeyDown(KeyCode.Alpha8)) {
+      if (Input.GetKeyDown(KeyCode.Alpha8)) {
          Debug.Log("trigger section animation");
          // myAnimationController.SetTrigger("triggerMove");
-         TriggerSectionAnimation();
-    }
-}
-   public void TriggerSectionAnimation() {
+         Animate();
+      }
+   }
+
+   public void AnimateWithRandomPosition() {
       Debug.Log("Random section selection");
       // chose one of the parent posisiont and do animation on that
       int randomNumber = Random.Range(0, parentPositions.Count);
       Transform aSectionParent = parentPositions[randomNumber];
       transform.SetParent(aSectionParent, false);
-      TriggerSection1Animation();
+      Animate();
          
    }
-   public void TriggerSection1Animation() {
+   public void Animate() {
       Debug.Log("trigger section 1 animation");
          myAnimationController.SetTrigger("triggerMove");
    }
+      
+   public void Reset() {
+      Debug.Log("trigger section 1 reset");
+      myAnimationController.ResetTrigger("triggerMove");
+   }
         
-    }
+}
 
