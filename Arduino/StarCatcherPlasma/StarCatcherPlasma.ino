@@ -54,8 +54,10 @@ SLIPEncodedSerial SLIPSerial(Serial1);
 // LED CONFIG
 //const int ledsPerStrip = 90;
 //const int ledsPerStrip = 80;
-//const int ledsPerStrip = 144;  // 32 + 7*16
-const int ledsPerStrip = 128;  // 8*16
+//const int ledsPerStrip = 128;  // 8*16
+
+// one long stick
+const int ledsPerStrip = 144;  // 32 + 7*16
 
 
 // declaring some memory for led buffer
@@ -86,13 +88,15 @@ Shader* behavior[] = {
   };
 
 // nice to keep an array size value around for validation and looping
-int behaviorCount = 12; 
+int behaviorCount = 15; 
 
 #define LINGER 1
 #define FALL 0
 #define CAUGHT 13
 #define CONSTELLATION 12
+#define PULSE_LINGER 5
 #define RETURN 5
+#define GLOW 3
 
 
 
@@ -148,10 +152,14 @@ void setup() {
   // initialize our gems
   for (int i = 0; i < gemCount; i++ ) {
     int pixelCount = shortGemPixelCount;
-    // add long gems today
+    // if first stick is long
+    //if (i%8 == 0) pixelCount = longGemPixelCount;
+
+
+    // if last stick is long
     if (i%8 == 7) pixelCount = longGemPixelCount;
 
-
+    
     // todo Gem Number and Gem Count need to respect more Gems per Octo Channel
     gems[i] = Gem(i, pixelCount, pixelStart, &leds, behavior[0]);
     gems[i].setColor(color[i%7]);
@@ -216,7 +224,9 @@ void pollForNewOscMessages() {
       msg.dispatch("/starreturn", routeReturnStar);
       msg.dispatch("/starcool", routeFallingStarCool);
       msg.dispatch("/starwarm", routeFallingStarWarm);
+      msg.dispatch("/starglow", routeFallingStarGlow);
       msg.dispatch("/starlinger", routeLingeringStar);
+      msg.dispatch("/faintstarlinger", routePulseLingeringStar);
       msg.dispatch("/starcaught", routeCaughtStar);
       msg.dispatch("/constellationfull", routeConstellationFull);
       msg.route("/color", routeColor);
@@ -265,6 +275,10 @@ void routeFallingStarWarm(OSCMessage &msg){
   triggerStar( msg, FALL);
 }
 
+void routeFallingStarGlow(OSCMessage &msg){
+  triggerStar( msg, GLOW);
+}
+
 void routeFallingStar(OSCMessage &msg){
   currentColor = 0xFDF1E4;
   triggerStar( msg, FALL);
@@ -279,6 +293,12 @@ void routeReturnStar(OSCMessage &msg){
 
 void routeLingeringStar(OSCMessage &msg){
   triggerStar( msg, LINGER);
+}
+
+
+
+void routePulseLingeringStar(OSCMessage &msg){
+  triggerStar( msg, PULSE_LINGER);
 }
 
 
