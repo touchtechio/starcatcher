@@ -51,12 +51,13 @@ public class Score : MonoBehaviour {
     private AnimatorTorus1 torus1Animator;
     private AnimatorSphere1 sphere1Animator;
     private AnimatorSection1 animatorSection;
+    private AnimatorSphere3 sphere3Animator;
 
     public IFormationAnimation[] flourishAnimators;
-    private float[] animationTimerDurations = {18f, 20f, 5f}; // sphere, torus
-    private bool[] hasAnimationTriggered = {false, false, false};
+    private float[] animationTimerDurations = {25f, 15f, 25f, 10f}; // torus, sphere streak, sphere around room, section
+    private bool[] hasAnimationTriggered = {false, false, false, false};
     private float animationTimerValue;
-    private bool[] animationRunTimer = {false, false, false};
+    private bool[] animationRunTimer = {false, false, false, false};
 
     public int formationIndex = 0;
      
@@ -68,7 +69,7 @@ public class Score : MonoBehaviour {
     void Start () {
 
         // set the scene to rejuvenation, with timer fast at the start
-        starCaughtCount = 0;
+        starCaughtCount = 0; //totalStarsToBeCaught; this is to start in dying mode to light up sky
         SetLevel(0);
         plasmaWorldState = GameState.Rejuvination;
         previousWorldState = plasmaWorldState;
@@ -102,8 +103,9 @@ public class Score : MonoBehaviour {
         // Set up formation animations - find componened and disable
         torus1Animator = GameObject.FindObjectOfType(typeof(AnimatorTorus1)) as AnimatorTorus1;
         sphere1Animator = GameObject.FindObjectOfType(typeof(AnimatorSphere1)) as AnimatorSphere1;
+        sphere3Animator = GameObject.FindObjectOfType(typeof(AnimatorSphere3)) as AnimatorSphere3;
         animatorSection = GameObject.FindObjectOfType(typeof(AnimatorSection1)) as AnimatorSection1;
-        flourishAnimators = new IFormationAnimation[] {torus1Animator, sphere1Animator, animatorSection};
+        flourishAnimators = new IFormationAnimation[] {sphere1Animator, sphere3Animator, animatorSection, torus1Animator};
 
         animationTimerValue = animationTimerDurations[getCurrentFromationIndex()];
     }
@@ -223,6 +225,16 @@ public class Score : MonoBehaviour {
         {
             starCaughtCount --;
         }
+
+        if (Input.GetKeyDown(KeyCode.F5)) // allow animations
+        {
+            hasAnimationTriggered = new bool[]{false, false, false, false};;
+        }
+
+        if (Input.GetKeyDown(KeyCode.F6)) // stop animations
+        {
+            hasAnimationTriggered = new bool[]{true, true, true, true};;
+        }
     }
 
 
@@ -249,10 +261,12 @@ public class Score : MonoBehaviour {
             reduceScoreTimerValue = 10f;
             if (plasmaWorldState != previousWorldState)
             {
+                Debug.Log("entering flourish");
+                deathNarrationManager.TriggerFirstVoyage();
                 starAnimations.FullCaughtAnimation();
                 starSpawn.StartRandomStars();
                 deadStarPositionCollider.DestroyDeadStars();
-                hasAnimationTriggered = new bool[]{false, false, false};
+                hasAnimationTriggered = new bool[]{false, false, false, false};
             }
             
             // formations 
@@ -276,7 +290,7 @@ public class Score : MonoBehaviour {
             formationIndex = flourishAnimators.Length - 1;
             if (plasmaWorldState != previousWorldState)
             {
-                starAnimations.FullAnimation();
+                // starAnimations.FullAnimation();
                 starSpawn.StartRandomStars();        
                 deadStarPositionCollider.DestroyDeadStars();
                 hasAnimationTriggered = new bool[]{false, false, false};
@@ -303,10 +317,11 @@ public class Score : MonoBehaviour {
             reduceScoreTimerValue = 15f;
             if (plasmaWorldState != previousWorldState)
             {
-                starAnimations.FullAnimation();
+                deathNarrationManager.TriggerPlantDying();
+                // starAnimations.FullAnimation();
                 starSpawn.StartRandomStars();
                 deadStarPositionCollider.DestroyDeadStars();
-                hasAnimationTriggered = new bool[]{false, false, false};
+                hasAnimationTriggered = new bool[]{false, false, false, false};
             }
 
         // DEAD
@@ -315,7 +330,8 @@ public class Score : MonoBehaviour {
             starSpawn.DestroyStars();
             deathNarrationManager.TriggerDeath(); 
             this.starReturnCount = 0;
-            hasAnimationTriggered = new bool[]{false, false, false};
+            totalStarsToBeCaught = 100;
+            hasAnimationTriggered = new bool[]{false, false, false, false};
 
             
         }

@@ -87,7 +87,7 @@ public class Constellations : MonoBehaviour {
                 starSpawn.DestroyStars();
 
 
-                oscSenderObject.SendOSCCompleteMessage("/constellationfull", 0);
+                //oscSenderObject.SendOSCCompleteMessage("/constellationfull", 0);
                 SoundConstellationFull();
                 allFull = true;
 

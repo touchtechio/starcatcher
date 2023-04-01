@@ -36,11 +36,11 @@ public class DeathNarrationManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (hasDeathStarted && (Time.time >= startTime + narrationStems[0].sourceToCrossfade.clip.length)) {
+        if (hasDeathStarted && (Time.time >= startTime + narrationStems[0].sourceToCrossfade.clip.length - 5)) {
             Debug.Log("clip length " + narrationStems[0].sourceToCrossfade.clip.length);
             Debug.LogWarning("Trigger star and clip");
             DeadStarPositionColliders deadStarPositionCollider = FindObjectOfType<DeadStarPositionColliders>();
-            deadStarPositionCollider.UpdateDeadStarPositionColliders();
+            //deadStarPositionCollider.UpdateDeadStarPositionColliders();
             TriggerSpawnFaintStarAnimation(); //TODO: look into the trigger narration and formation with index
         }
 
@@ -53,7 +53,21 @@ public class DeathNarrationManager : MonoBehaviour
         Debug.Log("Death getting triggered");
         hasDeathStarted = true;
         startTime = Time.time;
+        DeadStarPositionColliders deadStarPositionCollider = FindObjectOfType<DeadStarPositionColliders>();
+        deadStarPositionCollider.UpdateDeadStarPositionColliders();
         TriggerNarration(0);
+
+    }
+
+    public void TriggerFirstVoyage() {
+        Debug.Log("Excited getting triggered");
+        TriggerNarration(2);
+
+    }
+
+    public void TriggerPlantDying() {
+        Debug.Log("plant dying getting triggered");
+        TriggerNarration(3);
 
     }
 

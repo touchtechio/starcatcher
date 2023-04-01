@@ -54,7 +54,7 @@ public class StarSpawnFormations : MonoBehaviour
                 Debug.Log("faintly star " + index.stripIndex);
                 // No need to spawn as dead stars are already created
                 // This creates the linger signal for the faint star to turn on
-                oscSenderFaintStarLinger.SendOSCFaintStarLingerMessage("/faintstarlinger", index.stripIndex, 20000);
+                oscSenderFaintStarLinger.SendOSCFaintStarLingerMessage("/faintstarlinger", index.stripIndex, 30000);
                 return;
         }
             //Debug.Log("Spawn from formation");
