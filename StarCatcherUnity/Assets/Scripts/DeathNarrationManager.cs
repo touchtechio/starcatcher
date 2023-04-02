@@ -1,6 +1,8 @@
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Audio;
+using UniOSC;
+
 
 public class DeathNarrationManager : MonoBehaviour
 {
@@ -16,10 +18,15 @@ public class DeathNarrationManager : MonoBehaviour
     private bool isReadyForOtherStars = false;
     private bool hasReturnedOne = false;
     public AudioMixerSnapshot tutorialSnapshot;
-    private Score scoreObject; // do we need this?? 
+    private Score scoreObject; 
     private bool startedEndTimer = false;
     private float endStartTime;
     private bool hasDeathStarted = false;
+
+    public OSCSenderAllFall sendAllFall;
+    public OSCSenderAllPulsingLinger sendPulsingLinger;
+
+
 
     // public int CaughtStarCountToAdvanceScene = 10;
 
@@ -40,8 +47,7 @@ public class DeathNarrationManager : MonoBehaviour
         }
 
         if (isReadyForOtherStars && hasReturnedOne && (Time.time >= startTime + 20f)) {
-            TriggerNarration(1);
-            isReadyForOtherStars = false;
+            TriggerReadyToReturnOtherStars();
         }
 
 
@@ -60,10 +66,18 @@ public class DeathNarrationManager : MonoBehaviour
 
     }
 
-    public void TriggerFirstVoyage() {
-        Debug.Log("Excited getting triggered");
-        TriggerNarration(2);
+    private void TriggerReadyToReturnOtherStars() {
+            TriggerNarration(1);
+            isReadyForOtherStars = false;
+            Debug.Log("SENDING all to pulse in two messages ");
+            sendPulsingLinger.SendOSCAllPulsingLingerMessage("/behavior/4");
+            sendAllFall.SendOSCAllFallMessage("/allfall");
+    }
 
+
+    public void TriggerFirstVoyage() {
+          Debug.Log("Excited getting triggered");
+          TriggerNarration(2);
     }
 
     public void TriggerPlantDying() {
@@ -75,6 +89,12 @@ public class DeathNarrationManager : MonoBehaviour
     public void TriggerOuterRing() {
         Debug.Log("outer ring of planets getting triggered");
         TriggerNarration(4);
+
+    }
+
+    public void TriggerSnowDwarf() {
+        Debug.Log("white dwarf triggered");
+        TriggerNarration(5);
 
     }
 

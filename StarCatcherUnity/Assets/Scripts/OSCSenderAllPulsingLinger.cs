@@ -106,7 +106,7 @@ namespace UniOSC{
 		}
 
 
-        public void SendOSCAllPulsingLingerMessage(string address, int strip, int linger)
+        public void SendOSCAllPulsingLingerMessage(string address)
         {
 
            // _SetupOSCMessage(false); // set to not bundle

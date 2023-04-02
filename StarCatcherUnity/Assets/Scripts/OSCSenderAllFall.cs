@@ -47,7 +47,7 @@ namespace UniOSC{
         
 		public override void OnEnable ()
 		{
-            Debug.Log("ENABLED");
+            // Debug.Log("ENABLED");
 			base.OnEnable ();
             ClearData();
             AppendData(0f);
@@ -106,16 +106,13 @@ namespace UniOSC{
 		}
 
 
-        public void SendOSCAllFallMessage(string address, int strip, int linger)
+        public void SendOSCAllFallMessage(string address)
         {
 
            // _SetupOSCMessage(false); // set to not bundle
             if (_OSCeArg.Packet is OscMessage)
             {
-                 ClearData();
-//                 AppendData(strip);
-//                 AppendData(linger);
-               // ((OscMessage)_OSCeArg.Packet).UpdateDataAt(0, strip);
+                 ClearData();;
             }
             else if (_OSCeArg.Packet is OscBundle)
             {

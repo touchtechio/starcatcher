@@ -30,16 +30,16 @@ public class AnimatorSection1 : MonoBehaviour, IFormationAnimation
       }
    }
 
-   public void AnimateWithRandomPosition() {
+   public void Animate() {
       Debug.Log("Random section selection");
       // chose one of the parent posisiont and do animation on that
       int randomNumber = Random.Range(0, parentPositions.Count);
       Transform aSectionParent = parentPositions[randomNumber];
       transform.SetParent(aSectionParent, false);
-      Animate();
+      DropAnimationInPlace();
          
    }
-   public void Animate() {
+   public void DropAnimationInPlace() {
       Debug.Log("trigger section 1 animation");
          myAnimationController.SetTrigger("triggerMove");
    }
