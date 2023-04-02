@@ -8,4 +8,6 @@ public interface IFormationAnimation
 
     public void Reset();
 
+    public float GetAnimationLength();
+
 }

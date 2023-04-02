@@ -23,4 +23,8 @@ public class AnimatorSphere1 : MonoBehaviour, IFormationAnimation
       // Debug.Log("trigger sphere animation");
          myAnimationController.ResetTrigger("triggerMove");
    }
+
+   public float GetAnimationLength() { // streak
+      return myAnimationController.runtimeAnimatorController.animationClips[0].length * 3; // myAnimationController.runtimeAnimatorController.animationClips[0].;
+   }
 }

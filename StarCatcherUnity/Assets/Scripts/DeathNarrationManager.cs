@@ -12,7 +12,9 @@ public class DeathNarrationManager : MonoBehaviour
     public string[] narrationText;
     private float starFallTime;
     public AnimatorSphere2 animatorSphere2;
-    private bool hasIntroEnded = false;
+    private bool hasTriggerSpawnFaintStarAnimation = false;
+    private bool isReadyForOtherStars = false;
+    private bool hasReturnedOne = false;
     public AudioMixerSnapshot tutorialSnapshot;
     private Score scoreObject; // do we need this?? 
     private bool startedEndTimer = false;
@@ -27,21 +29,19 @@ public class DeathNarrationManager : MonoBehaviour
     {
         tutorialSnapshot.TransitionTo(0.0f);
         scoreObject = FindObjectOfType<Score>();
-
-        //StarSpawnObject.StartRandomStars();
-        // Debug.Log("spawn");
-        // TriggerSpawnAnimation();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (hasDeathStarted && (Time.time >= startTime + narrationStems[0].sourceToCrossfade.clip.length - 5)) {
-            Debug.Log("clip length " + narrationStems[0].sourceToCrossfade.clip.length);
-            Debug.LogWarning("Trigger star and clip");
-            DeadStarPositionColliders deadStarPositionCollider = FindObjectOfType<DeadStarPositionColliders>();
-            //deadStarPositionCollider.UpdateDeadStarPositionColliders();
-            TriggerSpawnFaintStarAnimation(); //TODO: look into the trigger narration and formation with index
+        if (hasDeathStarted && (Time.time >= startTime + narrationStems[0].sourceToCrossfade.clip.length - 8f)) {
+            // Debug.Log("clip length " + narrationStems[0].sourceToCrossfade.clip.length);
+            TriggerSpawnFaintStarAnimation(); 
+        }
+
+        if (isReadyForOtherStars && hasReturnedOne && (Time.time >= startTime + 20f)) {
+            TriggerNarration(1);
+            isReadyForOtherStars = false;
         }
 
 
@@ -52,6 +52,7 @@ public class DeathNarrationManager : MonoBehaviour
     public void TriggerDeath() {
         Debug.Log("Death getting triggered");
         hasDeathStarted = true;
+        hasTriggerSpawnFaintStarAnimation = false;
         startTime = Time.time;
         DeadStarPositionColliders deadStarPositionCollider = FindObjectOfType<DeadStarPositionColliders>();
         deadStarPositionCollider.UpdateDeadStarPositionColliders();
@@ -71,7 +72,11 @@ public class DeathNarrationManager : MonoBehaviour
 
     }
 
+    public void TriggerOuterRing() {
+        Debug.Log("outer ring of planets getting triggered");
+        TriggerNarration(4);
 
+    }
 
     public void TriggerNarration(int triggerItemIndex) {
         Debug.Log("TriggerNarration() w triggerItemIndex: " + triggerItemIndex);
@@ -96,6 +101,10 @@ public class DeathNarrationManager : MonoBehaviour
         // narrationStems[triggerItemIndex].FadeInAudio();
     }
 
+    public void TriggerReturnOtherStars () {
+        hasReturnedOne = true;
+    }
+
 
     public void TriggerAnimation(int index) {
         Animation[] animations = gameObject.GetComponents<Animation>() as Animation[];
@@ -116,15 +125,15 @@ public class DeathNarrationManager : MonoBehaviour
     }
 
     private void TriggerSpawnFaintStarAnimation() {
-        // Debug.Log("trigger tutorial animation");
-        hasIntroEnded = true;
-        startTime = Time.time;
-        starFallTime = starSpawnObject.TutorialFallDuration + starSpawnObject.TutorialLingerTime;
+        if (!hasTriggerSpawnFaintStarAnimation) {
+            hasTriggerSpawnFaintStarAnimation = true;
+            startTime = Time.time;
+            isReadyForOtherStars = true; // setup for next audio cue
+            hasReturnedOne = false;
+            starFallTime = starSpawnObject.TutorialFallDuration + starSpawnObject.TutorialLingerTime;
+            animatorSphere2.Animate();
+        }
 
-        animatorSphere2.Animate();
-        // if star caught, Spawn star
-
-        // At the end of star fall time, Spawn again
     }
 
 

@@ -48,6 +48,9 @@ public class AnimatorSection1 : MonoBehaviour, IFormationAnimation
       Debug.Log("trigger section 1 reset");
       myAnimationController.ResetTrigger("triggerMove");
    }
-        
+
+   public float GetAnimationLength() {
+      return myAnimationController.runtimeAnimatorController.animationClips[0].length * 3; // myAnimationController.speed;
+   }  
 }
 

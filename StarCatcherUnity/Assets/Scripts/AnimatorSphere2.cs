@@ -51,4 +51,7 @@ public class AnimatorSphere2 : MonoBehaviour, IFormationAnimation
    // public void TriggerFaintStarAnimation(){
 
    // }
+   public float GetAnimationLength() {
+      return myAnimationController.runtimeAnimatorController.animationClips[0].length * 2; // myAnimationController.speed;
+   }
 }

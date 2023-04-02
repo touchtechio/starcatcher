@@ -10,6 +10,8 @@ public class DeadStarCollider : MonoBehaviour {
     Vector3 onConstellationPosition;
     float journeyLength;
     public bool isStarReturned = false;
+    public int starCollideCount = 0;
+    public int availableStarReturns = 5;
     HU_Star starEffects;
     public int caughtStripNumber;
     private SoundManager soundManager;
@@ -51,7 +53,12 @@ public class DeadStarCollider : MonoBehaviour {
         {
             return;
         }
-        isStarReturned = true;
+
+        // star can be returned up to x times in the same position before marked destroyed
+        starCollideCount++;
+        if (starCollideCount >= availableStarReturns) {
+            isStarReturned = true;
+        }
 
         timeCaught = Time.time;
         Debug.Log("returning: "+ caughtStripNumber);
