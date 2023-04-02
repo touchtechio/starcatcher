@@ -94,7 +94,7 @@ int behaviorCount = 15;
 #define FALL 0
 #define CAUGHT 13
 #define CONSTELLATION 12
-#define PULSE_LINGER 5
+#define PULSE_LINGER 4
 #define RETURN 5
 #define GLOW 3
 
