@@ -255,6 +255,9 @@ public class Score : MonoBehaviour {
         {
             hasAnimationTriggered = new bool[]{true, true, true, true};;
         }
+        if (Input.GetKeyDown(KeyCode.F7)) // start over
+            Start();
+        }
     }
 
 
