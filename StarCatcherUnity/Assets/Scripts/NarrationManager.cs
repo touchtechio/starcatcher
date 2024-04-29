@@ -82,7 +82,7 @@ public class NarrationManager : MonoBehaviour
             Debug.LogError("NOT enough text or narration audio for triggerItemIndex: " + triggerItemIndex);
         }
 
-        text.text = narrationText[triggerItemIndex];
+        // text.text = narrationText[triggerItemIndex];
         narrationStems[triggerItemIndex].FadeInAudio();
     }
 
