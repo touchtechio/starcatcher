@@ -8,7 +8,7 @@ public class Score : MonoBehaviour {
 
     public int starCaughtCount;
     public int starReturnCount;
-    public int starCatcherRevivedCount;
+    public static int starCatcherRevivedCount; // keeps track of how many times Plasma has been revived, a voyage counter
 
     public static int starCaughtLog;
     public static int level;
@@ -28,13 +28,14 @@ public class Score : MonoBehaviour {
     public enum GameState {Dead, Rejuvination, Flourishing, Decline, Dying};
 
     public static GameState plasmaWorldState;
-    private static GameState previousWorldState;
+    private GameState previousWorldState;
     private float rejuvinationTimer;
     public float rejuvinationTimerValue = 5f;
     public static float deadTimer;
     public float deadTimerValue = 60f;  // length of clip one + silence + period + star fall + linger
     private float reduceScoreTimer;
     public float reduceScoreTimerValue = 20f;
+    private float pauseBeforeNarrationTimerValue = 10f;
 
     private static BackingTracks BackingTracks;
     private scoreLog scoreLogger;
@@ -55,9 +56,9 @@ public class Score : MonoBehaviour {
     private AnimatorSphere3 sphere3Animator;
 
     public IFormationAnimation[] flourishAnimators;
-    private float[] animationTimerDurations = {25f, 15f, 25f, 10f}; // torus, sphere streak, sphere around room, section
+    private float[] flourishAnimationTimerDurations = {25f, 15f, 25f, 10f}; // torus, sphere streak, sphere around room, section
     private bool[] hasAnimationTriggered = {false, false, false, false};
-    private float animationTimerValue;
+    private float flourishAnimationTimerValue;
     private float randomStarTimerValue = 10f;
     private float randomStarTimerDuration = 10f;
     private bool[] animationRunTimer = {false, false, false, false};
@@ -112,10 +113,10 @@ public class Score : MonoBehaviour {
         animatorSection = GameObject.FindObjectOfType(typeof(AnimatorSection1)) as AnimatorSection1;
         flourishAnimators = new IFormationAnimation[] {sphere1Animator, sphere3Animator, animatorSection}; //, torus1Animator};
         for (int i = 0; i < flourishAnimators.Length; i++) {
-            animationTimerDurations[i] = flourishAnimators[i].GetAnimationLength();
+            flourishAnimationTimerDurations[i] = flourishAnimators[i].GetAnimationLength();
             //Debug.LogError("animator lengths " + animationTimerDurations[i]);
         }
-        animationTimerValue = animationTimerDurations[getCurrentFromationIndex()];
+        flourishAnimationTimerValue = flourishAnimationTimerDurations[getCurrentFromationIndex()];
     }
 
     void Update(){
@@ -132,15 +133,23 @@ public class Score : MonoBehaviour {
         // during rejuvination, no stars can be caught
         // during dead state, no stars are spawned
         if (plasmaWorldState == GameState.Rejuvination) {
-            setRejuvinationTimer();
-        }
-
-        if (plasmaWorldState == GameState.Flourishing) {
-
+            runRejuvinationTimer();
+            starReturnCount = 0;
+            starCaughtCount = 0;
+            starCatcherRevivedCount++;
+            starSpawn.StartRandomStars();
+            deadTimer = deadTimerValue;
+            previousWorldState = plasmaWorldState;
         }
 
         if (plasmaWorldState == GameState.Dead) {
-            setDeadTimer();
+            runDeadTimer();
+            starSpawn.DestroyStars();
+            deathNarrationManager.TriggerDeath(); 
+            this.starReturnCount = 0;
+            totalStarsToBeCaught = 60; // second time through higher stars to catch
+            hasAnimationTriggered = new bool[]{true, true, true, true}; // set as true so no flourish animations can get triggered
+            cumulativeEnvironmentDamageScore -= starReturnCount * 0.01f; // revive plants a little as stars are caught
         }
 
         // The tutorial scene also uses the score script, however it doens't need the following actions
@@ -152,7 +161,7 @@ public class Score : MonoBehaviour {
 
             if (plasmaWorldState == GameState.Flourishing) {
                 if (inAnimationMode == true){
-                    runAnimationTimer();
+                    runFlourishAnimationTimer();
                 } else {
                     runRandomStarTimer();
                 }
@@ -276,7 +285,6 @@ public class Score : MonoBehaviour {
 
     public void SetGameState()
     {
-
         // Flourishing
         // change states as damage score increases
         if (cumulativeEnvironmentDamageScore < 0.5) {
@@ -343,9 +351,9 @@ public class Score : MonoBehaviour {
         {
             plasmaWorldState = GameState.Dying;
             // reduceScoreTimerValue = 15f;
-            if (plasmaWorldState != previousWorldState)
+            if (plasmaWorldState != previousWorldState && previousWorldState == GameState.Decline)
             {
-                deathNarrationManager.TriggerPlantDying();
+                runDyingPauseBeforeNarrationTimer();
                 // starAnimations.FullAnimation();
                 starSpawn.StartRandomStars();
                 deadStarPositionCollider.DestroyDeadStars();
@@ -353,7 +361,7 @@ public class Score : MonoBehaviour {
             }
 
             // formations - connected shower
-            if (hasAnimationTriggered[1] == false && cumulativeEnvironmentDamageScore > 0.85){
+            if (hasAnimationTriggered[1] == false && cumulativeEnvironmentDamageScore > 0.9){
                 animationRunTimer[1] = true; // starts animation timer
                 hasAnimationTriggered[1] = true; // stops animation from looping
                 //Debug.Log(hasTorus1Triggered + ", " + cumulativeEnvironmentDamageScore);
@@ -366,43 +374,31 @@ public class Score : MonoBehaviour {
             }
 
         // DEAD
-        } else if (cumulativeEnvironmentDamageScore == 1) {
+        } else if (cumulativeEnvironmentDamageScore >= 1) {
             plasmaWorldState = GameState.Dead;
-            starSpawn.DestroyStars();
-            deathNarrationManager.TriggerDeath(); 
-            this.starReturnCount = 0;
-            totalStarsToBeCaught = 100; // second time through higher stars to catch
-            hasAnimationTriggered = new bool[]{false, false, false, false};
-
-            
         }
         // Debug.Log("score: " + cumulativeEnvironmentDamageScore + "state: " + plasmaWorldState);
         previousWorldState = plasmaWorldState;
     }
 
-    public void setRejuvinationTimer(){
+    public void runRejuvinationTimer(){
         rejuvinationTimer -= Time.deltaTime;
         if (rejuvinationTimer <= 0)  {
             plasmaWorldState = GameState.Flourishing;
             rejuvinationTimer = rejuvinationTimerValue;
             if (plasmaWorldState != previousWorldState)
             {
-                starAnimations.FullCaughtAnimation();
+                starAnimations.FullCaughtAnimation(); // this is a transition animation
             }
         }
     }
 
-    public void setDeadTimer(){
+    public void runDeadTimer(){
+        // dead timer may not be needed here. could just run the dead state scenario
         deadTimer -= Time.deltaTime;
         if ((deadTimer <= 0) && (starReturnCount >= totalDeadStarsToBeReturned))  {
            // deadStarPositionCollider.DestroyDeadStars();
             plasmaWorldState = GameState.Rejuvination;
-            starReturnCount = 0;
-            starCaughtCount = 0;
-            starCatcherRevivedCount++;
-            starSpawn.StartRandomStars();
-            deadTimer = deadTimerValue;
-            previousWorldState = plasmaWorldState;
         }
     }
 
@@ -414,25 +410,35 @@ public class Score : MonoBehaviour {
             // START ANIMATION AT END OF TIMER
             starSpawn.StopRandomStars();
             formationIndex++;
-            animationTimerValue = animationTimerDurations[getCurrentFromationIndex()];
-            Debug.Log("next animation " + getCurrentFromationIndex() + " timer " + animationTimerValue);
+            flourishAnimationTimerValue = flourishAnimationTimerDurations[getCurrentFromationIndex()];
+            Debug.Log("next animation " + getCurrentFromationIndex() + " timer " + flourishAnimationTimerValue);
             flourishAnimators[getCurrentFromationIndex()].Animate();
             inAnimationMode = true;
             randomStarTimerValue = randomStarTimerDuration;
         }
     }   
 
-    private void runAnimationTimer(){
+    private void runFlourishAnimationTimer(){
         // continuous on update
-        animationTimerValue -= Time.deltaTime;
+        flourishAnimationTimerValue -= Time.deltaTime;
         // Debug.Log("timer "+ animationTimerValue);
-        if (animationTimerValue <= 0) {
-            endAnimation();
+        if (flourishAnimationTimerValue <= 0) {
+            endFlourishAnimation();
             Debug.Log("animation timer done");
         }
     }  
+
+    private void runDyingPauseBeforeNarrationTimer(){
+        // continuous on update
+        pauseBeforeNarrationTimerValue -= Time.deltaTime;
+        // Debug.Log("timer "+ animationTimerValue);
+        if (pauseBeforeNarrationTimerValue <= 0) {
+            deathNarrationManager.TriggerPlantDying();
+            Debug.Log("start narration for dying plants");
+        }
+    }  
  
-    private void endAnimation(){
+    private void endFlourishAnimation(){
         // hasAnimationTriggered[getCurrentFromationIndex()] = true;
         flourishAnimators[getCurrentFromationIndex()].Reset();
         // animationRunTimer[getCurrentFromationIndex()] = false;

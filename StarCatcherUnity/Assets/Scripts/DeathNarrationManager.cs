@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Audio;
 using UniOSC;
+using System;
 
 
 public class DeathNarrationManager : MonoBehaviour
@@ -26,6 +27,11 @@ public class DeathNarrationManager : MonoBehaviour
     public OSCSenderAllFall sendAllFall;
     public OSCSenderAllPulsingLinger sendPulsingLinger;
 
+    private int[] welcomeMessageAudioArray = {0, 1};
+    private int[] outerRingStarsAudioArray = {0, 1};
+    private int[] snowDwarfAudioArray = {0, 1};
+    private int[] degenerateCommentAudioArray = {0, 1, 2, 3, 4};
+    private int[] planetDeathAudioArray = {0, 1};
 
 
     // public int CaughtStarCountToAdvanceScene = 10;
@@ -49,8 +55,6 @@ public class DeathNarrationManager : MonoBehaviour
         if (isReadyForOtherStars && hasReturnedOne && (Time.time >= startTime + 20f)) {
             TriggerReadyToReturnOtherStars();
         }
-
-
     
     }
 
@@ -62,42 +66,66 @@ public class DeathNarrationManager : MonoBehaviour
         startTime = Time.time;
         DeadStarPositionColliders deadStarPositionCollider = FindObjectOfType<DeadStarPositionColliders>();
         deadStarPositionCollider.UpdateDeadStarPositionColliders();
-        TriggerNarration(0);
+        // TriggerNarration(0);
+        // The first time, trigger the new audio, after that keep repeating the same message
+        if (Score.starCatcherRevivedCount < 1) {
+        TriggerNarration(planetDeathAudioArray[0]);
+        }
+        else {
+            TriggerNarration(planetDeathAudioArray[1]);
+        }
 
     }
 
     private void TriggerReadyToReturnOtherStars() {
-            TriggerNarration(1);
-            isReadyForOtherStars = false;
-            Debug.Log("SENDING all to pulse in two messages ");
-            sendPulsingLinger.SendOSCAllPulsingLingerMessage("/behavior/4");
-            sendAllFall.SendOSCAllFallMessage("/allfall");
+        // narration is the same each time - encouraging
+        TriggerNarration(1);
+        isReadyForOtherStars = false;
+        Debug.Log("SENDING all to pulse in two messages ");
+        sendPulsingLinger.SendOSCAllPulsingLingerMessage("/behavior/4");
+        sendAllFall.SendOSCAllFallMessage("/allfall");
     }
 
 
     public void TriggerFirstVoyage() {
-          Debug.Log("Excited getting triggered");
-          TriggerNarration(2);
+        Debug.Log("Excited getting triggered");
+        // TriggerNarration(2);
+         // The first time, trigger the new audio, after that keep repeating the same message
+        if (Score.starCatcherRevivedCount < 1) {
+        TriggerNarration(welcomeMessageAudioArray[0]);
+        }
+        else {
+            TriggerNarration(welcomeMessageAudioArray[1]);
+        }
     }
 
     public void TriggerPlantDying() {
         Debug.Log("plant dying getting triggered");
-        TriggerNarration(3);
-
+        // Done: this only triggers 10 seconds after enters scene from decline state
+        // TriggerNarration(3);
+                if (Score.starCatcherRevivedCount < 1) {
+        TriggerNarration(degenerateCommentAudioArray[0]);
+        }
+        else {
+            TriggerNarration(degenerateCommentAudioArray[UnityEngine.Random.Range(1,4)]);
+        }
     }
 
     public void TriggerOuterRing() {
         Debug.Log("outer ring of planets getting triggered");
-        TriggerNarration(4);
-
+        // TriggerNarration(4);
+        // alternate between 2 audios
+        TriggerNarration(outerRingStarsAudioArray[(Score.starCatcherRevivedCount % 2)]);
     }
 
     public void TriggerSnowDwarf() {
         Debug.Log("white dwarf triggered");
-        TriggerNarration(5);
-
+        // TriggerNarration(5);
+        // alternate between 2 audios
+        TriggerNarration(snowDwarfAudioArray[(Score.starCatcherRevivedCount % 2)]);
     }
 
+    // function to trigger the audio clips assigned in the UI
     public void TriggerNarration(int triggerItemIndex) {
         Debug.Log("TriggerNarration() w triggerItemIndex: " + triggerItemIndex);
 
@@ -105,7 +133,7 @@ public class DeathNarrationManager : MonoBehaviour
             Debug.LogError("NOT enough text or narration audio for triggerItemIndex: " + triggerItemIndex);
         }
 
-        text.text = narrationText[triggerItemIndex];
+        // text.text = narrationText[triggerItemIndex];
         narrationStems[triggerItemIndex].FadeInAudio();
     }
 
@@ -144,6 +172,8 @@ public class DeathNarrationManager : MonoBehaviour
 
     }
 
+    // This drops the ball that sends off a signal to the lighting to do a linger for an amount of time
+    // TODO: Need to keep the ball down so that the animation stays down. Then change the dead stars to appear only here. 
     private void TriggerSpawnFaintStarAnimation() {
         if (!hasTriggerSpawnFaintStarAnimation) {
             hasTriggerSpawnFaintStarAnimation = true;
