@@ -1,0 +1,6 @@
+{
+    "files.exclude": {
+        "**/_gsdata_": true,
+        "**/*.meta": true
+    }
+}
