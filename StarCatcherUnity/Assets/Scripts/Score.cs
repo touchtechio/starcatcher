@@ -202,6 +202,7 @@ public class Score : MonoBehaviour {
             deathNarrationManager.TriggerReturnOtherStars();
         }
         starReturnCount++;
+        starCaughtCount--;
     }
 
     public void catchStarNoConstellation()

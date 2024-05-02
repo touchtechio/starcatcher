@@ -48,13 +48,17 @@ public class StarSpawnFormations : MonoBehaviour
         {
             GameObject starPosition = collision.gameObject;
             StripIndex index = starPosition.GetComponent<StripIndex>();
+
+            //TODO: spawn dead stars here
+            // add to an array of dead star positions
+            // pass this list to DeadStarPositionColliders script
             if (gameObject.tag == "STAR POSITION REVIVE")
             {
                 // Debug.Log("Spawn tutorial revive this star");
                 Debug.Log("faintly star " + index.stripIndex);
                 // No need to spawn as dead stars are already created
                 // This creates the linger signal for the faint star to turn on
-                oscSenderFaintStarLinger.SendOSCFaintStarLingerMessage("/faintstarlinger", index.stripIndex, 30000);
+                oscSenderFaintStarLinger.SendOSCFaintStarLingerMessage("/faintstarlinger", index.stripIndex, 4000);
                 return;
         }
             //Debug.Log("Spawn from formation");

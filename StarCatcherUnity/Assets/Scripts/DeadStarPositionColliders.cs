@@ -21,7 +21,6 @@ public class DeadStarPositionColliders : MonoBehaviour
         }
         Debug.Log("TRACE: found stripPositions", stripPositions);
 
-
         deadStars = GameObject.FindGameObjectWithTag("DEAD STARS");
         if (null == deadStars)
         {

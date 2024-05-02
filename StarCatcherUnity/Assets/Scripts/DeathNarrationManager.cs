@@ -13,7 +13,6 @@ public class DeathNarrationManager : MonoBehaviour
     public MusicStemCrossfade[] narrationStems;
     private float startTime;
     public string[] narrationText;
-    private float starFallTime;
     public AnimatorSphere2 animatorSphere2;
     private bool hasTriggerSpawnFaintStarAnimation = false;
     private bool isReadyForOtherStars = false;
@@ -28,10 +27,11 @@ public class DeathNarrationManager : MonoBehaviour
     public OSCSenderAllPulsingLinger sendPulsingLinger;
 
     private int[] welcomeMessageAudioArray = {0, 1};
-    private int[] outerRingStarsAudioArray = {0, 1};
-    private int[] snowDwarfAudioArray = {0, 1};
-    private int[] degenerateCommentAudioArray = {0, 1, 2, 3, 4};
-    private int[] planetDeathAudioArray = {0, 1};
+    private int[] outerRingStarsAudioArray = {2, 3};
+    private int[] snowDwarfAudioArray = {4, 5};
+    private int[] degenerateCommentAudioArray = {6, 7, 8, 9, 10};
+    private int[] planetDeathAudioArray = {11, 12};
+    private int starsReturnedWorked = 13;
 
 
     // public int CaughtStarCountToAdvanceScene = 10;
@@ -79,7 +79,7 @@ public class DeathNarrationManager : MonoBehaviour
 
     private void TriggerReadyToReturnOtherStars() {
         // narration is the same each time - encouraging
-        TriggerNarration(1);
+        TriggerNarration(starsReturnedWorked);
         isReadyForOtherStars = false;
         Debug.Log("SENDING all to pulse in two messages ");
         sendPulsingLinger.SendOSCAllPulsingLingerMessage("/behavior/4");
@@ -128,7 +128,6 @@ public class DeathNarrationManager : MonoBehaviour
     // function to trigger the audio clips assigned in the UI
     public void TriggerNarration(int triggerItemIndex) {
         Debug.Log("TriggerNarration() w triggerItemIndex: " + triggerItemIndex);
-
         if ((narrationStems.Length < triggerItemIndex) || (narrationText.Length < triggerItemIndex)){
             Debug.LogError("NOT enough text or narration audio for triggerItemIndex: " + triggerItemIndex);
         }
@@ -167,24 +166,16 @@ public class DeathNarrationManager : MonoBehaviour
         animator.Play(animationName);
     }
 
-    private void ManageStarCatchingTutorial(){
-        // audio: "here comes some stars"
-
-    }
-
     // This drops the ball that sends off a signal to the lighting to do a linger for an amount of time
     // TODO: Need to keep the ball down so that the animation stays down. Then change the dead stars to appear only here. 
     private void TriggerSpawnFaintStarAnimation() {
         if (!hasTriggerSpawnFaintStarAnimation) {
-            hasTriggerSpawnFaintStarAnimation = true;
-            startTime = Time.time;
+            // keep the animation looping
+            //hasTriggerSpawnFaintStarAnimation = true;
             isReadyForOtherStars = true; // setup for next audio cue
             hasReturnedOne = false;
-            starFallTime = starSpawnObject.TutorialFallDuration + starSpawnObject.TutorialLingerTime;
             animatorSphere2.Animate();
         }
-
     }
-
 
 }

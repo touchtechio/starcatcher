@@ -18,7 +18,7 @@ public class NarrationManager : MonoBehaviour
     private bool startedEndTimer = false;
     private float endStartTime;
 
-    public int CaughtStarCountToAdvanceScene = 10;
+    public int CaughtStarCountToAdvanceScene = 6;
 
 
     // Start is called before the first frame update

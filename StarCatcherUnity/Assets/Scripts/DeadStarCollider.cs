@@ -49,6 +49,7 @@ public class DeadStarCollider : MonoBehaviour {
     void OnTriggerEnter(Collider collision)
     {
         // other.gameObject.CompareTag(NET);
+        // TODO: maybe deactivate this
         if (isStarReturned == true)
         {
             return;
@@ -57,7 +58,8 @@ public class DeadStarCollider : MonoBehaviour {
         // star can be returned up to x times in the same position before marked destroyed
         starCollideCount++;
         if (starCollideCount >= availableStarReturns) {
-            isStarReturned = true;
+            // removing this capability as we want to keep returning stars
+            //isStarReturned = true;
         }
 
         timeCaught = Time.time;
@@ -65,8 +67,6 @@ public class DeadStarCollider : MonoBehaviour {
 
                 // Debug.Log("linger " + caughtStripNumber);
         oscSenderLinger.SendOSCLingerMessage("/starlinger", caughtStripNumber, 2000);
-
-
         oscSenderObject.SendOSCReturnMessage("/starreturn", caughtStripNumber);
 
         // play caught sound at place of caught
