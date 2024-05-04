@@ -64,8 +64,6 @@ public class DeathNarrationManager : MonoBehaviour
         hasDeathStarted = true;
         hasTriggerSpawnFaintStarAnimation = false;
         startTime = Time.time;
-        DeadStarPositionColliders deadStarPositionCollider = FindObjectOfType<DeadStarPositionColliders>();
-        deadStarPositionCollider.UpdateDeadStarPositionColliders();
         // TriggerNarration(0);
         // The first time, trigger the new audio, after that keep repeating the same message
         if (Score.starCatcherRevivedCount < 1) {

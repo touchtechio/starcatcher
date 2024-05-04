@@ -40,42 +40,72 @@ public class DeadStarPositionColliders : MonoBehaviour
         
     }
 
-    public void UpdateDeadStarPositionColliders() {
-
+    public void UpdateDeadStarPositionColliders(int stripIndex) {
         // get positions of led strips
         ArrayList starStrips = stripPositions.getStarPositions();
         int positionCount = starStrips.Count;
         Debug.Log("TRACE: found stripPositions count: " + positionCount);
-
 
         if (positionCount == 0)
         {
             Debug.Log("ERROR: no starStrips defined yet");
         }
 
+        if (stripIndex >= positionCount)
+        {
+            Debug.Log("ERROR:stripIndex arrayindex yet");
+        }
 
-        // TODO: read from current blue star formations
+        Strip strip = (Strip)starStrips[stripIndex];
+        Vector3 starPosition = strip.starStartPoints;
 
-    //    for (int i = 0; i < starSpawn.plasmaArray; i++) {
-        for (int i = 0; i < positionCount; i++) {
+        // Create Dead Star from prefab
+        GameObject star = Instantiate(deadStarPositionPrefab, starPosition, Quaternion.identity) as GameObject;
+        star.transform.parent = deadStars.transform;
 
-//                    foreach ( int i in starSpawn.plasmaArray) {
+        // configuring the dead star collider with star index. 
+        // wher you tell the sstar which led strip to control ..
 
-            Strip strip = (Strip)starStrips[i];
-            Vector3 starPosition = strip.starStartPoints;
-
-            // Create Dead Star from prefab
-            GameObject star = Instantiate(deadStarPositionPrefab, starPosition, Quaternion.identity) as GameObject;
-            star.transform.parent = deadStars.transform;
-
-            // configuring the dead star collider with star index. 
-            // wher you tell the sstar which led strip to control ..
-
-            DeadStarCollider deadStarCollider = star.GetComponent<DeadStarCollider>();
-            deadStarCollider.plasmaStripNumber = i; 
-        }    
+        DeadStarCollider deadStarCollider = star.GetComponent<DeadStarCollider>();
+        deadStarCollider.plasmaStripNumber = stripIndex; 
 
     }
+
+    // public void UpdateDeadStarPositionColliders() {
+
+    //     // get positions of led strips
+    //     ArrayList starStrips = stripPositions.getStarPositions();
+    //     int positionCount = starStrips.Count;
+    //     Debug.Log("TRACE: found stripPositions count: " + positionCount);
+
+
+    //     if (positionCount == 0)
+    //     {
+    //         Debug.Log("ERROR: no starStrips defined yet");
+    //     }
+
+
+    //     // TODO: read from current blue star formations
+
+    //     // for (int i = 0; i < positionCount; i++) {
+
+    //     foreach ( int i in starSpawn.plasmaArray) {
+
+    //         Strip strip = (Strip)starStrips[i];
+    //         Vector3 starPosition = strip.starStartPoints;
+
+    //         // Create Dead Star from prefab
+    //         GameObject star = Instantiate(deadStarPositionPrefab, starPosition, Quaternion.identity) as GameObject;
+    //         star.transform.parent = deadStars.transform;
+
+    //         // configuring the dead star collider with star index. 
+    //         // wher you tell the sstar which led strip to control ..
+
+    //         DeadStarCollider deadStarCollider = star.GetComponent<DeadStarCollider>();
+    //         deadStarCollider.plasmaStripNumber = i; 
+    //     }    
+
+    // }
 
     
     public void DestroyDeadStars()
