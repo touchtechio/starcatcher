@@ -13,7 +13,7 @@ public class DeadStarCollider : MonoBehaviour {
     public int starCollideCount = 0;
     public int availableStarReturns = 5;
     HU_Star starEffects;
-    public int caughtStripNumber;
+    public int plasmaStripNumber;
     private SoundManager soundManager;
     private GameObject gameManagerObject;
     private Score gameScore;
@@ -40,6 +40,7 @@ public class DeadStarCollider : MonoBehaviour {
 
         if (isStarReturned == true){
             // destroy star
+            // removed for harvestworkss
             Destroy(gameObject);
         }
         
@@ -59,15 +60,15 @@ public class DeadStarCollider : MonoBehaviour {
         starCollideCount++;
         if (starCollideCount >= availableStarReturns) {
             // removing this capability as we want to keep returning stars
-            //isStarReturned = true;
+            isStarReturned = true;
         }
 
         timeCaught = Time.time;
-        Debug.Log("returning: "+ caughtStripNumber);
+        Debug.Log("returning: "+ plasmaStripNumber);
 
-                // Debug.Log("linger " + caughtStripNumber);
-        oscSenderLinger.SendOSCLingerMessage("/starlinger", caughtStripNumber, 2000);
-        oscSenderObject.SendOSCReturnMessage("/starreturn", caughtStripNumber);
+                // Debug.Log("linger " + plasmaStripNumber);
+        oscSenderLinger.SendOSCLingerMessage("/starlinger", plasmaStripNumber, 2000);
+        oscSenderObject.SendOSCReturnMessage("/starreturn", plasmaStripNumber);
 
         // play caught sound at place of caught
         SoundCatch();

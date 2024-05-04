@@ -85,6 +85,8 @@ public class StarSpawn : MonoBehaviour {
     Dictionary<Score.GameState, float[]> worldStateSpawnRates = new Dictionary<Score.GameState, float[]> ();
     private static float deadTimer;
 
+    public ArrayList plasmaArray = new ArrayList();
+
 
     // Use this for initialization
     void Start () {
@@ -185,13 +187,15 @@ public class StarSpawn : MonoBehaviour {
 
     public void Spawn(Strip strip)
     {
+       // if (Score.plasmaWorldState != Score.GameState.Dead) {
         timeToNextSpawn = calcNextSpawnRate(worldStateSpawnRates[Score.plasmaWorldState]);
         StarTypeToSpawn = calcNextSpawnType(worldStatePercentages[Score.plasmaWorldState]);
+      //  }
         // if (!randomStarsSending) {
         //     Debug.Log("Star " + StarTypeToSpawn);
         // }
 
-        // TODO: change to enum type and case switch statements
+        // needs change to enum type and case switch statements
         if (StarTypeToSpawn == "easy")
         {
             SpawnEasy(strip);

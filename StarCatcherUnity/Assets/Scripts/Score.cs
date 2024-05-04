@@ -188,7 +188,7 @@ public class Score : MonoBehaviour {
     {
         starCaughtCount++;
 
-        //TODO: add toggle for game type
+        // can add toggle for game type
         // if (0 == (constellationScore % 10))
         // {
         //     SetLevel(level+1);
@@ -197,12 +197,13 @@ public class Score : MonoBehaviour {
     }
 
     public void returnStar()
+    // TODO; review this code - this triggers a narration, and can only happen once
     {
         if (starReturnCount == 0) {
             deathNarrationManager.TriggerReturnOtherStars();
         }
         starReturnCount++;
-        starCaughtCount--;
+     //   starCaughtCount--; // reduces global score
     }
 
     public void catchStarNoConstellation()
@@ -274,7 +275,7 @@ public class Score : MonoBehaviour {
 
     public void checkEffectOnEnvironment()
     {
-        // TODO: replace formula
+        // replace formula
         if (starCaughtCount <= totalStarsToBeCaught) {
             environmentDamageScore = (float) starCaughtCount / totalStarsToBeCaught;
             cumulativeEnvironmentDamageScore = environmentDamageScore;

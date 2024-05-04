@@ -14,6 +14,7 @@ public class StarSpawnFormations : MonoBehaviour
     OSCSenderFaintStarLinger oscSenderFaintStarLinger;
 
 
+
     // Start is called before the first frame update
     void Start()
     {
@@ -48,7 +49,7 @@ public class StarSpawnFormations : MonoBehaviour
         {
             GameObject starPosition = collision.gameObject;
             StripIndex index = starPosition.GetComponent<StripIndex>();
-
+            starSpawn.plasmaArray.Add(index);
             //TODO: spawn dead stars here
             // add to an array of dead star positions
             // pass this list to DeadStarPositionColliders script
