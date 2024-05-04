@@ -144,7 +144,12 @@ public class Score : MonoBehaviour {
 
         if (plasmaWorldState == GameState.Dead) {
             runDeadTimer();
-          
+            starSpawn.DestroyStars();
+            deathNarrationManager.TriggerDeath(); 
+            this.starReturnCount = 0;
+            totalStarsToBeCaught = 60; // second time through higher stars to catch
+            hasAnimationTriggered = new bool[]{true, true, true, true}; // set as true so no flourish animations can get triggered
+            cumulativeEnvironmentDamageScore -= starReturnCount * 0.01f; // revive plants a little as stars are caught
         }
 
         // The tutorial scene also uses the score script, however it doens't need the following actions
@@ -397,12 +402,12 @@ public class Score : MonoBehaviour {
         if ((deadTimer <= 0) && (starReturnCount >= totalDeadStarsToBeReturned))  {
            // deadStarPositionCollider.DestroyDeadStars();
             plasmaWorldState = GameState.Rejuvination;
-            starSpawn.DestroyStars();
-            deathNarrationManager.TriggerDeath(); 
-            this.starReturnCount = 0;
-            totalStarsToBeCaught = 60; // second time through higher stars to catch
-            hasAnimationTriggered = new bool[]{true, true, true, true}; // set as true so no flourish animations can get triggered
-            cumulativeEnvironmentDamageScore -= starReturnCount * 0.01f; // revive plants a little as stars are caught
+            starReturnCount = 0;
+            starCaughtCount = 0;
+            starCatcherRevivedCount++;
+            starSpawn.StartRandomStars();
+            deadTimer = deadTimerValue;
+            previousWorldState = plasmaWorldState;
         }
     }
 
