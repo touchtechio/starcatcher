@@ -134,12 +134,6 @@ public class Score : MonoBehaviour {
         // during dead state, no stars are spawned
         if (plasmaWorldState == GameState.Rejuvination) {
             runRejuvinationTimer();
-            starReturnCount = 0;
-            starCaughtCount = 0;
-            starCatcherRevivedCount++;
-            starSpawn.StartRandomStars();
-            deadTimer = deadTimerValue;
-            previousWorldState = plasmaWorldState;
         }
 
         if (plasmaWorldState == GameState.Dead) {
