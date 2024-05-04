@@ -40,7 +40,7 @@ public class DeadStarPositionColliders : MonoBehaviour
         
     }
 
-    public void UpdateDeadStarPositionColliders(int stripIndex) {
+    public void UpdateDeadStarPositionColliders(int stripIndex, int durationMS) {
         // get positions of led strips
         ArrayList starStrips = stripPositions.getStarPositions();
         int positionCount = starStrips.Count;
@@ -68,6 +68,9 @@ public class DeadStarPositionColliders : MonoBehaviour
 
         DeadStarCollider deadStarCollider = star.GetComponent<DeadStarCollider>();
         deadStarCollider.plasmaStripNumber = stripIndex; 
+
+        ReturnStarDestroyer starDestroyer = star.GetComponent<ReturnStarDestroyer>();
+        starDestroyer.timeToDestroyStar = durationMS / 1000;    //timeToDestroyStar in seconds.
 
     }
 
