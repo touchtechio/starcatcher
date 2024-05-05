@@ -177,6 +177,8 @@ public class PlantManager : MonoBehaviour
             }
         }
 
+        Debug.Log("plant " + cur_health);
+
         //if we just died, do that
         if(cur_state == Score.GameState.Dead && prev_state != Score.GameState.Dead){
             start_death();
@@ -197,6 +199,7 @@ public class PlantManager : MonoBehaviour
     void start_death(){
         foreach(PlantRoot root in roots){
             root.start_death_animation();
+            cur_health = 0;
         }
     }
 

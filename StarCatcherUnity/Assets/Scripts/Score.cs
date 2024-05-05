@@ -195,10 +195,11 @@ public class Score : MonoBehaviour {
             starReturnCount++;
             starCaughtCount--; // reduces global score
         }
-        if (starReturnCount == 2 && plasmaWorldState == Score.GameState.Dead) {
+        if (starReturnCount == totalDeadStarsToBeReturned && plasmaWorldState == Score.GameState.Dead) {
             Debug.Log("returned 2 stars");
             deathNarrationManager.TriggerReturnOtherStars();
         }
+        
        
     }
 
@@ -276,7 +277,7 @@ public class Score : MonoBehaviour {
             environmentDamageScore = (float) starCaughtCount / totalStarsToBeCaught;
             cumulativeEnvironmentDamageScore = environmentDamageScore;
             // cumulativeEnvironmentDamageScore = (float) Mathf.Exp(-1 * Mathf.Pow(3*environmentDamageScore-3.0f,2f));
-            //Debug.Log("damage: " + cumulativeEnvironmentDamageScore);
+            Debug.Log("damage: " + cumulativeEnvironmentDamageScore + "state " + plasmaWorldState);
         } else  {
             cumulativeEnvironmentDamageScore = 1.0f;
         }
@@ -406,13 +407,13 @@ public class Score : MonoBehaviour {
         if ((deadTimer <= 0) && (starReturnCount >= totalDeadStarsToBeReturned))  {
            // deadStarPositionCollider.DestroyDeadStars();
             // plasmaWorldState = GameState.Rejuvination;
+            previousWorldState = plasmaWorldState;
             plasmaWorldState = GameState.Dying;
             // starReturnCount = 0;
             // starCaughtCount = 0;
             starCatcherRevivedCount++;
             starSpawn.StartRandomStars();
             deadTimer = deadTimerValue;
-            previousWorldState = plasmaWorldState;
         }
     }
 
