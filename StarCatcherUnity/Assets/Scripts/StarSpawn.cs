@@ -135,7 +135,7 @@ public class StarSpawn : MonoBehaviour {
 
     public void StartRandomStars()
     {
-        Debug.Log("Restarted random stars");
+        //Debug.Log("Restarted random stars");
         this.randomStarsSending = true;
     }
 

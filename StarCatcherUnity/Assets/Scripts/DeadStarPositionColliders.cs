@@ -44,7 +44,7 @@ public class DeadStarPositionColliders : MonoBehaviour
         // get positions of led strips
         ArrayList starStrips = stripPositions.getStarPositions();
         int positionCount = starStrips.Count;
-        Debug.Log("TRACE: found stripPositions count: " + positionCount);
+        //Debug.Log("TRACE: found stripPositions count: " + positionCount);
 
         if (positionCount == 0)
         {

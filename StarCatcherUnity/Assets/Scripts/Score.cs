@@ -62,6 +62,7 @@ public class Score : MonoBehaviour {
     private float randomStarTimerValue = 10f;
     private float randomStarTimerDuration = 10f;
     private bool[] animationRunTimer = {false, false, false, false};
+    private bool hasPlantDyingNarration = false;
 
     public int formationIndex = 0;
     public bool inAnimationMode = false;
@@ -136,6 +137,10 @@ public class Score : MonoBehaviour {
             runRejuvinationTimer();
         }
 
+         if (plasmaWorldState == GameState.Dying) {
+            runDyingPauseBeforeNarrationTimer();
+         }
+
         if (plasmaWorldState == GameState.Dead) {
             runDeadTimer();
         }
@@ -187,11 +192,13 @@ public class Score : MonoBehaviour {
     public void returnStar()
     // TODO; review this code - this triggers a narration, and can only happen once
     {
-        if (starReturnCount == 0) {
+        Debug.Log("returned  star");
+        if (starReturnCount == 2) {
+            Debug.Log("returned 2 stars");
             deathNarrationManager.TriggerReturnOtherStars();
         }
         starReturnCount++;
-     //   starCaughtCount--; // reduces global score
+        starCaughtCount--; // reduces global score
     }
 
     public void catchStarNoConstellation()
@@ -283,10 +290,10 @@ public class Score : MonoBehaviour {
             // reduceScoreTimerValue = 10f;
             if (plasmaWorldState != previousWorldState)
             {
-                Debug.Log("entering flourish");
+                Debug.Log("Entering flourish");
+                deathNarrationManager.TriggerFirstVoyage();
                 if (starCatcherRevivedCount == 0) {
                     Debug.Log("entering flourish for the first time");
-                    deathNarrationManager.TriggerFirstVoyage();
                     deadStarPositionCollider.DestroyDeadStars(); // not sure this is needed, seems to already be happening
                 }
                 starAnimations.FullCaughtAnimation();
@@ -318,6 +325,7 @@ public class Score : MonoBehaviour {
             if (plasmaWorldState != previousWorldState)
             {
                 // starAnimations.FullAnimation();
+                Debug.Log(" Entering Decline");
                 starSpawn.StartRandomStars();        
                 deadStarPositionCollider.DestroyDeadStars();
                 hasAnimationTriggered = new bool[]{false, false, false, false};
@@ -344,8 +352,9 @@ public class Score : MonoBehaviour {
             // reduceScoreTimerValue = 15f;
             if (plasmaWorldState != previousWorldState && previousWorldState == GameState.Decline)
             {
-                runDyingPauseBeforeNarrationTimer();
                 // starAnimations.FullAnimation();
+                Debug.Log(" Entering Dying");
+                hasPlantDyingNarration = false;
                 starSpawn.StartRandomStars();
                 deadStarPositionCollider.DestroyDeadStars();
                 hasAnimationTriggered = new bool[]{false, false, false, false};
@@ -433,11 +442,15 @@ public class Score : MonoBehaviour {
 
     private void runDyingPauseBeforeNarrationTimer(){
         // continuous on update
+        if (hasPlantDyingNarration == false){
         pauseBeforeNarrationTimerValue -= Time.deltaTime;
-        // Debug.Log("timer "+ animationTimerValue);
+        //Debug.Log("puase before narration of plants");
         if (pauseBeforeNarrationTimerValue <= 0) {
             deathNarrationManager.TriggerPlantDying();
             Debug.Log("start narration for dying plants");
+            pauseBeforeNarrationTimerValue = 10f;
+            hasPlantDyingNarration = true;
+        }
         }
     }  
  

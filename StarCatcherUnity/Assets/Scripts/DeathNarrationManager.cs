@@ -53,6 +53,7 @@ public class DeathNarrationManager : MonoBehaviour
         }
 
         if (isReadyForOtherStars && hasReturnedOne && (Time.time >= startTime + 20f)) {
+            Debug.Log("SHould be ready to trigger audio");
             TriggerReadyToReturnOtherStars();
         }
     
@@ -148,6 +149,7 @@ public class DeathNarrationManager : MonoBehaviour
 
     public void TriggerReturnOtherStars () {
         hasReturnedOne = true;
+        Debug.Log("returned 2 stars, start narration");
     }
 
 
@@ -171,6 +173,7 @@ public class DeathNarrationManager : MonoBehaviour
             // keep the animation looping
             //hasTriggerSpawnFaintStarAnimation = true;
             isReadyForOtherStars = true; // setup for next audio cue
+            // Debug.Log("Is ready for other stars");
             hasReturnedOne = false;
             animatorSphere2.Animate();
         }

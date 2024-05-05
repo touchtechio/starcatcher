@@ -56,7 +56,7 @@ public class StarSpawnFormations : MonoBehaviour
             if (gameObject.tag == "STAR POSITION REVIVE")
             {
                 // Debug.Log("Spawn tutorial revive this star");
-                Debug.Log("faintly star " + index.stripIndex);
+                //Debug.Log("faintly star " + index.stripIndex);
                 // No need to spawn as dead stars are already created
                 // This creates the linger signal for the faint star to turn on
                 int duration = 4000;
