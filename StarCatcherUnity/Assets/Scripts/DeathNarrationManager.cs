@@ -51,12 +51,6 @@ public class DeathNarrationManager : MonoBehaviour
             // Debug.Log("clip length " + narrationStems[0].sourceToCrossfade.clip.length);
             TriggerSpawnFaintStarAnimation(); 
         }
-
-        if (isReadyForOtherStars && hasReturnedOne && (Time.time >= startTime + 20f)) {
-            Debug.Log("SHould be ready to trigger audio");
-            TriggerReadyToReturnOtherStars();
-        }
-    
     }
 
     // this starts the Death Narration from the score / game mode transistion
@@ -150,6 +144,7 @@ public class DeathNarrationManager : MonoBehaviour
     public void TriggerReturnOtherStars () {
         hasReturnedOne = true;
         Debug.Log("returned 2 stars, start narration");
+        TriggerReadyToReturnOtherStars();
     }
 
 

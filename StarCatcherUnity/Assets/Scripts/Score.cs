@@ -193,12 +193,15 @@ public class Score : MonoBehaviour {
     // TODO; review this code - this triggers a narration, and can only happen once
     {
         Debug.Log("returned  star");
-        if (starReturnCount == 2) {
+        if (starCaughtCount > 0) {
+            starReturnCount++;
+            starCaughtCount--; // reduces global score
+        }
+        if (starReturnCount == 2 && plasmaWorldState == Score.GameState.Dead) {
             Debug.Log("returned 2 stars");
             deathNarrationManager.TriggerReturnOtherStars();
         }
-        starReturnCount++;
-        starCaughtCount--; // reduces global score
+       
     }
 
     public void catchStarNoConstellation()
