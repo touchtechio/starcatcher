@@ -177,8 +177,6 @@ public class PlantManager : MonoBehaviour
             }
         }
 
-        Debug.Log("plant " + cur_health);
-
         //if we just died, do that
         if(cur_state == Score.GameState.Dead && prev_state != Score.GameState.Dead){
             start_death();

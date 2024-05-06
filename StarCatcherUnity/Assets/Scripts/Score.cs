@@ -277,7 +277,7 @@ public class Score : MonoBehaviour {
             environmentDamageScore = (float) starCaughtCount / totalStarsToBeCaught;
             cumulativeEnvironmentDamageScore = environmentDamageScore;
             // cumulativeEnvironmentDamageScore = (float) Mathf.Exp(-1 * Mathf.Pow(3*environmentDamageScore-3.0f,2f));
-            Debug.Log("damage: " + cumulativeEnvironmentDamageScore + "state " + plasmaWorldState);
+            // Debug.Log("damage: " + cumulativeEnvironmentDamageScore + "state " + plasmaWorldState);
         } else  {
             cumulativeEnvironmentDamageScore = 1.0f;
         }
@@ -351,11 +351,13 @@ public class Score : MonoBehaviour {
         else if (cumulativeEnvironmentDamageScore >= 0.75 && cumulativeEnvironmentDamageScore < 1)
         {
             plasmaWorldState = GameState.Dying;
+            Debug.Log(" Entering Dying" + "previous state " + previousWorldState);
+            hasPlantDyingNarration = true;
             // reduceScoreTimerValue = 15f;
             if (plasmaWorldState != previousWorldState && previousWorldState == GameState.Decline)
             {
                 // starAnimations.FullAnimation();
-                Debug.Log(" Entering Dying");
+                Debug.Log(" plant naration in dying" + "previous state " + previousWorldState);
                 hasPlantDyingNarration = false;
                 starSpawn.StartRandomStars();
                 deadStarPositionCollider.DestroyDeadStars();
@@ -385,7 +387,7 @@ public class Score : MonoBehaviour {
             hasAnimationTriggered = new bool[]{true, true, true, true}; // set as true so no flourish animations can get triggered
             cumulativeEnvironmentDamageScore -= starReturnCount * 0.01f; // revive plants a little as stars are caught
         }
-        // Debug.Log("score: " + cumulativeEnvironmentDamageScore + "state: " + plasmaWorldState);
+        Debug.Log("score: " + cumulativeEnvironmentDamageScore + "state: " + plasmaWorldState);
         previousWorldState = plasmaWorldState;
     }
 
@@ -407,13 +409,12 @@ public class Score : MonoBehaviour {
         if ((deadTimer <= 0) && (starReturnCount >= totalDeadStarsToBeReturned))  {
            // deadStarPositionCollider.DestroyDeadStars();
             // plasmaWorldState = GameState.Rejuvination;
-            previousWorldState = plasmaWorldState;
-            plasmaWorldState = GameState.Dying;
             // starReturnCount = 0;
             // starCaughtCount = 0;
             starCatcherRevivedCount++;
             starSpawn.StartRandomStars();
             deadTimer = deadTimerValue;
+            SetGameState();
         }
     }
 
