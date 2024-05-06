@@ -79,6 +79,7 @@ public class Score : MonoBehaviour {
         starCatcherRevivedCount = 0;
         SetLevel(0);
         plasmaWorldState = GameState.Rejuvination;
+        deathNarrationManager.TriggerFirstVoyage();
         previousWorldState = plasmaWorldState;
         rejuvinationTimer = rejuvinationTimerValue;
         deadTimer = deadTimerValue;
@@ -222,53 +223,6 @@ public class Score : MonoBehaviour {
         return level;
     }
 
-    public void updateStarCaughtOnKeyPress() {
-        if (Input.GetKeyDown(KeyCode.F1))
-        {
-            plasmaWorldState = GameState.Rejuvination;
-            hasAnimationTriggered = new bool[]{false, false, false, false};
-            starReturnCount = 0;
-            starCaughtCount = 0;
-            starCatcherRevivedCount = 0;
-            starSpawn.StartRandomStars();
-            deadTimer = deadTimerValue;
-        }
-        if (Input.GetKeyDown(KeyCode.F2))
-        {
-            starCaughtCount = totalStarsToBeCaught / 3;
-        }
-        if (Input.GetKeyDown(KeyCode.F3))
-        {
-            starCaughtCount = totalStarsToBeCaught -1;
-        }
-        if (Input.GetKeyDown(KeyCode.F4))
-        {
-            starCaughtCount = totalStarsToBeCaught;
-        }
-        if (Input.GetKeyDown(KeyCode.KeypadPlus))
-        {
-            starCaughtCount ++;
-        }
-        if (Input.GetKeyDown(KeyCode.KeypadMinus))
-        {
-            starCaughtCount --;
-        }
-
-        if (Input.GetKeyDown(KeyCode.F5)) // allow animations
-        {
-            hasAnimationTriggered = new bool[]{false, false, false, false};;
-        }
-
-        if (Input.GetKeyDown(KeyCode.F6)) // stop animations
-        {
-            hasAnimationTriggered = new bool[]{true, true, true, true};;
-        }
-        if (Input.GetKeyDown(KeyCode.F7))
-        { // start over
-            Start();
-        }
-    }
-
 
     public void checkEffectOnEnvironment()
     {
@@ -293,7 +247,6 @@ public class Score : MonoBehaviour {
             if (plasmaWorldState != previousWorldState)
             {
                 Debug.Log("Entering flourish");
-                deathNarrationManager.TriggerFirstVoyage();
                 if (starCatcherRevivedCount == 0) {
                     Debug.Log("entering flourish for the first time");
                     deadStarPositionCollider.DestroyDeadStars(); // not sure this is needed, seems to already be happening
@@ -301,6 +254,14 @@ public class Score : MonoBehaviour {
                 starAnimations.FullCaughtAnimation();
                 starSpawn.StartRandomStars();
                 hasAnimationTriggered = new bool[]{false, false, false, false};
+            }
+
+            if (cumulativeEnvironmentDamageScore == 0){
+                plasmaWorldState = GameState.Rejuvination;
+                if (plasmaWorldState != previousWorldState){
+                    deathNarrationManager.TriggerFirstVoyage();
+                    starSpawn.StartRandomStars();
+                }
             }
             
             // formations 
@@ -376,16 +337,17 @@ public class Score : MonoBehaviour {
                 //Debug.Log("formation "+ getCurrentFromationIndex());
                 // hasTorus1Triggered = true;
             }
+        } 
 
         // DEAD
-        } else if (cumulativeEnvironmentDamageScore == 1) {
+        else if (cumulativeEnvironmentDamageScore == 1) {
             plasmaWorldState = GameState.Dead;
             starSpawn.DestroyStars();
             deathNarrationManager.TriggerDeath(); 
             this.starReturnCount = 0;
             // totalStarsToBeCaught = 60; // second time through higher stars to catch
             hasAnimationTriggered = new bool[]{true, true, true, true}; // set as true so no flourish animations can get triggered
-            cumulativeEnvironmentDamageScore -= starReturnCount * 0.01f; // revive plants a little as stars are caught
+            // cumulativeEnvironmentDamageScore -= starReturnCount * 0.01f; // revive plants a little as stars are caught
         }
         Debug.Log("score: " + cumulativeEnvironmentDamageScore + "state: " + plasmaWorldState);
         previousWorldState = plasmaWorldState;
@@ -393,7 +355,7 @@ public class Score : MonoBehaviour {
 
     public void runRejuvinationTimer(){
         rejuvinationTimer -= Time.deltaTime;
-        if (rejuvinationTimer <= 0)  {
+        if (rejuvinationTimer <= 0 && starCaughtCount > 0)  {
             plasmaWorldState = GameState.Flourishing;
             rejuvinationTimer = rejuvinationTimerValue;
             if (plasmaWorldState != previousWorldState)
@@ -404,7 +366,6 @@ public class Score : MonoBehaviour {
     }
 
     public void runDeadTimer(){
-        // dead timer may not be needed here. could just run the dead state scenario
         deadTimer -= Time.deltaTime;
         if ((deadTimer <= 0) && (starReturnCount >= totalDeadStarsToBeReturned))  {
            // deadStarPositionCollider.DestroyDeadStars();
@@ -419,7 +380,7 @@ public class Score : MonoBehaviour {
     }
 
     private void runRandomStarTimer(){
-        // continuous on update
+        // continuous on update during flourish state
         randomStarTimerValue -= Time.deltaTime;
         // Debug.Log("timer "+ animationTimerValue);
         if (randomStarTimerValue <= 0) {
@@ -470,6 +431,53 @@ public class Score : MonoBehaviour {
 
     private int getCurrentFromationIndex() {
         return formationIndex%flourishAnimators.Length;
+    }
+
+    public void updateStarCaughtOnKeyPress() {
+        if (Input.GetKeyDown(KeyCode.F1))
+        {
+            plasmaWorldState = GameState.Rejuvination;
+            hasAnimationTriggered = new bool[]{false, false, false, false};
+            starReturnCount = 0;
+            starCaughtCount = 0;
+            starCatcherRevivedCount = 0;
+            starSpawn.StartRandomStars();
+            deadTimer = deadTimerValue;
+        }
+        if (Input.GetKeyDown(KeyCode.F2))
+        {
+            starCaughtCount = totalStarsToBeCaught / 3;
+        }
+        if (Input.GetKeyDown(KeyCode.F3))
+        {
+            starCaughtCount = totalStarsToBeCaught -1;
+        }
+        if (Input.GetKeyDown(KeyCode.F4))
+        {
+            starCaughtCount = totalStarsToBeCaught;
+        }
+        if (Input.GetKeyDown(KeyCode.KeypadPlus))
+        {
+            starCaughtCount ++;
+        }
+        if (Input.GetKeyDown(KeyCode.KeypadMinus))
+        {
+            starCaughtCount --;
+        }
+
+        if (Input.GetKeyDown(KeyCode.F5)) // allow animations
+        {
+            hasAnimationTriggered = new bool[]{false, false, false, false};;
+        }
+
+        if (Input.GetKeyDown(KeyCode.F6)) // stop animations
+        {
+            hasAnimationTriggered = new bool[]{true, true, true, true};;
+        }
+        if (Input.GetKeyDown(KeyCode.F7))
+        { // start over
+            Start();
+        }
     }
 
 }
