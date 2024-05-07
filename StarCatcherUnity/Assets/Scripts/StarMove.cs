@@ -83,10 +83,13 @@ public class StarMove : MonoBehaviour {
         // except stars in rejuvination state - those can't be caught
         if (Time.time >= startTime + fallDuration * 0.85)
         {
-            if (Score.plasmaWorldState != Score.GameState.Rejuvination) {
-                //gameObject.GetComponent<CapsuleCollider>().isTrigger = true;
-                m_Collider.enabled = true;
-            }
+            m_Collider.enabled = true;
+            // initially stars were not catchable in rejuvination
+
+            // if (Score.plasmaWorldState != Score.GameState.Rejuvination) {
+            //     //gameObject.GetComponent<CapsuleCollider>().isTrigger = true;
+            //     m_Collider.enabled = true;
+            // }
             HU_Star starEffects = gameObject.GetComponent<HU_Star>();
             starEffects._coronaTrails = false;
             

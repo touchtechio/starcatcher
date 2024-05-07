@@ -183,7 +183,7 @@ public class PlantManager : MonoBehaviour
         }
 
         //if we just entered regrwoth, do that
-        if(cur_state == Score.GameState.Rejuvination && prev_state != Score.GameState.Rejuvination){
+        if(cur_state == Score.GameState.Rejuvination && prev_state != Score.GameState.Rejuvination && Score.starCatcherRevivedCount ==0){
             start_rejuvination();
         }
         if (cur_state == Score.GameState.Rejuvination){

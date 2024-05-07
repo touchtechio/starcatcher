@@ -48,6 +48,18 @@ public class AnimatorSphere2 : MonoBehaviour, IFormationAnimation
          myAnimationController.ResetTrigger("TriggerMove");
    }
 
+   public void Pause() {
+      // Debug.Log("trigger sphere animation");
+         myAnimationController.speed = 0f;
+   }
+
+
+   public void Restart() {
+      // Debug.Log("trigger sphere animation");
+         // myAnimationController.ResetTrigger("TriggerMove");
+         myAnimationController.speed = 1f;
+   }
+
    // public void TriggerFaintStarAnimation(){
 
    // }

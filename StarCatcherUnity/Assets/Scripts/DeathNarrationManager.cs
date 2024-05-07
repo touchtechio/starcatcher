@@ -47,7 +47,8 @@ public class DeathNarrationManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (hasDeathStarted && (Time.time >= startTime + narrationStems[planetDeathAudioArray[0]].sourceToCrossfade.clip.length - 10f)) {
+        // sets timer to star Plasma / fainst star animation
+        if (hasDeathStarted && (Time.time >= startTime + narrationStems[planetDeathAudioArray[0]].sourceToCrossfade.clip.length - 13f)) {
             // Debug.Log("clip length " + narrationStems[0].sourceToCrossfade.clip.length);
             TriggerSpawnFaintStarAnimation(); 
         }

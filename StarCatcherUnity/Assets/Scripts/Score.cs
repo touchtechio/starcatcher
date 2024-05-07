@@ -54,6 +54,8 @@ public class Score : MonoBehaviour {
     private AnimatorSphere1 sphere1Animator;
     private AnimatorSection1 animatorSection;
     private AnimatorSphere3 sphere3Animator;
+    private AnimatorSphere2 animatorPlasma;
+    private bool hasTriggerSpawnFaintStarAnimation = false;
 
     public IFormationAnimation[] flourishAnimators;
     private float[] flourishAnimationTimerDurations = {25f, 15f, 25f, 10f}; // torus, sphere streak, sphere around room, section
@@ -113,6 +115,7 @@ public class Score : MonoBehaviour {
         sphere1Animator = GameObject.FindObjectOfType(typeof(AnimatorSphere1)) as AnimatorSphere1;
         sphere3Animator = GameObject.FindObjectOfType(typeof(AnimatorSphere3)) as AnimatorSphere3;
         animatorSection = GameObject.FindObjectOfType(typeof(AnimatorSection1)) as AnimatorSection1;
+        animatorPlasma = GameObject.FindObjectOfType(typeof(AnimatorSphere2)) as AnimatorSphere2;
         flourishAnimators = new IFormationAnimation[] {sphere1Animator, sphere3Animator, animatorSection}; //, torus1Animator};
         for (int i = 0; i < flourishAnimators.Length; i++) {
             flourishAnimationTimerDurations[i] = flourishAnimators[i].GetAnimationLength();
@@ -191,11 +194,12 @@ public class Score : MonoBehaviour {
     public void returnStar()
     // TODO; review this code - this triggers a narration, and can only happen once
     {
-        Debug.Log("returned  star");
+        Debug.Log( starReturnCount + " stars returned  out of: " + totalDeadStarsToBeReturned + " in " + plasmaWorldState);
         if (starCaughtCount > 0) {
             starReturnCount++;
             starCaughtCount--; // reduces global score
         }
+        
         if (starReturnCount == totalDeadStarsToBeReturned && plasmaWorldState == Score.GameState.Dead) {
             Debug.Log("returned 2 stars");
             deathNarrationManager.TriggerReturnOtherStars();
@@ -247,10 +251,10 @@ public class Score : MonoBehaviour {
             if (plasmaWorldState != previousWorldState)
             {
                 Debug.Log("Entering flourish");
-                if (starCatcherRevivedCount == 0) {
+                if (starCatcherRevivedCount < 1) {
                     Debug.Log("entering flourish for the first time");
                     deadStarPositionCollider.DestroyDeadStars(); // not sure this is needed, seems to already be happening
-                }
+                } 
                 starAnimations.FullCaughtAnimation();
                 starSpawn.StartRandomStars();
                 hasAnimationTriggered = new bool[]{false, false, false, false};
@@ -261,8 +265,17 @@ public class Score : MonoBehaviour {
                 if (plasmaWorldState != previousWorldState){
                     deathNarrationManager.TriggerFirstVoyage();
                     starSpawn.StartRandomStars();
+                    animatorPlasma.Pause();
+                    deadStarPositionCollider.DestroyDeadStars();
+
                 }
             }
+
+
+            if (cumulativeEnvironmentDamageScore > 0.25 && starCatcherRevivedCount > 0){
+                animatorPlasma.Restart();
+            }
+                
             
             // formations 
             // APRIL 1 2023
