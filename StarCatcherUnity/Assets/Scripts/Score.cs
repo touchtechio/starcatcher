@@ -65,6 +65,7 @@ public class Score : MonoBehaviour {
     private float randomStarTimerDuration = 10f;
     private bool[] animationRunTimer = {false, false, false, false};
     private bool hasPlantDyingNarration = false;
+    private int nonFlourishAnimatorIndex;
 
     public int formationIndex = 0;
     public bool inAnimationMode = false;
@@ -157,6 +158,12 @@ public class Score : MonoBehaviour {
 
             if (plasmaWorldState == GameState.Dying) {
                 runDyingPauseBeforeNarrationTimer();
+                if (inAnimationMode == true)
+                {
+                    runAnimationTimer();
+                } else {
+                    runRandomStarTimer();
+                }
             }
 
             if (plasmaWorldState == GameState.Dead) {
@@ -267,10 +274,8 @@ public class Score : MonoBehaviour {
                     starSpawn.StartRandomStars();
                     animatorPlasma.Pause();
                     deadStarPositionCollider.DestroyDeadStars();
-
                 }
             }
-
 
             if (cumulativeEnvironmentDamageScore > 0.25 && starCatcherRevivedCount > 0){
                 animatorPlasma.Restart();
@@ -298,6 +303,7 @@ public class Score : MonoBehaviour {
             plasmaWorldState = GameState.Decline;
             // reduceScoreTimerValue = 12f;
             formationIndex = flourishAnimators.Length - 1;
+            nonFlourishAnimatorIndex = 0;
             if (plasmaWorldState != previousWorldState)
             {
                 // starAnimations.FullAnimation();
@@ -308,14 +314,15 @@ public class Score : MonoBehaviour {
             }
 
             // formations 
-            if (hasAnimationTriggered[0] == false && cumulativeEnvironmentDamageScore > 0.65){
-                animationRunTimer[0] = true; // starts animation timer
-                hasAnimationTriggered[0] = true; // stops animation from looping
+            if (hasAnimationTriggered[nonFlourishAnimatorIndex] == false && cumulativeEnvironmentDamageScore > 0.65){
+                animationRunTimer[nonFlourishAnimatorIndex] = true; // starts animation timer
+                hasAnimationTriggered[nonFlourishAnimatorIndex] = true; // stops animation from looping
                 //Debug.Log(hasTorus1Triggered + ", " + cumulativeEnvironmentDamageScore);
-                starSpawn.StopRandomStars();
+                //starSpawn.StopRandomStars();
                 // formationIndex++;
-                flourishAnimators[0].Animate(); // uses all functionality of the animator stuff but calls specific funciton
+                flourishAnimators[nonFlourishAnimatorIndex].Animate(); // uses all functionality of the animator stuff but calls specific funciton
                 deathNarrationManager.TriggerSnowDwarf();
+                flourishAnimationTimerValue = flourishAnimationTimerDurations[nonFlourishAnimatorIndex];
                 //Debug.Log("formation "+ getCurrentFromationIndex());
                 // hasTorus1Triggered = true;
             }
@@ -326,8 +333,8 @@ public class Score : MonoBehaviour {
         {
             plasmaWorldState = GameState.Dying;
             Debug.Log(" Entering Dying" + "previous state " + previousWorldState);
-            hasPlantDyingNarration = true;
             // reduceScoreTimerValue = 15f;
+            nonFlourishAnimatorIndex = 1;
             if (plasmaWorldState != previousWorldState && previousWorldState == GameState.Decline)
             {
                 // starAnimations.FullAnimation();
@@ -339,14 +346,15 @@ public class Score : MonoBehaviour {
             }
 
             // formations - connected shower
-            if (hasAnimationTriggered[1] == false && cumulativeEnvironmentDamageScore > 0.9){
-                animationRunTimer[1] = true; // starts animation timer
-                hasAnimationTriggered[1] = true; // stops animation from looping
+            if (hasAnimationTriggered[nonFlourishAnimatorIndex] == false && cumulativeEnvironmentDamageScore > 0.9){
+                animationRunTimer[nonFlourishAnimatorIndex] = true; // starts animation timer
+                hasAnimationTriggered[nonFlourishAnimatorIndex] = true; // stops animation from looping
                 //Debug.Log(hasTorus1Triggered + ", " + cumulativeEnvironmentDamageScore);
-                starSpawn.StopRandomStars();
+                //starSpawn.StopRandomStars();
                 // formationIndex++;
-                flourishAnimators[1].Animate(); // uses all functionality of the animator stuff but calls specific funciton
+                flourishAnimators[nonFlourishAnimatorIndex].Animate(); // uses all functionality of the animator stuff but calls specific funciton
                 deathNarrationManager.TriggerOuterRing();
+                flourishAnimationTimerValue = flourishAnimationTimerDurations[nonFlourishAnimatorIndex];
                 //Debug.Log("formation "+ getCurrentFromationIndex());
                 // hasTorus1Triggered = true;
             }
@@ -413,10 +421,25 @@ public class Score : MonoBehaviour {
         flourishAnimationTimerValue -= Time.deltaTime;
         // Debug.Log("timer "+ animationTimerValue);
         if (flourishAnimationTimerValue <= 0) {
-            endFlourishAnimation();
+            endAnimation(getCurrentFromationIndex());
             Debug.Log("animation timer done");
         }
-    }  
+    }
+
+    private void runAnimationTimer()
+    {
+        // triggered in dying or decline
+        if (hasAnimationTriggered[nonFlourishAnimatorIndex])
+        {
+            flourishAnimationTimerValue -= Time.deltaTime;
+        }
+        // Debug.Log("timer "+ animationTimerValue);
+        if (flourishAnimationTimerValue <= 0)
+        {
+            endAnimation(nonFlourishAnimatorIndex);
+            Debug.Log("animation timer done");
+        }
+    }
 
     private void runDyingPauseBeforeNarrationTimer(){
         // continuous on update
@@ -432,9 +455,20 @@ public class Score : MonoBehaviour {
         }
     }  
  
-    private void endFlourishAnimation(){
+//    private void endFlourishAnimation(){
+//        // hasAnimationTriggered[getCurrentFromationIndex()] = true;
+//        flourishAnimators[getCurrentFromationIndex()].Reset();
+//        // animationRunTimer[getCurrentFromationIndex()] = false;
+//        starSpawn.StartRandomStars();
+//        inAnimationMode = false;
+//        // animationTimerValue = animationTimerDurations[getCurrentFromationIndex()];
+//        // flourishAnimators[getCurrentFromationIndex()].Animate();
+//    }
+
+    private void endAnimation(int index)
+    {
         // hasAnimationTriggered[getCurrentFromationIndex()] = true;
-        flourishAnimators[getCurrentFromationIndex()].Reset();
+        flourishAnimators[index].Reset();
         // animationRunTimer[getCurrentFromationIndex()] = false;
         starSpawn.StartRandomStars();
         inAnimationMode = false;
