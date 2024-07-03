@@ -9,16 +9,36 @@ NetAddress myRemoteLocation;
 
 MidiBus myBus; // The MidiBus
 
+
+public class MidiReceiver { 
+    void noteOn(int channel, int pitch, int velocity) { 
+    
+      // Receive a noteOn
+  println();
+  println("Note On:");
+  println("--------");
+  println("Channel:"+channel);
+  println("Pitch:"+pitch);
+  println("Velocity:"+velocity);
+    sendOscNoteOn(channel, pitch, velocity);
+  }
+
+}
+    
 void setup() {
   size(400, 400);
   background(0);
 
   MidiBus.list(); // List all available Midi devices on STDOUT. This will show each device's index and name.
-  myBus = new MidiBus(this, "Akai MPD18", -1); // Create a new MidiBus with no input device and the default Java Sound Synthesizer as the output device.
+  //myBus = new MidiBus(this, "Akai MPD18", -1); // Create a new MidiBus with no input device and the default Java Sound Synthesizer as the output device.
 
+  MidiReceiver receiver = new MidiReceiver();
+  myBus = new MidiBus(receiver, "Akai MPD18", -1);
+  
   /* start oscP5, listening for incoming messages at port 12000 */
   oscP5 = new OscP5(this,12000);
   
+
   /* myRemoteLocation is a NetAddress. a NetAddress takes 2 parameters,
    * an ip address and a port number. myRemoteLocation is used as parameter in
    * oscP5.send() when sending osc packets to another computer, device, 
