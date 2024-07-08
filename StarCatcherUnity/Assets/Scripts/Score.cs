@@ -81,7 +81,7 @@ public class Score : MonoBehaviour {
         starCaughtCount = 0; //totalStarsToBeCaught; this is to start in dying mode to light up sky
         starCatcherRevivedCount = 0;
         SetLevel(0);
-        plasmaWorldState = GameState.Rejuvination;
+        plasmaWorldState = GameState.Dead;
         deathNarrationManager.TriggerFirstVoyage();
         previousWorldState = plasmaWorldState;
         rejuvinationTimer = rejuvinationTimerValue;
@@ -125,7 +125,14 @@ public class Score : MonoBehaviour {
         flourishAnimationTimerValue = flourishAnimationTimerDurations[getCurrentFromationIndex()];
     }
 
+ void Update_Performance() {
+    updateStarCaughtOnKeyPress();
+    
+}
+    // void Update_GameStatemachine(){
+
     void Update(){
+
 
         updateStarCaughtOnKeyPress();
         scoreLogger.LogScore();
@@ -166,9 +173,9 @@ public class Score : MonoBehaviour {
                 }
             }
 
-            if (plasmaWorldState == GameState.Dead) {
-                runDeadTimer();
-            }
+            // if (plasmaWorldState == GameState.Dead) {
+            //     runDeadTimer();
+            // }
             checkEffectOnEnvironment();
             if (plasmaWorldState != GameState.Rejuvination && plasmaWorldState != GameState.Dead){
                 SetGameState();
@@ -406,7 +413,7 @@ public class Score : MonoBehaviour {
         // Debug.Log("timer "+ animationTimerValue);
         if (randomStarTimerValue <= 0) {
             // START ANIMATION AT END OF TIMER
-            starSpawn.StopRandomStars();
+            //starSpawn.StopRandomStars();
             formationIndex++;
             flourishAnimationTimerValue = flourishAnimationTimerDurations[getCurrentFromationIndex()];
             Debug.Log("next animation " + getCurrentFromationIndex() + " timer " + flourishAnimationTimerValue);
@@ -510,6 +517,36 @@ public class Score : MonoBehaviour {
         if (Input.GetKeyDown(KeyCode.KeypadMinus))
         {
             starCaughtCount --;
+        }
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            Debug.LogWarning("R key was pressed.");
+            starSpawn.StartRandomStars();
+            hasAnimationTriggered = new bool[] { false, false, false, false };
+        }
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            Debug.LogWarning("F key was pressed.");
+            starSpawn.DestroyStars();
+            hasAnimationTriggered = new bool[] { false, false, false, false };
+        }
+        if (Input.GetKeyDown(KeyCode.X))
+        {
+            Debug.LogWarning("X key was pressed.");
+            plasmaWorldState = GameState.Decline;
+            cumulativeEnvironmentDamageScore = 0.3f;
+        }
+        if (Input.GetKeyDown(KeyCode.S))
+        {
+            Debug.LogWarning("S key was pressed.");
+            plasmaWorldState = GameState.Decline;
+            cumulativeEnvironmentDamageScore = 0.7f;
+        }
+                if (Input.GetKeyDown(KeyCode.W))
+        {
+            Debug.LogWarning("W key was pressed.");
+            plasmaWorldState = GameState.Decline;
+            cumulativeEnvironmentDamageScore = 1.0f;
         }
 
         if (Input.GetKeyDown(KeyCode.F5)) // allow animations

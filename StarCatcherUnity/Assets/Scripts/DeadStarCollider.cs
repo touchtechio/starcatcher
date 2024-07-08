@@ -11,7 +11,7 @@ public class DeadStarCollider : MonoBehaviour {
     float journeyLength;
     public bool isStarReturned = false;
     public int starCollideCount = 0;
-    public int availableStarReturns = 5;
+    public int availableStarReturns = 15;
     HU_Star starEffects;
     public int plasmaStripNumber;
     private SoundManager soundManager;
@@ -51,30 +51,32 @@ public class DeadStarCollider : MonoBehaviour {
     {
         // other.gameObject.CompareTag(NET);
         // TODO: maybe deactivate this
-        if (isStarReturned == true)
-        {
-            return;
-        }
+        // if (isStarReturned == true)
+        // {
+        //     return;
+        // }
 
         // star can be returned up to x times in the same position before marked destroyed
         starCollideCount++;
-        if (starCollideCount >= availableStarReturns) {
-            // removing this capability as we want to keep returning stars
-            isStarReturned = true;
-        }
+        //     // removing this capability as we want to keep returning stars
+        // if (starCollideCount >= availableStarReturns) {
+        //     isStarReturned = true;
+        // }
 
         timeCaught = Time.time;
         Debug.Log("returning: "+ plasmaStripNumber);
 
                 // Debug.Log("linger " + plasmaStripNumber);
-        oscSenderLinger.SendOSCLingerMessage("/starlinger", plasmaStripNumber, 2000);
+        oscSenderLinger.SendOSCLingerMessage("/starlinger", plasmaStripNumber, 8000);
         oscSenderObject.SendOSCReturnMessage("/starreturn", plasmaStripNumber);
 
         // play caught sound at place of caught
         SoundCatch();
         //Destroy(gameObject, timeToDestory);
 
-        gameScore.returnStar(); // position got from the constellations script
+
+      //  todo : performance dont update score
+      //  gameScore.returnStar(); // position got from the constellations script
 
     }
 

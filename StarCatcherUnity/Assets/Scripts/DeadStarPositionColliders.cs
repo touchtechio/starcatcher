@@ -30,15 +30,34 @@ public class DeadStarPositionColliders : MonoBehaviour
         }
 
         // start game with dead stars ? 
-        //UpdateDeadStarPositionColliders();
+        MakeDeadStarPositionColliders();
 
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        updateDeadStarsOnKeyPress();
     }
+
+    public void updateDeadStarsOnKeyPress() {
+        if (Input.GetKeyDown(KeyCode.F1))
+        {
+            Debug.Log("F1 key was pressed.");
+            KillDeadStarPositionColliders();
+        }
+        if (Input.GetKeyDown(KeyCode.F2))
+        {
+            Debug.LogWarning("F2 key was pressed.");
+            MakeDeadStarPositionColliders();
+        }
+    }
+
+    public void KillDeadStarPositionColliders() {
+        for (var i = deadStars.transform.childCount - 1; i >= 0; i--)
+            Destroy(deadStars.transform.GetChild(i).gameObject);
+    }
+
 
     public void UpdateDeadStarPositionColliders(int stripIndex, int durationMS) {
         // get positions of led strips
@@ -70,45 +89,46 @@ public class DeadStarPositionColliders : MonoBehaviour
         deadStarCollider.plasmaStripNumber = stripIndex; 
 
         ReturnStarDestroyer starDestroyer = star.GetComponent<ReturnStarDestroyer>();
-        starDestroyer.timeToDestroyStar = durationMS / 1000;    //timeToDestroyStar in seconds.
-
+        if (starDestroyer != null)
+        {
+            starDestroyer.timeToDestroyStar = durationMS / 1000;    //timeToDestroyStar in seconds.
+        }
     }
 
-    // public void UpdateDeadStarPositionColliders() {
+    public void MakeDeadStarPositionColliders() {
 
-    //     // get positions of led strips
-    //     ArrayList starStrips = stripPositions.getStarPositions();
-    //     int positionCount = starStrips.Count;
-    //     Debug.Log("TRACE: found stripPositions count: " + positionCount);
-
-
-    //     if (positionCount == 0)
-    //     {
-    //         Debug.Log("ERROR: no starStrips defined yet");
-    //     }
+        // get positions of led strips
+        ArrayList starStrips = stripPositions.getStarPositions();
+        int positionCount = starStrips.Count;
+        Debug.Log("TRACE: found stripPositions count: " + positionCount);
 
 
-    //     // TODO: read from current blue star formations
+        if (positionCount == 0)
+        {
+            Debug.Log("ERROR: no starStrips defined yet");
+        }
 
-    //     // for (int i = 0; i < positionCount; i++) {
 
-    //     foreach ( int i in starSpawn.plasmaArray) {
+        // TODO: read from current blue star formations
 
-    //         Strip strip = (Strip)starStrips[i];
-    //         Vector3 starPosition = strip.starStartPoints;
+        for (int i = 0; i < positionCount; i++) {
+        // foreach ( int i in starSpawn.plasmaArray) {
 
-    //         // Create Dead Star from prefab
-    //         GameObject star = Instantiate(deadStarPositionPrefab, starPosition, Quaternion.identity) as GameObject;
-    //         star.transform.parent = deadStars.transform;
+            Strip strip = (Strip)starStrips[i];
+            Vector3 starPosition = strip.starStartPoints;
 
-    //         // configuring the dead star collider with star index. 
-    //         // wher you tell the sstar which led strip to control ..
+            // Create Dead Star from prefab
+            GameObject star = Instantiate(deadStarPositionPrefab, starPosition, Quaternion.identity) as GameObject;
+            star.transform.parent = deadStars.transform;
 
-    //         DeadStarCollider deadStarCollider = star.GetComponent<DeadStarCollider>();
-    //         deadStarCollider.plasmaStripNumber = i; 
-    //     }    
+            // configuring the dead star collider with star index. 
+            // where you tell the star which led strip to control ..
 
-    // }
+            DeadStarCollider deadStarCollider = star.GetComponent<DeadStarCollider>();
+            deadStarCollider.plasmaStripNumber = i; 
+        }    
+
+    }
 
     
     public void DestroyDeadStars()
@@ -117,7 +137,6 @@ public class DeadStarPositionColliders : MonoBehaviour
         {
             Destroy(child.gameObject);
         }
-        return;
     }
 
 }
