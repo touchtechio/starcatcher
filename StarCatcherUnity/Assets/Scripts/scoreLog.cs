@@ -28,10 +28,6 @@ public class scoreLog : MonoBehaviour {
     void Update() {
         starsCaughtText.enabled = true;
         starScoreLogger = Score.cumulativeEnvironmentDamageScore;
-        if (Score.plasmaWorldState == Score.GameState.Dead || Score.plasmaWorldState == Score.GameState.Rejuvination)
-        {
-            starsCaughtText.enabled = false;
-        } 
     }
 
     public void LogScore()

@@ -29,7 +29,7 @@ public class StarSpawn : MonoBehaviour {
     public float waitWaves = 20;
     public int ShowerCount = 10;
     public bool testSend = false;
-    public bool randomStarsSending = true;
+    public bool randomStarsSending = false;
     [HideInInspector]
     public string StarTypeToSpawn;
 
@@ -105,13 +105,13 @@ public class StarSpawn : MonoBehaviour {
         flourishPercentages = new float[3] { 0.8f, 0.2f, 0.05f };
         declinePercentages = new float[3] { 0.3f, 0.3f, 0.4f };
         dyingPercentages = new float[3] { 0.05f, 0.3f, 0.6f };
-        // DeadPercentages = new float[3] {10f, 10f, 10f };
+        deadPercentages = new float[3] {10f, 10f, 10f };
         rejuvinationPercentages = new float[3] {0.5f, 0.2f, 0.3f };
 
         worldStatePercentages.Add(Score.GameState.Flourishing, flourishPercentages);
         worldStatePercentages.Add(Score.GameState.Decline, declinePercentages);
         worldStatePercentages.Add(Score.GameState.Dying, dyingPercentages);
-        // worldStatePercentages.Add(Score.GameState.Dead, DeadPercentages);
+        worldStatePercentages.Add(Score.GameState.Dead, deadPercentages);
         worldStatePercentages.Add(Score.GameState.Rejuvination, rejuvinationPercentages);
 
         flourishSpawnRates = new float[2] {flourishTimeToSpawnMin, flourishTimeToSpawnMax};
@@ -123,6 +123,7 @@ public class StarSpawn : MonoBehaviour {
         worldStateSpawnRates.Add(Score.GameState.Decline, declineSpawnRates);
         worldStateSpawnRates.Add(Score.GameState.Dying, dyingSpawnRates);
         worldStateSpawnRates.Add(Score.GameState.Rejuvination, rejuvinateSpawnRates);
+        worldStateSpawnRates.Add(Score.GameState.Dead, dyingSpawnRates);
 
     }
 
@@ -130,7 +131,6 @@ public class StarSpawn : MonoBehaviour {
     {
         this.randomStarsSending = false;
         starSpawnBase.DestroyStars();
-        return;
     }
 
     public void StartRandomStars()
@@ -155,7 +155,7 @@ public class StarSpawn : MonoBehaviour {
         // send random stars. This was the original functionality
         if (randomStarsSending) {
             // if in Dead state, don't spawn stars
-            if (timeToNextSpawn <= 0 && Score.plasmaWorldState != Score.GameState.Dead)
+            if (timeToNextSpawn <= 0)
             {
                 Spawn();
             }
@@ -187,14 +187,9 @@ public class StarSpawn : MonoBehaviour {
 
     public void Spawn(Strip strip)
     {
-       // if (Score.plasmaWorldState != Score.GameState.Dead) {
         timeToNextSpawn = calcNextSpawnRate(worldStateSpawnRates[Score.plasmaWorldState]);
         StarTypeToSpawn = calcNextSpawnType(worldStatePercentages[Score.plasmaWorldState]);
-      //  }
-        // if (!randomStarsSending) {
-        //     Debug.Log("Star " + StarTypeToSpawn);
-        // }
-
+ 
         // needs change to enum type and case switch statements
         if (StarTypeToSpawn == "easy")
         {

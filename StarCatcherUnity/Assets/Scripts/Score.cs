@@ -78,7 +78,7 @@ public class Score : MonoBehaviour {
     void Start () {
 
         // set the scene to rejuvenation, with timer fast at the start
-        starCaughtCount = 0; //totalStarsToBeCaught; this is to start in dying mode to light up sky
+        starCaughtCount = 30; //totalStarsToBeCaught; this is to start in dying mode to light up sky
         starCatcherRevivedCount = 0;
         SetLevel(0);
         plasmaWorldState = GameState.Dead;
@@ -125,71 +125,13 @@ public class Score : MonoBehaviour {
         flourishAnimationTimerValue = flourishAnimationTimerDurations[getCurrentFromationIndex()];
     }
 
- void Update_Performance() {
-    updateStarCaughtOnKeyPress();
-    
-}
-    // void Update_GameStatemachine(){
+    void Update() {
 
-    void Update(){
-
-
-        updateStarCaughtOnKeyPress();
-        scoreLogger.LogScore();
-        // simulate stars caught with hotkey
-        if (Input. GetKeyUp("n")){
-            catchStarNoConstellation();
-        }
+        updateStarCaughtOnKeyPress();        
         starCaughtLog = starCaughtCount;
+        scoreLogger.LogScore();
+        checkEffectOnEnvironment();
 
-        // The tutorial scene also uses the score script, however it doens't need the following actions
-        // so they only run in the main scene
-        if (isTutorialScene == false) {
-            // if (animationRunTimer[getCurrentFromationIndex()] == true) {
-            //     runAnimationTimer();
-            // }
-
-            if (plasmaWorldState == GameState.Flourishing) {
-                if (inAnimationMode == true){
-                    runFlourishAnimationTimer();
-                } else {
-                    runRandomStarTimer();
-                }
-            }
-            // set timers for rejuvination state and dead state
-            // during rejuvination, no stars can be caught
-            // during dead state, no stars are spawned
-            if (plasmaWorldState == GameState.Rejuvination) {
-                runRejuvinationTimer();
-            }
-
-            if (plasmaWorldState == GameState.Dying) {
-                runDyingPauseBeforeNarrationTimer();
-                if (inAnimationMode == true)
-                {
-                    runAnimationTimer();
-                } else {
-                    runRandomStarTimer();
-                }
-            }
-
-            // if (plasmaWorldState == GameState.Dead) {
-            //     runDeadTimer();
-            // }
-            checkEffectOnEnvironment();
-            if (plasmaWorldState != GameState.Rejuvination && plasmaWorldState != GameState.Dead){
-                SetGameState();
-            }
-
-            // If on, reduce score over time so that the world regenerates if noone is playing
-            if (reduceScoreBool == true) {
-                reduceScoreTimer -= Time.deltaTime;
-                if (reduceScoreTimer <= 0) {
-                    if (starCaughtCount > 0) starCaughtCount --;
-                    reduceScoreTimer = reduceScoreTimerValue;
-                }
-            }
-        }
     }
 
 
@@ -490,12 +432,11 @@ public class Score : MonoBehaviour {
     public void updateStarCaughtOnKeyPress() {
         if (Input.GetKeyDown(KeyCode.F1))
         {
-            plasmaWorldState = GameState.Rejuvination;
+            plasmaWorldState = GameState.Flourishing;
             hasAnimationTriggered = new bool[]{false, false, false, false};
             starReturnCount = 0;
             starCaughtCount = 0;
-            starCatcherRevivedCount = 0;
-            starSpawn.StartRandomStars();
+            starCatcherRevivedCount = 1;
             deadTimer = deadTimerValue;
         }
         if (Input.GetKeyDown(KeyCode.F2))
@@ -505,6 +446,8 @@ public class Score : MonoBehaviour {
         if (Input.GetKeyDown(KeyCode.F3))
         {
             starCaughtCount = totalStarsToBeCaught -1;
+            plasmaWorldState = GameState.Dying;
+
         }
         if (Input.GetKeyDown(KeyCode.F4))
         {
@@ -518,6 +461,22 @@ public class Score : MonoBehaviour {
         {
             starCaughtCount --;
         }
+        if (Input.GetKeyDown(KeyCode.A))
+        {
+            Debug.LogWarning("A key was pressed.");
+            plasmaWorldState = GameState.Dying;        
+        }
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            Debug.LogWarning("Q key was pressed.");
+            plasmaWorldState = GameState.Dead;        
+        }
+        if (Input.GetKeyDown(KeyCode.Z))
+        {
+            Debug.LogWarning("Z key was pressed.");
+            plasmaWorldState = GameState.Flourishing;        
+        }
+        
         if (Input.GetKeyDown(KeyCode.R))
         {
             Debug.LogWarning("R key was pressed.");
@@ -533,22 +492,25 @@ public class Score : MonoBehaviour {
         if (Input.GetKeyDown(KeyCode.X))
         {
             Debug.LogWarning("X key was pressed.");
-            plasmaWorldState = GameState.Decline;
+            //plasmaWorldState = GameState.Decline;
             cumulativeEnvironmentDamageScore = 0.3f;
         }
         if (Input.GetKeyDown(KeyCode.S))
         {
             Debug.LogWarning("S key was pressed.");
-            plasmaWorldState = GameState.Decline;
+            //plasmaWorldState = GameState.Decline;
             cumulativeEnvironmentDamageScore = 0.7f;
         }
-                if (Input.GetKeyDown(KeyCode.W))
+        if (Input.GetKeyDown(KeyCode.A))
         {
-            Debug.LogWarning("W key was pressed.");
-            plasmaWorldState = GameState.Decline;
+            Debug.LogWarning("A key was pressed.");
+            //plasmaWorldState = GameState.Decline;
             cumulativeEnvironmentDamageScore = 1.0f;
         }
-
+        if (Input. GetKeyUp("n"))
+        {
+            catchStarNoConstellation();
+        }
         if (Input.GetKeyDown(KeyCode.F5)) // allow animations
         {
             hasAnimationTriggered = new bool[]{false, false, false, false};;

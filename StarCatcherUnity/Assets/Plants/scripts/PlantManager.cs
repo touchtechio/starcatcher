@@ -136,26 +136,27 @@ public class PlantManager : MonoBehaviour
         }
 
         prev_state = Score.GameState.Dead;
+        start_rejuvination();
     }
 
     // Update is called once per frame
     void Update()
     {
-        //Debug spacebar to reset when testing
-        if (Input.GetKeyDown(KeyCode.Space) && debug_use_fake_game_state){
-            debug_cur_state = Score.GameState.Rejuvination;
-        }
+        // //Debug spacebar to reset when testing
+        // if (Input.GetKeyDown(KeyCode.Space) && debug_use_fake_game_state){
+        //     debug_cur_state = Score.GameState.Rejuvination;
+        // }
 
         //grab the global game state
         Score.GameState cur_state = Score.plasmaWorldState;
 
         //when testing, override the real game state with the testing value
-        if (debug_use_fake_game_state){
-            cur_state = debug_cur_state;
-        }
+        // if (debug_use_fake_game_state){
+        //     cur_state = debug_cur_state;
+        // }
 
         //during gameplay and rejuvination, grab the health value form the game
-        if (cur_state == Score.GameState.Flourishing || cur_state == Score.GameState.Decline || cur_state == Score.GameState.Dying){
+       if (cur_state == Score.GameState.Flourishing || cur_state == Score.GameState.Decline || cur_state == Score.GameState.Dying){
             //grab the health value from the game
             //This value is treated as damage, so it is inverted (1=dead, 0=alive)
             float raw_health_value = Mathf.Clamp(1.0f-Score.cumulativeEnvironmentDamageScore, 0.0f, 1.0f);
@@ -175,23 +176,24 @@ public class PlantManager : MonoBehaviour
             foreach(PlantRoot root in roots){
                 root.set_health( cur_health );
             }
-        }
+       }
 
-        //if we just died, do that
+        // //if we just died, do that
         if(cur_state == Score.GameState.Dead && prev_state != Score.GameState.Dead){
             start_death();
         }
 
-        //if we just entered regrwoth, do that
+        // if we just entered regrwoth, do that
         if(cur_state == Score.GameState.Rejuvination && prev_state != Score.GameState.Rejuvination && Score.starCatcherRevivedCount ==0){
             start_rejuvination();
         }
+        
         if (cur_state == Score.GameState.Rejuvination){
             cur_health = 1.0f;
         }
 
         //store the old state
-        prev_state = cur_state;
+       prev_state = cur_state;
     }
 
     void start_death(){
@@ -208,7 +210,7 @@ public class PlantManager : MonoBehaviour
         }
         roots.Clear();
 
-        cur_health = 1;
+        cur_health = 0;
 
         debug_fake_damage_value = 0.0f;
         
@@ -218,7 +220,7 @@ public class PlantManager : MonoBehaviour
     IEnumerator do_rejuvination(){
         Debug.Log("<color=purple>Rejuvnation start</color>");
         //give it a moment after destroying everything
-        yield return new WaitForSeconds(0.1f);
+        //yield return new WaitForSeconds(0.1f);
 
         //get our total time
         float total_time_to_rejuvenate = Score.Instance.rejuvinationTimerValue - rejuvenation_max_grow_time - rejuvenation_max_pause_time;
@@ -282,7 +284,7 @@ public class PlantManager : MonoBehaviour
 
             PlantRoot root = new PlantRoot(info, pos, i*20, color);
 
-            root.start_growth_animation();
+            //root.start_growth_animation();
             roots.Add( root );
 
             yield return new WaitForSeconds(time_spacing);

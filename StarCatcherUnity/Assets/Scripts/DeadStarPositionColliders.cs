@@ -41,14 +41,14 @@ public class DeadStarPositionColliders : MonoBehaviour
     }
 
     public void updateDeadStarsOnKeyPress() {
-        if (Input.GetKeyDown(KeyCode.F1))
+        if (Input.GetKeyDown(KeyCode.E))
         {
-            Debug.Log("F1 key was pressed.");
+            Debug.Log("E key was pressed.");
             KillDeadStarPositionColliders();
         }
-        if (Input.GetKeyDown(KeyCode.F2))
+        if (Input.GetKeyDown(KeyCode.D))
         {
-            Debug.LogWarning("F2 key was pressed.");
+            Debug.LogWarning("D key was pressed.");
             MakeDeadStarPositionColliders();
         }
     }
