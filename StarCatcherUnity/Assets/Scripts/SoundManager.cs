@@ -8,6 +8,7 @@ public class SoundManager : MonoBehaviour {
 
     private AudioSource source;
     public AudioClip[] starCaught;
+    public AudioClip[] starReturn;
     public AudioClip constellationFull;
 
     [Header("Mixer Groups")]
@@ -113,6 +114,11 @@ public class SoundManager : MonoBehaviour {
     public void PlayStarCaughtSound(Vector3 pos)
     {
         PlaySoundFromArray(starCaught, pos, starCatchingGroup, false);
+    }
+
+    public void PlayStarReturnSound(Vector3 pos)
+    {
+        PlaySoundFromArray(starReturn, pos, starCatchingGroup, false);
     }
 
     public void PlaySoundFromArray(AudioClip[] clips, Vector3 posToPlay, AudioMixerGroup groupToUse, bool checkMaxSounds = false)

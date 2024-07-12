@@ -70,19 +70,19 @@ public class DeadStarCollider : MonoBehaviour {
         oscSenderLinger.SendOSCLingerMessage("/starlinger", plasmaStripNumber, 2000);
         oscSenderObject.SendOSCReturnMessage("/starreturn", plasmaStripNumber);
 
-        // play caught sound at place of caught
-        SoundCatch();
+        // play return sound at place of return
+        SoundReturn();
         //Destroy(gameObject, timeToDestory);
 
         gameScore.returnStar(); // position got from the constellations script
 
     }
 
-    private void SoundCatch()
+    private void SoundReturn()
     {
-        if (null != soundManager.starCaught)
+        if (null != soundManager.starReturn)
         {
-            soundManager.PlayStarCaughtSound(transform.position);
+            soundManager.PlayStarReturnSound(transform.position);
         }
     }
 }
