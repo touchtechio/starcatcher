@@ -76,7 +76,7 @@ public class DeadStarCollider : MonoBehaviour {
 
 
       //  todo : performance dont update score
-      //  gameScore.returnStar(); // position got from the constellations script
+      gameScore.returnStar(); // position got from the constellations script
 
     }
 

@@ -524,6 +524,17 @@ public class Score : MonoBehaviour {
         { // start over
             Start();
         }
+        if (Input.GetKeyDown(KeyCode.F8))
+        { 
+            starAnimations.FullCaughtAnimation();
+        }
+        if (Input.GetKeyDown(KeyCode.F9))
+        { 
+            starAnimations.FullAnimation();
+        }  
+
+
+
     }
 
 }
