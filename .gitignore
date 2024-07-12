@@ -59,6 +59,11 @@ ExportedObj/
 *.VC.db
 .vsconfig
 
+#Ignore all .meta file
+*.meta
+#But not source file with postfix. which is everything but a folder
+!*.*.meta
+
 # Unity3D generated meta files
 *.pidb.meta
 *.pdb.meta
