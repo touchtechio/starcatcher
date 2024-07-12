@@ -272,11 +272,13 @@ public class Score : MonoBehaviour {
                 if (plasmaWorldState != previousWorldState){
                     deathNarrationManager.TriggerFirstVoyage();
                     starSpawn.StartRandomStars();
+                    // onec world revived, pause return star ability for a short while
                     animatorPlasma.Pause();
                     deadStarPositionCollider.DestroyDeadStars();
                 }
             }
 
+            // after a more stars caught, start plasma again
             if (cumulativeEnvironmentDamageScore > 0.25 && starCatcherRevivedCount > 0){
                 animatorPlasma.Restart();
             }

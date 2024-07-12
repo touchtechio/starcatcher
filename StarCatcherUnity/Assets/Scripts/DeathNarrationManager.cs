@@ -12,6 +12,7 @@ public class DeathNarrationManager : MonoBehaviour
     public StarSpawnBase starSpawnObject;
     public MusicStemCrossfade[] narrationStems;
     private float startTime;
+    private float starFallTime;
     public string[] narrationText;
     public AnimatorSphere2 animatorSphere2;
     private bool hasTriggerSpawnFaintStarAnimation = false;
@@ -22,6 +23,7 @@ public class DeathNarrationManager : MonoBehaviour
     private bool startedEndTimer = false;
     private float endStartTime;
     private bool hasDeathStarted = false;
+    private bool hasTriggeredFirstTime = false;
 
     public OSCSenderAllFall sendAllFall;
     public OSCSenderAllPulsingLinger sendPulsingLinger;
@@ -51,6 +53,16 @@ public class DeathNarrationManager : MonoBehaviour
         if (hasDeathStarted && (Time.time >= startTime + narrationStems[planetDeathAudioArray[0]].sourceToCrossfade.clip.length - 13f)) {
             // Debug.Log("clip length " + narrationStems[0].sourceToCrossfade.clip.length);
             TriggerSpawnFaintStarAnimation(); 
+            hasTriggeredFirstTime = true;
+        }
+
+        // Moving animation object to parent requires syncing with animation time 
+        // Once animation is done -> check whether to move to different parent
+        // Then drop - so animation doesn't loop
+        if (hasDeathStarted && hasTriggeredFirstTime) {
+            if (Time.time >= startTime +  starFallTime) {
+                TriggerSpawnFaintStarAnimation();
+            }
         }
     }
 
@@ -171,6 +183,8 @@ public class DeathNarrationManager : MonoBehaviour
             isReadyForOtherStars = true; // setup for next audio cue
             // Debug.Log("Is ready for other stars");
             hasReturnedOne = false;
+            startTime = Time.time;
+            starFallTime = 6f; // match animation time
             animatorSphere2.Animate();
         }
     }

@@ -11,6 +11,7 @@ public class AnimatorSphere2 : MonoBehaviour, IFormationAnimation
      [SerializeField] private Transform Tutorial3Parent;
      [SerializeField] private Transform Tutorial4Parent;
      private List<Transform> parentPositions = new List<Transform>();
+     string m_state;
 
     // Start is called before the first frame update
     public void Start() {
@@ -25,7 +26,6 @@ public class AnimatorSphere2 : MonoBehaviour, IFormationAnimation
     // Update is called once per frame
     void Update()
     {
-
       if (Input.GetKeyDown(KeyCode.Alpha9)) {
          Debug.Log("trigger sphere animation");
          Animate();
@@ -36,7 +36,7 @@ public class AnimatorSphere2 : MonoBehaviour, IFormationAnimation
       // chose one of the parent posisiont and do animation on that
       int randomNumber = Random.Range(0, parentPositions.Count);
       Transform aSectionParent = parentPositions[randomNumber];
-      transform.SetParent(aSectionParent, false);
+      transform.SetParent(aSectionParent);
       // in the script on the animating object the type of spawn is determined
          myAnimationController.SetTrigger("TriggerMove");
    
