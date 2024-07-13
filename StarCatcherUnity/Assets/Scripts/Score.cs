@@ -38,7 +38,7 @@ public class Score : MonoBehaviour {
     private float pauseBeforeNarrationTimerValue = 10f;
 
     private static BackingTracks BackingTracks;
-    private scoreLog scoreLogger;
+    public scoreLog scoreLogger;
 
     public StarSpawn starSpawn;
     public DeadStarPositionColliders deadStarPositionCollider;
