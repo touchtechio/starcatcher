@@ -47,6 +47,7 @@ public class PlantLimb : MonoBehaviour
     bool isGrown;
     bool swaySoundPlayed;
     SoundManager soundManager;
+    private float health_all = 1.0f;
 
 
 
@@ -181,6 +182,11 @@ public class PlantLimb : MonoBehaviour
         {
             swaySoundPlayed = false;
         }
+
+        root.color.g =  health_all * 0.8f;
+        sprite_rend.color = root.color;
+        // Debug.Log("root health"+health_all);
+        // Debug.Log("color"+root.color);
     }
 
     private void set_health_values(){
@@ -198,6 +204,7 @@ public class PlantLimb : MonoBehaviour
 
     //propigate health down the tree
     public void set_health(float health){
+        health_all = health;
         float cur_prc = (health - shrink_end) / (shrink_start - shrink_end);
         cur_prc = Mathf.Max(0.0f, Mathf.Min(cur_prc, 1.0f));
 
